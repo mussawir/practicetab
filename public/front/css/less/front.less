@@ -1,0 +1,676 @@
+body {
+  font: normal normal 10px/10px 'Montserrat',Arial,Helvetica,Verdana,sans-serif;
+  font-weight: 400;
+}
+
+body, body h1, body h1, body h3, body h4, body h5, body a, body input, p, li, ul li, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .bottom-banner span, .bottom-banner h2, .bottom-banner a, footer .footer-left .footer-right-social a, footer .footer-left .footer-main-menu a, footer .footer-left .second-menu a, footer .footer-left .footer-main-menu span, footer .footer-left .copyright, header nav a, a.btn, header nav li a, .main.privacyPage span {
+  font-family: 'montserratlight',sans-serif;
+  font-weight: 400;
+}
+
+a {
+  color: #0096bd;
+  font: normal normal 1em/0.6 'montserratlight',sans-serif;
+}
+
+p, ul li {
+  color: #4a5865;
+  font-size: 1.6em;
+  line-height: 1.6em;
+}
+
+#logo {
+  text-indent: 0;
+  background: transparent url('../public/images/logoBlue.svg') no-repeat scroll 0 0;
+  width: 160px;
+  height: 70px;
+}
+
+#menu {
+min-height: 73px;
+
+  .navbar {
+    background: #fff;
+    border-color: #d9d9d9;
+  }
+
+  .navbar-nav>li {
+    font-size: 1em;
+  }
+
+  .navbar-nav>li>a {
+    margin: 0;
+    line-height: 1em;
+    padding: 2.1em 1em;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    color: #231f20;
+    letter-spacing: 0;
+  }
+
+  li.login-link>a {
+    background: #0196be;
+    color: #fff!important;
+    line-height: .5em;
+    padding: 2.1em 1.7em;
+    /*cursor: default;*/
+  }
+
+  li.login-link>a i{
+    padding-right: 5px;
+  }
+
+  .login-link .dropdown-menu {
+    border: 4px solid #fff;
+    border-radius: 0;
+  }
+
+  .login-link .dropdown-menu li {
+    font-size: 1em;
+  }
+
+  .login-link .dropdown-menu a {
+    line-height: 1.5em;
+    padding: 10px 20px;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: none;
+    text-transform: uppercase;
+    color: #231f20;
+    letter-spacing: 0;
+  }
+
+  .login-link .dropdown-menu a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #0196be;
+  }
+
+  .navbar-nav>li>a:hover, .navbar-nav>li>a:focus {
+    color: #0196be;
+  }
+}
+
+.carousel {
+  height: 100%;
+
+  .layer {
+    background: rgba(35,31,32,0.5) none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 30;
+  }
+}
+.carousel-inner img{
+  width: 100%;
+}
+
+#slider-heading {
+  z-index: 40;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  h1 {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 4.2em;
+    padding-bottom: .2em;
+  }
+
+  h2 {
+    color: #fff;
+    font-size: 2.75em;
+  }
+}
+
+p, ul li {
+  color: #4a5865;
+  font-size: 1.6em;
+  line-height: 1.6em;
+}
+
+li {
+  list-style: none;
+}
+
+.error-msg, .alert {
+  font-size: 14px;
+  text-align: left;
+}
+
+.tbl-header {
+  color: #337ab7;
+  font-weight: bold;
+}
+
+/* landing page registration box */
+.reg-box {
+  top: 40%;
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(74,88,101,.5);
+  margin: 0 auto;
+  padding: 3% 3.65% 2%;
+  border-radius: 10px;
+  width: 680px;
+  z-index: 50;
+
+  h3 {
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 1.3em;
+    margin-top: 0;
+    font-size: 2.5em;
+    text-align: center;
+  }
+
+  ul li:nth-child(odd) {
+    margin-right: 18px;
+  }
+
+  li {
+    padding-bottom: 1em;
+    float: left;
+  }
+
+  li .fa {
+    background: #ccc;
+    border-radius: 5px 0 0 5px;
+    width: 45px;
+    float: left;
+    line-height: 2.3em;
+    color: #fff;
+    height: 35px;
+    font-size: 1.1em;
+    text-align: center;
+  }
+
+  form input {
+    border: 0;
+    outline:0;
+    display: block;
+    float: left;
+    height: 35px;
+    padding-left: 2%;
+    width: 190px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06) inset;
+    font-size: 1em;
+    border-radius: 0 5px 5px 0;
+    line-height: 1.5em;
+  }
+
+  form button.submit {
+    background: #ffb000 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 5px;
+    box-shadow: 1px 2px 1px #454545;
+    color: #fff;
+    font-size: 1.4em;
+    padding: 14px 5%;
+    text-transform: uppercase;
+    display: block;
+    margin: 4% auto 0;
+    text-align: center;
+    line-height: normal;
+  }
+
+  form button.submit:hover {
+    background: #e69700;
+  }
+
+  form button .fa {
+    margin-right: .5em;
+  }
+
+  .more {
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    z-index: 100;
+    opacity: .6;
+    text-align: center;
+  }
+
+  .more:hover {
+    opacity: 1;
+  }
+
+  .more .fa-chevron-down {
+    color: #fff;
+    font-size: 3em;
+    margin-bottom: .3em;
+  }
+
+  .more p {
+    color: #fff;
+    font-size: 1.4em;
+    text-transform: uppercase;
+  }
+}
+
+/* pricing page style */
+.pricing-wrap {
+  background: url('../public/images/listing_pricing_bg.jpg') no-repeat top center;
+  background-size: 100%;
+}
+
+.pricing-list {
+  text-align: center;
+
+  h3 {
+    font-size: 4em;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 20px 0 0 0;
+    color: #fff;
+    font-family: 'montserratlight',sans-serif;
+  }
+
+  h4 {
+    font-size: 2.5em;
+    color: #fff;
+    font-family: 'montserratlight',sans-serif;
+  }
+
+  .main.pricingPage {
+    border: 1px solid #e6e7e8;
+    -webkit-border-radius: .6em;
+    -moz-border-radius: .6em;
+    border-radius: .6em;
+    box-shadow: none;
+    color: #b0b0b0;
+    font-family: 'montserratlight',sans-serif;
+    margin: 6em auto 0 auto;
+    padding: 0;
+    width: 1020px;
+  }
+
+  .inner {
+    display: table;
+  }
+
+  .inner div {
+    -webkit-border-radius: .6em;
+    -moz-border-radius: .6em;
+    border-radius: .6em;
+    width: 33.3%;
+    float: left;
+    background-color: #fff;
+    padding: 2em 1em;
+  }
+
+  .premiumProfile {
+    border: 2px solid #e6e7e8;
+    -webkit-border-radius: .6em .6em 0 0 !important;
+    -moz-border-radius: .6em .6em 0 0 !important;
+    border-radius: .6em .6em 0 0 !important;
+    margin-top: -3em;
+    padding-top: 5em !important;
+    position: relative;
+  }
+
+  img.popularBadge {
+    position: absolute;
+    top: -0.15em;
+    right: 0;
+    width: 45%;
+  }
+
+  h2 {
+    color: #6d6e70;
+    font-family: 'montserratlight',sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 2em;
+  }
+
+  b {
+    color: #4a5865;
+    display: block;
+    font-size: 3em;
+    line-height: 1;
+    margin-bottom: .2em;
+  }
+
+  b+span {
+    color: #a6a8ab;
+    display: block;
+    font-size: 1.4em;
+    font-family: 'montserratlight',sans-serif;
+    margin-bottom: 5em;
+  }
+
+  .inner div ul li:first-child {
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .inner div ul li {
+    display: block;
+    position: relative;
+    line-height: 3.4;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0 5%;
+  }
+
+  .btn {
+    background-color: #8bc540;
+    margin-top: 1em;
+  }
+
+  .btn:hover {
+    opacity: 1;
+  }
+
+  li span.listY:before {
+    content: '';
+  }
+
+  li span.listY:before, li.listCheck {
+    color: #000;
+  }
+
+  li span.listX:before {
+    content: '';
+  }
+
+  li span.listX:before, li.listCross {
+    color: #a6a8ab;
+  }
+
+  li.listCheck:before, li.listCross:before, li span.listX:before, li span.listY:before {
+    font-family: 'fontawesome';
+    display: inline-block;
+    margin-right: .4em;
+  }
+
+} /* pricing page end */
+
+.footnotes {
+  margin: 4em auto;
+  width: 900px;
+  text-align: left;
+  font-size: .8em;
+}
+
+.footerCTA {
+  background: #f1f1f2;
+  width: 100%;
+  padding: 5em 0;
+}
+
+.questionsCTA {
+  font-size: 3em;
+
+  b {
+    color: #0096bd;
+    display: inline;
+    font-size: 1em;
+  }
+}
+
+.questionsCTA2 {
+  font-size: 2.3em;
+}
+
+.questionsCTA, .questionsCTA2 {
+  color: #000;
+}
+
+.inner {
+  clear: none;
+  width: 100%;
+}
+
+.main.articles-cont h2, .main.practitioner h2, .main.faqPage h2, .main.pricingPage h2, .main.privacyPage h2, .main.termsPage h2, .main.about .inner h2 {
+  clear: none;
+  font-family: 'montserratlight',sans-serif;
+  font-size: 20px;
+  float: left;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+input[type='submit'] {
+  background: none repeat scroll 0 0 #1cbbb4;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 4px 12px;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+.btn {
+  border: 0 none;
+  border-bottom: 2px solid transparent;
+  border-radius: 4px;
+  color: #f0f0f0;
+  cursor: pointer;
+  font-family: 'montserratlight',sans-serif;
+  line-height: 40px;
+  padding: 0 2em;
+  width: 11em;
+  -webkit-transition: all .4s ease .03s;
+  -moz-transition: all .4s ease .03s;
+  -o-transition: all .4s ease .03s;
+  -ms-transition: all .4s ease .03s;
+  transition: all .4s ease .03s;
+}
+
+/* practitioner registration */
+.pra-reg-wrap {
+  background: url(../public/images/register_bg.jpg) no-repeat top center !important;
+  background-size: 100%;
+  text-align: center;
+
+  .pra-reg {
+    max-width: 1020px;
+  }
+
+  .pra-reg {
+    margin: 3em auto 0 auto;
+    max-width: 980px;
+  }
+}
+
+.pra-reg {
+  clear: none;
+  display: inline-block;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+}
+
+.pra-reg form {
+  float: none;
+  margin: 0 auto;
+  width: 85%;
+  padding: 50px 0 0;
+}
+
+.pra-reg>h1 {
+  text-shadow: 0 0 .5em rgba(0,0,0,0.3);
+}
+
+.pra-reg>h1, .pra-reg>h2 {
+  font-family: montserratlight,sans-serif;
+  font-size: 3.7em;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: -0.05em;
+}
+
+.pra-reg h1 {
+  margin: 0;
+  padding-top: 20px;
+}
+
+.pra-reg>h2 {
+  font-size: 2.5em;
+  text-transform: inherit;
+  text-shadow: 0 0 .5em rgba(0,0,0,0.3);
+}
+
+.pra-reg .box {
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0,0,0,0.08);
+  clear: none;
+  color: #777;
+  font-family: 'montserratlight',sans-serif;
+  float: left;
+  margin: 0;
+  padding: 1em 3em 3em 3em;
+  width: 100%;
+}
+
+.box ~ p {
+  text-align: left;
+}
+
+.box +p {
+  clear: none;
+  color: #b0b0b0;
+  float: left;
+  font-family: 'montserratlight',sans-serif;
+  margin: 2em 0;
+  width: 100%;
+}
+
+.box +p a {
+  font-family: 'montserratlight',sans-serif;
+}
+
+.pra-reg h3 {
+  font-size: 1.5em;
+  text-transform: uppercase;
+  margin: 1.8em 0;
+}
+
+.pra-reg .box p {
+  color: #777;
+  font-family: 'montserratlight',sans-serif;
+  padding: 0 0 1em 0;
+}
+
+#step_1 p:first-child, #step_2 p:first-child {
+  font-size: 24px;
+  margin-top: 2em;
+}
+
+.row-reg {
+  width: 100%;
+  float: left;
+  clear: none;
+  margin: 0;
+}
+
+.block-inp {
+  display: inline-block;
+  width: 80%;
+}
+
+.not-reg label {
+  width: 21%;
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 31px;
+}
+
+.label-log {
+  float: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  line-height: 35px;
+}
+
+.not-reg .key-i {
+  width: 48px;
+  float: left;
+}
+
+.key-i {
+  background: #ccc;
+  border-radius: 5px 0 0 5px;
+  width: 47px;
+  float: left;
+  line-height: 2.1em !important;
+  color: #fff;
+  height: 32px;
+  font-size: 1.5em !important;
+}
+
+.not-reg input {
+  width: calc(69%) !important;
+  margin-bottom: 5px;
+  float: left;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  clear: none;
+  height: 32px;
+  padding: 7px;
+  border-radius: 0 !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+  outline: none;
+  font-size: 14px;
+}
+
+.sub-reg {
+  width: 100%;
+  margin: 10px 0;
+
+  button {
+    padding: 0 3.5em;
+    font-size: 18px;
+  }
+}
+
+button {
+  background: #8bc540;
+  border: 0 none;
+  border-bottom: 2px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'montserratlight',sans-serif;
+  line-height: 3.5;
+  padding: 0 4em;
+  -webkit-transition: all .4s ease .03s;
+  -moz-transition: all .4s ease .03s;
+  -o-transition: all .4s ease .03s;
+  -ms-transition: all .4s ease .03s;
+  transition: all .4s ease .03s;
+}
+
+/* login page style */
+.login-wrap {
+  background-image: url("../public/images/register_bg.jpg");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100% 45%;
+  text-align: center;
+
+  .pra-reg {
+    min-height: 500px;
+  }
+
+  button {
+    padding: 0 3em;
+    line-height: 3;
+  }
+}

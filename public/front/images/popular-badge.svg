@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="283" height="283" viewBox="0 0 283 283">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0096bd;
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-3 {
+        font-size: 33px;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-family: "Arial";
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    </style>
+  </defs>
+  <g>
+    <path d="M-0.000,-0.000 L155.000,-0.000 L283.000,129.000 L283.000,283.000 L-0.000,-0.000 Z" class="cls-1"/>
+    <text transform="translate(115 59) rotate(45)" class="cls-2"><tspan class="cls-3">Popular</tspan></text>
+  </g>
+</svg>
