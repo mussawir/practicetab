@@ -14,15 +14,15 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img src="{{asset('public/front/images/homeslider/slide1.jpg')}}" alt="slide 1" >
+                <img src="{{asset('public/front/img/homeslider/slide1.jpg')}}" alt="slide 1" >
             </div>
 
             <div class="item">
-                <img src="{{asset('public/front/images/homeslider/slide2.jpg')}}" alt="slide 1">
+                <img src="{{asset('public/front/img/homeslider/slide2.jpg')}}" alt="slide 1">
             </div>
 
             <div class="item">
-                <img src="{{asset('public/front/images/homeslider/slide3.jpg')}}" alt="slide 1">
+                <img src="{{asset('public/front/img/homeslider/slide3.jpg')}}" alt="slide 1">
             </div>
         </div>
 
@@ -43,7 +43,7 @@
         </div>
         <div class="reg-box">
             <h3>Sign up for your free profile today</h3>
-            <form onsubmit="return validateForm();" action="{{url('/')}}" method="POST">
+            <form onsubmit="return validateForm();" action="{{url('/register/newPractitioner')}}" method="POST">
                 {{ csrf_field() }}
                 <ul class="clearfix">
                     <li><i class="fa fa-user"></i>

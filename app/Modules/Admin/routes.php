@@ -10,7 +10,7 @@
 | namespace/structure of controllers.
 |
 */
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers'], function () {
+Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers'], function () {
 	Route::get('/', ['as' => 'admin.index', 'uses' => 'IndexController@index']);
 	
 });

@@ -100,7 +100,7 @@
                     <ul class="media-list media-list-with-divider">
                         <li class="media media-lg">
                             <a href="javascript:;" class="pull-left">
-                                <img class="media-object" src="assets/img/gallery/gallery-1.jpg" alt="" />
+                                <img class="media-object" src="{{url('public/dashboard/img/gallery/gallery-1.jpg')}}" alt="" />
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">Aenean viverra arcu nec pellentesque ultrices. In erat purus, adipiscing nec lacinia at, ornare ac eros.</h4>
@@ -109,7 +109,7 @@
                         </li>
                         <li class="media media-lg">
                             <a href="javascript:;" class="pull-left">
-                                <img class="media-object" src="assets/img/gallery/gallery-10.jpg" alt="" />
+                                <img class="media-object" src="{{url('public/dashboard/img/gallery/gallery-10.jpg')}}" alt="" />
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">Vestibulum vitae diam nec odio dapibus placerat. Ut ut lorem justo.</h4>
@@ -118,7 +118,7 @@
                         </li>
                         <li class="media media-lg">
                             <a href="javascript:;" class="pull-left">
-                                <img class="media-object" src="assets/img/gallery/gallery-7.jpg" alt="" />
+                                <img class="media-object" src="{{url('public/dashboard/img/gallery/gallery-7.jpg')}}" alt="" />
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">Maecenas eget turpis luctus, scelerisque arcu id, iaculis urna. Interdum et malesuada fames ac ante ipsum primis in faucibus.</h4>
@@ -127,7 +127,7 @@
                         </li>
                         <li class="media media-lg">
                             <a href="javascript:;" class="pull-left">
-                                <img class="media-object" src="assets/img/gallery/gallery-8.jpg" alt="" />
+                                <img class="media-object" src="{{url('public/dashboard/img/gallery/gallery-8.jpg')}}" alt="" />
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor accumsan rutrum.</h4>
@@ -153,7 +153,7 @@
                             <td>13/02/2013</td>
                             <td class="hidden-sm">
                                 <a href="javascript:;">
-                                    <img src="assets/img/product/product-1.png" alt=""  />
+                                    <img src="{{url('public/dashboard/img/product/product-1.png')}}" alt=""  />
                                 </a>
                             </td>
                             <td>
@@ -166,7 +166,7 @@
                             <td>13/02/2013</td>
                             <td class="hidden-sm">
                                 <a href="javascript:;">
-                                    <img src="assets/img/product/product-2.png" alt="" />
+                                    <img src="{{url('public/dashboard/img/product/product-2.png')}}" alt="" />
                                 </a>
                             </td>
                             <td>
@@ -179,7 +179,7 @@
                             <td>13/02/2013</td>
                             <td class="hidden-sm">
                                 <a href="javascript:;">
-                                    <img src="assets/img/product/product-3.png" alt="" />
+                                    <img src="{{url('public/dashboard/img/product/product-3.png')}}" alt="" />
                                 </a>
                             </td>
                             <td>
@@ -192,7 +192,7 @@
                             <td>13/02/2013</td>
                             <td class="hidden-sm">
                                 <a href="javascript:;">
-                                    <img src="assets/img/product/product-4.png" alt="" />
+                                    <img src="{{url('public/dashboard/img/product/product-4.png')}}" alt="" />
                                 </a>
                             </td>
                             <td>
@@ -205,7 +205,7 @@
                             <td>13/02/2013</td>
                             <td class="hidden-tablet hidden-phone">
                                 <a href="javascript:;">
-                                    <img src="assets/img/product/product-5.png" alt="" />
+                                    <img src="{{url('public/dashboard/img/product/product-5.png')}}" alt="" />
                                 </a>
                             </td>
                             <td>
@@ -223,7 +223,7 @@
                     <ul class="media-list media-list-with-divider">
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-1.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-1.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <a href="javascript:;"><h4 class="media-heading">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4></a>
@@ -235,7 +235,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-2.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-2.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <a href="javascript:;"><h4 class="media-heading">Praesent et sem porta leo tempus tincidunt eleifend et arcu.</h4></a>
@@ -247,7 +247,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-3.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-3.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <a href="javascript:;"><h4 class="media-heading">Ut mi eros, varius nec mi vel, consectetur convallis diam.</h4></a>
@@ -259,7 +259,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-4.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-4.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <a href="javascript:;"><h4 class="media-heading">Aliquam nec dolor vel nisl dictum ullamcorper.</h4></a>
@@ -319,7 +319,7 @@
                     <ul class="media-list media-list-with-divider media-messaging">
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-5.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-5.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <h5 class="media-heading">John Doe</h5>
@@ -328,7 +328,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-6.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-6.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <h5 class="media-heading">Terry Ng</h5>
@@ -337,7 +337,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-8.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-8.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <h5 class="media-heading">Fiona Log</h5>
@@ -346,7 +346,7 @@
                         </li>
                         <li class="media media-sm">
                             <a href="javascript:;" class="pull-left">
-                                <img src="assets/img/user-7.jpg" alt="" class="media-object rounded-corner" />
+                                <img src="{{url('public/dashboard/img/user-7.jpg')}}" alt="" class="media-object rounded-corner" />
                             </a>
                             <div class="media-body">
                                 <h5 class="media-heading">John Doe</h5>

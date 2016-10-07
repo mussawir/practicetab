@@ -23,6 +23,7 @@
     <link href="{{ asset('public/dashboard/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/css/style-responsive.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/css/theme/default.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/css/admin.css') }}" rel="stylesheet">
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
@@ -97,7 +98,7 @@
                         </li>
                         <li class="media">
                             <a href="javascript:;">
-                                <div class="media-left"><img src="{{url('public/img/user-1.jpg')}}" class="media-object" alt="" /></div>
+                                <div class="media-left"><img src="{{url('public/dashboard/img/user-1.jpg')}}" class="media-object" alt="" /></div>
                                 <div class="media-body">
                                     <h6 class="media-heading">John Smith</h6>
                                     <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
@@ -107,7 +108,7 @@
                         </li>
                         <li class="media">
                             <a href="javascript:;">
-                                <div class="media-left"><img src="{{url('public/img/user-2.jpg')}}" class="media-object" alt="" /></div>
+                                <div class="media-left"><img src="{{url('public/dashboard/img/user-2.jpg')}}" class="media-object" alt="" /></div>
                                 <div class="media-body">
                                     <h6 class="media-heading">Olivia</h6>
                                     <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
@@ -140,7 +141,7 @@
                 </li>
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{url('public/img/user-13.jpg')}}" alt="" />
+                        <img src="{{url('public/dashboard/img/user-13.jpg')}}" alt="" />
                         <span class="hidden-xs">Adam Schwartz</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
@@ -149,8 +150,9 @@
                         <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
                         <li><a href="javascript:;">Calendar</a></li>
                         <li><a href="javascript:;">Setting</a></li>
+                        <li><a href="{{url('/practitioner/index/change-password')}}">Change Password</a></li>
                         <li class="divider"></li>
-                        <li><a href="javascript:;">Log Out</a></li>
+                        <li><a href="{{ url('/logout') }}">Log Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -163,7 +165,7 @@
     @yield('sidebar')
 
     <!-- begin #content -->
-    <div id="content" class="content">
+    <div id="content" class="content{{(isset($hide_sidebar) && (!empty($hide_sidebar))) ? ' '.$hide_sidebar : ''}}">
         @yield('content')
     </div>
     <!-- end #content -->

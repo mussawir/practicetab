@@ -52,7 +52,7 @@ ul li {
 }
 #logo {
   text-indent: 0;
-  background: transparent url('../public/images/logoBlue.svg') no-repeat scroll 0 0;
+  background: transparent url('../img/logoBlue.svg') no-repeat scroll 0 0;
   width: 160px;
   height: 70px;
 }
@@ -204,14 +204,12 @@ li {
   text-align: center;
 }
 .reg-box form input {
-  border: 0;
-  outline: 0;
   display: block;
   float: left;
-  height: 35px;
-  padding-left: 2%;
+  height: 35px!important;
+  padding-left: 2%!important;
   width: 190px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06) inset;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06) inset!important;
   font-size: 1em;
   border-radius: 0 5px 5px 0;
   line-height: 1.5em;
@@ -260,7 +258,7 @@ li {
 }
 /* pricing page style */
 .pricing-wrap {
-  background: url('../public/images/listing_pricing_bg.jpg') no-repeat top center;
+  background: url('../img/listing_pricing_bg.jpg') no-repeat top center;
   background-size: 100%;
 }
 .pricing-list {
@@ -454,7 +452,7 @@ input[type='submit'] {
 }
 /* practitioner registration */
 .pra-reg-wrap {
-  background: url(../public/images/register_bg.jpg) no-repeat top center !important;
+  background: url(../img/register_bg.jpg) no-repeat top center !important;
   background-size: 100%;
   text-align: center;
 }
@@ -577,19 +575,23 @@ input[type='submit'] {
 }
 .not-reg input {
   width: calc(69%) !important;
+}
+
+input[type='text'], input[type='email'], input[type='password'] {
   margin-bottom: 5px;
   float: left;
-  border: 1px solid #ccc;
-  box-shadow: none;
+  border: 1px solid #ccc!important;
+  box-shadow: none!important;
   clear: none;
-  height: 32px;
-  padding: 7px;
+  height: 32px!important;
+  padding: 7px!important;
   border-radius: 0 !important;
   border-top-right-radius: 6px !important;
   border-bottom-right-radius: 6px !important;
   outline: none;
   font-size: 14px;
 }
+
 .sub-reg {
   width: 100%;
   margin: 10px 0;
@@ -615,7 +617,7 @@ button {
 }
 /* login page style */
 .login-wrap {
-  background-image: url("../public/images/register_bg.jpg");
+  background-image: url("../img/register_bg.jpg");
   background-position: top center;
   background-repeat: no-repeat;
   background-size: 100% 45%;
@@ -627,4 +629,130 @@ button {
 .login-wrap button {
   padding: 0 3em;
   line-height: 3;
+}
+
+.main-section {
+  background: #f1f1f3;
+  box-shadow: 0 0 8px rgba(0,0,0,0.07);
+  color: #b0b0b0;
+  font-family: 'montserratlight',sans-serif;
+  font-size: 14px;
+  margin: 3em auto;
+  padding: 3em;
+  width: 1020px;
+}
+
+.main-section .title-h3 {
+  font-size: 2.2em;
+  margin: 0 0 50px 0;
+  text-align: center;
+}
+
+section h3 {
+  color: #37414a;
+  font-size: 3.2em;
+  line-height: 1em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+section small {
+  color: #4a5865;
+  font-size: 2.2em;
+  line-height: 1.2em;
+  font-weight: 400;
+  margin: 0 auto 2.2em;
+  display: block;
+}
+
+.main-section small {
+  font-size: 1.6em;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.main-section p {
+  font-size: 1em;
+  text-align: justify;
+  margin: 0;
+}
+
+.main-section ul {
+  padding-left: 0;
+}
+.main-section ul li {
+  font-size: 1em;
+  color: #4a5865;
+}
+
+.holder ul li:first-child {
+  border-top: 0;
+}
+
+.holder ul li {
+  border-top: 1px solid #d4d5d6;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  text-align: left;
+}
+
+.holder ul li:before {
+  color: #4cb3d6;
+  content: "•";
+  font-size: 1.2em;
+  padding-right: 1em;
+  vertical-align: top;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.mg-top {
+  margin-top: 10px;
+}
+
+.no-padding-left {
+  padding-left: 0;
+}
+
+/* contact form */
+#contact_frm span {
+  font-size: 12px;
+  font-weight: 700;
+  display: block;
+  color: #000000;
+}
+
+#contact_frm .row {
+  margin-left: auto;
+  margin-right: auto
+}
+
+#contact_frm .key-i {
+  text-align: center;
+  font-size: 1.1em!important;
+  width: 31px;
+}
+
+#contact_frm input {
+  width: calc(100% - 31px);
+}
+
+textarea {
+  border: 1px solid #ccc!important;
+  border-radius: 6px!important;
+  clear: none;
+  float: left;
+  min-height: 119px;
+  padding: 7px!important;
+  width: 100%!important;
+  margin: 0;
+  resize: vertical;
+  outline: none;
+  box-shadow: none!important;
+}
+
+#contact_frm .btn {
+  font-size: 16px;
 }

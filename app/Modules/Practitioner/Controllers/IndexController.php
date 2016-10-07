@@ -22,7 +22,7 @@ class IndexController extends Controller
 		// you can specify ModuleOne::someFolder.file if your file exists
 		// inside a folder. Also the blade will use the same syntax i.e.
 		// ModuleName::viewName
-		return view('Practitioner::index');
+		return view('Practitioner::index')->with('hide_sidebar', 'no-sidebar');
 	}
 
 	public function modelTest()
