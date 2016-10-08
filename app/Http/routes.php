@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/change-password', 'Patient\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Patient\IndexController@saveNewPassword');
     Route::get('/index/supplement-request', 'Patient\IndexController@createSupplementRequest');
+    Route::post('/index/saveSupplementRequest', 'Patient\IndexController@saveSupplementRequest');
 });
 
 /* Practitioner module */
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/index/new-patient', ['as' => 'new-patient', 'uses' => 'Practitioner\IndexController@createPatient']);
     Route::post('/index/savePatient', 'Practitioner\IndexController@savePatient');
     Route::get('/index/patient-list', ['as' => 'patient-list', 'uses' => 'Practitioner\IndexController@patientList']);
+    Route::get('/index/suggestions', ['as' => 'suggestions', 'uses' => 'Practitioner\IndexController@newSuggestions']);
 });
 
 Route::group(['middleware' => ['auth']], function () {

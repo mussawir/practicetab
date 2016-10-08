@@ -5,8 +5,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PaRegFormRequest;
 use App\Http\Requests\ChangePassFormRequest;
 use App\Models\Patient;
+use App\Models\Practitioner;
+use App\Models\Supplement;
+use App\Models\SupplementRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -19,12 +23,28 @@ use Illuminate\Support\Str;
  */
 class IndexController extends Controller
 {
+	var $practitioner_info = null;
+	public function __construct()
+	{
+		$this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
+	}
+
 	public function index()
 	{
 		/// module:patient
 		// view folder name: index
 		// file: index
-		return view('practitioner.index.index')->with('hide_sidebar', 'no-sidebar');
+
+		$sup_requests = DB::table("supplement_requests AS sr")
+		->join("patients AS p", "p.pa_id", "=", "sr.pa_id")
+		->join("users AS u", "u.user_id", "=", "p.user_id")
+		->select('u.first_name', 'u.last_name', 'sr.title',
+			'u.cell', 'u.gender', 'u.address')
+		->where('sr.pra_id', '=', $this->practitioner_info->pra_id)
+		->get();
+
+		return view('practitioner.index.index')->with('hide_sidebar', 'no-sidebar')
+			->with('supplement_requests', $sup_requests);
 	}
 
 	public function viewMarketing()
@@ -95,6 +115,19 @@ class IndexController extends Controller
 		});
 	}
 
+	public function newSuggestions()
+	{
+		$patients = DB::table('patients as p')
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('p.pa_id', 'u.first_name', 'u.last_name')
+			->where('u.role', '=', 4)
+			->get();
+		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')->get();
+
+		return view('practitioner.index.new-suggestions')->with('hide_sidebar', 'no-sidebar')
+			->with('patients', $patients)->with('supplements', $supplements);
+	}
+	
 	public function changePassword()
 	{
 		return view('practitioner.index.change-password');

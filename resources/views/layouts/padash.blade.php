@@ -179,7 +179,6 @@
                 <li class="nav-header">Navigation</li>
                 <li class="has-sub active">
                     <a href="javascript:;">
-                        <b class="caret pull-right"></b>
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
                     </a>

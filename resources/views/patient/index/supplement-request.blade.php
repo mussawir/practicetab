@@ -2,7 +2,29 @@
 
 @section('content')
     <section>
-        <form action="#">
+        <div class="msg">
+            @if(Session::has('success'))
+                <div class="alert alert-success">
+                    <strong>{{Session::pull('success')}}</strong>
+                </div>
+            @elseif(Session::has('error'))
+                <div class="alert alert-danger">
+                    <strong>{{Session::pull('error')}}</strong>
+                </div>
+            @endif
+        </div>
+
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb pull-right">
+            <li><a href="{{url('/patient')}}">Dashboard</a></li>
+            <li class="active">Supplements Request</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header">Supplements Request <small></small></h1>
+        <!-- end page-header -->
+
+        {!! Form::open(array('url'=>'/patient/index/saveSupplementRequest')) !!}
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
@@ -13,18 +35,26 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <select class="default-select2 form-control">
-                                <option value="">-- Select --</option>
+                        <select name="pra_id" class="default-select2 form-control">
+                                <option value="">Select Practitioner</option>
                             @foreach($practitioners as $item)
                                     <option value="{{$item->pra_id}}">{{$item->first_name .' '.$item->last_name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                            <textarea class="form-control" placeholder="Message" rows="5"></textarea>
-                            </div>
+                        {!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=>'Request Title')) !!}
+                        @if ($errors->has('title'))
+                            <span class="text-danger">
+                                <strong>{{ $errors->first('title') }}</strong>
+                            </span>
+                        @endif
+                    </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success pull-right">Send</button>
+                        {!! Form::textarea('message', null, array('class'=>'form-control', 'placeholder'=>'Request Message', 'rows'=>'5')) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::submit('Send', array('class'=>'btn btn-success pull-right')) !!}
                     </div>
                 </div>
             </div>
@@ -40,6 +70,7 @@
                     <table id="data-table" class="table table-striped table-hover">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Used For</th>
                             <th></th>
@@ -48,12 +79,19 @@
                         <tbody>
                         @foreach($supplements as $item)
                         <tr>
+                            <td>
+                                @if(isset($item->main_image) && (!empty($item->main_image)))
+                                    <img src="{{asset('public/dashboard/img/sup-img/'.$item->main_image)}}" alt="{{$item->name}}" class="img-responsive" style="max-height: 64px;" />
+                                @else
+                                    <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$item->name}}" />
+                                @endif
+                            </td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->used_for}}</td>
                             <td>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" value="{{$item->sup_id}}">
+                                        <input type="checkbox" name="sup_id[]" value="{{$item->sup_id}}">
                                     </label>
                                 </div>
                             </td>
@@ -65,7 +103,7 @@
             </div>
         </div>
     </div>
-        </form>
+        {!! Form::close() !!}
     </section>
 @endsection
 
@@ -76,7 +114,11 @@
 
         if ($('#data-table').length !== 0) {
             $('#data-table').DataTable({
-                responsive: true
+                responsive: true,
+                "aaSorting": [[1, "asc"]],
+                "iDisplayLength": 10,
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
             });
         }
     });
