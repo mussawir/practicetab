@@ -1,5 +1,7 @@
 @extends('layouts.pradash')
-
+@section('sidebar')
+    @include('layouts.pra-sidebar')
+@endsection
 @section('content')
     <div class="row">
             <div class="col-md-12">

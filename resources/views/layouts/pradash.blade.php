@@ -139,10 +139,11 @@
                         </li>
                     </ul>
                 </li>
+                @if (!Auth::guest())
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{url('public/dashboard/img/user-13.jpg')}}" alt="" />
-                        <span class="hidden-xs">Adam Schwartz</span> <b class="caret"></b>
+                        <span class="hidden-xs">&nbsp;{{Auth::user()->first_name . ' ' .Auth::user()->last_name}}&nbsp;</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
@@ -155,6 +156,7 @@
                         <li><a href="{{ url('/logout') }}">Log Out</a></li>
                     </ul>
                 </li>
+                @endif
             </ul>
             <!-- end header navigation right -->
         </div>

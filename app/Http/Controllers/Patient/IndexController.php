@@ -3,6 +3,9 @@ namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePassFormRequest;
+use App\Models\Practitioner;
+use App\Models\Supplement;
+use Illuminate\Support\Facades\DB;
 
 /**
  * IndexController
@@ -22,7 +25,14 @@ class IndexController extends Controller
 
 	public function createSupplementRequest()
 	{
-		return view('patient.index.supplement-request');
+		$practitioners = DB::table('practitioners as p')
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('p.pra_id', 'u.first_name', 'u.last_name')
+			->get();
+		$supplements = Supplement::select('sup_id', 'name', 'used_for')->get();
+		return view('patient.index.supplement-request')
+			->with('practitioners', $practitioners)
+			->with('supplements', $supplements);
 	}
 
 	public function changePassword()

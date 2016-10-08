@@ -1,6 +1,6 @@
 @extends('layouts.pradash')
 @section('sidebar')
-    @include('layouts.mgmt-sidebar')
+    @include('layouts.pra-sidebar')
 @endsection
 @section('content')
         <!-- begin breadcrumb -->
