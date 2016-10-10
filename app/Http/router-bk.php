@@ -34,7 +34,6 @@ Route::get('/affiliate', function () {
     return view('affiliate');
 });
 
-
 //Route::get('registration/pricing', ['as' => 'pricing', 'uses' => 'RegistrationController@showPricingPage']);
 
 Route::get('registration/account', ['as' => 'account', 'uses' => 'RegistrationController@showAccountPage']);
@@ -53,7 +52,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
-    Route::get('/supplements/index', 'Admin\SupplementsController@index');
+
 });
 
 /* Patient module */
