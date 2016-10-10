@@ -53,7 +53,21 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
+
     Route::get('/supplements/index', 'Admin\SupplementsController@index');
+    Route::get('/supplements/new', 'Admin\SupplementsController@create');
+    Route::post('/supplements/store', 'Admin\SupplementsController@store');
+    Route::get('/supplements/edit/{id}', 'Admin\SupplementsController@edit');
+    Route::patch('/supplements/update', 'Admin\SupplementsController@update');
+    Route::delete('/supplements/destroy/{id}', 'Admin\SupplementsController@destroy');
+
+    Route::get('/manufacturer/index', 'Admin\ManufacturerController@index');
+    Route::get('/manufacturer/new', 'Admin\ManufacturerController@create');
+    Route::post('/manufacturer/store', 'Admin\ManufacturerController@store');
+    Route::get('/manufacturer/edit/{id}', 'Admin\ManufacturerController@edit');
+    Route::patch('/manufacturer/update', 'Admin\ManufacturerController@update');
+    Route::delete('/manufacturer/destroy/{id}', 'Admin\ManufacturerController@destroy');
+
 });
 
 /* Patient module */

@@ -10,7 +10,7 @@
     <meta name="author" content="aliinfotech.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Practice Tabs</title>
+    <title>{{isset($meta['page_title'])?$meta['page_title'].' - ':''}}Practice Tabs</title>
     <!-- Fonts -->
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">--}}
 
@@ -30,6 +30,8 @@
     <link href="{{ asset('public/dashboard/plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/vnd.microsoft.icon" />
@@ -51,7 +53,7 @@
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
+                <a href="{{url('/admin')}}" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -147,8 +149,8 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
                 <li class="nav-header">Navigation</li>
-                <li class="has-sub active">
-                    <a href="javascript:;">
+                <li class="has-sub ">
+                    <a href="{{url('/admin')}}">
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
                     </a>
@@ -162,8 +164,8 @@
                         <span>Supplements</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Add New</a></li>
-                        <li><a href="#">List</a></li>
+                        <li><a href="{{url('/admin/supplements/new')}}">Add New</a></li>
+                        <li><a href="{{url('/admin/supplements/index')}}">List</a></li>
                     </ul>
                 </li>
 
@@ -190,15 +192,15 @@
                         <li><a href="#">List</a></li>
                     </ul>
                 </li>
-                <li class="has-sub">
+                <li class="has-sub {{isset($meta['main_menu'])?$meta['main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">1</span>
+                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
                         <i class="fa fa-industry"></i>
                         <span>Manufacturers</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Add New</a></li>
-                        <li><a href="#">List</a></li>
+                        <li class="{{isset($meta['sub_menu_new'])?$meta['sub_menu_new']:''}}"><a href="{{url('/admin/manufacturer/new')}}">Add New</a></li>
+                        <li class="{{isset($meta['sub_menu_list'])?$meta['sub_menu_list']:''}}"><a href="{{url('/admin/manufacturer/index')}}">List</a></li>
                     </ul>
                 </li>
 
@@ -283,6 +285,9 @@
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/jquery-jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/jquery.dataTables.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
@@ -292,5 +297,6 @@
         Dashboard.init();
     });
 </script>
+@yield('page-scripts')
 </body>
 </html>

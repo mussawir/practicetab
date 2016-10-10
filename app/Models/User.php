@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Supplement', 'user_id');
     }
+
+    public function manufactures()
+    {
+        return $this->hasMany('App\Models\Manufacture', 'user_id');
+    }
 }

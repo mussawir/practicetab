@@ -16,13 +16,18 @@ class Supplement extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'short_description', 'long_description', 'manufacturer_id',
+        'user_id', 'name', 'short_description', 'long_description', 'man_id',
         'used_for', 'url', 'how_to_get', 'benefits', 'usability', 'main_image',
-        'man_price', 'discount'
+        'main_price', 'discount'
     ];
 
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo('App\Models\Manufacturer', 'man_id');
     }
 }
