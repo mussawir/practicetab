@@ -30,7 +30,7 @@ class ManufacturerController extends Controller
     public function index()
     {
         $manufactures = Manufacturer::select('*')->orderBy('name', 'asc')->get();
-        $meta = array('page_title'=>'Manufacturer', 'main_menu'=>'active', 'sub_menu_list'=> 'active', 'item_counter'=>(isset($manufactures)?count($manufactures):0));
+        $meta = array('page_title'=>'Manufacturer', 'man_main_menu'=>'active', 'man_sub_menu_list'=> 'active', 'item_counter'=>(isset($manufactures)?count($manufactures):0));
 
         return view('admin.manufacturer.index')->with('manufactures', $manufactures)->with('meta', $meta);
     }
@@ -42,7 +42,7 @@ class ManufacturerController extends Controller
      */
     public function create()
     {
-        $meta = array('page_title'=>'Manufacturer', 'main_menu'=>'active', 'sub_menu_new'=> 'active', 'item_counter'=>(0));
+        $meta = array('page_title'=>'Manufacturer', 'man_main_menu'=>'active', 'man_sub_menu_new'=> 'active', 'item_counter'=>(0));
 
         return view('admin.manufacturer.new')->with('meta', $meta);
     }
@@ -104,7 +104,7 @@ class ManufacturerController extends Controller
     public function edit($id)
     {
         $manufacturer = Manufacturer::find($id);
-        $meta = array('page_title'=>'Manufacturer', 'main_menu'=>'active', 'item_counter'=>(0));
+        $meta = array('page_title'=>'Manufacturer', 'man_main_menu'=>'active', 'item_counter'=>(0));
 
         return view('admin.manufacturer.edit')->with('meta', $meta)->with('manufacturer', $manufacturer);
     }

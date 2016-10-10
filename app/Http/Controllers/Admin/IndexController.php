@@ -22,7 +22,8 @@ class IndexController extends Controller
 		// module:admin
 		// view folder name: index
 		// file: index
-		return view('admin.index.index');
+		$meta = array('page_title'=>'Dashboard', 'db_main_menu'=>'active', 'item_counter'=>(0));
+		return view('admin.index.index')->with('meta', $meta);
 	}
 
 	public function changePassword()

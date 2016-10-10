@@ -149,7 +149,7 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
                 <li class="nav-header">Navigation</li>
-                <li class="has-sub ">
+                <li class="has-sub {{isset($meta['db_main_menu'])?$meta['db_main_menu']:''}}">
                     <a href="{{url('/admin')}}">
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
@@ -157,15 +157,15 @@
                     <li>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub {{isset($meta['sup_main_menu'])?$meta['sup_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">100</span>
+                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
                         <i class="fa fa-medkit"></i>
                         <span>Supplements</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="{{url('/admin/supplements/new')}}">Add New</a></li>
-                        <li><a href="{{url('/admin/supplements/index')}}">List</a></li>
+                        <li class="{{isset($meta['sup_sub_menu_new'])?$meta['sup_sub_menu_new']:''}}"><a href="{{url('/admin/supplements/new')}}">Add New</a></li>
+                        <li class="{{isset($meta['sup_sub_menu_list'])?$meta['sup_sub_menu_list']:''}}"><a href="{{url('/admin/supplements/index')}}">List</a></li>
                     </ul>
                 </li>
 
@@ -192,15 +192,15 @@
                         <li><a href="#">List</a></li>
                     </ul>
                 </li>
-                <li class="has-sub {{isset($meta['main_menu'])?$meta['main_menu']:''}}">
+                <li class="has-sub {{isset($meta['man_main_menu'])?$meta['man_main_menu']:''}}">
                     <a href="javascript:;">
                         <span class="badge pull-right">{{$meta['item_counter']}}</span>
                         <i class="fa fa-industry"></i>
                         <span>Manufacturers</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="{{isset($meta['sub_menu_new'])?$meta['sub_menu_new']:''}}"><a href="{{url('/admin/manufacturer/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['sub_menu_list'])?$meta['sub_menu_list']:''}}"><a href="{{url('/admin/manufacturer/index')}}">List</a></li>
+                        <li class="{{isset($meta['man_sub_menu_new'])?$meta['man_sub_menu_new']:''}}"><a href="{{url('/admin/manufacturer/new')}}">Add New</a></li>
+                        <li class="{{isset($meta['man_sub_menu_list'])?$meta['man_sub_menu_list']:''}}"><a href="{{url('/admin/manufacturer/index')}}">List</a></li>
                     </ul>
                 </li>
 
