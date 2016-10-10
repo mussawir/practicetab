@@ -8,12 +8,12 @@ Website: http://www.seantheme.com/color-admin-v2.0/admin/html/
 var handleGritterNotification = function() {
 	$('#add-sticky').click( function() {
 		$.gritter.add({
-			title: 'This is a sticky notice!',
-			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus lacus ut lectus rutrum placerat. ',
-			image: 'assets/img/user-2.jpg',
-			sticky: true,
-			time: '',
-			class_name: 'my-sticky-class'
+			//title: 'This is a sticky notice!',
+			//text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus lacus ut lectus rutrum placerat. ',
+		//	image: 'assets/img/user-2.jpg',
+			//sticky: true,
+			//time: '',
+		//	class_name: 'my-sticky-class'
 		});
 		return false;
 	});

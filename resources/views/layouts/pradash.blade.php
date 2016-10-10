@@ -103,7 +103,7 @@
                             <a href="javascript:;">
                                 <div class="media-left"><img src="{{url('public/dashboard/img/user-1.jpg')}}" class="media-object" alt="" /></div>
                                 <div class="media-body">
-                                    <h6 class="media-heading">John Smith</h6>
+                                    <h6 class="media-heading">Peter Behrouzi</h6>
                                     <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
                                     <div class="text-muted f-s-11">25 minutes ago</div>
                                 </div>
@@ -145,14 +145,12 @@
                 @if (!Auth::guest())
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{url('public/dashboard/img/user-13.jpg')}}" alt="" />
+                        <img src="{{url('/public/dashboard/img/user-13.jpg')}}" alt="" />
                         <span class="hidden-xs">&nbsp;{{Auth::user()->first_name . ' ' .Auth::user()->last_name}}&nbsp;</span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
                         <li><a href="javascript:;">Edit Profile</a></li>
-                        <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
-                        <li><a href="javascript:;">Calendar</a></li>
                         <li><a href="javascript:;">Setting</a></li>
                         <li><a href="{{url('/practitioner/index/change-password')}}">Change Password</a></li>
                         <li class="divider"></li>
