@@ -28,7 +28,7 @@ class SupplementsController extends Controller
             //->where('u.user_id', '!=', Auth::user()->user_id)
             ->get();
 
-        $meta = array('page_title'=>'Supplements', 'main_menu'=>'active', 'sub_menu_list'=> 'active', 'item_counter'=>(isset($supplements)?count($supplements):0));
+        $meta = array('page_title'=>'Supplements', 'sup_main_menu'=>'active', 'sup_sub_menu_list'=> 'active', 'item_counter'=>(isset($supplements)?count($supplements):0));
 
         return view('admin.supplements.index')->with('supplements', $supplements)->with('meta', $meta);
     }
@@ -40,7 +40,7 @@ class SupplementsController extends Controller
      */
     public function create()
     {
-        $meta = array('page_title'=>'Create New Supplement', 'main_menu'=>'active', 'sub_menu_new'=> 'active', 'item_counter'=>(0));
+        $meta = array('page_title'=>'Create New Supplement', 'sup_main_menu'=>'active', 'sup_sub_menu_new'=> 'active', 'item_counter'=>(0));
         $manufacturers = Manufacturer::select('man_id', 'name')->orderBy('name', 'asc')->get();
 
         return view('admin.supplements.new')->with('meta', $meta)->with('manufacturers', $manufacturers);
@@ -108,7 +108,7 @@ class SupplementsController extends Controller
     {
         $supplement = Supplement::find($id);
         $manufacturers = Manufacturer::select('man_id', 'name')->orderBy('name', 'asc')->get();
-        $meta = array('page_title'=>'Edit Supplement', 'main_menu'=>'active', 'item_counter'=>(0));
+        $meta = array('page_title'=>'Edit Supplement', 'sup_main_menu'=>'active', 'item_counter'=>(0));
 
         return view('admin.supplements.edit')->with('meta', $meta)->with('supplement', $supplement)
             ->with('manufacturers', $manufacturers);
