@@ -9,8 +9,8 @@
                     <a href="javascript:;"><img src="{{url('public/dashboard/img/user-13.jpg')}}" alt="" /></a>
                 </div>
                 <div class="info">
-                    Sean Ngu
-                    <small>Front end developer</small>
+                    Peter Bahrouzi
+                    <small>Practitioner</small>
                 </div>
             </li>
         </ul>
@@ -18,22 +18,22 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="has-sub active">
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Dashboard</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active"><a href="index.html">Dashboard v1</a></li>
-                    <li><a href="index_v2.html">Dashboard v2</a></li>
-                </ul>
-            </li>
+            <li class="active"><a href="#"> <i class="fa fa-laptop"></i> Calendar</a></li>
+
+            <li><a href="#"> <i class="fa fa-laptop"></i> Today's Appointments</a></li>
+            <li><a href="#">Important notifications</a></li>
+            <li><a href="#">Patients</a></li>
+            <li><a href="#">Due Payments</a></li>
+            <li><a href="#">Outdated Payments</a></li>
+
+
+
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
             <!-- end sidebar minify button -->
         </ul>
-            <!-- end sidebar nav -->
+        <!-- end sidebar nav -->
     </div>
     <!-- end sidebar scrollbar -->
 </div>
