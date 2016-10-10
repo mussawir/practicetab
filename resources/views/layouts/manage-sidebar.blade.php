@@ -18,13 +18,15 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="active"><a href="#"> <i class="fa fa-laptop"></i> Calendar</a></li>
+            <li class="active"><a href="#"> <i class="fa fa-calendar"></i> Calendar</a></li>
 
-            <li><a href="#"> <i class="fa fa-laptop"></i> Today's Appointments</a></li>
-            <li><a href="#">Important notifications</a></li>
-            <li><a href="#">Patients</a></li>
-            <li><a href="#">Due Payments</a></li>
-            <li><a href="#">Outdated Payments</a></li>
+            <li><a href="#"> <i class="fa fa-calendar-plus-o"></i> Today's Appointments</a></li>
+            <li><a href="#"><i class="fa fa-bell"></i> Important notifications</a></li>
+            <li><a href="#"><i class="fa fa-user"></i> Patients</a></li>
+            <li><a href="#"><i class="fa fa-user-plus"></i> New Patient</a></li>
+            <li><a href="#"><i class="fa fa-users"></i> Patients List</a></li>
+            <li><a href="#"><i class="fa fa-cc-mastercard"></i> Due Payments</a></li>
+            <li><a href="#"><i class="fa fa-money"></i> Outdated Payments</a></li>
 
 
 

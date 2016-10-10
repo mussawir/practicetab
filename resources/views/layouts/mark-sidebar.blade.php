@@ -20,7 +20,7 @@
             <li class="nav-header">Navigation</li>
             <li class="has-sub active">
                 <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
+                    <i class="fa fa-briefcase"></i>
                     <span>Suggestions</span>
                 </a>
                 <ul class="sub-menu">
@@ -32,7 +32,7 @@
 
             <li class="has-sub">
                 <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
+                    <i class="fa fa-desktop"></i>
                     <span>Social Marketing</span>
                 </a>
                 <ul class="sub-menu">
@@ -42,7 +42,7 @@
             </li>
             <li class="has-sub ">
                 <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
+                    <i class="fa fa-comment"></i>
                     <span>Blogging</span>
                 </a>
                 <ul class="sub-menu">
@@ -52,22 +52,24 @@
             </li>
             <li class="has-sub ">
                 <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
+                    <i class="fa fa-envelope"></i>
                     <span>E-Mail Marketing</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Send eMail</a></li>
+                    <li class=" "><a href="#">Send eMail</a></li>
                     <li><a href="#">Templates</a></li>
                 </ul>
             </li>
             <li class="has-sub ">
                 <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
+                    <i class="fa fa-book"></i>
                     <span>Contact Management</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Create New Contact</a></li>
-                    <li><a href="#">List</a></li>
+                    <li class=" "><a href="#">Create New Contact</a></li>
+                    <li><a href="#">Contact List</a></li>
+                    <li><a href="#">Create New Group</a></li>
+                    <li><a href="#">Group List</a></li>
                 </ul>
             </li>
 
