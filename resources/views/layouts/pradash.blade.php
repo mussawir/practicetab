@@ -168,7 +168,6 @@
     <!-- end #header -->
 
     @yield('sidebar')
-
     <!-- begin #content -->
     <div id="content" class="content{{(isset($hide_sidebar) && (!empty($hide_sidebar))) ? ' '.$hide_sidebar : ''}}">
         @yield('content')
