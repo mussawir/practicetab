@@ -214,9 +214,10 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Date & Time</th>
+                                        <th>Date</th>
                                         <th>Patient</th>
                                         <th>Request Contents</th>
+                                        <th>Nut#</th>
                                         <th>Details</th>
                                     </tr>
                                     </thead>
@@ -228,7 +229,7 @@
                                             <td>
                                                 <?php
                                                 $date->add(new DateInterval('PT30M'));
-                                               echo date("d-m-Y");
+                                               echo date("d/m/Y");
                                                     echo "<br/>";
                                                echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
                                                 ?>
@@ -298,6 +299,7 @@
 
                                             </td>
                                             <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
+                                            <td><span class="badge badge-danger">{{rand ( 1 , 10)}}</span></td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-info">View</button>
                                             </td>
@@ -312,7 +314,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="panel panel-inverse" data-sortable-id="ui-widget-6" data-init="true">
+                    <div class="panel panel-success" data-sortable-id="ui-widget-7" data-init="true">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 Exercise Approval Requests
@@ -320,51 +322,109 @@
                         </div>
                         <div class="panel-body">
                             <div data-scrollbar="true" data-height="300px">
-                                <p>
-									<span class="fa-stack fa-4x pull-left m-r-10 text-inverse">
-										<i class="fa fa-square-o fa-stack-2x"></i>
-										<i class="fa fa-twitter fa-stack-1x"></i>
-									</span>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed enim arcu.
-                                    Ut posuere in ligula quis ultricies. In in justo turpis. Donec ut dui at massa gravida
-                                    interdum nec vitae justo. Quisque ullamcorper vehicula dictum. Nullam hendrerit interdum eleifend.
-                                    Aenean luctus sed arcu laoreet scelerisque. Vivamus non ullamcorper mauris, id sagittis lorem.
-                                    Proin tincidunt mauris et dolor mattis imperdiet. Sed facilisis mattis diam elementum adipiscing.
-                                </p>
-                                <p>
-									<span class="fa-stack fa-4x pull-right m-l-10 text-inverse">
-										<i class="fa fa-square-o fa-stack-2x"></i>
-										<i class="fa fa-google-plus fa-stack-1x"></i>
-									</span>
-                                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-                                    Ut ante velit, pretium non nisi a, egestas placerat diam. Nullam aliquet iaculis ultricies.
-                                    Aliquam volutpat, sapien quis volutpat elementum, ligula purus auctor diam, at vestibulum nulla augue
-                                    vel purus. Praesent ac nisl a magna tincidunt interdum sed in turpis. Maecenas nec condimentum risus.
-                                    In congue pretium est, eget euismod tortor ornare quis.
-                                </p>
-                                <p>
-									<span class="fa-stack fa-4x pull-left m-r-10 text-inverse">
-										<i class="fa fa-square-o fa-stack-2x"></i>
-										<i class="fa fa-facebook fa-stack-1x"></i>
-									</span>
-                                    Praesent eu ultrices justo. Vestibulum ante
-                                    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                    Cras mattis ipsum quis sapien consectetur fringilla.
-                                    Etiam sagittis sem tempus purus elementum, vitae pretium sapien porta. Curabitur iaculis ante ut aliquam luctus.
-                                    Vivamus ullamcorper blandit imperdiet. Ut egestas, orci id rhoncus cursus, orci risus scelerisque enim, eget mattis eros lacus quis ligula.
-                                    Vivamus ullamcorper urna eget hendrerit laoreet.
-                                </p>
-                                <p>
-									<span class="fa-stack fa-4x pull-right m-l-10 text-inverse">
-										<i class="fa fa-square-o fa-stack-2x"></i>
-										<i class="fa fa-apple fa-stack-1x"></i>
-									</span>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                                    Morbi accumsan velit dolor. Donec convallis eleifend magna, at euismod tellus convallis a.
-                                    Curabitur in nisi dolor. Cras viverra scelerisque orci, sed interdum ligula volutpat non.
-                                    Nunc eu enim ac neque tempor feugiat. Duis posuere lacus non magna eleifend,
-                                    non dictum sem feugiat. Duis eleifend condimentum pulvinar.
-                                </p>
+                                <table id="exercise-data-table" class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Exercise/s</th>
+                                        <th>Patient</th>
+                                        <th>Request Contents</th>
+                                        <th>Details</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $date = new DateTime('08:00:00'); ?>
+                                    @for ($i = 1; $i < 9; $i++)
+                                        <tr>
+                                            <td>{{$i}}</td>
+                                            <td>
+                                                <?php
+                                                $date->add(new DateInterval('PT30M'));
+                                                echo date("d/m/Y");
+                                                echo "<br/>";
+                                                echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
+                                                ?>
+
+                                            </td>
+                                            <td>
+                                                                                                <!-- img src="{{asset('public/img/exercise/'.$i.'.jpg')}}" alt="" class="img-responsive"/ -->
+                                                <span class="badge badge-danger">{{rand ( 1 , 10)}}</span>
+
+                                            </td>
+                                            <td>
+                                                <?php
+                                                //PHP array containing forenames.
+                                                $names = array(
+                                                        'Christopher',
+                                                        'Ryan',
+                                                        'Ethan',
+                                                        'John',
+                                                        'Zoey',
+                                                        'Sarah',
+                                                        'Michelle',
+                                                        'Samantha',
+                                                        'Noah		',
+                                                        'Liam		',
+                                                        'Ethan		',
+                                                        'Mason		',
+                                                        'Lucas		',
+                                                        'Oliver		',
+                                                        'Aiden		',
+                                                        'Elijah		',
+                                                        'James		',
+                                                        'Benjamin	',
+                                                        'Logan		',
+                                                        'Jacob		',
+                                                        'Jackson	',
+                                                        'Michael	',
+                                                        'Carter		',
+                                                        'Daniel		',
+                                                        'Alexander	',
+                                                        'William	',
+                                                        'Luke		',
+                                                        'Owen		',
+                                                        'Jack		',
+                                                        'Gabriel	',
+                                                        'Matthew	',
+                                                        'Henry		',
+                                                );
+
+                                                //PHP array containing surnames.
+                                                $surnames = array(
+                                                        'Walker',
+                                                        'Thompson',
+                                                        'Anderson',
+                                                        'Johnson',
+                                                        'Tremblay',
+                                                        'Peltier',
+                                                        'Cunningham',
+                                                        'Simpson',
+                                                        'Mercado',
+                                                        'Sellers'
+                                                );
+
+                                                //Generate a random forename.
+                                                $random_name = $names[mt_rand(0, sizeof($names) - 1)];
+
+                                                //Generate a random surname.
+                                                $random_surname = $surnames[mt_rand(0, sizeof($surnames) - 1)];
+
+                                                //Combine them together and print out the result.
+                                                echo $random_name . ' ' . $random_surname;
+                                                ?>
+
+                                            </td>
+                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-info">View</button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -389,6 +449,17 @@
 
             if ($('#sup-data-table').length !== 0) {
                 $('#sup-data-table').DataTable({
+                    responsive: true,
+                    "aaSorting": [[0, "asc"]],
+                    "iDisplayLength": 10,
+                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [2]}]
+                });
+            }
+
+
+            if ($('#exercise-data-table').length !== 0) {
+                $('#exercise-data-table').DataTable({
                     responsive: true,
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 10,
