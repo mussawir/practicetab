@@ -10,7 +10,7 @@
     <meta name="author" content="aliinfotech.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Practice Tabs</title>
+    <title>{{isset($meta['page_title'])?$meta['page_title'].' - ':''}}Practice Tabs</title>
     <!-- Fonts -->
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">--}}
 

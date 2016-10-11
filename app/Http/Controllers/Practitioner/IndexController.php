@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Practitioner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaRegFormRequest;
 use App\Http\Requests\ChangePassFormRequest;
+use App\Models\ContactGroup;
 use App\Models\Patient;
 use App\Models\Practitioner;
 use App\Models\Supplement;
 use App\Models\SupplementRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -45,16 +47,6 @@ class IndexController extends Controller
 
 		return view('practitioner.index.index')->with('hide_sidebar', 'no-sidebar')
 			->with('supplement_requests', $sup_requests);
-	}
-
-	public function viewMarketing()
-	{
-		return view('practitioner.index.marketing');
-	}
-
-	public function viewManagement()
-	{
-		return view('practitioner.index.management');
 	}
 
 	public function createPatient()
@@ -117,17 +109,21 @@ class IndexController extends Controller
 
 	public function newSuggestions()
 	{
-		$patients = DB::table('patients as p')
-			->join("users AS u", "u.user_id", "=", "p.user_id")
-			->select('p.pa_id', 'u.first_name', 'u.last_name')
-			->where('u.role', '=', 4)
+		$contact_groups = ContactGroup::select('name', 'cg_id')
+			->where('pra_id', '=', $this->practitioner_info->pra_id)
 			->get();
+
 		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')->get();
 
 		return view('practitioner.index.new-suggestions')->with('hide_sidebar', 'no-sidebar')
-			->with('patients', $patients)->with('supplements', $supplements);
+			->with('contact_groups', $contact_groups)->with('supplements', $supplements);
 	}
-	
+
+	public function saveSuggestions(Request $request)
+	{
+		return Redirect::Back();
+	}
+
 	public function changePassword()
 	{
 		return view('practitioner.index.change-password');

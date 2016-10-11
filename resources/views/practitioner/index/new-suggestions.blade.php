@@ -1,18 +1,6 @@
 @extends('layouts.pradash')
 
 @section('content')
-    <div class="msg">
-        @if(Session::has('success'))
-            <div class="alert alert-success">
-                <strong>{{Session::pull('success')}}</strong>
-            </div>
-        @elseif(Session::has('error'))
-            <div class="alert alert-danger">
-                <strong>{{Session::pull('error')}}</strong>
-            </div>
-        @endif        
-    </div>
-
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
@@ -24,6 +12,19 @@
     <!-- end page-header -->
 
     <div class="row">
+        <div class="col-md-12 msg">
+            @if(Session::has('success'))
+                <div class="alert alert-success">
+                    <strong>{{Session::pull('success')}}</strong>
+                </div>
+            @elseif(Session::has('error'))
+                <div class="alert alert-danger">
+                    <strong>{{Session::pull('error')}}</strong>
+                </div>
+            @endif
+        </div>
+
+        {!! Form::open(array('url'=>'/practitioner/index/saveSuggestions', 'id'=>'frm-suggestions')) !!}
         <div class="col-md-6">
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
                 <div class="panel-heading">
@@ -56,7 +57,7 @@
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="{{$item->sup_id}}">
+                                            <input type="checkbox" name="sup_id[]" value="{{$item->sup_id}}">
                                         </label>
                                     </div>
                                 </td>
@@ -75,23 +76,26 @@
                     </h4>
                 </div>
                 <div class="panel-body">
+
                     <div class="form-group">
-                        <select class="default-select2 form-control">
+                        <select name="cg_id" class="default-select2 form-control">
                             <option value="">Select Patient Group</option>
-                            @foreach($patients as $item)
-                                <option value="{{$item->pa_id}}">{{$item->first_name .' '.$item->last_name}}</option>
+                            @foreach($contact_groups as $item)
+                                <option value="{{$item->cg_id}}">{{$item->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Message" rows="5"></textarea>
+                        <textarea class="form-control" name="message" placeholder="Message" rows="5"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success pull-right">Send</button>
+                        {!! Form::submit('Send', array('class'=>'btn btn-success pull-right')) !!}
                     </div>
+
                 </div>
             </div>
         </div>
+        {!! Form::close() !!}
     </div>
 @endsection
 
@@ -108,6 +112,13 @@
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
                 });
+            }
+        });
+
+        $('#frm-suggestions').submit(function () {
+            if ($('[name="sup_id[]"]:checked').length == 0) {
+                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one supplement.</strong></div>').show().delay(5000).hide('slow');
+                return false;
             }
         });
     </script>

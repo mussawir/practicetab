@@ -54,7 +54,7 @@
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
+                <a href="#" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -178,22 +178,12 @@
             <ul class="nav">
                 <li class="nav-header">Navigation</li>
                 <li class="has-sub active">
-                    <a href="javascript:;">
+                    <a href="{{url('/patient')}}">
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="has-sub">
-                    <a href="javascript:;">
-                        <b class="caret pull-right"></b>
-                        <i class="fa fa-inbox"></i>
-                        <span>Email</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Inbox v1</a></li>
-                    </ul>
-                </li>
-
+                
                 <li><a href="{{url('/patient/index/supplement-request')}}"><i class="fa fa-medkit"></i> <span>Supplements</span></a></li>
 
                 <!-- begin sidebar minify button -->

@@ -77,19 +77,38 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::post('/index/saveNewPassword', 'Patient\IndexController@saveNewPassword');
     Route::get('/index/supplement-request', 'Patient\IndexController@createSupplementRequest');
     Route::post('/index/saveSupplementRequest', 'Patient\IndexController@saveSupplementRequest');
+    Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
 });
 
 /* Practitioner module */
 Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], function () {
     Route::get('/', ['as' => 'index', 'uses' => 'Practitioner\IndexController@index']);
-    Route::get('marketing', ['as' => 'marketing', 'uses' => 'Practitioner\IndexController@viewMarketing']);
-    Route::get('management', ['as' => 'management', 'uses' => 'Practitioner\IndexController@viewManagement']);
     Route::get('/index/change-password', 'Practitioner\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Practitioner\IndexController@saveNewPassword');
     Route::get('/index/new-patient', ['as' => 'new-patient', 'uses' => 'Practitioner\IndexController@createPatient']);
     Route::post('/index/savePatient', 'Practitioner\IndexController@savePatient');
     Route::get('/index/patient-list', ['as' => 'patient-list', 'uses' => 'Practitioner\IndexController@patientList']);
-    Route::get('/index/suggestions', ['as' => 'suggestions', 'uses' => 'Practitioner\IndexController@newSuggestions']);
+    Route::get('/index/suggestions', 'Practitioner\IndexController@newSuggestions');
+    Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
+
+    Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
+
+    Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
+
+    Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Practitioner\ContactGroupController@index']);
+    Route::get('/contact-group/new', 'Practitioner\ContactGroupController@create');
+    Route::post('/contact-group/store', 'Practitioner\ContactGroupController@store');
+    Route::get('/contact-group/edit/{id}', 'Practitioner\ContactGroupController@edit');
+    Route::patch('/contact-group/update', 'Practitioner\ContactGroupController@update');
+    Route::delete('/contact-group/destroy/{id}', 'Practitioner\ContactGroupController@destroy');
+
+    Route::get('/contact', ['as' => 'contacts', 'uses' => 'Practitioner\ContactController@index']);
+    Route::get('/contact/new', 'Practitioner\ContactController@create');
+    Route::post('/contact/store', 'Practitioner\ContactController@store');
+    Route::get('/contact/edit/{id}', 'Practitioner\ContactController@edit');
+    Route::patch('/contact/update', 'Practitioner\ContactController@update');
+    Route::delete('/contact/destroy/{id}', 'Practitioner\ContactController@destroy');
+
 });
 
 Route::group(['middleware' => ['auth']], function () {

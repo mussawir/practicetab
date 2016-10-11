@@ -60,20 +60,18 @@
                     <li><a href="#">Templates</a></li>
                 </ul>
             </li>
-            <li class="has-sub ">
+            <li class="has-sub {{isset($meta['cm_main_menu'])?$meta['cm_main_menu']:''}}">
                 <a href="javascript:;">
                     <i class="fa fa-book"></i>
                     <span>Contact Management</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="#">Create New Contact</a></li>
-                    <li><a href="#">Contact List</a></li>
-                    <li><a href="#">Create New Group</a></li>
-                    <li><a href="#">Group List</a></li>
+                    <li class="{{isset($meta['cg_sub_menu_new'])?$meta['cg_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact-group/new')}}">Create New Group</a></li>
+                    <li class="{{isset($meta['cg_sub_menu_list'])?$meta['cg_sub_menu_list']:''}}"><a href="{{url('/practitioner/contact-group')}}">Group List</a></li>
+                    <li class="{{isset($meta['cnt_sub_menu_new'])?$meta['cnt_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact/new')}}">Create New Contact</a></li>
+                    <li class="{{isset($meta['cnt_sub_menu_list'])?$meta['cnt_sub_menu_list']:''}}"><a href="{{url('/practitioner/contact')}}">Contact List</a></li>
                 </ul>
             </li>
-
-
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

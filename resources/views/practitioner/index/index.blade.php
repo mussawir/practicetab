@@ -8,7 +8,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 Today's Appointments &nbsp;&nbsp;
-                              <span class="badge badge-danger">5</span></a> &nbsp;&nbsp;
+                              <span class="badge badge-danger">5</span> &nbsp;&nbsp;
                                 Date:  {{date("Y-m-d H:i:s")}}
                             </h4>
                         </div>
@@ -373,6 +373,7 @@
         </div>
     </div>
 @endsection
+
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {

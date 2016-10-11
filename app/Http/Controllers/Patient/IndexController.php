@@ -75,6 +75,12 @@ class IndexController extends Controller
 		return Redirect::Back();
 	}
 
+	public function suggestionDetails()
+	{
+		$supplements = Supplement::select('sup_id', 'name', 'main_image')->get();
+		return view('patient.index.suggestion-details')->with('supplements', $supplements);
+	}
+
 	public function changePassword()
 	{
 		return view('patient.index.change-password');
