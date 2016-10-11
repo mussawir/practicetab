@@ -13,7 +13,7 @@
 <!-- begin row -->
 <div class="row">
     <!-- begin col-6 -->
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12 ">
         <div class="msg">
             @if(Session::has('success'))
                 <div class="alert alert-success fade in">
@@ -44,7 +44,7 @@
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Main Image</th>
+                        <th>Image</th>
                         <th>Manufacturer</th>
                         <th>Name</th>
                         <th>Used For</th>
@@ -82,7 +82,6 @@
 </div>
 <!-- end row -->
 @endsection
-
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {

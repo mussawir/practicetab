@@ -9,11 +9,10 @@
 <!-- begin page-header -->
 <h1 class="page-header">Manufacturers <small></small></h1>
 <!-- end page-header -->
-
 <!-- begin row -->
 <div class="row">
     <!-- begin col-6 -->
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
         <div class="msg">
             @if(Session::has('success'))
                 <div class="alert alert-success fade in">
