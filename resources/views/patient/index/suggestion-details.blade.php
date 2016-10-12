@@ -62,14 +62,11 @@
                                 </td>
                                 <td>{{$item->name}}</td>
                                 <td>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="sup_id[]" value="{{$item->sup_id}}" checked />
-                                        Accept
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="sup_id[]" value="{{$item->sup_id}}" />
-                                        Reject
-                                    </label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="sup_id[]" value="{{$item->sup_id}}">
+                                        </label>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
