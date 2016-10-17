@@ -61,13 +61,26 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/supplements/update', 'Admin\SupplementsController@update');
     Route::delete('/supplements/destroy/{id}', 'Admin\SupplementsController@destroy');
 
+    Route::get('/nutritions/index', 'Admin\NutritionsController@index');
+    Route::get('/nutritions/new', 'Admin\NutritionsController@create');
+    Route::post('/nutritions/store', 'Admin\NutritionsController@store');
+    Route::get('/nutritions/edit/{id}', 'Admin\NutritionsController@edit');
+    Route::patch('/nutritions/update', 'Admin\NutritionsController@update');
+    Route::delete('/nutritions/destroy/{id}', 'Admin\NutritionsController@destroy');
+
+    Route::get('/exercises/index', 'Admin\ExercisesController@index');
+    Route::get('/exercises/new', 'Admin\ExercisesController@create');
+    Route::post('/exercises/store', 'Admin\ExercisesController@store');
+    Route::get('/exercises/edit/{id}', 'Admin\ExercisesController@edit');
+    Route::patch('/exercises/update', 'Admin\ExercisesController@update');
+    Route::delete('/exercises/destroy/{id}', 'Admin\ExercisesController@destroy');
+
     Route::get('/manufacturer/index', 'Admin\ManufacturerController@index');
     Route::get('/manufacturer/new', 'Admin\ManufacturerController@create');
     Route::post('/manufacturer/store', 'Admin\ManufacturerController@store');
     Route::get('/manufacturer/edit/{id}', 'Admin\ManufacturerController@edit');
     Route::patch('/manufacturer/update', 'Admin\ManufacturerController@update');
     Route::delete('/manufacturer/destroy/{id}', 'Admin\ManufacturerController@destroy');
-
 });
 
 /* Patient module */

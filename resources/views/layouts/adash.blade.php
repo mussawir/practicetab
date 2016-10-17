@@ -33,6 +33,7 @@
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
+    @yield('head');
 
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/vnd.microsoft.icon" />
 
@@ -169,7 +170,7 @@
                     </ul>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub {{isset($meta['nut_main_menu'])?$meta['nut_main_menu']:''}}">
                     <a href="javascript:;">
                         <span class="badge pull-right">87</span>
                         <i class="fa fa-fire"></i>
@@ -181,15 +182,16 @@
                     </ul>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub {{isset($meta['exe_main_menu'])?$meta['exe_main_menu']:''}}">
                     <a href="javascript:;">
                         <span class="badge pull-right">25</span>
                         <i class="fa fa-heart"></i>
                         <span>Exercises</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Add New</a></li>
-                        <li><a href="#">List</a></li>
+                        <li class="{{isset($meta['exe_sub_menu_new'])?$meta['exe_sub_menu_new']:''}}"><a href="{{url('/admin/exercises/new')}}">Add New</a></li>
+                        <li class="{{isset($meta['exe_sub_menu_list'])?$meta['exe_sub_menu_list']:''}}"><a href="{{url('/admin/exercises/index')}}">List</a></li>
+
                     </ul>
                 </li>
                 <li class="has-sub {{isset($meta['man_main_menu'])?$meta['man_main_menu']:''}}">
@@ -289,13 +291,15 @@
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
+
 <!-- ================== END PAGE LEVEL JS ================== -->
+@yield('bottom');
+<script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         App.init();
         Dashboard.init();
-    });
+           });
 </script>
 @yield('page-scripts')
 </body>
