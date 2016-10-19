@@ -47,7 +47,7 @@
                 <h4 class="panel-title">New Exercise</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/Exercise/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/exercises/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -55,8 +55,8 @@
                         <div class="col-md-8">
                             <select id="man_id" name="man_id" class="form-control">
                                 <option value="">Select</option>
-                                @foreach($manufacturers as $item)
-                                    <option value="{{$item->man_id}}">{{$item->name}}</option>
+                                @foreach($execats as $item)
+                                    <option value="{{$item->execat_id}}">{{$item->category}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -69,13 +69,13 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('name','Heading *:', array('class'=>'col-md-4 control-label')) !!}
+                        {!! Form::label('heading','Heading *:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
+                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
                         </div>
-                        @if ($errors->has('name'))
+                        @if ($errors->has('heading'))
                             <div class="text-danger">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('heading') }}</strong>
                             </div>
                         @endif
                     </div>
@@ -92,45 +92,37 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('main_image','Banner Image :', array('class'=>'col-md-4 control-label')) !!}
+                        {!! Form::label('banner_image','Banner Image :', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            {!! Form::file('main_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                            {!! Form::file('banner_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('name','Video Link:', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('banner_v_link','Video Link:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
+                            {!! Form::text('banner_v_link', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
                         </div>
-                        @if ($errors->has('name'))
-                            <div class="text-danger">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </div>
-                        @endif
-                    </div>
+                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('name','Short Description:', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('short_description','Short Description:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Short Description')) !!}
+                            {!! Form::text('short_description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description')) !!}
                         </div>
-                        @if ($errors->has('name'))
+                        @if ($errors->has('short_description'))
                             <div class="text-danger">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('short_description') }}</strong>
                             </div>
                         @endif
                     </div>
                 </div>
-
-
 
 
                 <div class="col-md-12">
-                   {!! Form::textarea('content', null, array('class'=>'ckeditor', 'placeholder'=> 'Used For', 'id'=>'editor1', 'name'=>'editor1'
-                   , 'rows'=>'20')) !!}
+                    {!! Form::textarea('content', '<h1>Sample text</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20')) !!}
                     </div>
                 <div class="col-md-12">
                     &nbsp;

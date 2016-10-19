@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Manufacturer;
-use App\Models\Supplement;
+use App\Models\Execategories;
+use App\Models\Exercises;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -22,12 +21,7 @@ class ExercisesController extends Controller
      */
     public function index()
     {
-        $exercises = DB::table("exercises AS s")
-            ->join("manufacturers AS m", "m.man_id", "=", "s.man_id")
-            ->select('s.*', 'm.name as manufacName')
-            //->where('u.user_id', '!=', Auth::user()->user_id)
-            ->get();
-
+        $exercises = Exercises::select('*')->orderBy('heading', 'asc')->get();
         $meta = array('page_title'=>'Exercises', 'exe_main_menu'=>'active', 'exe_sub_menu_list'=> 'active', 'item_counter'=>(isset($exercises)?count($exercises):0));
 
         return view('admin.exercises.index')->with('exercises', $exercises)->with('meta', $meta);
@@ -41,9 +35,9 @@ class ExercisesController extends Controller
     public function create()
     {
         $meta = array('page_title'=>'Add New Exercise', 'exe_main_menu'=>'active', 'exe_sub_menu_new'=> 'active', 'item_counter'=>(0));
-        $manufacturers = Manufacturer::select('man_id', 'name')->orderBy('name', 'asc')->get();
+        $execats = Execategories::select('execat_id', 'category')->orderBy('category', 'asc')->get();
 
-        return view('admin.exercises.new')->with('meta', $meta)->with('manufacturers', $manufacturers);
+        return view('admin.exercises.new')->with('meta', $meta)->with('execats', $execats);
     }
 
     /**
@@ -55,17 +49,17 @@ class ExercisesController extends Controller
     public function store(Request $request)
     {
         $validator = \Validator::make($request->toArray(), [
-            'name' => 'required|max:100',
-            'man_id' => 'required',
+            'content' => 'required|max:8000',
+            'execat_id' => 'required',
             'short_description' => 'required',
         ], [
             'man_id.required' => 'The manufacturers field is required.',
         ]);
-
+/*
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
+*/
         $input = $request->all();
 
         $filename = '';
@@ -75,14 +69,15 @@ class ExercisesController extends Controller
             $rand_num = rand(11111, 99999);
             $filename = $rand_num. '_' .$file->getClientOriginalName();
 
-            $file->move(public_path().'/dashboard/img/sup-img/', $filename);
+            $file->move(public_path().'/img/exercise/', $filename);
         }
 
         $input['main_image'] = $filename;
+      //  $input['content'] = 'content';
         $input['user_id'] = Auth::user()->user_id;
-        Supplement::create($input);
+        Exercises::create($input);
 
-        Session::put('success','Supplement saved successfully!');
+        Session::put('success','Exercise is saved successfully!');
 
         return Redirect::Back();
     }
@@ -106,12 +101,12 @@ class ExercisesController extends Controller
      */
     public function edit($id)
     {
-        $supplement = Supplement::find($id);
-        $manufacturers = Manufacturer::select('man_id', 'name')->orderBy('name', 'asc')->get();
-        $meta = array('page_title'=>'Edit Supplement', 'sup_main_menu'=>'active', 'item_counter'=>(0));
+        $exercises = Exercises::find($id);
+        $execats = Execategories::select('execat_id', 'category')->orderBy('category', 'asc')->get();
+        $meta = array('page_title'=>'Edit Exercises', 'exe_main_menu'=>'active', 'item_counter'=>(0));
 
-        return view('admin.exercises.edit')->with('meta', $meta)->with('supplement', $supplement)
-            ->with('manufacturers', $manufacturers);
+        return view('admin.exercises.edit')->with('meta', $meta)->with('exercises', $exercises)
+            ->with('execats', $execats);
     }
 
     /**
@@ -135,7 +130,7 @@ class ExercisesController extends Controller
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $supplement = Supplement::find($request->sup_id);
+        $exercise = Exercises::find($request->sup_id);
 
         $filename = '';
         if($request->hasFile('main_image')) {
@@ -144,8 +139,8 @@ class ExercisesController extends Controller
             $rand_num = rand(11111, 99999);
             $filename = $rand_num. '_' .$file->getClientOriginalName();
 
-            if (isset($supplement->main_image) && (!empty($supplement->main_image))) {
-                unlink(public_path() . '/dashboard/img/sup-img/' . $supplement->main_image);
+            if (isset($exercise->main_image) && (!empty($exercise->main_image))) {
+                unlink(public_path() . '/dashboard/img/sup-img/' . $exercise->main_image);
             }
 
             $file->move(public_path().'/dashboard/img/sup-img/', $filename);
@@ -153,21 +148,21 @@ class ExercisesController extends Controller
             $filename = $request->saved_image;
         }
 
-        $supplement->main_image = $filename;
-        $supplement->name = $request->name;
-        $supplement->man_id = $request->man_id;
-        $supplement->used_for = $request->used_for;
-        $supplement->url = $request->url;
-        $supplement->how_to_get = $request->how_to_get;
-        $supplement->benefits = $request->benefits;
-        $supplement->usability = $request->usability;
-        $supplement->main_price = $request->main_price;
-        $supplement->discount = $request->discount;
-        $supplement->short_description = $request->short_description;
-        $supplement->long_description = $request->long_description;
-        $supplement->save();
+        $exercise->main_image = $filename;
+        $exercise->name = $request->name;
+        $exercise->man_id = $request->man_id;
+        $exercise->used_for = $request->used_for;
+        $exercise->url = $request->url;
+        $exercise->how_to_get = $request->how_to_get;
+        $exercise->benefits = $request->benefits;
+        $exercise->usability = $request->usability;
+        $exercise->main_price = $request->main_price;
+        $exercise->discount = $request->discount;
+        $exercise->short_description = $request->short_description;
+        $exercise->long_description = $request->long_description;
+        $exercise->save();
 
-        Session::put('success','Supplement updated successfully!');
+        Session::put('success','Exercises updated successfully!');
 
         return Redirect::to('/admin/exercises/index');
     }
@@ -180,14 +175,16 @@ class ExercisesController extends Controller
      */
     public function destroy($id)
     {
-        $supplement = Supplement::find($id);
-        if(isset($supplement)){
-            if (isset($supplement->main_image) && (!empty($supplement->main_image))) {
-                unlink(public_path() . '/dashboard/img/sup-img/' . $supplement->main_image);
+        $exercise = Exercises::find($id);
+        if(isset($exercise)){
+            if (isset($exercise->main_image) && (!empty($exercise->main_image))) {
+                if(file_exists(public_path() . '/img/exercise/' . $exercise->main_image)) {
+                    unlink(public_path() . '/img/exercise/' . $exercise->main_image);
+                }
             }
-            $supplement->delete();
+            $exercise->delete();
 
-            Session::put('success','Supplement deleted successfully!');
+            Session::put('success','Exercise deleted successfully!');
             //return response()->json(['status' => 'success']);
         }
         return response()->json(['status' => 'error']);

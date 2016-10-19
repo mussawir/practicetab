@@ -1,4 +1,8 @@
-@extends('layouts.adash')
+@extends('layouts.pradash')
+
+@section('sidebar')
+@include('layouts.mark-sidebar')
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -66,8 +70,8 @@
                                 {{--!! $item->content !!--}}
                             </td>
                             <td>
-                                <a href="{{url('/admin/exercises/edit/'.$item->exe_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->exe_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a href="{{url('/practitioner/exercises/details/'.$item->exe_id)}}"><i class="ion-clipboard fa-2x text-inverse"></i> Details</a>
+
                             </td>
                         </tr>
                     @endforeach

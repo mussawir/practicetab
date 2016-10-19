@@ -191,7 +191,8 @@
                     <ul class="sub-menu">
                         <li class="{{isset($meta['exe_sub_menu_new'])?$meta['exe_sub_menu_new']:''}}"><a href="{{url('/admin/exercises/new')}}">Add New</a></li>
                         <li class="{{isset($meta['exe_sub_menu_list'])?$meta['exe_sub_menu_list']:''}}"><a href="{{url('/admin/exercises/index')}}">List</a></li>
-
+                        <li class="{{isset($meta['execat_sub_menu_new'])?$meta['execat_sub_menu_new']:''}}"><a href="{{url('/admin/execategories/new')}}">Add New Category</a></li>
+                        <li class="{{isset($meta['execat_sub_menu_list'])?$meta['execat_sub_menu_list']:''}}"><a href="{{url('/admin/execategories/index')}}">Categories List</a></li>
                     </ul>
                 </li>
                 <li class="has-sub {{isset($meta['man_main_menu'])?$meta['man_main_menu']:''}}">

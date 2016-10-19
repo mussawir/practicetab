@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Exercises extends Model
+class Execategories extends Model
 {
     // explicitly define table and primary key
-    protected $table = 'exercises';
-    protected $primaryKey = 'exe_id';
+    protected $table = 'exe_categories';
+    protected $primaryKey = 'execat_id';
 
     /**
      * The attributes that are mass assignable.
@@ -16,8 +16,7 @@ class Exercises extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'heading', 'short_description', 'content','main_image',
-        'banner_image', 'banner_v_link'
+        'user_id', 'category', 'cat_image'
     ];
 
     public function user()
@@ -25,8 +24,4 @@ class Exercises extends Model
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
-    public function manufacturer()
-    {
-        return $this->belongsTo('App\Models\Manufacturer', 'man_id');
-    }
-}
+   }

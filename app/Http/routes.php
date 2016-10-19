@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/nutritions/update', 'Admin\NutritionsController@update');
     Route::delete('/nutritions/destroy/{id}', 'Admin\NutritionsController@destroy');
 
+    Route::get('/exercises/', 'Admin\ExercisesController@index');
     Route::get('/exercises/index', 'Admin\ExercisesController@index');
     Route::get('/exercises/new', 'Admin\ExercisesController@create');
     Route::post('/exercises/store', 'Admin\ExercisesController@store');
@@ -75,12 +76,21 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/exercises/update', 'Admin\ExercisesController@update');
     Route::delete('/exercises/destroy/{id}', 'Admin\ExercisesController@destroy');
 
+    Route::get('/manufacturer/', 'Admin\ManufacturerController@index');
     Route::get('/manufacturer/index', 'Admin\ManufacturerController@index');
     Route::get('/manufacturer/new', 'Admin\ManufacturerController@create');
     Route::post('/manufacturer/store', 'Admin\ManufacturerController@store');
     Route::get('/manufacturer/edit/{id}', 'Admin\ManufacturerController@edit');
     Route::patch('/manufacturer/update', 'Admin\ManufacturerController@update');
     Route::delete('/manufacturer/destroy/{id}', 'Admin\ManufacturerController@destroy');
+
+    Route::get('/execategories/index', 'Admin\ExecategoriesController@index');
+    Route::get('/execategories/new', 'Admin\ExecategoriesController@create');
+    Route::post('/execategories/store', 'Admin\ExecategoriesController@store');
+    Route::get('/execategories/edit/{id}', 'Admin\ExecategoriesController@edit');
+    Route::patch('/execategories/update', 'Admin\ExecategoriesController@update');
+    Route::delete('/execategories/destroy/{id}', 'Admin\ExecategoriesController@destroy');
+
 });
 
 /* Patient module */
@@ -121,6 +131,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/contact/edit/{id}', 'Practitioner\ContactController@edit');
     Route::patch('/contact/update', 'Practitioner\ContactController@update');
     Route::delete('/contact/destroy/{id}', 'Practitioner\ContactController@destroy');
+
+    Route::get('/exercises/', 'Practitioner\ExercisesController@index');
+    Route::get('/exercises/index', 'Practitioner\ExercisesController@index');
+    Route::get('/exercises/details/{id}', 'Practitioner\ExercisesController@show');
 
 });
 

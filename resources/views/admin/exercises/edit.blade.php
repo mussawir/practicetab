@@ -1,14 +1,19 @@
 @extends('layouts.adash')
+@section('head')
+        <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="assets/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/admin')}}">Dashboard</a></li>
-    <li><a href="{{url('/admin/supplements')}}">Supplements</a></li>
+    <li><a href="{{url('/admin/Exercises')}}">Exercises</a></li>
     <li class="active">Edit</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Supplements <small></small></h1>
+<h1 class="page-header">Exercises <small></small></h1>
 <!-- end page-header -->
 
 <!-- begin row -->
@@ -39,36 +44,19 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Edit Supplement</h4>
+                <h4 class="panel-title">Edit Exercise</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($supplement, array('url'=>'/admin/supplements/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
-
-                {!! Form::hidden('sup_id') !!}
-
-                <div class="col-md-6">
-                    @if(isset($supplement->main_image) && (!empty($supplement->main_image)))
-                        <img src="{{asset('public/dashboard/img/sup-img/'.$supplement->main_image)}}" alt="{{$supplement->name}}" class="img-responsive" style="max-height: 250px;" />
-                    @else
-                        <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$supplement->name}}" />
-                    @endif
-                    <div class="form-group">
-                        {!! Form::label('main_image','Main Image :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                        {!! Form::file('main_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
-                        </div>
-                    </div>
-                    <input type="hidden" name="saved_image" value="{{$supplement->main_image}}"/>
-                </div>
+                {!! Form::open(array('url'=>'/admin/exercises/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('man_id','Manufactures *:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
+                        {!! Form::label('man_id','Category *:', array('class'=>'col-md-4 control-label')) !!}
+                        <div class="col-md-8">
                             <select id="man_id" name="man_id" class="form-control">
                                 <option value="">Select</option>
-                                @foreach($manufacturers as $item)
-                                    <option value="{{$item->man_id}}" {{($supplement->man_id==$item->man_id) ? 'selected' :''}}>{{$item->name}}</option>
+                                @foreach($execats as $item)
+                                    <option value="{{$item->execat_id}}">{{$item->category}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -79,87 +67,48 @@
                         @endif
                     </div>
                 </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label')) !!}
-                            <div class="col-md-9">
-                                {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name')) !!}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('heading','Heading *:', array('class'=>'col-md-4 control-label')) !!}
+                        <div class="col-md-8">
+                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
+                        </div>
+                        @if ($errors->has('heading'))
+                            <div class="text-danger">
+                                <strong>{{ $errors->first('heading') }}</strong>
                             </div>
-                            @if ($errors->has('name'))
-                                <div class="text-danger">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </div>
-                            @endif
-                        </div>
+                        @endif
                     </div>
+                </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('used_for','Used For :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('used_for', null, array('class'=>'form-control', 'placeholder'=> 'Used For')) !!}
+                        {!! Form::label('main_image','Main Image :', array('class'=>'col-md-4 control-label')) !!}
+                        <div class="col-md-8">
+                            {!! Form::file('main_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('how_to_get','How To Get :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('how_to_get', null, array('class'=>'form-control', 'placeholder'=> 'How To Get')) !!}
+                        {!! Form::label('banner_image','Banner Image :', array('class'=>'col-md-4 control-label')) !!}
+                        <div class="col-md-8">
+                            {!! Form::file('banner_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('benefits','Benefits :', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('banner_v_link','Video Link:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('benefits', null, array('class'=>'form-control', 'placeholder'=> 'Benefits')) !!}
+                            {!! Form::text('banner_v_link', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('usability','Usability :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('usability', null, array('class'=>'form-control', 'placeholder'=> 'Usability')) !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('main_price','Main Price :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('main_price', null, array('class'=>'form-control', 'placeholder'=> 'Main Price')) !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('discount','Discount :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('discount', null, array('class'=>'form-control', 'placeholder'=> 'Discount')) !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('url','Url :', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('url', null, array('class'=>'form-control', 'placeholder'=> 'Url')) !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('short_description','Short Description *:', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('short_description','Short Description:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
                             {!! Form::text('short_description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description')) !!}
                         </div>
@@ -171,24 +120,35 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::textarea('long_description', null, array('class'=>'form-control', 'placeholder'=> 'Long Description', 'rows'=>'3')) !!}
-                        </div>
-                    </div>
+                <div class="col-md-12">
+                    {!! Form::textarea('content', null, array('class'=>'ckeditor', 'placeholder'=> 'Content', 'id'=>'editor1', 'name'=>'editor1'
+                    , 'rows'=>'20')) !!}
                 </div>
-
-                    <div class="col-md-12">
-                        {!! Form::submit('Update', array('class'=>'btn btn-success pull-right')) !!}
-                    </div>
-                {!! Form::close() !!}
-            </div>
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+                <div class="col-md-12">
+                    {!! Form::submit('Update', array('class'=>'btn btn-success pull-right')) !!}
+                </div>
+                {!! Form::close() !!}        </div>
         </div>
         <!-- end panel -->
     </div>
     <!-- end col 6 -->
 </div>
 <!-- end row -->
+@endsection
+@section('bottom')
+        <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
+@section('page-scripts')
+    <script>
+        $(document).ready(function() {
+            FormWysihtml5.init();
+        });
+    </script>
 @endsection
