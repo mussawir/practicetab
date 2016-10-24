@@ -105,7 +105,6 @@ class ManufacturerController extends Controller
     {
         $manufacturer = Manufacturer::find($id);
         $meta = array('page_title'=>'Manufacturer', 'man_main_menu'=>'active', 'item_counter'=>(0));
-
         return view('admin.manufacturer.edit')->with('meta', $meta)->with('manufacturer', $manufacturer);
     }
 

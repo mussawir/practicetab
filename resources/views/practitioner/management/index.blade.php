@@ -1,6 +1,5 @@
 @extends('layouts.management')
 @section('content')
-    <div id="content" class="content">
         <!-- begin breadcrumb -->
         <ol class="breadcrumb pull-right">
             <li><a href="javascript:;">Home</a></li>
@@ -44,5 +43,4 @@
             </div>
         </div>
         <!-- end panel -->
-    </div>
 @endsection

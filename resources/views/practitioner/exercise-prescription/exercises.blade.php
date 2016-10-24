@@ -3,11 +3,11 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Patients</li>
+    <li class="active">Exercise Prescription</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Patients <small></small></h1>
+<h1 class="page-header">Prescribe Exercise to {{ $table1->first_name }} {{ $table1->last_name }}</h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -37,45 +37,45 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Patients List</h4>
+                <h4 class="panel-title">Exercises List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Photo</th>
-                        <th>Name</th>
-                        <th>Prescribe</th>
+                        <th>image1</th>
+                        <th>image2</th>
+                        <th>heading</th>
                         <th>Action</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($table1 as $item)
+                    @foreach($table2 as $item)
                         <tr>
                             <td>
-                                @if(isset($item->photo) && (!empty($item->photo)))
-                                    <img src="{{asset('public/practitioners/peter222220/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
+                                @if(isset($item->image1) && (!empty($item->image1)))
+                                    <img src="{{asset('public/img/exercise/'.$item->image1)}}" alt="{{$item->image1}}" class="img-responsive" style="max-height: 64px;" />
                                 @else
                                     <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
                                 @endif
                             </td>
-                            <td>{{$item->first_name}} {{$item->first_name}}</td>
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
-                                |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutritions</a>
-                                |
-                                <a href="{{url('/practitioner/exercise-prescription/exercises/'.$item->pa_id)}}"><i class="fa fa-heart-o"></i> Exercises</a>
+                                @if(isset($item->image2) && (!empty($item->image2)))
+                                    <img src="{{asset('public/img/exercise/'.$item->image2)}}" alt="{{$item->image2}}" class="img-responsive" style="max-height: 64px;" />
+                                @else
+                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
+                                @endif
                             </td>
 
+                            <td>{{$item->heading}}</td>
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
+                                <a href="{{url('/practitioner/exercise-prescription/add-exercise/'.$item->exe_id)}}"><i class="fa fa-plus"></i> Add</a>
                             </td>
 
                         </tr>
                     @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -114,11 +114,11 @@
                     },
                     success: function (result) {
                         /*if (result.status == 'success') {
-                            $(elm).closest('tr').fadeOut();
-                            $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
-                        } else {
-                            $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                        }*/
+                         $(elm).closest('tr').fadeOut();
+                         $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                         } else {
+                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                         }*/
                         location.reload(true);
                     },
                     error:function (error) {

@@ -3,11 +3,11 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Patients</li>
+    <li class="active">Exercise Prescription</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Patients <small></small></h1>
+<h1 class="page-header">Exercise Prescriptions<small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -43,30 +43,23 @@
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Photo</th>
                         <th>Name</th>
                         <th>Prescribe</th>
-                        <th>Action</th>
+                        <th>Details</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($table1 as $item)
+                        @foreach($table1 as $item)
                         <tr>
-                            <td>
-                                @if(isset($item->photo) && (!empty($item->photo)))
-                                    <img src="{{asset('public/practitioners/peter222220/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
-                                @endif
-                            </td>
-                            <td>{{$item->first_name}} {{$item->first_name}}</td>
+
+                            <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
                             <td>
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
                                 |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutritions</a>
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-fire"></i> Nutritions</a>
                                 |
-                                <a href="{{url('/practitioner/exercise-prescription/exercises/'.$item->pa_id)}}"><i class="fa fa-heart-o"></i> Exercises</a>
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-heart-o"></i> Exercises</a>
                             </td>
 
                             <td>
@@ -76,6 +69,7 @@
 
                         </tr>
                     @endforeach
+
                     </tbody>
                 </table>
             </div>

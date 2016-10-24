@@ -90,7 +90,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/execategories/edit/{id}', 'Admin\ExecategoriesController@edit');
     Route::patch('/execategories/update', 'Admin\ExecategoriesController@update');
     Route::delete('/execategories/destroy/{id}', 'Admin\ExecategoriesController@destroy');
-
 });
 
 /* Patient module */
@@ -135,6 +134,20 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/exercises/', 'Practitioner\ExercisesController@index');
     Route::get('/exercises/index', 'Practitioner\ExercisesController@index');
     Route::get('/exercises/details/{id}', 'Practitioner\ExercisesController@show');
+
+    Route::get('/patient/', 'Practitioner\PatientController@index');
+    Route::get('/patient/index', 'Practitioner\PatientController@index');
+    Route::get('/patient/new', 'Practitioner\PatientController@create');
+    Route::post('/patient/store', 'Practitioner\PatientController@store');
+    Route::get('/patient/edit/{id}', 'Practitioner\PatientController@edit');
+    Route::patch('/patient/update', 'Practitioner\PatientController@update');
+    Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
+
+
+    Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
+    Route::get('/exercise-prescription/index', 'Practitioner\ExercisePrescriptionController@index');
+    Route::get('/exercise-prescription/exercises/{id}', 'Practitioner\ExercisePrescriptionController@exercises');
+    Route::get('/exercise-prescription/add-exercise/{id}', 'Practitioner\ExercisePrescriptionController@addExercise');
 
 });
 

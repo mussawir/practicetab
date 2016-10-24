@@ -38,13 +38,15 @@
 <!-- begin #page-container -->
 <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
     <!-- begin #header -->
-@include('practitioner.management.header')
+@include('practitioner.header')
     <!-- end #header -->
     <!-- begin #sidebar -->
  @include('layouts.manage-sidebar')
     <!-- end #sidebar -->
     <!-- begin #content -->
+    <div id="content" class="content">
     @yield('content')
+            </div>
     <!-- end #content -->
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>

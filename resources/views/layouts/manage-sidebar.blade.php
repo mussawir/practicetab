@@ -22,7 +22,7 @@
             <li><a href="#"> <i class="fa fa-calendar-plus-o"></i> Today's Appointments</a></li>
             <li><a href="#"><i class="fa fa-bell"></i> Important notifications</a></li>
             <li><a href="#"><i class="fa fa-user-plus"></i> New Patient</a></li>
-            <li><a href="#"><i class="fa fa-list"></i> Patients List</a></li>
+            <li class="active"><a href="{{url('/practitioner/patient/')}}"><i class="fa fa-list"></i>  Patients List</a></li>
             <li><a href="#"><i class="fa fa-cc-mastercard"></i> Due Payments</a></li>
             <li><a href="#"><i class="fa fa-money"></i> Outdated Payments</a></li>
 
