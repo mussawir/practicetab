@@ -3,17 +3,16 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/admin')}}">Dashboard</a></li>
-    <li class="active">Exercise</li>
+    <li class="active">Exercise Categories</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Exercise <small></small></h1>
+<h1 class="page-header">Exercise Categories <small></small></h1>
 <!-- end page-header -->
-
 <!-- begin row -->
 <div class="row">
     <!-- begin col-6 -->
-    <div class="col-md-12 ">
+    <div class="col-md-12">
         <div class="msg">
             @if(Session::has('success'))
                 <div class="alert alert-success fade in">
@@ -38,42 +37,31 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Exercises List</h4>
+                <h4 class="panel-title">Categories List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Image 1</th>
-                        <th>Image 2</th>
-                        <th>Heading</th>
-                        <th>Description</th>
-                        <th style="width: 100px;">Actions</th>
+                        <th>Logo</th>
+                        <th>Category</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($exercises as $item)
+                    @foreach($cats as $item)
                         <tr>
                             <td>
-                                @if(isset($item->image1) && (!empty($item->image1)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image1)}}" alt="{{$item->heading}}" class="img-responsive" style="max-height: 200px;" />
+                                @if(isset($item->cat_image) && (!empty($item->cat_image)))
+                                    <img src="{{asset('public/img/execats/'.$item->cat_image)}}" alt="{{$item->cat_image}}" class="img-responsive" style="max-height: 64px;" />
                                 @else
-                                    <img src="{{asset('public/img/exercise/no_image_64x64.jpg')}}" alt="{{$item->heading}}" />
+                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->cat_image}}" />
                                 @endif
                             </td>
+                            <td>{{$item->category}}</td>
                             <td>
-                                @if(isset($item->image2) && (!empty($item->image2)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image2)}}" alt="{{$item->heading}}" class="img-responsive" style="max-height: 200px;" />
-                                @else
-                                    <img src="{{asset('public/img/exercise/no_image_64x64.jpg')}}" alt="{{$item->heading}}" />
-                                @endif
-                            </td>
-                            <td>{{$item->heading}}</td>
-                            <td>{{$item->description}}
-                            </td>
-                            <td>
-                                <a href="{{url('/admin/exercises/edit/'.$item->exe_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->exe_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a href="{{url('/admin/execategories/edit/'.$item->execat_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->execat_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -87,6 +75,7 @@
 </div>
 <!-- end row -->
 @endsection
+
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {
@@ -96,29 +85,29 @@
                     "aaSorting": [[1, "asc"]],
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,5]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,2]}]
                 });
             }
         });
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this exercise?");
+            var q = confirm("Are you sure you want to delete this manufacturer?");
             if (q == true) {
 
                 $.ajax({
                     type: "DELETE",
-                    url: '{{ URL::to('/admin/exercises/destroy') }}/' + id,
+                    url: '{{ URL::to('/admin/execategories/destroy') }}/' + id,
                     beforeSend: function (request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function (result) {
                         /*if (result.status == 'success') {
-                         $(elm).closest('tr').fadeOut();
-                         $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
-                         } else {
-                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                         }*/
+                            $(elm).closest('tr').fadeOut();
+                            $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                        } else {
+                            $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                        }*/
                         location.reload(true);
                     },
                     error:function (error) {

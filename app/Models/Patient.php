@@ -17,14 +17,39 @@ class Patient extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'pra_id', 'user_id'
+        'pa_id',
+        'user_id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'email',
+        'photo',
+        'date_of_birth',
+        'birth_place',
+        'primary_phone',
+        'secondary_phone',
+        'mailing_street_address',
+        'mailing_city',
+        'mailing_zip',
+        'billing_street_address',
+        'billing_city',
+        'billing_zip',
+        'mailing_state',
+        'billing_state',
+        'notes',
+        'password',
+        'paid',
+        'is_subscribed',
+        'inactive',
+        'auth_code',
+        'cc_profile_id',
     ];
 
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
-
+//Use this function everywhere, where we have parent child table reltionship
     public function practitioner()
     {
         return $this->belongsTo('App\Models\Practitioner', 'pra_id');

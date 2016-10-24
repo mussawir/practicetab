@@ -3,12 +3,12 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/admin')}}">Dashboard</a></li>
-    <li><a href="{{url('/admin/manufacturer')}}">Manufacturers</a></li>
-    <li class="active">Edit</li>
+    <li><a href="{{url('/admin/manufacturer')}}">Exercise Categories</a></li>
+    <li class="active">New</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Manufacturers <small></small></h1>
+<h1 class="page-header">Exercise Categories <small></small></h1>
 <!-- end page-header -->
 
 <!-- begin row -->
@@ -39,41 +39,33 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Edit Manufacturer</h4>
+                <h4 class="panel-title">New Exercise Category</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($manufacturer, array('url'=>'/admin/manufacturer/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
-
-                {!! Form::hidden('man_id') !!}
+                {!! Form::open(array('url'=>'/admin/execategories/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
                     <div class="col-md-4">
-                        @if(isset($manufacturer->logo_image) && (!empty($manufacturer->logo_image)))
-                            <img src="{{asset('public/dashboard/img/manufac-img/'.$manufacturer->logo_image)}}" alt="{{$manufacturer->name}}" class="img-responsive" style="max-height: 250px;" />
-                        @else
-                            <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$manufacturer->name}}" />
-                        @endif
                     <div class="form-group">
-                        {!! Form::file('logo_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                        {!! Form::file('cat_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                     </div>
-                        <input type="hidden" name="saved_logo" value="{{$manufacturer->logo_image}}"/>
                     </div>
 
                     <div class="col-md-8">
                         <div class="form-group">
-                            {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label')) !!}
+                            {!! Form::label('category','Category *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name')) !!}
+                                {!! Form::text('category', null, array('class'=>'form-control', 'placeholder'=> 'Category Name', 'required'=> 'required')) !!}
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('category'))
                                 <div class="text-danger">
-                                    <strong>{{ $errors->first('name') }}</strong>
+                                    <strong>{{ $errors->first('category') }}</strong>
                                 </div>
                             @endif
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        {!! Form::submit('Update', array('class'=>'btn btn-success pull-right')) !!}
+                        {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
                     </div>
                 {!! Form::close() !!}
             </div>
@@ -83,4 +75,10 @@
     <!-- end col 6 -->
 </div>
 <!-- end row -->
+@endsection
+
+@section('page-scripts')
+    <script language="JavaScript/text">
+
+    </script>
 @endsection

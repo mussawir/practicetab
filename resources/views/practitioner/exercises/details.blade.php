@@ -46,8 +46,8 @@
             </div -->
             <div class="panel-body">
                <div>
-                @if(isset($exercises->main_image) && (!empty($exercises->main_image)))
-                    <img src="{{asset('public/img/exercise/'.$exercises->main_image)}}" alt="{{$exercises->heading}}" class="img-responsive" style="max-height: 100px;" />
+                @if(isset($exercises->banner_image) && (!empty($exercises->banner_image)))
+                    <img src="{{asset('public/img/exercise/'.$exercises->banner_image)}}" alt="{{$exercises->heading}}" class="img-responsive"  />
                 @else
                     <img src="{{asset('public/img/exercise/no_image_64x64.jpg')}}" alt="{{$exercises->heading}}" />
                 @endif

@@ -53,16 +53,16 @@
                     <div class="form-group">
                         {!! Form::label('man_id','Category *:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            <select id="man_id" name="man_id" class="form-control">
+                            <select id="execat_id" name="execat_id" class="form-control">
                                 <option value="">Select</option>
                                 @foreach($execats as $item)
                                     <option value="{{$item->execat_id}}">{{$item->category}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        @if ($errors->has('man_id'))
+                        @if ($errors->has('execat_id'))
                             <div class="text-danger">
-                                <strong>{{ $errors->first('man_id') }}</strong>
+                                <strong>{{ $errors->first('execat_id') }}</strong>
                             </div>
                         @endif
                     </div>
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         {!! Form::label('heading','Heading *:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
+                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading', 'required')) !!}
                         </div>
                         @if ($errors->has('heading'))
                             <div class="text-danger">
@@ -83,47 +83,40 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('main_image','Main Image :', array('class'=>'col-md-4 control-label')) !!}
+                        {!! Form::label('image1','Image 1*:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                        {!! Form::file('main_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                        {!! Form::file('image1', array('class'=>'form-control', 'accept'=>'image/*', 'required')) !!}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('banner_image','Banner Image :', array('class'=>'col-md-4 control-label')) !!}
+                        {!! Form::label('image2','Image 2:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            {!! Form::file('banner_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                            {!! Form::file('image2', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-8">
                     <div class="form-group">
-                        {!! Form::label('banner_v_link','Video Link:', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('description','Description *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('banner_v_link', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading')) !!}
+                            {!! Form::textarea('description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description', 'rows'=>'10', 'required')) !!}
                         </div>
-                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('short_description','Short Description:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('short_description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description')) !!}
-                        </div>
-                        @if ($errors->has('short_description'))
+                        @if ($errors->has('description'))
                             <div class="text-danger">
-                                <strong>{{ $errors->first('short_description') }}</strong>
+                                <strong>{{ $errors->first('description') }}</strong>
                             </div>
                         @endif
                     </div>
                 </div>
 
 
-                <div class="col-md-12">
-                    {!! Form::textarea('content', '<h1>Sample text</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20')) !!}
-                    </div>
+                <!-- div class="col-md-12">
+                    {-- !! Form::textarea('content', '<h1>Sample text</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20')) !! --}
+                    </div -->
                 <div class="col-md-12">
                     &nbsp;
 </div>

@@ -16,9 +16,8 @@ class Exercises extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'heading', 'short_description', 'content','main_image',
-        'banner_image', 'banner_v_link'
-    ];
+        'user_id', 'heading', 'description','image1',
+        'image2', 'execat_id'  ];
 
     public function user()
     {
