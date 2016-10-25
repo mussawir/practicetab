@@ -59,12 +59,13 @@ class ExercisePrescriptionController extends Controller
 
     }
 
-    public function addMaster($id){
-        $table1 = Exercises::find($id);
-        $meta = array('page_title'=>'Exercise for patient', null,null,'item_counter'=>(0));
-        return view('practitioner.exercise-prescription.add-exercise')->with('meta', $meta)->with('table1', $table1)
-            ->with('table2', Session::get('patient'));
+    public function addMaster(Request $request){
+        $input = $request->all();
+        $input['pra_id'] = Session::practitioner['pra_id'];
+        $master = ExercisePresMaster::create($input);
+        Session::put('exe-pre-master',$master->id);
 
+//        return Redirect::Back();
     }
 
 
