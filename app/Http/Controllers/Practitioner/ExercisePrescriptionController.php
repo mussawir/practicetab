@@ -53,9 +53,30 @@ class ExercisePrescriptionController extends Controller
     }
     public function addExercise($id){
         $table1 = Exercises::find($id);
-        $meta = array('page_title'=>'Exercise for patient', 'man_main_menu'=>'active',null,'item_counter'=>(0));
+        $meta = array('page_title'=>'Exercise for patient', null,null,'item_counter'=>(0));
         return view('practitioner.exercise-prescription.add-exercise')->with('meta', $meta)->with('table1', $table1)
             ->with('table2', Session::get('patient'));
 
     }
+
+    public function addMaster($id){
+        $table1 = Exercises::find($id);
+        $meta = array('page_title'=>'Exercise for patient', null,null,'item_counter'=>(0));
+        return view('practitioner.exercise-prescription.add-exercise')->with('meta', $meta)->with('table1', $table1)
+            ->with('table2', Session::get('patient'));
+
+    }
+
+
+    public function storeExercise(Request $request){
+        $input = $request->all();
+      
+        $input['user_id'] = Auth::user()->user_id;
+        Manufacturer::create($input);
+
+        Session::put('success','Manufacturer saved successfully!');
+
+        return Redirect::Back();
+    }
+
 }

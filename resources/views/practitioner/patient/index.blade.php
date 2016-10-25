@@ -66,7 +66,8 @@
                                 |
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutritions</a>
                                 |
-                                <a href="{{url('/practitioner/exercise-prescription/exercises/'.$item->pa_id)}}"><i class="fa fa-heart-o"></i> Exercises</a>
+                                <a href="javascript:void(0);" onclick="addMaster('{{$item->pa_id}}', this);">
+                                <i class="fa fa-heart-o"></i> Exercises</a>
                             </td>
 
                             <td>
@@ -129,5 +130,34 @@
             }
             return false;
         }
+        function addMaster(id, elm)
+        {
+            var q = confirm("Click Yes to proceed it will create a new exercise prescription. You can add one or more exercises");
+            if (q == true) {
+
+                $.ajax({
+                    type: "DELETE",
+                    url: '{{ URL::to('/practitioner/exercise-prescription/add-master') }}/' + id,
+                    beforeSend: function (request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function (result) {
+                        /*if (result.status == 'success') {
+                         $(elm).closest('tr').fadeOut();
+                         $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                         } else {
+                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                         }*/
+                        location.reload(true);
+                    },
+                    error:function (error) {
+                        $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                    }
+                });
+                return false;
+            }
+            return false;
+        }
+
     </script>
 @endsection
