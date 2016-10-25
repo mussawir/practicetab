@@ -147,7 +147,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/index', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises/{id}', 'Practitioner\ExercisePrescriptionController@exercises');
+    Route::post('/exercise-prescription/add-master', 'Practitioner\ExercisePrescriptionController@addMaster');
     Route::get('/exercise-prescription/add-exercise/{id}', 'Practitioner\ExercisePrescriptionController@addExercise');
+    Route::post('/exercise-prescription/store-exercise', 'Practitioner\PatientController@storeExercise');
+
 
 });
 
