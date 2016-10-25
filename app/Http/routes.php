@@ -61,12 +61,12 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/supplements/update', 'Admin\SupplementsController@update');
     Route::delete('/supplements/destroy/{id}', 'Admin\SupplementsController@destroy');
 
-    Route::get('/nutritions/index', 'Admin\NutritionsController@index');
-    Route::get('/nutritions/new', 'Admin\NutritionsController@create');
-    Route::post('/nutritions/store', 'Admin\NutritionsController@store');
-    Route::get('/nutritions/edit/{id}', 'Admin\NutritionsController@edit');
-    Route::patch('/nutritions/update', 'Admin\NutritionsController@update');
-    Route::delete('/nutritions/destroy/{id}', 'Admin\NutritionsController@destroy');
+    Route::get('/nutrition', 'Admin\NutritionController@index');
+    Route::get('/nutrition/new', 'Admin\NutritionController@create');
+    Route::post('/nutrition/store', 'Admin\NutritionController@store');
+    Route::get('/nutrition/edit/{id}', 'Admin\NutritionController@edit');
+    Route::patch('/nutrition/update', 'Admin\NutritionController@update');
+    Route::delete('/nutrition/destroy/{id}', 'Admin\NutritionController@destroy');
 
     Route::get('/exercises/', 'Admin\ExercisesController@index');
     Route::get('/exercises/index', 'Admin\ExercisesController@index');

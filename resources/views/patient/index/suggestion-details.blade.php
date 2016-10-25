@@ -35,13 +35,11 @@
                     </div>
                     <h4 class="panel-title">Details</h4>
                 </div>
+                <div class="alert alert-info fade in">
+                    <strong>Message:</strong>&nbsp;
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac posuere lacus, quis suscipit sem. Nulla sagittis aliquam erat non convallis.</p>
+                </div>
                 <div class="panel-body">
-                    <p>
-                        <strong>Message:</strong>
-                        <br/>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <hr/>
                     <table id="sup-data-table" class="table table-striped table-hover">
                         <thead>
                         <tr>

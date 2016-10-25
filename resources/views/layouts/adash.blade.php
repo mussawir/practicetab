@@ -172,13 +172,13 @@
 
                 <li class="has-sub {{isset($meta['nut_main_menu'])?$meta['nut_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">87</span>
+                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
                         <i class="fa fa-fire"></i>
                         <span>Nutrition</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Add New</a></li>
-                        <li><a href="#">List</a></li>
+                        <li class="{{isset($meta['nut_sub_menu_new'])?$meta['nut_sub_menu_new']:''}}"><a href="{{url('/admin/nutrition/new')}}">Add New</a></li>
+                        <li class="{{isset($meta['nut_sub_menu_list'])?$meta['nut_sub_menu_list']:''}}"><a href="{{url('/admin/nutrition/index')}}">List</a></li>
                     </ul>
                 </li>
 
