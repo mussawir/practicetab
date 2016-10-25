@@ -64,9 +64,9 @@
                             <td>
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
                                 |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutritions</a>
+                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutrition</a>
                                 |
-                                <a href="javascript:void(0);" onclick="addMaster('{{$item->pa_id}}', this);"><i class="fa fa-heart-o"></i> Exercises</a>
+                                <a href="{{ url('/practitioner/exercise-prescription/add-master/'.$item->pa_id) }}"><i class="fa fa-heart-o"></i> Exercises</a>
                             </td>
 
                             <td>

@@ -9,6 +9,7 @@ class ExercisePresDetails extends Model
     // explicitly define table and primary key
     protected $table = 'exercise_pres_details';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

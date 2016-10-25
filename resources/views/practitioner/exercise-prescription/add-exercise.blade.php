@@ -60,6 +60,8 @@
             <div class="panel-body">
                 {!! Form::open(array('url'=>'/practitioner/exercise-prescription/store-exercise', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
+                {!! Form::hidden('exe_id', $table1->exe_id) !!}
+
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('notes','Notes *:', array('class'=>'col-md-3 control-label')) !!}
