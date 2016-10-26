@@ -123,17 +123,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('hold','Hold:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('hold', null, array('class'=>'form-control', 'placeholder'=> 'Hold')) !!}
-                        </div>
-                    </div>
-                </div>
-
-
-
                 <div class="col-md-12">
                         {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
                     </div>

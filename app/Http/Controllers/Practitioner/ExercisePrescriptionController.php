@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -66,7 +67,7 @@ class ExercisePrescriptionController extends Controller
             return Redirect::Back();
         }
 
-        $is_exist = in_array($id, Session::get('cart_array'));
+        $is_exist = in_array($id, Session::get('cart_array')==null ? array() : Session::get('cart_array'));
         if($is_exist){
             Session::put('error', 'This exercise is already added');
             return Redirect::Back();
@@ -81,7 +82,6 @@ class ExercisePrescriptionController extends Controller
 
     public function addMaster($patient_id)
     {
-        //Session::forget('exe_pre_master'); // remove by key
         if(Session::get('cart_array') != null) {
             return Redirect::to('/practitioner/exercise-prescription/exercises');
         }
@@ -93,9 +93,9 @@ class ExercisePrescriptionController extends Controller
 
         $patient = Patient::find($patient_id);
         $inputs['pa_id'] = $patient_id;
-        $inputs['first_name'] = $patient['first_name'];
-        $inputs['middle_name'] = $patient['middle_name'];
-        $inputs['last_name'] = $patient['last_name'];
+        $inputs['first_name'] = $patient->first_name;
+        $inputs['middle_name'] = $patient->middle_name;
+        $inputs['last_name'] = $patient->last_name;
         $master = ExercisePresMaster::create($inputs);
 
         Session::put('exe_pre_master',array('master_data'=> $master));
@@ -145,6 +145,43 @@ class ExercisePrescriptionController extends Controller
 
     public function printPrescribedExercises()
     {
+        $master_id = Session::get('exe_pre_master')['master_data']->id;
+        $data = DB::table("exercise_pres_masters AS m")
+            ->join("exercise_pres_details AS d", "d.master_id", "=", "m.id")
+            ->join("exercises AS e", "e.exe_id", "=", "d.exe_id")
+            ->select('m.pra_id', 'm.first_name', 'm.middle_name', 'm.last_name',
+                'm.prescribed_at', 'd.*', 'e.heading', 'e.description', 'e.image1', 'e.image2')
+            ->where('m.id', '=', $master_id)
+            ->get();
 
+        if (isset($data) && (!empty($data)))
+        {
+            $this->saveExePrescribedInfo();
+
+            $pdf = \PDF::loadView('practitioner.exercise-prescription.exercise-pdf', array('data'=>$data));
+            return $pdf->stream();//download('Quotation_'.$pdf_data[0]->job_code.'.pdf');
+            //return view('practitioner.exercise-prescription.exercise-pdf', compact('data'));
+        } else {
+            Session::put('error', 'Record not found');
+            return Redirect::Back();
+        }
+    }
+
+    public function storeExePrescribedInfo()
+    {
+        $this->saveExePrescribedInfo();
+
+        return Redirect::to('/practitioner/exercise-prescription');
+    }
+
+    private function saveExePrescribedInfo()
+    {
+        $master_id = Session::get('exe_pre_master')['master_data']->id;
+        $master = ExercisePresMaster::where('id', '=', $master_id)->first();
+        $master->prescribed_at = date('Y/m/d H:i:s');
+        $master->save();
+
+        Session::forget('exe_pre_master'); // remove by key
+        Session::forget('cart_array'); // remove by key
     }
 }

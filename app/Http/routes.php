@@ -151,6 +151,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/exercise-prescription/store-exercise', 'Practitioner\ExercisePrescriptionController@storeExercise');
     Route::delete('/exercise-prescription/delete-exercise/{id}', 'Practitioner\ExercisePrescriptionController@deleteExercise');
     Route::get('/exercise-prescription/print', 'Practitioner\ExercisePrescriptionController@printPrescribedExercises');
+    Route::get('/exercise-prescription/prescribe', 'Practitioner\ExercisePrescriptionController@storeExePrescribedInfo');
 
 });
 
@@ -190,6 +191,12 @@ Route::post('login', function()
 
 Route::get('login', function(){
     return Redirect::to('users/patient/login');
+});
+
+Route::get('logout', function(){
+    Auth::logout();
+    \Session::flush();
+    return Redirect::to('/');
 });
 
 // do not show default registration form

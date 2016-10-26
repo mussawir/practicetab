@@ -127,7 +127,7 @@
 
                             <td>{{$item->heading}}</td>
                             <td style="vertical-align: middle;text-align: center;">
-                                <a href="javascript:void(0);" onclick="doDeleteExercise('{{$item->exe_id}}', this);"><i class="fa fa-times fa-2x"></i></a>
+                                <a href="javascript:void(0);" onclick="doDeleteExercise('{{$item->exe_id}}', this);" class="text-danger"><i class="fa fa-times fa-2x"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -135,9 +135,9 @@
                     <tfoot>
                     <tr>
                         <td colspan="4">
-                            <a href="javascript:void(0);" class="btn btn-success"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
+                            <a href="{{url('/practitioner/exercise-prescription/print')}}" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
                             &nbsp;
-                            <a href="javascript:void(0);" class="btn btn-primary"><i class="fa fa-plus"></i> Prescribe</a>
+                            <a href="{{url('/practitioner/exercise-prescription/prescribe')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Prescribe</a>
                         </td>
                     </tr>
                     </tfoot>
