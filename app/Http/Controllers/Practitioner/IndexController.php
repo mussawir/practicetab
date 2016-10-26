@@ -29,7 +29,7 @@ class IndexController extends Controller
 	public function __construct()
 	{
 		$this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
-		Session::put('parctitioner_session',$this->practitioner_info);
+		Session::put('practitioner_session',$this->practitioner_info);
 	}
 
 	public function index()

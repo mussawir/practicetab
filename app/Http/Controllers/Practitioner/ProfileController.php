@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Practitioner;
 
-use App\Models\Patient;
+use App\Models\Practitioner;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as InterventionImage;
 
-class PatientController extends Controller
+class ProfileController extends Controller
 {
     protected $baseUrl;
 
@@ -29,11 +29,11 @@ class PatientController extends Controller
     public function index()
     {
         $prac = Session::get('practitioner_session');
-        $table1 = Patient::select('*')->orderBy('first_name', 'asc')->get();
-        return view('practitioner.patient.index')->with('table1', $table1)
-            ->with('meta', array('page_title'=>'Patients List',isset($table1)?count($table1):0))
-            ->with('patients_list','active')
-            ->with('directory', $prac['directory']);;
+        $table1 = Practitioner::find($prac['pra_id']);
+        return view('practitioner.profile.index')
+            ->with('table1', $table1)
+            ->with('meta', array('page_title'=>'Manage Profile'))
+            ->with('directory', $prac['directory']);
     }
 
     /**
@@ -43,7 +43,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('practitioner.patient.new')
+        return view('practitioner.profile.new')
             ->with('meta', array('page_title'=>'Patient'))
             ->with('new_patient','active');;
     }
@@ -74,7 +74,7 @@ class PatientController extends Controller
             $file->move(public_path().'/practitioners/'.$prac['directory_name'].'/', $filename);
         }
 
-       // $input['category'] =  $request->file('category');
+        // $input['category'] =  $request->file('category');
         $input['photo'] = $filename;
         $input['pra_id'] = $prac['pra_id'];
         Patient::create($input);
@@ -103,7 +103,7 @@ class PatientController extends Controller
     {
         $table1 = Patient::find($id);
         $prac = Session::get('practitioner_session');
-        return view('practitioner.patient.edit')
+        return view('practitioner.profile.edit')
             ->with('table1', $table1)
             ->with('meta', array('page_title'=>'Edit Patient Record'))
             ->with('patients_list','active')

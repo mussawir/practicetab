@@ -17,11 +17,11 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li><a href="#"> <i class="fa fa-calendar"></i> Calendar</a></li>
-            <li><a href="#"> <i class="fa fa-calendar-plus-o"></i> Today's Appointments</a></li>
+            <li><a href="#"><i class="fa fa-calendar"></i> Calendar</a></li>
+            <li><a href="#"><i class="fa fa-calendar-plus-o"></i> Today's Appointments</a></li>
             <li><a href="#"><i class="fa fa-bell"></i> Important notifications</a></li>
-            <li><a href="{{url('/practitioner/patient/new')}}"><i class="fa fa-user-plus"></i> New Patient</a></li>
-            <li><a href="{{url('/practitioner/patient/')}}"><i class="fa fa-list"></i>  Patients List</a></li>
+            <li class="<?php if(isset($new_patient))echo $new_patient ?>"><a href="{{url('/practitioner/patient/new')}}"><i class="fa fa-user-plus"></i> New Patient</a></li>
+            <li class="<?php if(isset($patients_list))echo $patients_list ?> "><a href="{{url('/practitioner/patient/')}}"><i class="fa fa-list"></i>  Patients List</a></li>
             <li><a href="#"><i class="fa fa-cc-mastercard"></i> Due Payments</a></li>
             <li><a href="#"><i class="fa fa-money"></i> Outdated Payments</a></li>
 
@@ -29,7 +29,9 @@
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
             <!-- end sidebar minify button -->
         </ul>
-        <!-- end sidebar nav -->
+
+
+                <!-- end sidebar nav -->
     </div>
     <!-- end sidebar scrollbar -->
 </div>

@@ -55,7 +55,7 @@
                         <tr>
                             <td>
                                 @if(isset($item->photo) && (!empty($item->photo)))
-                                    <img src="{{asset('public/practitioners/peter222220/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
+                                    <img src="{{asset('public/practitioners/'.$directory.'/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
                                 @else
                                     <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
                                 @endif

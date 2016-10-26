@@ -153,6 +153,13 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/exercise-prescription/print', 'Practitioner\ExercisePrescriptionController@printPrescribedExercises');
     Route::get('/exercise-prescription/prescribe', 'Practitioner\ExercisePrescriptionController@storeExePrescribedInfo');
 
+    Route::get('/profile/', 'Practitioner\ProfileController@index');
+    Route::get('/profile/index', 'Practitioner\ProfileController@index');
+    Route::get('/profile/new', 'Practitioner\ProfileController@create');
+    Route::post('/profile/store', 'Practitioner\ProfileController@store');
+    Route::get('/profile/edit/{id}', 'Practitioner\ProfileController@edit');
+    Route::patch('/profile/update', 'Practitioner\ProfileController@update');
+
 });
 
 Route::group(['middleware' => ['auth']], function () {
