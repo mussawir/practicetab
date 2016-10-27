@@ -31,7 +31,7 @@
     <link href="{{ asset('public/dashboard/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
-
+    @yield('head');
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 
     <!-- ================== BEGIN BASE JS ================== -->
@@ -93,6 +93,8 @@
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{asset('public/dashboard/js/calendar.demo.min.js')}}"></script>
+
+@yield('bottom');
 <script src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
 

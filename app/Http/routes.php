@@ -155,10 +155,18 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/profile/', 'Practitioner\ProfileController@index');
     Route::get('/profile/index', 'Practitioner\ProfileController@index');
-    Route::get('/profile/new', 'Practitioner\ProfileController@create');
-    Route::post('/profile/store', 'Practitioner\ProfileController@store');
-    Route::get('/profile/edit/{id}', 'Practitioner\ProfileController@edit');
-    Route::patch('/profile/update', 'Practitioner\ProfileController@update');
+    Route::get('/profile/payment-gateway', 'Practitioner\ProfileController@paymentGateway');
+    Route::post('/profile/clinic', 'Practitioner\ProfileController@clinic');
+    Route::get('/profile/working-hours', 'Practitioner\ProfileController@workingHours');
+
+    Route::get('/blog/', 'Practitioner\BlogController@index');
+    Route::get('/blog/index', 'Practitioner\BlogController@index');
+    Route::get('/blog/new', 'Practitioner\BlogController@create');
+    Route::post('/blog/store', 'Practitioner\BlogController@store');
+    Route::get('/blog/edit/{id}', 'Practitioner\BlogController@edit');
+    Route::patch('/blog/update', 'Practitioner\BlogController@update');
+    Route::delete('/blog/destroy/{id}', 'Practitioner\BlogController@destroy');
+
 
 });
 

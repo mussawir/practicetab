@@ -18,7 +18,7 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="has-sub active">
+            <li class="has-sub">
                 <a href="javascript:;">
                     <i class="fa fa-briefcase"></i>
                     <span>Suggestions</span>
@@ -26,7 +26,6 @@
                 <ul class="sub-menu">
                     <li class=" "><a href="">Supplements</a></li>
                     <li><a href="#">Nutritions</a></li>
-                    <li><a href="#">Exercises</a></li>
                 </ul>
             </li>
 
@@ -40,14 +39,14 @@
                     <li><a href="#">Social Settings</a></li>
                 </ul>
             </li>
-            <li class="has-sub ">
+            <li class="has-sub <?php if(isset($blogging))echo $blogging?>">
                 <a href="javascript:;">
-                    <i class="fa fa-comment"></i>
+                    <i class="fa fa-comment "></i>
                     <span>Blogging</span>
                 </a>
                 <ul class="sub-menu">
                     <li class=" "><a href="">Write a Post</a></li>
-                    <li><a href="#">My Posts</a></li>
+                    <li class="<?php if(isset($my_post))echo $my_post ?>"><a href="{{url('/practitioner/blog/')}}">My Posts</a></li>
                 </ul>
             </li>
             <li class="has-sub ">

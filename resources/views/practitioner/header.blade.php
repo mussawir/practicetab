@@ -16,9 +16,23 @@
         <!-- end mobile sidebar expand / collapse button -->
 
         <ul class="nav navbar-nav">
-            <li><a href="{{url('practitioner')}}"><button class="btn btn-default">Dashboard</button></a></li>
-            <li><a href="{{url('practitioner/marketing')}}"><button class="btn btn-default">Marketing</button></a></li>
-            <li><a href="{{url('practitioner/management')}}"><button class="btn btn-danger"> <span class="fa fa-calendar"></span> Management</button></a></li>
+            @if(Session::has('dashboard'))
+            <li><a href="{{url('practitioner')}}"><button class="btn btn-danger"><span class="fa fa-tachometer" aria-hidden="true"></span> Dashboard</button></a></li>
+            @else
+                <li><a href="{{url('practitioner')}}"><button class="btn btn-default"><span class="fa fa-tachometer" aria-hidden="true"></span> Dashboard</button></a></li>
+            @endif
+                @if(Session::has('marketing'))
+                    <li><a href="{{url('practitioner/marketing')}}"><button class="btn btn-danger"><span class="fa fa-th" aria-hidden="true"></span> Marketing</button></a></li>
+                @else
+                    <li><a href="{{url('practitioner/marketing')}}"><button class="btn btn-default"><span class="fa fa-th" aria-hidden="true"></span> Marketing</button></a></li>
+                @endif
+
+                @if(Session::has('management'))
+                    <li><a href="{{url('practitioner/management')}}"><button class="btn btn-danger"> <span class="fa fa-calendar"></span> Management</button></a></li>
+                @else
+                    <li><a href="{{url('practitioner/management')}}"><button class="btn btn-default"> <span class="fa fa-calendar"></span> Management</button></a></li>
+                @endif
+
         </ul>
 
         <!-- begin header navigation right -->
@@ -98,9 +112,12 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
-                        <li><a href="javascript:;">Edit Profile</a></li>
-                        <li><a href="javascript:;">Setting</a></li>
+                        <li><a href="{{url('/practitioner/profile/')}}">Profile</a></li>
+                        <li><a href="{{url('/practitioner/profile/payment-gateway')}}">Payment Gateway</a></li>
+                        <li><a href="{{url('/practitioner/profile/clinic')}}">Clinic</a></li>
+                        <li><a href="{{url('/practitioner/profile/working-hours')}}">Working Hours</a></li>
                         <li><a href="{{url('/practitioner/index/change-password')}}">Change Password</a></li>
+                        <li><a href="javascript:;">Other Setting</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ url('/logout') }}">Log Out</a></li>
                     </ul>

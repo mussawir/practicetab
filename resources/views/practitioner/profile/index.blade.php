@@ -1,4 +1,7 @@
-@extends('layouts.management')
+@extends('layouts.pradash')
+@section('sidebar')
+@include('layouts.profile-sidebar')
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">

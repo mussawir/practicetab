@@ -20,6 +20,7 @@ class PatientController extends Controller
     public function __construct(UrlGenerator $url)
     {
         $this->baseUrl = $url;
+        Session::set('management', 'active');//set header button
     }
     /**
      * Display a listing of the resource.

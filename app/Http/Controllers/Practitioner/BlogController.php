@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Practitioner;
 
-use App\Models\Practitioner;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,17 +13,16 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as InterventionImage;
 
-class ProfileController extends Controller
+class BlogController extends Controller
 {
     protected $baseUrl;
 
     public function __construct(UrlGenerator $url)
     {
         $this->baseUrl = $url;
+        Session::set('marketing', 'active');
         Session::pull('management');
         Session::pull('dashboard');
-        Session::pull('marketing');
-
     }
     /**
      * Display a listing of the resource.
@@ -33,11 +32,12 @@ class ProfileController extends Controller
     public function index()
     {
         $prac = Session::get('practitioner_session');
-        $table1 = Practitioner::find($prac['pra_id']);
-        return view('practitioner.profile.index')
-            ->with('table1', $table1)
-            ->with('meta', array('page_title'=>'Manage Profile'))
-            ->with('directory', $prac['directory']);
+        $table1 = BlogPost::select('*')->where('pra_id', $prac['pra_id'])->orderBy('created_at', 'des')->get();
+        return view('practitioner.blog.index')->with('table1', $table1)
+            ->with('meta', array('page_title'=>'Posts List',isset($table1)?count($table1):0))
+            ->with('blogging','active')
+            ->with('my_post','active')
+            ->with('directory', $prac['directory']);;
     }
 
     /**
@@ -47,7 +47,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('practitioner.profile.new')
+        return view('practitioner.patient.new')
             ->with('meta', array('page_title'=>'Patient'))
             ->with('new_patient','active');;
     }
@@ -78,7 +78,7 @@ class ProfileController extends Controller
             $file->move(public_path().'/practitioners/'.$prac['directory_name'].'/', $filename);
         }
 
-        // $input['category'] =  $request->file('category');
+       // $input['category'] =  $request->file('category');
         $input['photo'] = $filename;
         $input['pra_id'] = $prac['pra_id'];
         Patient::create($input);
@@ -107,7 +107,7 @@ class ProfileController extends Controller
     {
         $table1 = Patient::find($id);
         $prac = Session::get('practitioner_session');
-        return view('practitioner.profile.edit')
+        return view('practitioner.patient.edit')
             ->with('table1', $table1)
             ->with('meta', array('page_title'=>'Edit Patient Record'))
             ->with('patients_list','active')
