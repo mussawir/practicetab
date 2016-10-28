@@ -63,9 +63,9 @@
                             </td>
 
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> View</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a href="{{url('/practitioner/blog/edit/'.$item->post_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="{{url('/practitioner/blog/show/'.$item->post_id)}}"><i class="fa fa-pencil"></i> View</a> |
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->post_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
 
                         </tr>

@@ -32,12 +32,12 @@ class BlogController extends Controller
     public function index()
     {
         $prac = Session::get('practitioner_session');
-        $table1 = BlogPost::select('*')->where('pra_id', $prac['pra_id'])->orderBy('created_at', 'des')->get();
+        $table1 = BlogPost::select('*')->where('pra_id', $prac['pra_id'])->orderBy('post_id', 'asc')->get();
         return view('practitioner.blog.index')->with('table1', $table1)
             ->with('meta', array('page_title'=>'Posts List',isset($table1)?count($table1):0))
             ->with('blogging','active')
             ->with('my_post','active')
-            ->with('directory', $prac['directory']);;
+            ->with('directory', $prac['directory']);
     }
 
     /**
@@ -47,9 +47,10 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('practitioner.patient.new')
-            ->with('meta', array('page_title'=>'Patient'))
-            ->with('new_patient','active');;
+        return view('practitioner.blog.new')
+            ->with('meta', array('page_title'=>'New Blog Post'))
+            ->with('blogging','active')
+            ->with('new_post','active');;
     }
 
     /**
@@ -70,20 +71,10 @@ class BlogController extends Controller
         */
         $input = $request->all();
         $prac = Session::get('practitioner_session');
-        $filename = '';
-        if($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $rand_num = rand(11111, 99999);
-            $filename = $rand_num. '-' .$file->getClientOriginalName();
-            $file->move(public_path().'/practitioners/'.$prac['directory_name'].'/', $filename);
-        }
-
-       // $input['category'] =  $request->file('category');
-        $input['photo'] = $filename;
         $input['pra_id'] = $prac['pra_id'];
-        Patient::create($input);
-        Session::put('success','Patient is created successfully!');
-        return Redirect::to('/practitioner/patient/index');
+        BlogPost::create($input);
+        Session::put('success','New Post is published!');
+        return Redirect::to('/practitioner/blog/');
     }
 
     /**
@@ -105,12 +96,12 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $table1 = Patient::find($id);
+        $table1 = BlogPost::find($id);
         $prac = Session::get('practitioner_session');
-        return view('practitioner.patient.edit')
+        return view('practitioner.blog.edit')
             ->with('table1', $table1)
-            ->with('meta', array('page_title'=>'Edit Patient Record'))
-            ->with('patients_list','active')
+            ->with('meta', array('page_title'=>'Edit Blog Post'))
+            ->with('blogging','active')
             ->with('directory', $prac['directory']);
     }
 
@@ -133,59 +124,12 @@ class BlogController extends Controller
                 }
         */
         $prac = Session::get('practitioner_session');
-        $table1 = Patient::find($request->pa_id);
-        $filename = '';
-        if($request->hasFile('photo')) {
-            //$file = InterventionImage::make($request->file('logo_image'));
-            $file = $request->file('photo');
-            $rand_num = rand(11111, 99999);
-            $filename = $rand_num. '_' .$file->getClientOriginalName();
-
-            if (isset($table1->photo) && (!empty($table1->photo))) {
-
-                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->photo)){
-                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->photo);
-                }
-                $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
-                /*
-                if(file_exists(public_path() . '/practitioners/peter222220/' . $table1->photo)){
-                    unlink(public_path() . '/practitioners/peter222220/' . $table1->photo);
-                }
-                $file->move(public_path().'/practitioners/peter222220/', $filename);
-*/
-            }
-        } else {
-            $filename = $request->photo;
-        }
-
-        $table1->photo = $filename;
-        $table1->first_name = $request->first_name;
-        $table1->middle_name = $request->middle_name;
-        $table1->last_name = $request->last_name;
-        $table1->email = $request->email;
-        $table1->date_of_birth = $request->date_of_birth;
-        $table1->age = $request->age ;
-        $table1->primary_phone = $request->primary_phone ;
-        $table1->secondary_phone = $request->secondary_phone ;
-        $table1->mailing_street_address = $request->mailing_street_address ;
-        $table1->mailing_city = $request->mailing_city ;
-        $table1->mailing_zip = $request->mailing_zip ;
-        $table1->billing_street_address = $request->billing_street_address ;
-        $table1->billing_city = $request->billing_city ;
-        $table1->billing_zip = $request->billing_zip ;
-        $table1->mailing_state = $request->mailing_state ;
-        $table1->billing_state = $request->billing_state ;
-        $table1->notes = $request->notes ;
-        $table1->cc_type = $request->cc_type ;
-        $table1->cc_number = $request->cc_number ;
-        $table1->cc_month = $request->cc_month ;
-        $table1->cc_year = $request->cc_year ;
-        $table1->cc_cvv = $request->cc_cvv ;
+        $table1 = BlogPost::find($request->post_id);
+        $table1->heading = $request->heading;
+        $table1->contents = $request->contents;
         $table1->save();
-
-        Session::put('success','Patient record is updated successfully!');
-
-        return Redirect::to('/practitioner/patient/index');
+        Session::put('success','You post is updated successfully!');
+        return Redirect::to('/practitioner/blog/');
     }
 
     /**

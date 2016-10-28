@@ -45,7 +45,7 @@
                     <span>Blogging</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Write a Post</a></li>
+                    <li class="<?php if(isset($new_post))echo $new_post ?>"><a href="{{url('/practitioner/blog/new')}}">Write a Post</a></li>
                     <li class="<?php if(isset($my_post))echo $my_post ?>"><a href="{{url('/practitioner/blog/')}}">My Posts</a></li>
                 </ul>
             </li>
