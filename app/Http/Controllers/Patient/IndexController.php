@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use App\Models\SupplementRequest;
 use App\Models\SupplementRequestDetail;
+use App\Models\SupSuggestionsMaster;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangePassFormRequest;
 use App\Models\Practitioner;
@@ -33,7 +34,11 @@ class IndexController extends Controller
 		// module:patient
 		// view folder name: index
 		// file: index
-		return view('patient.index.index');
+
+		/* Supplement Suggestions from practitioner */
+		$sup_sug_master = SupSuggestionsMaster::all();
+
+		return view('patient.index.index')->with('sup_sug_master', $sup_sug_master);
 	}
 
 	public function createSupplementRequest()

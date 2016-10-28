@@ -115,9 +115,6 @@
                 <div class="col-md-12">
             <div class="panel panel-info" data-sortable-id="ui-widget-6" data-init="true">
                 <div class="panel-heading">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-inverse btn-xs" onclick="window.location.href='{{url('/practitioner/index/suggestions')}}'">New</button>
-                    </div>
                     <h3 class="panel-title">
                         Suggestions
                     </h3>

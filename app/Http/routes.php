@@ -110,8 +110,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/index/new-patient', ['as' => 'new-patient', 'uses' => 'Practitioner\IndexController@createPatient']);
     Route::post('/index/savePatient', 'Practitioner\IndexController@savePatient');
     Route::get('/index/patient-list', ['as' => 'patient-list', 'uses' => 'Practitioner\IndexController@patientList']);
-    Route::get('/index/suggestions', 'Practitioner\IndexController@newSuggestions');
-    Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
 
@@ -135,14 +133,13 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/exercises/index', 'Practitioner\ExercisesController@index');
     Route::get('/exercises/details/{id}', 'Practitioner\ExercisesController@show');
 
-    Route::get('/patient/', 'Practitioner\PatientController@index');
+    Route::get('/patient', 'Practitioner\PatientController@index');
     Route::get('/patient/index', 'Practitioner\PatientController@index');
     Route::get('/patient/new', 'Practitioner\PatientController@create');
     Route::post('/patient/store', 'Practitioner\PatientController@store');
     Route::get('/patient/edit/{id}', 'Practitioner\PatientController@edit');
     Route::patch('/patient/update', 'Practitioner\PatientController@update');
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
-
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises', 'Practitioner\ExercisePrescriptionController@exercises');
@@ -152,6 +149,14 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/exercise-prescription/delete-exercise/{id}', 'Practitioner\ExercisePrescriptionController@deleteExercise');
     Route::get('/exercise-prescription/print', 'Practitioner\ExercisePrescriptionController@printPrescribedExercises');
     Route::get('/exercise-prescription/prescribe', 'Practitioner\ExercisePrescriptionController@storeExePrescribedInfo');
+
+    Route::get('/suggestion/supplement-suggestions', 'Practitioner\SuggestionController@newSupplementSuggestions');
+    Route::get('/suggestion/getSelectedPatient', 'Practitioner\SuggestionController@getSelectedPatient');
+    Route::post('/suggestion/confirm-supplement-suggestions', 'Practitioner\SuggestionController@confirmSupplementSuggestions');
+    Route::post('/suggestion/saveSupplementSuggestions', 'Practitioner\SuggestionController@saveSupplementSuggestions');
+    Route::get('/suggestion/removeSelectedPatient', 'Practitioner\SuggestionController@removeSelectedPatient');
+    
+    Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
 
 });
 

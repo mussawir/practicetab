@@ -24,8 +24,8 @@
                     <span>Suggestions</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Supplements</a></li>
-                    <li><a href="#">Nutritions</a></li>
+                    <li class=""><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
+                    <li><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutrition</a></li>
                     <li><a href="#">Exercises</a></li>
                 </ul>
             </li>
