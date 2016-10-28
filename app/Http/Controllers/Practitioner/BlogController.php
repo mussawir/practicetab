@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Practitioner;
 
-use App\Models\Patient;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as InterventionImage;
 
-class PatientController extends Controller
+class BlogController extends Controller
 {
     protected $baseUrl;
 
     public function __construct(UrlGenerator $url)
     {
         $this->baseUrl = $url;
-        Session::set('management', 'active');//set header button
+        Session::set('marketing', 'active');
+        Session::pull('management');
+        Session::pull('dashboard');
     }
     /**
      * Display a listing of the resource.
@@ -30,10 +32,11 @@ class PatientController extends Controller
     public function index()
     {
         $prac = Session::get('practitioner_session');
-        $table1 = Patient::select('*')->orderBy('first_name', 'asc')->get();
-        return view('practitioner.patient.index')->with('table1', $table1)
-            ->with('meta', array('page_title'=>'Patients List',isset($table1)?count($table1):0))
-            ->with('patients_list','active')
+        $table1 = BlogPost::select('*')->where('pra_id', $prac['pra_id'])->orderBy('created_at', 'des')->get();
+        return view('practitioner.blog.index')->with('table1', $table1)
+            ->with('meta', array('page_title'=>'Posts List',isset($table1)?count($table1):0))
+            ->with('blogging','active')
+            ->with('my_post','active')
             ->with('directory', $prac['directory']);;
     }
 

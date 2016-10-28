@@ -1,4 +1,7 @@
-@extends('layouts.management')
+@extends('layouts.pradash')
+@section('sidebar')
+@include('layouts.mark-sidebar')
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -7,7 +10,7 @@
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Patients <small></small></h1>
+<h1 class="page-header">Blog Posts <small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -37,15 +40,15 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Patients List</h4>
+                <h4 class="panel-title">Posts List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Photo</th>
-                        <th>Name</th>
-                        <th>Prescribe</th>
+                        <th>date</th>
+                        <th>heading</th>
+                        <th>content</th>
                         <th>Action</th>
 
                     </tr>
@@ -53,25 +56,16 @@
                     <tbody>
                     @foreach($table1 as $item)
                         <tr>
+                            <td>{{$item->created_at}} </td>
+                            <td>{{$item->heading}} </td>
                             <td>
-                                @if(isset($item->photo) && (!empty($item->photo)))
-                                    <img src="{{asset('public/practitioners/'.$directory.'/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
-                                @endif
-                            </td>
-                            <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
-                            <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
-                                |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutrition</a>
-                                |
-                                <a href="{{ url('/practitioner/exercise-prescription/add-master/'.$item->pa_id) }}"><i class="fa fa-heart-o"></i> Exercises</a>
+                                {{substr($item->contents,0,60)}}
                             </td>
 
                             <td>
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
+                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> View</a> |
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
 
                         </tr>

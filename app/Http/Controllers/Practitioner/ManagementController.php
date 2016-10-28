@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ManagementController extends Controller
 {
@@ -15,6 +16,11 @@ class ManagementController extends Controller
     public function __construct()
     {
         $this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
+        Session::set('management', 'active');
+        Session::pull('marketing');
+        Session::pull('dashboard');
+
+
     }
 
     /**

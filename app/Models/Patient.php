@@ -25,7 +25,7 @@ class Patient extends Authenticatable
         'email',
         'photo',
         'date_of_birth',
-        'birth_place',
+        'age',
         'primary_phone',
         'secondary_phone',
         'mailing_street_address',
@@ -41,8 +41,12 @@ class Patient extends Authenticatable
         'paid',
         'is_subscribed',
         'inactive',
-        'auth_code',
-        'cc_profile_id',
+        'cc_type',
+        'cc_number',
+        'cc_month',
+        'cc_year',
+        'cc_cvv',
+
     ];
 
     public function user()

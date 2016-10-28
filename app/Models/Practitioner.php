@@ -44,7 +44,7 @@ class Practitioner extends Authenticatable
         'password',
         'inactive',
         'cc_profile_id',
-        'directory_name'
+        'directory'
     ];
 
     public function user()

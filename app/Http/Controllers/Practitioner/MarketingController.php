@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class MarketingController extends Controller
 {
@@ -15,7 +16,11 @@ class MarketingController extends Controller
     public function __construct()
     {
         $this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
-    }
+      Session::set('marketing', 'active');
+      Session::pull('management');
+      Session::pull('dashboard');
+
+              }
 
     /**
      * Display a listing of the resource.

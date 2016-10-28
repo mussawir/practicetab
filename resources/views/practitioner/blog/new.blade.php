@@ -1,4 +1,9 @@
 @extends('layouts.management')
+@section('head')
+        <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="assets/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -403,7 +408,12 @@
                             {!! Form::textarea('notes', null, array('class'=>'form-control', 'placeholder'=> 'Add Notes')) !!}
                         </div>
                     </div>
+
+
                 </div>
+                <div class="col-md-6">
+                    {!! Form::textarea('content', '<h1>Sample text</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20')) !!}
+                </div >
                 <div class="col-md-12">
                         {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
                     </div>
@@ -416,7 +426,20 @@
 </div>
 <!-- end row -->
 @endsection
-
+@section('bottom')
+        <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
+@section('page-scripts')
+    <script>
+        $(document).ready(function() {
+            FormWysihtml5.init();
+        });
+    </script>
+@endsection
 @section('page-scripts')
     <script language="JavaScript/text">
 
