@@ -1,4 +1,4 @@
-@extends('layouts.management')
+@extends('layouts.pradash')
 @section('sidebar')
 @include('layouts.mark-sidebar')
 @endsection

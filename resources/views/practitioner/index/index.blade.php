@@ -1,5 +1,9 @@
 @extends('layouts.pradash')
 @section('content')
+@section('sidebar')
+    @include('layouts.pradash-sidebar')
+@endsection
+
     <div class="row">
         <div class="col-md-6">
             <div class="row">
