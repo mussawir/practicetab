@@ -6,7 +6,7 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Patients</li>
+    <li class="active">Blog Posts</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->

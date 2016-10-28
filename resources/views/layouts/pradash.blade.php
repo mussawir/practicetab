@@ -34,6 +34,7 @@
     <link href="{{ asset('public/dashboard/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    @yield('head')
     <!-- ================== END PAGE LEVEL STYLE ================== -->
     <link href="{{ asset('public/dashboard/plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/vnd.microsoft.icon" />
@@ -103,6 +104,7 @@
         Dashboard.init();
     });
 </script>
+@yield('bottom')
 @yield('page-scripts')
 </body>
 </html>

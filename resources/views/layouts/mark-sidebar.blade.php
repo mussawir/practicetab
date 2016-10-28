@@ -26,7 +26,6 @@
                 <ul class="sub-menu">
                     <li class=""><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
                     <li><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutrition</a></li>
-                    <li><a href="#">Exercises</a></li>
                 </ul>
             </li>
 
@@ -40,14 +39,14 @@
                     <li><a href="#">Social Settings</a></li>
                 </ul>
             </li>
-            <li class="has-sub ">
+            <li class="has-sub <?php if(isset($blogging))echo $blogging; ?>">
                 <a href="javascript:;">
                     <i class="fa fa-comment"></i>
                     <span>Blogging</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Write a Post</a></li>
-                    <li><a href="#">My Posts</a></li>
+                    <li class="<?php if(isset($new_post))echo $new_post ?>"><a href="{{url('/practitioner/blog/new')}}">Write a Post</a></li>
+                    <li class="<?php if(isset($my_post))echo $my_post; ?>"><a href="{{url('/practitioner/blog')}}">My Posts</a></li>
                 </ul>
             </li>
             <li class="has-sub ">

@@ -6,6 +6,7 @@ use App\Models\Patient;
 use App\Models\SupplementRequest;
 use App\Models\SupplementRequestDetail;
 use App\Models\SupSuggestionsMaster;
+use App\Models\SupSuggestionsSearch;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangePassFormRequest;
 use App\Models\Practitioner;
@@ -36,7 +37,7 @@ class IndexController extends Controller
 		// file: index
 
 		/* Supplement Suggestions from practitioner */
-		$sup_sug_master = SupSuggestionsMaster::all();
+		$sup_sug_master = SupSuggestionsSearch::where("pa_ids", "LIKE", "%{$this->patient_info->pa_id}%")->get();
 
 		return view('patient.index.index')->with('sup_sug_master', $sup_sug_master);
 	}

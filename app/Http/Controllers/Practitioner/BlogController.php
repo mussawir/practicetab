@@ -37,7 +37,7 @@ class BlogController extends Controller
             ->with('meta', array('page_title'=>'Posts List',isset($table1)?count($table1):0))
             ->with('blogging','active')
             ->with('my_post','active')
-            ->with('directory', $prac['directory']);;
+            ->with('directory', $prac['directory']);
     }
 
     /**
@@ -47,9 +47,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('practitioner.patient.new')
+        return view('practitioner.blog.new')
             ->with('meta', array('page_title'=>'Patient'))
-            ->with('new_patient','active');;
+            ->with('new_patient','active');
     }
 
     /**

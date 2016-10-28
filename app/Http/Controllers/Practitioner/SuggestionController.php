@@ -7,6 +7,7 @@ use App\Models\Practitioner;
 use App\Models\Supplement;
 use App\Models\SupSuggestionsDetails;
 use App\Models\SupSuggestionsMaster;
+use App\Models\SupSuggestionsSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,8 +27,10 @@ class SuggestionController extends Controller
 	var $practitioner_info = null;
 	public function __construct()
 	{
-		$this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
-
+		$this->practitioner_info = Session::get('parctitioner_session');
+		Session::set('marketing', 'active');
+		Session::pull('management');
+		Session::pull('dashboard');
 	}
 
 	public function index()
@@ -99,6 +102,16 @@ class SuggestionController extends Controller
 			}
 		}
 
+		SupSuggestionsSearch::create([
+			'pra_id'	=>	$this->practitioner_info->pra_id,
+			'pra_fullname' => ($this->practitioner_info->first_name . ' ' .$this->practitioner_info->middle_name . ' ' .$this->practitioner_info->last_name),
+			'message'	=>	$request['message'],
+			'master_id'	=>	$master['id'],
+			'pa_ids'		=>	json_encode($request['pa_id']),
+			'sup_ids'	=>	json_encode($request['sup_id']),
+			'created_at' =>	date('Y/m/d H:i:s')
+		]);
+		
 		Session::forget('patient_list'); // remove by key
 
 		Session::put('success','Suggestions sent to patient(s) successfully!');
