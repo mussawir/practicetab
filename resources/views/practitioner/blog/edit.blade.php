@@ -4,7 +4,7 @@
 @endsection
 @section('head')
         <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
-<link href="assets/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet" />
+<link href="{{ asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css') }}" rel="stylesheet">
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 @endsection
 @section('content')
@@ -50,8 +50,8 @@
                 <h4 class="panel-title">Edit post</h4>
             </div>
             <div class="panel-body">
-               {!! Form::model($table1, array('url'=>'/practitioner/blog/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
-               {!! Form::hidden('post_id') !!}
+                {!! Form::model($table1, array('url'=>'/practitioner/blog/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::hidden('post_id') !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
@@ -90,6 +90,15 @@
     <script>
         $(document).ready(function() {
             FormWysihtml5.init();
+
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
+            CKEDITOR.replace('contents',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2)
+                    })
         });
     </script>
 @endsection

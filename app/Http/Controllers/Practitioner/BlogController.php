@@ -50,7 +50,7 @@ class BlogController extends Controller
         return view('practitioner.blog.new')
             ->with('meta', array('page_title'=>'New Blog Post'))
             ->with('blogging','active')
-            ->with('new_post','active');;
+            ->with('new_post','active');
     }
 
     /**

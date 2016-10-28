@@ -135,7 +135,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="4">
-                            <a href="{{url('/practitioner/exercise-prescription/print')}}" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
+                            <a id="print-link" href="{{url('/practitioner/exercise-prescription/print')}}" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
                             &nbsp;
                             <a href="{{url('/practitioner/exercise-prescription/prescribe')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Prescribe</a>
                         </td>
@@ -171,6 +171,10 @@
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,1 ,3]}]
                 });
             }
+        }); // ready function end
+
+        $('#print-link').click(function () {
+            window.location.assign('{{url('/practitioner/patient')}}');
         });
 
         function doDeleteExercise(id, elm)

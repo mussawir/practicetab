@@ -4,7 +4,7 @@
 @endsection
 @section('head')
         <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
-<link href="assets/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet" />
+<link href="{{ asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css') }}" rel="stylesheet">
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 @endsection
 @section('content')
@@ -65,10 +65,10 @@
                 </div >
                 <div class="col-md-12">
                     &nbsp;
-                    </div>
+                </div>
                 <div class="col-md-12">
-                        {!! Form::submit('Save & Publish', array('class'=>'btn btn-success pull-right')) !!}
-                    </div>
+                    {!! Form::submit('Save & Publish', array('class'=>'btn btn-success pull-right')) !!}
+                </div>
                 {!! Form::close() !!}
             </div>
         </div>
@@ -89,6 +89,15 @@
     <script>
         $(document).ready(function() {
             FormWysihtml5.init();
+
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
+            CKEDITOR.replace('contents',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2)
+                    })
         });
     </script>
 @endsection

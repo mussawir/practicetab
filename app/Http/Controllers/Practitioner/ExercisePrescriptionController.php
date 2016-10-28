@@ -45,7 +45,6 @@ class ExercisePrescriptionController extends Controller
    
     public function exercises()
     {
-        //Session::forget('cart_array');
         if(Session::has('exe_pre_master')){
             $table1 = Patient::find(Session::get('exe_pre_master')['master_data']->pa_id);
             Session::put('patient',$table1);
@@ -123,6 +122,10 @@ class ExercisePrescriptionController extends Controller
 
     public function deleteExercise($id)
     {
+        if(!Session::has('cart_array')) {
+            return Redirect::Back();
+        }
+
         $master_id = Session::get('exe_pre_master')['master_data']->id;
         $details = ExercisePresDetails::where('master_id', '=', $master_id)->where('exe_id', '=', $id)->first();
         if(isset($details)){
@@ -145,6 +148,10 @@ class ExercisePrescriptionController extends Controller
 
     public function printPrescribedExercises()
     {
+        if(!Session::has('cart_array')) {
+            return Redirect::Back();
+        }
+
         $master_id = Session::get('exe_pre_master')['master_data']->id;
         $data = DB::table("exercise_pres_masters AS m")
             ->join("exercise_pres_details AS d", "d.master_id", "=", "m.id")
@@ -161,6 +168,7 @@ class ExercisePrescriptionController extends Controller
             $pdf = \PDF::loadView('practitioner.exercise-prescription.exercise-pdf', array('data'=>$data));
             return $pdf->stream();//download('Quotation_'.$pdf_data[0]->job_code.'.pdf');
             //return view('practitioner.exercise-prescription.exercise-pdf', compact('data'));
+
         } else {
             Session::put('error', 'Record not found');
             return Redirect::Back();
@@ -169,6 +177,10 @@ class ExercisePrescriptionController extends Controller
 
     public function storeExePrescribedInfo()
     {
+        if(!Session::has('cart_array')) {
+            return Redirect::Back();
+        }
+
         $this->saveExePrescribedInfo();
 
         return Redirect::to('/practitioner/exercise-prescription');

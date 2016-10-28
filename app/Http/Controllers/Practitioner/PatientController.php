@@ -34,7 +34,7 @@ class PatientController extends Controller
         return view('practitioner.patient.index')->with('table1', $table1)
             ->with('meta', array('page_title'=>'Patients List',isset($table1)?count($table1):0))
             ->with('patients_list','active')
-            ->with('directory', $prac['directory']);;
+            ->with('directory', $prac['directory']);
     }
 
     /**
