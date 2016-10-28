@@ -20,89 +20,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php $date = new DateTime('08:00:00'); ?>
-                @for ($i = 1; $i < 9; $i++)
-                    <tr>
-                       <td>
-                            <?php
-                            $date->add(new DateInterval('PT30M'));
-                            echo date("d/m/Y");
-                            echo "<br/>";
-                            echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
-                            ?>
-
-                        </td>
-                        <td>
-                            <?php
-                            //PHP array containing forenames.
-                            $names = array(
-                                    'Christopher',
-                                    'Ryan',
-                                    'Ethan',
-                                    'John',
-                                    'Zoey',
-                                    'Sarah',
-                                    'Michelle',
-                                    'Samantha',
-                                    'Noah		',
-                                    'Liam		',
-                                    'Ethan		',
-                                    'Mason		',
-                                    'Lucas		',
-                                    'Oliver		',
-                                    'Aiden		',
-                                    'Elijah		',
-                                    'James		',
-                                    'Benjamin	',
-                                    'Logan		',
-                                    'Jacob		',
-                                    'Jackson	',
-                                    'Michael	',
-                                    'Carter		',
-                                    'Daniel		',
-                                    'Alexander	',
-                                    'William	',
-                                    'Luke		',
-                                    'Owen		',
-                                    'Jack		',
-                                    'Gabriel	',
-                                    'Matthew	',
-                                    'Henry		',
-                            );
-
-                            //PHP array containing surnames.
-                            $surnames = array(
-                                    'Walker',
-                                    'Thompson',
-                                    'Anderson',
-                                    'Johnson',
-                                    'Tremblay',
-                                    'Peltier',
-                                    'Cunningham',
-                                    'Simpson',
-                                    'Mercado',
-                                    'Sellers'
-                            );
-
-                            //Generate a random forename.
-                            $random_name = $names[mt_rand(0, sizeof($names) - 1)];
-
-                            //Generate a random surname.
-                            $random_surname = $surnames[mt_rand(0, sizeof($surnames) - 1)];
-
-                            //Combine them together and print out the result.
-                            echo $random_name . ' ' . $random_surname;
-                            ?>
-
-                        </td>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-
-                        <td>
-                            <button type="button" class="btn btn-sm btn-info">View</button>
-                        </td>
-                    </tr>
-                @endfor
-
+                @foreach($sup_sug_master as $item)
+                <tr>
+                    <td>{{date('m/d/Y H:i:s', strtotime($item->created_at))}}</td>
+                    <td>{{$item->pra_fullname}}</td>
+                    <td>{{$item->message}}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{url('/patient/index/supplement-suggestion-details/'.$item->id)}}'">View</button>
+                    </td>
+                </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

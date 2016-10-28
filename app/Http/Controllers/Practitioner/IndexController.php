@@ -29,12 +29,12 @@ class IndexController extends Controller
 	public function __construct()
 	{
 		$this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
-		Session::put('practitioner_session',$this->practitioner_info);
+		Session::put('practitioner_session', $this->practitioner_info);
 		Session::set('dashboard', 'active');
 		Session::pull('management');
 		Session::pull('marketing');
 
-
+		Session::put('pra_dir', array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']));
 	}
 
 	public function index()

@@ -19,8 +19,7 @@ class MarketingController extends Controller
       Session::set('marketing', 'active');
       Session::pull('management');
       Session::pull('dashboard');
-
-              }
+    }
 
     /**
      * Display a listing of the resource.

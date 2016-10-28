@@ -100,6 +100,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/supplement-request', 'Patient\IndexController@createSupplementRequest');
     Route::post('/index/saveSupplementRequest', 'Patient\IndexController@saveSupplementRequest');
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
+    Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
+    Route::get('/index/nutrition-suggestion-details/{id}', 'Patient\IndexController@nutritionSuggestionDetails');
 });
 
 /* Practitioner module */
@@ -160,6 +162,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/removeSelectedPatient', 'Practitioner\SuggestionController@removeSelectedPatient');
 
     Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
+    Route::post('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
+    Route::post('/suggestion/saveNutritionSuggestions', 'Practitioner\SuggestionController@saveNutritionSuggestions');
 
     Route::get('/profile/', 'Practitioner\ProfileController@index');
     Route::get('/profile/index', 'Practitioner\ProfileController@index');

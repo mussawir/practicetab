@@ -2,11 +2,12 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
+use App\Models\Nutrition;
 use App\Models\Patient;
 use App\Models\SupplementRequest;
 use App\Models\SupplementRequestDetail;
 use App\Models\SupSuggestionsMaster;
-use App\Models\SupSuggestionsSearch;
+use App\Models\SuggestionsSearch;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChangePassFormRequest;
 use App\Models\Practitioner;
@@ -37,9 +38,35 @@ class IndexController extends Controller
 		// file: index
 
 		/* Supplement Suggestions from practitioner */
-		$sup_sug_master = SupSuggestionsSearch::where("pa_ids", "LIKE", "%{$this->patient_info->pa_id}%")->get();
+		$sup_sug_master = SuggestionsSearch::where('sug_type', '=', 1)
+			->where("pa_ids", "LIKE", "%{$this->patient_info->pa_id}%")->get();
 
-		return view('patient.index.index')->with('sup_sug_master', $sup_sug_master);
+		/* Nutrition Suggestions from practitioner */
+		$nut_sug_master = SuggestionsSearch::where('sug_type', '=', 2)
+			->where("pa_ids", "LIKE", "%{$this->patient_info->pa_id}%")->get();
+
+		return view('patient.index.index')->with('sup_sug_master', $sup_sug_master)
+			->with('nut_sug_master', $nut_sug_master);
+	}
+
+	public function supplementSuggestionDetails($id)
+	{
+		$sup_sug_master = SuggestionsSearch::where('id', $id)->first();
+		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
+			->whereIn('sup_id', json_decode($sup_sug_master->sup_ids))->get();
+
+		return view('patient.index.sup-sug-details')->with('sup_sug_master', $sup_sug_master)
+			->with('supplements', $supplements);
+	}
+
+	public function nutritionSuggestionDetails($id)
+	{
+		$nut_sug_master = SuggestionsSearch::where('id', $id)->first();
+		$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
+			->whereIn('nut_id', json_decode($nut_sug_master->nut_ids))->get();
+
+		return view('patient.index.nut-sug-details')->with('nut_sug_master', $nut_sug_master)
+			->with('nutrition', $nutrition);
 	}
 
 	public function createSupplementRequest()
