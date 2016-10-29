@@ -27,8 +27,8 @@
                     <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
                     <li class="<?php if(isset($nut_sug))echo $nut_sug;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutritions</a></li>
 
-                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements List</a></li>
-                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Nutritions List</a></li>
+                    <li class="<?php if(isset($sup_sug_list))echo $sup_sug_list;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions-list')}}">Supplements List</a></li>
+                    <li class="<?php if(isset($nut_sug_list))echo $nut_sug_list;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions-list')}}">Nutritions List</a></li>
 
                 </ul>
             </li>
