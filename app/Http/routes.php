@@ -163,9 +163,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/profile/', 'Practitioner\ProfileController@index');
     Route::get('/profile/index', 'Practitioner\ProfileController@index');
-    Route::get('/profile/payment-gateway', 'Practitioner\ProfileController@paymentGateway');
-    Route::post('/profile/clinic', 'Practitioner\ProfileController@clinic');
-    Route::get('/profile/working-hours', 'Practitioner\ProfileController@workingHours');
+    Route::patch('/profile/update', 'Practitioner\ProfileController@update');
+    Route::get('/profile/clinic', 'Practitioner\ProfileController@clinic');
+    Route::patch('/profile/clinic-update', 'Practitioner\ProfileController@clinicUpdate');
 
     Route::get('/blog', 'Practitioner\BlogController@index');
     Route::get('/blog/new', 'Practitioner\BlogController@create');

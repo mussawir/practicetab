@@ -6,12 +6,14 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Profile</li>
+    <li><a href="{{url('/practitioner/profile')}}">Update Profile</a></li>
+
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Profile <small></small></h1>
+<h1 class="page-header">Update Profile Details </h1>
 <!-- end page-header -->
+
 <!-- begin row -->
 <div class="row">
     <!-- begin col-6 -->
@@ -32,58 +34,375 @@
             @endif
         </div>
         <!-- begin panel -->
-<div>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#default-tab-1" data-toggle="tab">Default Tab 1</a></li>
-        <li class=""><a href="#default-tab-2" data-toggle="tab">Default Tab 2</a></li>
-        <li class=""><a href="#default-tab-3" data-toggle="tab">Default Tab 3</a></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane fade active in" id="default-tab-1">
-            <h3 class="m-t-10"><i class="fa fa-cog"></i> Lorem ipsum dolor sit amet</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor,
-                est diam sagittis orci, a ornare nisi quam elementum tortor. Proin interdum ante porta est convallis
-                dapibus dictum in nibh. Aenean quis massa congue metus mollis fermentum eget et tellus.
-                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, nec eleifend orci eros id lectus.
-            </p>
-            <p class="text-right m-b-0">
-                <a href="javascript:;" class="btn btn-white m-r-5">Default</a>
-                <a href="javascript:;" class="btn btn-primary">Primary</a>
-            </p>
-        </div>
-        <div class="tab-pane fade" id="default-tab-2">
-            <blockquote>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-            </blockquote>
-            <h4>Lorem ipsum dolor sit amet</h4>
-            <p>
-                Nullam ac sapien justo. Nam augue mauris, malesuada non magna sed, feugiat blandit ligula.
-                In tristique tincidunt purus id iaculis. Pellentesque volutpat tortor a mauris convallis,
-                sit amet scelerisque lectus adipiscing.
-            </p>
-        </div>
-        <div class="tab-pane fade" id="default-tab-3">
-            <p>
-								<span class="fa-stack fa-4x pull-left m-r-10">
-									<i class="fa fa-square-o fa-stack-2x"></i>
-									<i class="fa fa-twitter fa-stack-1x"></i>
-								</span>
-                Praesent tincidunt nulla ut elit vestibulum viverra. Sed placerat magna eget eros accumsan elementum.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis lobortis neque.
-                Maecenas justo odio, bibendum fringilla quam nec, commodo rutrum quam.
-                Donec cursus erat in lacus congue sodales. Nunc bibendum id augue sit amet placerat.
-                Quisque et quam id felis tempus volutpat at at diam. Vivamus ac diam turpis.Sed at lacinia augue.
-                Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla.
-                Quisque adipiscing dui nec orci fermentum blandit.
-                Sed at lacinia augue. Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla.
-                Quisque adipiscing dui nec orci fermentum blandit.
-            </p>
-        </div>
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">Update Details</h4>
+            </div>
+            <div class="panel-body">
+                {!! Form::model($table1, array('url'=>'/practitioner/profile/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
-</div>
+                {!! Form::hidden('pa_id') !!}
+                {!! Form::hidden('photo') !!}
+
+                <div><h4>Public Profile Information</h4>
+                    <hr/>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            {!! Form::label('photo','Change Photo :', array('class'=>'col-md-3 control-label')) !!}
+                            <div class="col-md-9">
+                                {!! Form::file('photo', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-md-offset-3">
+                        <img src="{{asset('public/practitioners/'. $directory .'/'.$table1->photo)}}" alt="{{$table1->photo}}" class="img-responsive" style="max-height: 64px;" />
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('suffix','Suffix :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('suffix', null, array('class'=>'form-control', 'placeholder'=> 'MD, DC, LAc, ND')) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('first_name','First Name *:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('first_name', null, array('class'=>'form-control', 'placeholder'=> 'First Name', 'required' => 'required')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('middle_name','Middle Name *:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('middle_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('last_name','Last Name *:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('last_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name', 'required' => 'required')) !!}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('primary_phone','Primary Phone *:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('primary_phone', null, array('class'=>'form-control', 'placeholder'=> 'Primary Phone', 'required' => 'required')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('secondary_phone','Secondary Phone:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('secondary_phone', null, array('class'=>'form-control', 'placeholder'=> 'Secondary Phone')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('date_of_birth','Birth Date :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('date_of_birth', null, array('class'=>'form-control', 'placeholder'=> 'Birth date')) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <h4>Mailing Information</h4>    <hr/></div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('mailing_street_address','Street Address :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('mailing_street_address', null, array('class'=>'form-control', 'placeholder'=> 'Street address')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('mailing_zip','ZIP :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('mailing_zip', null, array('class'=>'form-control', 'placeholder'=> 'ZIP')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('mailing_city','City :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('mailing_city', null, array('class'=>'form-control', 'placeholder'=> 'City/Town Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('mailing_state','State :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('mailing_state',array(
+""=>"Select",
+"AL"=>"Alabama",
+"AK"=>"Alaska",
+"AZ"=>"Arizona",
+"AR"=>"Arkansas",
+"CA"=>"California",
+"CO"=>"Colorado",
+"CT"=>"Connecticut",
+"DE"=>"Delaware",
+"DC"=>"District Of Columbia",
+"FL"=>"Florida",
+"GA"=>"Georgia",
+"HI"=>"Hawaii",
+"ID"=>"Idaho ",
+"IL"=>"Illinois",
+"IN"=>"Indiana",
+"IA"=>"Iowa",
+"KS"=>"Kansas",
+"KY"=>"Kentucky",
+"LA"=>"Louisiana",
+"ME"=>"Maine",
+"MD"=>"Maryland",
+"MA"=>"Massachusetts",
+"MI"=>"Michigan",
+"MN"=>"Minnesota",
+"MS"=>"Mississippi",
+"MO"=>"Missouri",
+"MT"=>"Montana",
+"NE"=>"Nebraska",
+"NV"=>"Nevada",
+"NH"=>"New Hampshire",
+"NJ"=>"New Jersey",
+"NM"=>"New Mexico",
+"NY"=>"New York",
+"NC"=>"North Carolina",
+"ND"=>"North Dakota",
+"OH"=>"Ohio",
+"OK"=>"Oklahoma",
+"OR"=>"Oregon",
+"PA"=>"Pennsylvania",
+"RI"=>"Rhode Island",
+"SC"=>"South Carolina",
+"SD"=>"South Dakota",
+"TN"=>"Tennessee",
+"TX"=>"Texas",
+"UT"=>"Utah",
+"VT"=>"Vermont",
+"VA"=>"Virginia",
+"WA"=>"Washington",
+"WV"=>"West Virginia",
+"WI"=>"Wisconsin",
+"WY"=>"Wyoming"
+),$table1->mailing_state, array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h4>Billing Information</h4>    <hr/></div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('billing_street_address','Street Address :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('billing_street_address', null, array('class'=>'form-control', 'placeholder'=> 'Street address')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('billing_zip','ZIP :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('billing_zip', null, array('class'=>'form-control', 'placeholder'=> 'ZIP')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('billing_city','City :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('billing_city', null, array('class'=>'form-control', 'placeholder'=> 'City/Town Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('billing_state','State :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('billing_state',array(
+""=>"Select",
+"AL"=>"Alabama",
+"AK"=>"Alaska",
+"AZ"=>"Arizona",
+"AR"=>"Arkansas",
+"CA"=>"California",
+"CO"=>"Colorado",
+"CT"=>"Connecticut",
+"DE"=>"Delaware",
+"DC"=>"District Of Columbia",
+"FL"=>"Florida",
+"GA"=>"Georgia",
+"HI"=>"Hawaii",
+"ID"=>"Idaho ",
+"IL"=>"Illinois",
+"IN"=>"Indiana",
+"IA"=>"Iowa",
+"KS"=>"Kansas",
+"KY"=>"Kentucky",
+"LA"=>"Louisiana",
+"ME"=>"Maine",
+"MD"=>"Maryland",
+"MA"=>"Massachusetts",
+"MI"=>"Michigan",
+"MN"=>"Minnesota",
+"MS"=>"Mississippi",
+"MO"=>"Missouri",
+"MT"=>"Montana",
+"NE"=>"Nebraska",
+"NV"=>"Nevada",
+"NH"=>"New Hampshire",
+"NJ"=>"New Jersey",
+"NM"=>"New Mexico",
+"NY"=>"New York",
+"NC"=>"North Carolina",
+"ND"=>"North Dakota",
+"OH"=>"Ohio",
+"OK"=>"Oklahoma",
+"OR"=>"Oregon",
+"PA"=>"Pennsylvania",
+"RI"=>"Rhode Island",
+"SC"=>"South Carolina",
+"SD"=>"South Dakota",
+"TN"=>"Tennessee",
+"TX"=>"Texas",
+"UT"=>"Utah",
+"VT"=>"Vermont",
+"VA"=>"Virginia",
+"WA"=>"Washington",
+"WV"=>"West Virginia",
+"WI"=>"Wisconsin",
+"WY"=>"Wyoming"
+             ),$table1->billing_state, array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h4>Credit Card Information</h4>    <hr/></div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('cc_type','Card Type:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('cc_type',array(
+""=>"Select",
+"visa"=>"Visa",
+"mastercard"=>"Mastercard",
+"discovery"=>"Discovery",
+"maestro"=>"Maestro",
+),$table1->cc_type , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('cc_number','Card Number :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('cc_number', null, array('class'=>'form-control', 'placeholder'=> 'Card Number')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('cc_month','Expiry Month :', array('class'=>'col-md-6 control-label')) !!}
+                        <div class="col-md-6">
+                            {!! Form::select('cc_month',array(
+      "" =>"Month",
+"01"=>"01",
+"02"=>"02",
+"03"=>"03",
+"04"=>"04",
+"05"=>"05",
+"06"=>"06",
+"07"=>"07",
+"08"=>"08",
+"09"=>"09",
+"10"=>"10",
+"11"=>"11",
+"12"=>"12"
+      ),$table1->cc_month ,array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('cc_year','Expiry Year :', array('class'=>'col-md-6 control-label')) !!}
+                        <div class="col-md-6">
+                            {!! Form::select('cc_year',array(
+    "" =>"Year",
+"2016"=>"2016",
+"2017"=>"2017",
+"2018"=>"2018",
+"2019"=>"2019",
+"2020"=>"2020",
+"2021"=>"2021",
+"2022"=>"2022",
+"2023"=>"2023",
+"2024"=>"2024",
+"2025"=>"2025",
+"2026"=>"2026",
+"2027"=>"2027",
+"2028"=>"2028",
+"2029"=>"2029",
+"2030"=>"2030",
+"2031"=>"2031",
+"2032"=>"2032",
+"2033"=>"2033",
+"2034"=>"2034",
+"2035"=>"2035",
+"2036"=>"2036",
+"2037"=>"2037",
+"2038"=>"2038",
+"2039"=>"2039"
+      ),$table1->cc_year , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('cc_cvv','CVV :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('cc_cvv', null, array('class'=>'form-control', 'placeholder'=> 'CVV Number')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    {!! Form::submit('Update', array('class'=>'btn btn-success pull-right')) !!}
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
         <!-- end panel -->
     </div>
     <!-- end col 6 -->
@@ -92,19 +411,7 @@
 @endsection
 
 @section('page-scripts')
-    <script type="text/javascript">
-
-        $(function () {
-            if ($('#data-table').length !== 0) {
-                $('#data-table').DataTable({
-                    responsive: true,
-                    "aaSorting": [[1, "asc"]],
-                    "iDisplayLength": 10,
-                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,2]}]
-                });
-            }
-        });
+    <script language="JavaScript/text">
 
     </script>
 @endsection

@@ -43,8 +43,12 @@ class Practitioner extends Authenticatable
         'notes',
         'password',
         'inactive',
-        'cc_profile_id',
-        'directory'
+        'directory',
+        'cc_type',
+        'cc_number',
+        'cc_month',
+        'cc_year',
+        'cc_cvv',
     ];
 
     public function user()

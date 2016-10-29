@@ -18,29 +18,37 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="has-sub active">
-                <a href="javascript:;">
+            <li class="has-sub <?php if(isset($profile))echo $profile ?> ">
+                <a href="{{url('/practitioner/profile')}}">
                     <i class="fa fa-briefcase"></i>
-                    <span>Profile</span>
+                <span>Public Profile</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class=" "><a href="">Personal</a></li>
-                </ul>
             </li>
 
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <i class="fa fa-desktop"></i>
+            <li class="has-sub <?php if(isset($profile))echo $profile ?> ">
+                <a href="{{url('/practitioner/profile/practice')}}">
+                    <i class="fa fa-briefcase"></i>
+                    <span>Practice Profile</span>
+                </a>
+            </li>
+
+            <li class="has-sub <?php if(isset($hours))echo $hours ?>">
+                <a href="{{url('/practitioner/profile/clinic')}}">
+                    <i class="fa fa-clock-o"></i>
                     <span>Clinic</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class=" "><a href="">Address</a></li>
-                    <li><a href="#">working Hourse</a></li>
-                </ul>
             </li>
+
+            <li class="has-sub <?php if(isset($hours))echo $hours ?>">
+                <a href="{{url('/practitioner/profile/hours')}}">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Operating Hours</span>
+                </a>
+            </li>
+
             <li class="has-sub ">
                 <a href="javascript:;">
-                    <i class="fa fa-comment"></i>
+                    <i class="fa fa-cog"></i>
                     <span>Other Setting</span>
                 </a>
                 <ul class="sub-menu">
