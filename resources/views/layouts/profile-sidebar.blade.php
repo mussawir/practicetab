@@ -32,7 +32,7 @@
                 </a>
             </li>
 
-            <li class="has-sub <?php if(isset($hours))echo $hours ?>">
+            <li class="has-sub <?php if(isset($clinic))echo $clinic ?>">
                 <a href="{{url('/practitioner/profile/clinic')}}">
                     <i class="fa fa-clock-o"></i>
                     <span>Clinic</span>
@@ -54,6 +54,8 @@
                 <ul class="sub-menu">
                     <li class=" "><a href="">Social Media</a></li>
                     <li><a href="#">Blog</a></li>
+                    <li><a href="#">Merchnat Account</a></li>
+
                 </ul>
             </li>
 

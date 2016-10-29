@@ -25,7 +25,11 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
-                    <li class="<?php if(isset($nut_sug))echo $nut_sug;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutrition</a></li>
+                    <li class="<?php if(isset($nut_sug))echo $nut_sug;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutritions</a></li>
+
+                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements List</a></li>
+                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Nutritions List</a></li>
+
                 </ul>
             </li>
 
@@ -36,7 +40,8 @@
                 </a>
                 <ul class="sub-menu">
                     <li class=" "><a href="">Write something</a></li>
-                    <li><a href="#">Social Settings</a></li>
+                    <li><a href="#">Posts</a></li>
+                    <li><a href="#">Settings</a></li>
                 </ul>
             </li>
             <li class="has-sub <?php if(isset($blogging))echo $blogging;?>">
@@ -46,7 +51,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="<?php if(isset($new_post))echo $new_post; ?>"><a href="{{url('/practitioner/blog/new')}}">Write a Post</a></li>
-                    <li class="<?php if(isset($my_post))echo $my_post; ?>"><a href="{{url('/practitioner/blog/')}}">My Posts</a></li>
+                    <li class="<?php if(isset($my_post))echo $my_post; ?>"><a href="{{url('/practitioner/blog/')}}">Posts</a></li>
                 </ul>
             </li>
             <li class="has-sub ">
@@ -55,7 +60,7 @@
                     <span>E-Mail Marketing</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="#">Send eMail</a></li>
+                    <li class=" "><a href="#">Compose Email</a></li>
                     <li><a href="#">Templates</a></li>
                 </ul>
             </li>
