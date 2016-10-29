@@ -25,10 +25,11 @@ include 'security.inc.php';
 //$app = require_once realpath(dirname(__FILE__).'/../../../../../').'/bootstrap/app.php';
 //$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
 //$pra_dir = Session::get('pra_dir');
-//var_dump($_SESSION['pra_dir']);return;
+//var_dump($pra_dir);return;
 //set session save path where user session will save
 ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../../').'/storage/framework/sessions');
 session_start();
+//$_SESSION['pra_dir'] = $pra_dir;
 //var_dump($_SESSION['pra_dir']);return;
 function t($key){
   global $LANG;
@@ -100,8 +101,7 @@ function getErrorRes($str = ''){
 }
 function getFilesPath(){
 
-  $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
-  //$ret = FILES_ROOT;
+  $ret = FILES_ROOT;
   $pra_dir = $_SESSION['pra_dir'];
   if(isset($pra_dir)){
     if($pra_dir['is_member']){
@@ -109,11 +109,12 @@ function getFilesPath(){
         //unset($_SESSION['member_folder']);
     }
   } else {
-    $ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
+    /*$ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
     $tmp = $_SERVER['DOCUMENT_ROOT'];
     if(mb_substr($tmp, -1) == '/' || mb_substr($tmp, -1) == '\\')
       $tmp = mb_substr($tmp, 0, -1);
-    $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);
+    $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);*/
+    $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
   }
 
   return $ret;

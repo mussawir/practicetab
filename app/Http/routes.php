@@ -182,7 +182,12 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::patch('/blog/update', 'Practitioner\BlogController@update');
     Route::delete('/blog/destroy/{id}', 'Practitioner\BlogController@destroy');
 
-
+    Route::get('/email-templates', 'Practitioner\EmailTemplateController@index');
+    Route::get('/email-templates/new', 'Practitioner\EmailTemplateController@create');
+    Route::post('/email-templates/store', 'Practitioner\EmailTemplateController@store');
+    Route::get('/email-templates/edit/{id}', 'Practitioner\EmailTemplateController@edit');
+    Route::patch('/email-templates/update', 'Practitioner\EmailTemplateController@update');
+    Route::delete('/email-templates/destroy/{id}', 'Practitioner\EmailTemplateController@destroy');
 });
 
 Route::group(['middleware' => ['auth']], function () {
