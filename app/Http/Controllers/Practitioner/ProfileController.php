@@ -169,4 +169,107 @@ class ProfileController extends Controller
         return Redirect::to('/practitioner/profile/clinic');
     }
 
+    public function practice()
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Practitioner::find($prac['pra_id']);
+        return view('practitioner.profile.clinic')
+            ->with('table1', $table1)
+            ->with('meta', array('page_title'=>'Manage Clinic Info'))
+            ->with('hours','active')
+            ->with('directory', $prac['directory']);
+    }
+
+    public function practiceUpdate(Request $request)
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Practitioner::find($prac['pra_id']);
+        $filename = '';
+        if($request->hasFile('clinic_logo')) {
+            //$file = InterventionImage::make($request->file('logo_image'));
+            $file = $request->file('clinic_logo');
+            $rand_num = rand(11111, 99999);
+            $filename = $rand_num. '_' .$file->getClientOriginalName();
+
+            if (isset($table1->clinic_logo) && (!empty($table1->clinic_logo))) {
+
+                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo)){
+                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo);
+                }
+                $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
+            }
+        } else {
+            $filename = $request->clinic_logo;
+        }
+
+        $table1->clinic_logo = $filename;
+        $table1->clinic_doc_head = $request->clinic_doc_head;
+        $table1->clinic_doc_footer = $request->clinic_doc_footer;
+        $table1->clinic_street_address = $request->clinic_street_address ;
+        $table1->clinic_city = $request->clinic_city ;
+        $table1->clinic_zip = $request->clinic_zip ;
+        $table1->clinic_state = $request->clinic_state ;
+        $table1->clinic_phone = $request->clinic_phone ;
+        $table1->clinic_fax = $request->clinic_fax ;
+        $table1->clinic_email = $request->clinic_email;
+
+        $table1->save();
+
+        Session::put('success','Profile updated successfully!');
+
+        return Redirect::to('/practitioner/profile/clinic');
+    }
+
+    public function hours()
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Practitioner::find($prac['pra_id']);
+        return view('practitioner.profile.clinic')
+            ->with('table1', $table1)
+            ->with('meta', array('page_title'=>'Manage Clinic Info'))
+            ->with('hours','active')
+            ->with('directory', $prac['directory']);
+    }
+
+    public function hoursUpdate(Request $request)
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Practitioner::find($prac['pra_id']);
+        $filename = '';
+        if($request->hasFile('clinic_logo')) {
+            //$file = InterventionImage::make($request->file('logo_image'));
+            $file = $request->file('clinic_logo');
+            $rand_num = rand(11111, 99999);
+            $filename = $rand_num. '_' .$file->getClientOriginalName();
+
+            if (isset($table1->clinic_logo) && (!empty($table1->clinic_logo))) {
+
+                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo)){
+                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo);
+                }
+                $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
+            }
+        } else {
+            $filename = $request->clinic_logo;
+        }
+
+        $table1->clinic_logo = $filename;
+        $table1->clinic_doc_head = $request->clinic_doc_head;
+        $table1->clinic_doc_footer = $request->clinic_doc_footer;
+        $table1->clinic_street_address = $request->clinic_street_address ;
+        $table1->clinic_city = $request->clinic_city ;
+        $table1->clinic_zip = $request->clinic_zip ;
+        $table1->clinic_state = $request->clinic_state ;
+        $table1->clinic_phone = $request->clinic_phone ;
+        $table1->clinic_fax = $request->clinic_fax ;
+        $table1->clinic_email = $request->clinic_email;
+
+        $table1->save();
+
+        Session::put('success','Profile updated successfully!');
+
+        return Redirect::to('/practitioner/profile/clinic');
+    }
+
+
 }

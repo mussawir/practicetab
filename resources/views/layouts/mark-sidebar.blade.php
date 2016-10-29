@@ -61,6 +61,8 @@
                 </a>
                 <ul class="sub-menu">
                     <li class=" "><a href="#">Compose Email</a></li>
+                    <li class=" "><a href="#">New Template</a></li>
+                    <li class=" "><a href="#">Sent Emails</a></li>
                     <li><a href="#">Templates</a></li>
                 </ul>
             </li>

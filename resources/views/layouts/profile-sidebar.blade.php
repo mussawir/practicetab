@@ -25,7 +25,7 @@
                 </a>
             </li>
 
-            <li class="has-sub <?php if(isset($profile))echo $profile ?> ">
+            <li class="has-sub <?php if(isset($practice))echo $practice ?> ">
                 <a href="{{url('/practitioner/profile/practice')}}">
                     <i class="fa fa-briefcase"></i>
                     <span>Practice Profile</span>
@@ -54,7 +54,7 @@
                 <ul class="sub-menu">
                     <li class=" "><a href="">Social Media</a></li>
                     <li><a href="#">Blog</a></li>
-                    <li><a href="#">Merchnat Account</a></li>
+                    <li><a href="#">Merchant Account</a></li>
 
                 </ul>
             </li>
