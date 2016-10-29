@@ -87,7 +87,7 @@ class ExercisePrescriptionController extends Controller
 
         $inputs = array();
         if(Session::has('parctitioner_session')){
-            $inputs['pra_id'] = Session::get('parctitioner_session')->pra_id;
+            $inputs['pra_id'] = Session::get('practitioner_session')->pra_id;
         }
 
         $patient = Patient::find($patient_id);

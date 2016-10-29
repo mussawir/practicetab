@@ -21,10 +21,15 @@
   Contact: Lyubomir Arsov, liubo (at) web-lobby.com
 */
 include 'security.inc.php';
+require realpath(dirname(__FILE__).'/../../../../../').'/bootstrap/autoload.php';
+$app = require_once realpath(dirname(__FILE__).'/../../../../../').'/bootstrap/app.php';
+$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
+$pra_dir = Session::get('pra_dir');
+$GLOBALS['pra_dir'] = $pra_dir;
+//var_dump($pra_dir);return;
 //set session save path where user session will save
-ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../').'/tmp');
-session_start();
-
+//ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../../').'/storage/framework/sessions');
+//session_start();
 function t($key){
   global $LANG;
   if(empty($LANG)){
@@ -94,24 +99,23 @@ function getErrorRes($str = ''){
   return gerResultStr('error', $str);
 }
 function getFilesPath(){
-    
-  //$ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
-  $ret = FILES_ROOT;
-  if(isset($_SESSION['member_folder'])){
-    if($_SESSION['member_folder']['is_member']){
-        $ret = $_SESSION['member_folder']['member_dir_path'];
+
+  $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
+  //$ret = FILES_ROOT;
+  $pra_dir = $GLOBALS['pra_dir'];
+  if(isset($pra_dir)){
+    if($pra_dir['is_member']){
+        $ret = $pra_dir['dir_path'];
         //unset($_SESSION['member_folder']);
     }
-  
-      if(!$ret){
-    	$ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
-        $tmp = $_SERVER['DOCUMENT_ROOT'];
-        if(mb_substr($tmp, -1) == '/' || mb_substr($tmp, -1) == '\\')
-          $tmp = mb_substr($tmp, 0, -1);
-        $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);
-      }  
-  }
-  
+  } /*else {
+    $ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
+    $tmp = $_SERVER['DOCUMENT_ROOT'];
+    if(mb_substr($tmp, -1) == '/' || mb_substr($tmp, -1) == '\\')
+      $tmp = mb_substr($tmp, 0, -1);
+    $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);
+  }*/
+
   return $ret;
 }
 function listDirectory($path){

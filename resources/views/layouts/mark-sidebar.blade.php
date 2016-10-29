@@ -18,14 +18,14 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="has-sub">
+            <li class="has-sub <?php if(isset($sug_menu))echo $sug_menu;?>">
                 <a href="javascript:;">
                     <i class="fa fa-briefcase"></i>
                     <span>Suggestions</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
-                    <li><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutrition</a></li>
+                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
+                    <li class="<?php if(isset($nut_sug))echo $nut_sug;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutrition</a></li>
                 </ul>
             </li>
 

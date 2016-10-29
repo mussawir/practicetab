@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SupSuggestionsSearch extends Model
+class NutSuggestionsDetails extends Model
 {
     // explicitly define table and primary key
-    protected $table = 'sup_sugest_search';
+    protected $table = 'nut_sugest_details';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
@@ -17,12 +17,12 @@ class SupSuggestionsSearch extends Model
      * @var array
      */
     protected $fillable = [
-        'master_id', 'pra_id', 'pra_fullname', 'message', 'pa_ids', 'sup_ids', 'created_at'
+        'master_id', 'pa_id', 'nut_id'
     ];
 
 
     public function supSuggestionsMaster()
     {
-        return $this->belongsTo('App\Models\SupSuggestionsMaster', 'id');
+        return $this->belongsTo('App\Models\NutSuggestionsMaster', 'id');
     }
 }
