@@ -170,6 +170,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::patch('/profile/update', 'Practitioner\ProfileController@update');
     Route::get('/profile/clinic', 'Practitioner\ProfileController@clinic');
     Route::patch('/profile/clinic-update', 'Practitioner\ProfileController@clinicUpdate');
+    Route::get('/profile/practice', 'Practitioner\ProfileController@practice');
+    Route::patch('/profile/practice-update', 'Practitioner\ProfileController@practiceUpdate');
+    Route::get('/profile/hours', 'Practitioner\ProfileController@hours');
+    Route::patch('/profile/hours-update', 'Practitioner\ProfileController@hoursUpdate');
+
 
     Route::get('/blog', 'Practitioner\BlogController@index');
     Route::get('/blog/new', 'Practitioner\BlogController@create');
