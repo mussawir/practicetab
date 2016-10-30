@@ -36,6 +36,30 @@ class SuggestionController extends Controller
 		Session::pull('dashboard');
 	}
 
+	public function showSupplementSuggestions()
+	{
+		$list = SuggestionsSearch::where('sug_type', '=', 1)
+			->where("pra_id", "=", $this->practitioner_info->pra_id)
+			->orderBy('created_at', 'desc')->get();
+
+		return view('practitioner.suggestion.sup-suggestions')->with('list', $list)
+			->with('sug_menu', 'active')->with('sup_sug_list', 'active');
+	}
+
+	public function supplementSuggestionDetails($id)
+	{
+		$list = SuggestionsSearch::where('id', $id)->first();
+		$supplements = Supplement::select('name', 'used_for', 'main_image', 'short_description')
+			->whereIn('sup_id', json_decode($list->sup_ids))->orderBy('name', 'asc')->get();
+
+		$patients = Patient::select('photo', 'email', 'primary_phone', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+			->whereIn('pa_id', json_decode($list->pa_ids))->orderBy('full_name', 'asc')->get();
+
+		return view('practitioner.suggestion.sup-sug-details')->with('list', $list)
+			->with('supplements', $supplements)->with('patients', $patients)
+			->with('directory', $this->practitioner_info['directory'])->with('sug_menu', 'active');
+	}
+
 	public function newSupplementSuggestions()
 	{
 		$patients = Patient::select('pa_id', 'first_name', 'middle_name', 'last_name')
@@ -138,6 +162,30 @@ class SuggestionController extends Controller
 	}
 
 	/* NUTRITION CODE START */
+	public function showNutritionSuggestions()
+	{
+		$list = SuggestionsSearch::where('sug_type', '=', 2)
+			->where("pra_id", "=", $this->practitioner_info->pra_id)
+			->orderBy('created_at', 'desc')->get();
+
+		return view('practitioner.suggestion.nut-suggestions')->with('list', $list)
+			->with('sug_menu', 'active')->with('nut_sug_list', 'active');
+	}
+
+	public function nutritionSuggestionDetails($id)
+	{
+		$list = SuggestionsSearch::where('id', $id)->first();
+		$nutrition = Nutrition::select('name', 'usability', 'main_image', 'short_description')
+			->whereIn('nut_id', json_decode($list->nut_ids))->orderBy('name', 'asc')->get();
+
+		$patients = Patient::select('photo', 'email', 'primary_phone', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+			->whereIn('pa_id', json_decode($list->pa_ids))->orderBy('full_name', 'asc')->get();
+
+		return view('practitioner.suggestion.nut-sug-details')->with('list', $list)
+			->with('nutrition', $nutrition)->with('patients', $patients)
+			->with('directory', $this->practitioner_info['directory'])->with('sug_menu', 'active');
+	}
+
 	public function newNutritionSuggestions()
 	{
 		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))

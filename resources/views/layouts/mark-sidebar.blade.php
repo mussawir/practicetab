@@ -26,10 +26,8 @@
                 <ul class="sub-menu">
                     <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements</a></li>
                     <li class="<?php if(isset($nut_sug))echo $nut_sug;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions')}}">Nutritions</a></li>
-
-                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Supplements List</a></li>
-                    <li class="<?php if(isset($sup_sug))echo $sup_sug;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions')}}">Nutritions List</a></li>
-
+                    <li class="<?php if(isset($sup_sug_list))echo $sup_sug_list;?>"><a href="{{url('/practitioner/suggestion/supplement-suggestions-list')}}">Supplements List</a></li>
+                    <li class="<?php if(isset($nut_sug_list))echo $nut_sug_list;?>"><a href="{{url('/practitioner/suggestion/nutrition-suggestions-list')}}">Nutritions List</a></li>
                 </ul>
             </li>
 
@@ -54,16 +52,16 @@
                     <li class="<?php if(isset($my_post))echo $my_post; ?>"><a href="{{url('/practitioner/blog/')}}">Posts</a></li>
                 </ul>
             </li>
-            <li class="has-sub ">
+            <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                 <a href="javascript:;">
                     <i class="fa fa-envelope"></i>
                     <span>E-Mail Marketing</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="#">Compose Email</a></li>
-                    <li class=" "><a href="#">New Template</a></li>
-                    <li class=" "><a href="#">Sent Emails</a></li>
-                    <li><a href="#">Templates</a></li>
+                    <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="#">Compose Email</a></li>
+                    <li class="<?php if(isset($new_template))echo $new_template;?>"><a href="{{url('/practitioner/email-templates/new')}}">New Template</a></li>
+                    <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="#">Sent Emails</a></li>
+                    <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/practitioner/email-templates')}}">Templates</a></li>
                 </ul>
             </li>
             <li class="has-sub {{isset($meta['cm_main_menu'])?$meta['cm_main_menu']:''}}">
