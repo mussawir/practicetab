@@ -1,4 +1,7 @@
-@extends('layouts.management')
+@extends('layouts.pradash')
+@section('sidebar')
+@include('layouts.manage-sidebar')
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -215,7 +218,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+),$table1->mailing_state ,array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
                         </div>
                     </div>
                 </div>
@@ -303,7 +306,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-             ), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+             ),$table1->billing_state , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
 
                         </div>
                     </div>
@@ -416,17 +419,18 @@
                     {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
                 </div>
                 {!! Form::close() !!}
-            </div>
-        </div>
-        <!-- end panel -->
-    </div>
-    <!-- end col 6 -->
+
+</div>
+</div>
+<!-- end panel -->
+</div>
+<!-- end col 6 -->
 </div>
 <!-- end row -->
 @endsection
 
 @section('page-scripts')
-    <script language="JavaScript/text">
+<script language="JavaScript/text">
 
-    </script>
+</script>
 @endsection

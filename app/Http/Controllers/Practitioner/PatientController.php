@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Models\Patient;
+use App\Models\PatientFile;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\UrlGenerator;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as InterventionImage;
-
+use File;
 class PatientController extends Controller
 {
     protected $baseUrl;
@@ -72,12 +72,16 @@ class PatientController extends Controller
             $file = $request->file('photo');
             $rand_num = rand(11111, 99999);
             $filename = $rand_num. '-' .$file->getClientOriginalName();
-            $file->move(public_path().'/practitioners/'.$prac['directory_name'].'/', $filename);
+            $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
         }
-
+        //create directory
+        $directory = uniqid(strtolower($request->get('first_name')),false);
+        $path = public_path().'/practitioners/'.$prac['directory'].'/'.$directory;
+        File::makeDirectory($path,0777, true, true);
        // $input['category'] =  $request->file('category');
         $input['photo'] = $filename;
         $input['pra_id'] = $prac['pra_id'];
+        $input['directory'] = $directory;
         Patient::create($input);
         Session::put('success','Patient is created successfully!');
         return Redirect::to('/practitioner/patient/index');
@@ -205,5 +209,59 @@ class PatientController extends Controller
             //return response()->json(['status' => 'success']);
         }
         return response()->json(['status' => 'error']);
+    }
+
+
+    /**
+     * Show the form for files the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function files($id)
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Patient::find($id);
+        $table2 = PatientFile::select('*')->where('pa_id', $id)->where('pra_id', $prac['pra_id'])->get();
+        return view('practitioner.patient.files')
+            ->with('table1', $table1)
+            ->with('table2', $table2)
+            ->with('meta', array('page_title'=>'Patient Files'))
+            ->with('patients_list','active')
+            ->with('directory', $prac['directory']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFiles(Request $request)
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = Patient::find($request->pa_id);
+
+        // getting all of the post data
+        $files = $request->file('files');
+        $input = $request->all();
+        // Making counting of uploaded files
+        $file_count = count($files);
+        // start count how many uploaded
+        $uploadcount = 0;
+        foreach($files as $file) {
+            $filename = $file->getClientOriginalName();
+            //$upload_success = $file->move($destinationPath, $filename);
+            $file->move(public_path().'/practitioners/'.$prac['directory'].'/'.$table1->directory .'/', $filename);
+            $input['pa_id'] = $request->pa_id;
+            $input['pra_id'] = $prac['pra_id'];
+            $input['file_name'] = $filename;
+            PatientFile::create($input);
+        }
+
+
+        Session::put('success','Files uploaded successfully!');
+        return Redirect::to('/practitioner/patient/files/'.$request->pa_id);
     }
 }

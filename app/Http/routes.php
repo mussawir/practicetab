@@ -144,6 +144,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/patient/edit/{id}', 'Practitioner\PatientController@edit');
     Route::patch('/patient/update', 'Practitioner\PatientController@update');
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
+    Route::get('/patient/files/{id}', 'Practitioner\PatientController@files');
+    Route::post('/patient/upload-files', 'Practitioner\PatientController@uploadFiles');
+    Route::delete('/patient/destroy-file/{id}', 'Practitioner\PatientController@destroyFile');
 
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');

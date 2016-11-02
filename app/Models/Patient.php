@@ -46,7 +46,7 @@ class Patient extends Authenticatable
         'cc_month',
         'cc_year',
         'cc_cvv',
-
+        'directory',
     ];
 
     public function user()

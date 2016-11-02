@@ -1,6 +1,6 @@
 @extends('layouts.pradash')
 @section('sidebar')
-@include('layouts.pradash-sidebar')
+@include('layouts.manage-sidebar')
 @endsection
 @section('content')
         <!-- begin breadcrumb -->
@@ -74,7 +74,9 @@
 
                             <td>
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="{{url('/practitioner/patient/files/'.$item->pa_id)}}"><i class="fa fa-file"></i> Files</a> |
                                 <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
+
                             </td>
 
                         </tr>
