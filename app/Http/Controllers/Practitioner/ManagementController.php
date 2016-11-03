@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Models\Practitioner;
+use App\Models\scheduler;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -97,5 +98,20 @@ class ManagementController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function saveData(Request $request)
+    {
+        $myId =  $request->id;
+        $scheduler = new scheduler();
+        $scheduler->patient_id = $myId;
+        $scheduler->reason = $request->reason;
+        $scheduler->pDate = $request->pDate;
+        $scheduler->pTime = $request->pTime;
+        $scheduler->pDuration = $request->pDuration;
+        $scheduler->pColor = $request->pColor;
+        $scheduler->pstatus = $request->pstatus;
+        $scheduler->app_desc = $request->app_desc;
+        $scheduler->save();
+        return 'success';
     }
 }

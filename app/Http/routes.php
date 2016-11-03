@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/contact-group/edit/{id}', 'Practitioner\ContactGroupController@edit');
     Route::patch('/contact-group/update', 'Practitioner\ContactGroupController@update');
     Route::delete('/contact-group/destroy/{id}', 'Practitioner\ContactGroupController@destroy');
-
+    Route::post('/schedule', ['as' => 'schedule', 'uses' => 'Practitioner\ManagementController@saveData']);
     Route::get('/contact', ['as' => 'contacts', 'uses' => 'Practitioner\ContactController@index']);
     Route::get('/contact/new', 'Practitioner\ContactController@create');
     Route::post('/contact/store', 'Practitioner\ContactController@store');
@@ -144,7 +144,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/patient/edit/{id}', 'Practitioner\PatientController@edit');
     Route::patch('/patient/update', 'Practitioner\PatientController@update');
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
-
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises', 'Practitioner\ExercisePrescriptionController@exercises');

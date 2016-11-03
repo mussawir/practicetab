@@ -18,6 +18,7 @@
     <link href="{{asset('public/dashboard/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/animate.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/style.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('public/dashboard/css/PopupBox.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/style-responsive.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/theme/default.css')}}" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
@@ -92,16 +93,93 @@
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/popup/jquery.bpopup.js')}}"></script>
 <script src="{{asset('public/dashboard/js/calendar.demo.min.js')}}"></script>
-
 @yield('bottom');
 <script src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
+<style>
+    #element_to_pop_up {
+        background-color:#fff;
+        border-radius:15px;
+        color:#000;
+        display:none;
+        padding:20px;
+        width: 40%;
+        min-width: 900px;
+        max-height: 90vh;
+    }
+    .b-close{
+        cursor:pointer;
+        position:absolute;
+        right:10px;
+        top:5px;
+    }
+
+
+</style>
 <!-- ================== END PAGE LEVEL JS ================== -->
 
 <script>
+    ;(function($) {
+
+        // DOM Ready
+        $(function() {
+
+            // Binding a click event
+            // From jQuery v.1.7.0 use .on() instead of .bind()
+            $('#my-button').bind('click', function(e) {
+
+                // Prevents the default action to be triggered.
+                e.preventDefault();
+
+                // Triggering bPopup when click event is fired
+                $('#element_to_pop_up').bPopup();
+
+            });
+
+        });
+
+    })(jQuery);
+
     $(document).ready(function() {
         App.init();
-        Calendar.init();
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'month,agendaWeek,agendaDay',
+                center: 'title',
+                right: 'prev,today,next '
+            },
+            droppable: true, // this allows things to be dropped onto the calendar
+            drop: function() {
+                $(this).remove();
+            },
+            selectable: true,
+            selectHelper: true,
+            eventClick: function(event, element) {
+console.log(element);
+                $('#calendar').fullCalendar('updateEvent', event);
+
+            },
+            select: function(start, end) {
+                var title = prompt('Event Title:');
+                var eventData;
+
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#calendar').fullCalendar('unselect');
+            },
+            editable: true,
+            eventLimit: true // allow "more" link when too many events
+        });
+
+
     });
 </script>
 @yield('bottom')

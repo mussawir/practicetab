@@ -1,0 +1,14 @@
+#pop-upH {
+    padding: 10px 0 0 0;
+}
+.color-m {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 26px;
+    height: 30px;
+    background-color: #a4bdfc;
+    cursor: pointer;
+}
+.no-padding {
+    padding: 0;
+}

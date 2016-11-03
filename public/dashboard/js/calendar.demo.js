@@ -110,7 +110,7 @@ var Calendar = function () {
     return {
         //main function
         init: function () {
-            handleCalendarDemo();
+            //handleCalendarDemo();
         }
     };
 }();
