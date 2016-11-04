@@ -128,6 +128,15 @@
                     </div>
                 </div>
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('url','URL :', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('url', null, array('class'=>'form-control', 'placeholder'=> 'Birth date', 'readonly'=>'readonly')) !!}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-12">
                     <h4>Mailing Information</h4>    <hr/></div>
 

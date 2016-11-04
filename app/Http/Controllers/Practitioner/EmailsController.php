@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Practitioner;
 
+use App\Models\ContactGroup;
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class EmailTemplateController extends Controller
+class EmailsController extends Controller
 {
     public function __construct()
     {
@@ -26,12 +28,12 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        $list = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
-
-        return view('practitioner.email-template.index')->with('list', $list)
-            ->with('meta', array('page_title'=>'Email Template List',isset($list)?count($list):0))
+        $templates = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
+        $list  = array();
+        return view('practitioner.emails.index')->with('templates', $templates)
+            ->with('meta', array('page_title'=>'Email List',isset($list)?count($list):0))
             ->with('template_menu','active')
-            ->with('templates_list','active');
+            ->with('sent_mails','active');
     }
 
     /**
@@ -41,11 +43,18 @@ class EmailTemplateController extends Controller
      */
     public function create()
     {
+        $prac = Session::get('practitioner_session');
 
-        return view('practitioner.email-template.new')
-            ->with('meta', array('page_title'=>'New Email Template'))
+        $templates = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
+        $contact_groups = ContactGroup::select('cg_id', 'name')->where('pra_id','=',$prac['pra_id'])
+            ->orderBy('name', 'asc')->get();
+
+        return view('practitioner.emails.new')
+            ->with('meta', array('page_title'=>'Compose New Email'))
+            ->with('templates', $templates)
+            ->with('contact_groups', $contact_groups)
             ->with('template_menu','active')
-            ->with('new_template','active');
+            ->with('compose_email','active');
     }
 
     /**

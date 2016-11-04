@@ -32,6 +32,7 @@
     <link href="{{ asset('public/dashboard/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/plugins/parsley/src/parsley.css') }}" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL STYLE ================== -->
     @yield('head');
 
@@ -219,6 +220,19 @@
                         <li><a href="#">Inactive List</a></li>
                     </ul>
                 </li>
+
+                <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
+                    <a href="javascript:;">
+                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <i class="fa fa-envelope"></i>
+                        <span>E-Mail Templates</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="<?php if(isset($new_template))echo $new_template;?>"><a href="{{url('/admin/email-templates/new')}}">New</a></li>
+                        <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/admin/email-templates')}}">List</a></li>
+                    </ul>
+                </li>
+
                 <li class="has-sub">
                     <a href="javascript:;">
                         <i class="fa fa-medkit"></i>
@@ -292,7 +306,7 @@
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
-
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/parsley/dist/parsley.js')}}"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
 @yield('bottom');
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>

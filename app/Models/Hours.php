@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Patient extends Authenticatable
+class Hours extends Authenticatable
 {
     // explicitly define table and primary key
-    protected $table = 'patients';
-    protected $primaryKey = 'pa_id';
+    protected $table = 'hours';
+    protected $primaryKey = 'hours_id';
 
     /**
      * The attributes that are mass assignable.
@@ -17,36 +17,21 @@ class Patient extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'pa_id',
-        'user_id',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'email',
-        'photo',
-        'date_of_birth',
-        'age',
-        'primary_phone',
-        'secondary_phone',
-        'mailing_street_address',
-        'mailing_city',
-        'mailing_zip',
-        'billing_street_address',
-        'billing_city',
-        'billing_zip',
-        'mailing_state',
-        'billing_state',
-        'notes',
-        'password',
-        'paid',
-        'is_subscribed',
-        'inactive',
-        'cc_type',
-        'cc_number',
-        'cc_month',
-        'cc_year',
-        'cc_cvv',
-
+        'pra_id',
+        'monday_open',
+        'monday_close',
+        'tuesday_open',
+        'tuesday_close',
+        'wednesday_open',
+        'wednesday_close',
+        'thursday_open',
+        'thursday_close',
+        'friday_open',
+        'friday_close',
+        'saturday_open',
+        'saturday_close',
+        'sunday_open',
+        'sunday_close'
     ];
 
     public function user()

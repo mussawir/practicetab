@@ -1,16 +1,13 @@
-@extends('layouts.pradash')
-@section('sidebar')
-@include('layouts.manage-sidebar')
-@endsection
+@extends('layouts.adash')
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
-    <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Patients</li>
+    <li><a href="{{url('/admin')}}">Dashboard</a></li>
+    <li class="active">Email Templates</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Patients <small></small></h1>
+<h1 class="page-header">Email Templates <small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -40,43 +37,30 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Patients List</h4>
+                <h4 class="panel-title">Email Template List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Photo</th>
+                        <th>No.</th>
                         <th>Name</th>
-                        <th>Prescribe</th>
-                        <th>Action</th>
-
+                        <th>Content</th>
+                        <th style="min-width: 100px;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($table1 as $item)
+                    <?php $counter=1;?>
+                    @foreach($list as $item)
                         <tr>
+                            <td>{{$counter++}} </td>
+                            <td>{{$item->name}} </td>
                             <td>
-                                @if(isset($item->photo) && (!empty($item->photo)))
-                                    <img src="{{asset('public/practitioners/'.$directory.'/'.$item->photo)}}" alt="{{$item->photo}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
-                                @endif
+                                <div class="content-container">{!! $item->template!!}</div>
                             </td>
-                            <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
-                                |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutrition</a>
-                                |
-                                <a href="{{ url('/practitioner/exercise-prescription/add-master/'.$item->pa_id) }}"><i class="fa fa-heart-o"></i> Exercises</a>
-                            </td>
-
-                            <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="{{url('/practitioner/patient/files/'.$item->pa_id)}}"><i class="fa fa-file"></i> Files</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
-
+                                <a href="{{url('/admin/email-templates/edit/'.$item->et_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="javascript:void(0);" onclick="doDelete('{{$item->et_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
 
                         </tr>
@@ -99,33 +83,59 @@
             if ($('#data-table').length !== 0) {
                 $('#data-table').DataTable({
                     responsive: true,
-                    "aaSorting": [[1, "asc"]],
+                    "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,2]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [3]}]
                 });
             }
+
+            var maxHeight=22;
+            var showText = "Show More";
+            var hideText = "Show Less";
+            $('.content-container').each(function () {
+                var text = $(this);
+                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
+                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
+
+                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
+                    var linkDiv = $('<div></div>');
+                    linkDiv.append(link);
+                    $(this).after(linkDiv);
+
+                    link.click(function (event) {
+                        event.preventDefault();
+                        if (text.height() > maxHeight) {
+                            $(this).html(showText);
+                            text.css('height', maxHeight + 'px');
+                        } else {
+                            $(this).html(hideText);
+                            text.css('height', 'auto');
+                        }
+                    });
+                }
+            });
         });
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this manufacturer?");
+            var q = confirm("Are you sure you want to delete this email template?");
             if (q == true) {
 
                 $.ajax({
                     type: "DELETE",
-                    url: '{{ URL::to('/admin/execategories/destroy') }}/' + id,
+                    url: '{{ url('/admin/email-templates/destroy') }}/' + id,
                     beforeSend: function (request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function (result) {
                         /*if (result.status == 'success') {
                             $(elm).closest('tr').fadeOut();
-                            $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                            $('.msg').html('<div class="alert alert-success"><strong>Template deleted successfully!</strong></div>').show().delay(5000).hide('slow');
                         } else {
                             $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
                         }*/
-                        location.reload(true);
+                        window.location.reload();
                     },
                     error:function (error) {
                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
@@ -136,27 +146,5 @@
             return false;
         }
 
-        function addMaster(id, elm)
-        {
-            var q = confirm("Click OK to proceed, it will create a new exercise prescription. You can add one or more exercises");
-            if (q == true) {
-                $.ajax({
-                    type: "POST",
-                    url: '{{ URL::to('/practitioner/exercise-prescription/add-master') }}/' + id,
-                    beforeSend: function (request) {
-                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                    },
-                    success: function (result) {
-
-                        location.reload(true);
-                    },
-                    error:function (error) {
-                        $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                    }
-                });
-                return false;
-            }
-            return false;
-        }
     </script>
 @endsection

@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Models\Practitioner;
 use App\Models\User;
+use App\Models\PracticeProfile;
+use App\Models\Hours;
 use Illuminate\Support\Str;
+use File;
 
 class RegistrationController extends Controller
 {
@@ -32,7 +35,6 @@ class RegistrationController extends Controller
     {
         $plan_type = Session::pull('plan_type');
         $password = Str::quickRandom(8);
-
         $user = User::create([
             'role'  => 3,
             'first_name' => $request->get('first_name'),
@@ -40,10 +42,23 @@ class RegistrationController extends Controller
             'email' => $request->get('email'),
             'password'  => bcrypt($password)
         ]);
-
+    $directory = uniqid(strtolower($request->get('first_name')),false);
         $practitioner = Practitioner::create([
             'user_id'  => $user->user_id,
-            'plan_type' => $plan_type
+            'plan_type' => $plan_type,
+            'directory' => $directory
+        ]);
+//create directory
+        $path = public_path().'/practitioners/'.$directory.'/images';
+        File::makeDirectory($path,0777, true, true);
+        //File::makeDirectory(public_path().'/practitioners/'.$directory, 0777, true);
+
+        $practice_profile = PracticeProfile::create([
+            'pra_id'  => $practitioner->pra_id,
+        ]);
+
+        $hours = Hours::create([
+            'pra_id'  => $practitioner->pra_id,
         ]);
 
         $this->sendEmail(array(

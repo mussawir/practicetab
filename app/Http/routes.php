@@ -90,6 +90,13 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/execategories/edit/{id}', 'Admin\ExecategoriesController@edit');
     Route::patch('/execategories/update', 'Admin\ExecategoriesController@update');
     Route::delete('/execategories/destroy/{id}', 'Admin\ExecategoriesController@destroy');
+
+    Route::get('/email-templates', 'Admin\EmailTemplateController@index');
+    Route::get('/email-templates/new', 'Admin\EmailTemplateController@create');
+    Route::post('/email-templates/store', 'Admin\EmailTemplateController@store');
+    Route::get('/email-templates/edit/{id}', 'Admin\EmailTemplateController@edit');
+    Route::patch('/email-templates/update', 'Admin\EmailTemplateController@update');
+    Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
 });
 
 /* Patient module */
@@ -148,6 +155,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/patient/edit/{id}', 'Practitioner\PatientController@edit');
     Route::patch('/patient/update', 'Practitioner\PatientController@update');
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
+    Route::get('/patient/files/{id}', 'Practitioner\PatientController@files');
+    Route::post('/patient/upload-files', 'Practitioner\PatientController@uploadFiles');
+    Route::delete('/patient/destroy-file/{id}', 'Practitioner\PatientController@destroyFile');
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises', 'Practitioner\ExercisePrescriptionController@exercises');
@@ -177,6 +187,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::patch('/profile/update', 'Practitioner\ProfileController@update');
     Route::get('/profile/clinic', 'Practitioner\ProfileController@clinic');
     Route::patch('/profile/clinic-update', 'Practitioner\ProfileController@clinicUpdate');
+    Route::get('/profile/practice', 'Practitioner\ProfileController@practice');
+    Route::patch('/profile/practice-update', 'Practitioner\ProfileController@practiceUpdate');
+    Route::get('/profile/hours', 'Practitioner\ProfileController@hours');
+    Route::patch('/profile/hours-update', 'Practitioner\ProfileController@hoursUpdate');
+
 
     Route::get('/blog', 'Practitioner\BlogController@index');
     Route::get('/blog/new', 'Practitioner\BlogController@create');
@@ -186,11 +201,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/blog/destroy/{id}', 'Practitioner\BlogController@destroy');
 
     Route::get('/email-templates', 'Practitioner\EmailTemplateController@index');
-    Route::get('/email-templates/new', 'Practitioner\EmailTemplateController@create');
-    Route::post('/email-templates/store', 'Practitioner\EmailTemplateController@store');
-    Route::get('/email-templates/edit/{id}', 'Practitioner\EmailTemplateController@edit');
-    Route::patch('/email-templates/update', 'Practitioner\EmailTemplateController@update');
-    Route::delete('/email-templates/destroy/{id}', 'Practitioner\EmailTemplateController@destroy');
+
+    Route::get('/emails', 'Practitioner\EmailsController@index');
+    Route::get('/emails/new', 'Practitioner\EmailsController@create');
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -234,6 +247,7 @@ Route::get('login', function(){
 Route::get('logout', function(){
     Auth::logout();
     \Session::flush();
+    //\Session::forget('pra_dir');
     return Redirect::to('/');
 });
 

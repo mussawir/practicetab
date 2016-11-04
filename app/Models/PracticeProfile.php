@@ -19,7 +19,6 @@ class PracticeProfile extends Authenticatable
     protected $fillable =[
         'practice_id',
 'pra_id',
-'url',
 'website_url',
 'about',
 'practice_years',
@@ -31,8 +30,8 @@ class PracticeProfile extends Authenticatable
 'ai_hmo',
 'ai_medicaid',
 'ai_medicare',
-'languges_spoken',
-'Specialties'
+'languages_spoken',
+'specialties'
 
     ];
 
