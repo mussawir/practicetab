@@ -90,6 +90,13 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/execategories/edit/{id}', 'Admin\ExecategoriesController@edit');
     Route::patch('/execategories/update', 'Admin\ExecategoriesController@update');
     Route::delete('/execategories/destroy/{id}', 'Admin\ExecategoriesController@destroy');
+
+    Route::get('/email-templates', 'Admin\EmailTemplateController@index');
+    Route::get('/email-templates/new', 'Admin\EmailTemplateController@create');
+    Route::post('/email-templates/store', 'Admin\EmailTemplateController@store');
+    Route::get('/email-templates/edit/{id}', 'Admin\EmailTemplateController@edit');
+    Route::patch('/email-templates/update', 'Admin\EmailTemplateController@update');
+    Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
 });
 
 /* Patient module */
@@ -190,11 +197,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/blog/destroy/{id}', 'Practitioner\BlogController@destroy');
 
     Route::get('/email-templates', 'Practitioner\EmailTemplateController@index');
-    Route::get('/email-templates/new', 'Practitioner\EmailTemplateController@create');
-    Route::post('/email-templates/store', 'Practitioner\EmailTemplateController@store');
-    Route::get('/email-templates/edit/{id}', 'Practitioner\EmailTemplateController@edit');
-    Route::patch('/email-templates/update', 'Practitioner\EmailTemplateController@update');
-    Route::delete('/email-templates/destroy/{id}', 'Practitioner\EmailTemplateController@destroy');
+
+    Route::get('/emails', 'Practitioner\EmailsController@index');
+    Route::get('/emails/new', 'Practitioner\EmailsController@create');
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -238,6 +243,7 @@ Route::get('login', function(){
 Route::get('logout', function(){
     Auth::logout();
     \Session::flush();
+    //\Session::forget('pra_dir');
     return Redirect::to('/');
 });
 

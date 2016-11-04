@@ -11,24 +11,13 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li><a href="{{url('/practitioner/email-templates')}}">Email Templates</a></li>
-    <li class="active">Edit Email Template</li>
+    <li><a href="{{url('/practitioner/emails')}}">Email List</a></li>
+    <li class="active">Compose New Email</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Edit Email Template <small></small></h1>
+<h1 class="page-header">Compose New Email <small></small></h1>
 <!-- end page-header -->
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="alert alert-info">
-            <strong>Placeholders for patient information</strong><br/>
-            - FirstName (Patient First name)<br/>
-            - MiddleName (Patient Middle name)<br/>
-            - LastName (Patient Last name)
-        </div>
-    </div>
-</div>
 
 <!-- begin row -->
 <div class="row">
@@ -49,6 +38,7 @@
                 </div>
             @endif
         </div>
+
         <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
@@ -58,28 +48,63 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Edit Email Template</h4>
+                <h4 class="panel-title">Compose New Email</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($data, array('url'=>'/practitioner/email-templates/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
-                {!! Form::hidden('et_id') !!}
+                {!! Form::open(array('url'=>'/practitioner/emails/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
 
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('name','Template Name *:', array('class'=>'col-md-2 control-label')) !!}
-                        <div class="col-md-10">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'required' => 'required')) !!}
+                        {!! Form::label('templates','Select Template: ', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                        <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
+                            <option value="0">Select</option>
+                            @foreach($templates as $item)
+                                <option value="{{$item->et_id}}" data-template="{{$item->template}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                        <select id="contact_groups" name="cg_id" class="form-control">
+                            <option value="0">Select</option>
+                            @foreach($contact_groups as $item)
+                                <option value="{{$item->cg_id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('bcc','BCC: ', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('bcc', null, array('class'=>'form-control', 'placeholder'=> 'BCC Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('subject','Subject: ', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject')) !!}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-12">
-                    {!! Form::textarea('template',null, array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20', 'required' => 'required')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;
                 </div>
                 <div class="col-md-12">
-                    {!! Form::submit('Update', array('class'=>'btn btn-success pull-right')) !!}
+                    {!! Form::submit('Send', array('class'=>'btn btn-success pull-right')) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -103,7 +128,7 @@
             FormWysihtml5.init();
 
             var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
-            CKEDITOR.replace('template',
+            CKEDITOR.replace('mail_body',
                     {
                         filebrowserBrowseUrl:roxyFileman,
                         filebrowserImageBrowseUrl:roxyFileman+'?type=image',
@@ -111,5 +136,9 @@
                         enterMode	: Number(2)
                     })
         });
+
+        function loadTemplate(elm) {
+            CKEDITOR.instances['mail_body'].setData($(elm).find(':selected').data('template'));
+        }
     </script>
 @endsection

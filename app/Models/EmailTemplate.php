@@ -16,13 +16,13 @@ class EmailTemplate extends Model
      * @var array
      */
     protected $fillable = [
-        'pra_id',
+        'user_id',
         'name',
         'template',
     ];
 
-    public function practitioners()
+    public function users()
     {
-        return $this->belongsTo('App\Models\Practitioner', 'pra_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

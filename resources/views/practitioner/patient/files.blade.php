@@ -6,7 +6,7 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li><a href="{{url('/practitioner/patient/new')}}">Patient</a></li>
+    <li><a href="{{url('/practitioner/patient')}}">Patient</a></li>
     <li class="active">Files</li>
 </ol>
 <!-- end breadcrumb -->
@@ -84,8 +84,7 @@
            </td>
 
            <td>
-               <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Download</a> |
-
+               <a href="javascript:void(0);" onclick="downloadFile('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Download</a> |
                <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
            </td>
 
@@ -106,7 +105,34 @@
 @endsection
 
 @section('page-scripts')
-<script language="JavaScript/text">
+<script type="text/javascript">
+    function doDelete(id, elm)
+        {
+            var q = confirm("Are you sure you want to delete this file?");
+            if (q == true) {
 
+                $.ajax({
+                    type: "DELETE",
+                    url: '{{ url('/practitioner/patient/destroy-file') }}/' + id,
+                    beforeSend: function (request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function (result) {
+                        if (result.status == 'success') {
+                            $(elm).closest('tr').fadeOut();
+                            $('.msg').html('<div class="alert alert-success"><strong>File deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                        } else {
+                            $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                        }
+                        //window.location.reload();
+                    },
+                    error:function (error) {
+                        $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                    }
+                });
+                return false;
+            }
+            return false;
+        }
 </script>
 @endsection
