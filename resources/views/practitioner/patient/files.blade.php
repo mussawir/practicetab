@@ -84,9 +84,9 @@
            </td>
 
            <td>
-               <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Download</a> |
+               <a href="#"><i class="fa fa-trash-o"></i> Download</a> |
 
-               <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
+               <a href="javascript:void(0);" onclick="doDelete('{{$table1->pa_id, $item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
            </td>
 
        </tr>
@@ -106,7 +106,46 @@
 @endsection
 
 @section('page-scripts')
-<script language="JavaScript/text">
+<script type="text/javascript">
+ $(function () {
+            if ($('#data-table').length !== 0) {
+                $('#data-table').DataTable({
+                    responsive: true,
+                    "aaSorting": [[1, "asc"]],
+                    "iDisplayLength": 10,
+                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,2]}]
+                });
+            }
+        });
+ function doDelete(pa_id,pf_id, elm)
+ {
+     var q = confirm("Are you sure you want to remove this file?");
+     if (q == true) {
+
+         $.ajax({
+             type: "DELETE",
+             url: '{{ URL::to('/practitioner/patient/destroy-file') }}/' + pa_id + '/'+ pf_id,
+             beforeSend: function (request) {
+                 return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+             },
+             success: function (result) {
+                 if (result.status == 'success') {
+                  $(elm).closest('tr').fadeOut();
+                  $('.msg').html('<div class="alert alert-success"><strong>File is deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                  } else {
+                  $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                  }
+                 location.reload(true);
+             },
+             error:function (error) {
+                 $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+             }
+         });
+         return false;
+     }
+     return false;
+ }
 
 </script>
 @endsection
