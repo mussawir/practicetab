@@ -11,4 +11,6 @@ class scheduler extends Model
 
     protected $fillable = ['patient_id', 'timeIn', 'timeOut', 'app_date','reason','pDate',
         'pTime','pDuration','pstatus','app_desc'];
+
+
 }

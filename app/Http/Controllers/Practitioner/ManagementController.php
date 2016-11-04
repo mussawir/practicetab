@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Practitioner;
 use App\Models\Practitioner;
 use App\Models\scheduler;
 use Illuminate\Http\Request;
-
+use DB;
+use App\Quotation;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -98,6 +99,65 @@ class ManagementController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function Fetchschedule()
+    {
+        $scheduler = DB::table('scheduler')->get();
+
+        foreach ($scheduler as $schedule)
+        {
+            echo $schedule->id .' ) '.$schedule->patient_id;
+            echo ';';
+            echo $schedule->pDate;
+            echo ';';
+            echo $schedule->pTime;
+            echo ';';
+            echo $schedule->pDuration;
+            echo ';';
+            echo $schedule->pColor;
+            echo '|';
+        }
+    }
+    public function FetchscheduleRow(Request $request)
+    {
+        $scheduler = DB::table('scheduler')->where([
+            ['id', '=', $request->id],
+        ])->get();
+        foreach ($scheduler as $schedule) {
+            echo $schedule->patient_id;
+            echo ';';
+            echo $schedule->pDate;
+            echo ';';
+            echo $schedule->reason;
+            echo ';';
+            echo $schedule->app_desc;
+            echo ';';
+            echo $schedule->pTime;
+            echo ';';
+            echo $schedule->pDuration;
+            echo ';';
+            echo $schedule->pColor;
+            echo ';';
+            echo $schedule->pstatus;
+        }
+    }
+    public function FetchscheduleMax()
+    {
+        echo  DB::table('scheduler')->max('id');
+    }
+    public function updateScheduleData(Request $request)
+    {
+        $myId =  $request->id;
+        $update = scheduler::find($myId);
+        $update->pDate = $request->pDate;
+        $update->reason = $request->reason;
+        $update->pTime = $request->pTime;
+        $update->pDuration = $request->pDuration;
+        $update->pColor = $request->pColor;
+        $update->app_desc = $request->app_desc;
+        $update->pstatus = $request->pstatus;
+        $update->patient_id = $request->patient_id;
+        $update->save();
     }
     public function saveData(Request $request)
     {

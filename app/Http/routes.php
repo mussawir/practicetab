@@ -126,6 +126,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::patch('/contact-group/update', 'Practitioner\ContactGroupController@update');
     Route::delete('/contact-group/destroy/{id}', 'Practitioner\ContactGroupController@destroy');
     Route::post('/schedule', ['as' => 'schedule', 'uses' => 'Practitioner\ManagementController@saveData']);
+    Route::post('/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Practitioner\ManagementController@Fetchschedule']);
+    Route::post('/FetchscheduleMax', ['as' => 'FetchscheduleMax', 'uses' => 'Practitioner\ManagementController@FetchscheduleMax']);
+    Route::post('/FetchscheduleRow', ['as' => 'FetchscheduleRow', 'uses' => 'Practitioner\ManagementController@FetchscheduleRow']);
+    Route::post('/updateScheduleData', ['as' => 'updateScheduleData', 'uses' => 'Practitioner\ManagementController@updateScheduleData']);
     Route::get('/contact', ['as' => 'contacts', 'uses' => 'Practitioner\ContactController@index']);
     Route::get('/contact/new', 'Practitioner\ContactController@create');
     Route::post('/contact/store', 'Practitioner\ContactController@store');
