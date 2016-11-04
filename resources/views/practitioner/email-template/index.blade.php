@@ -2,6 +2,11 @@
 @section('sidebar')
 @include('layouts.mark-sidebar')
 @endsection
+@section('head')
+        <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="{{ asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css') }}" rel="stylesheet">
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -16,21 +21,7 @@
 <div class="row">
     <!-- begin col-6 -->
     <div class="col-md-12">
-        <div class="msg">
-            @if(Session::has('success'))
-                <div class="alert alert-success fade in">
-                    <strong>Success!</strong>
-                    <strong>{{Session::pull('success')}}</strong>
-                    <span class="close" data-dismiss="alert">×</span>
-                </div>
-            @elseif(Session::has('error'))
-                <div class="alert alert-danger fade in">
-                    <strong>Error!</strong>
-                    <strong>{{Session::pull('error')}}</strong>
-                    <span class="close" data-dismiss="alert">×</span>
-                </div>
-            @endif
-        </div>
+
         <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
@@ -43,33 +34,29 @@
                 <h4 class="panel-title">Email Template List</h4>
             </div>
             <div class="panel-body">
-                <table id="data-table" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Name</th>
-                        <th>Content</th>
-                        <th style="min-width: 100px;">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $counter=1;?>
-                    @foreach($list as $item)
-                        <tr>
-                            <td>{{$counter++}} </td>
-                            <td>{{$item->name}} </td>
-                            <td>
-                                <div class="content-container">{!! $item->template!!}</div>
-                            </td>
-                            <td>
-                                <a href="{{url('/practitioner/email-templates/edit/'.$item->et_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->et_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
-                            </td>
-
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::label('templates','Select Template: ', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
+                        <select id="t-name" class="form-control" onchange="loadTemplate(this)">
+                            <option value="">Select Template</option>
+                            @foreach($list as $item)
+                                <option value="{{$item->template}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <br/>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                    {!! Form::textarea('template', null, array('class'=>'ckeditor','id'=>'template', 'rows'=>'30')) !!}
+                    </div >
+                </div >
+                </div>
             </div>
         </div>
         <!-- end panel -->
@@ -78,76 +65,30 @@
 </div>
 <!-- end row -->
 @endsection
-
+@section('bottom')
+        <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
 @section('page-scripts')
     <script type="text/javascript">
-
         $(function () {
-            if ($('#data-table').length !== 0) {
-                $('#data-table').DataTable({
-                    responsive: true,
-                    "aaSorting": [[0, "asc"]],
-                    "iDisplayLength": 10,
-                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [3]}]
-                });
-            }
+            FormWysihtml5.init();
 
-            var maxHeight=22;
-            var showText = "More >>";
-            var hideText = "<< Less";
-            $('.content-container').each(function () {
-                var text = $(this);
-                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
-                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
-
-                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
-                    var linkDiv = $('<div></div>');
-                    linkDiv.append(link);
-                    $(this).after(linkDiv);
-
-                    link.click(function (event) {
-                        event.preventDefault();
-                        if (text.height() > maxHeight) {
-                            $(this).html(showText);
-                            text.css('height', maxHeight + 'px');
-                        } else {
-                            $(this).html(hideText);
-                            text.css('height', 'auto');
-                        }
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
+            CKEDITOR.replace('template',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2)
                     });
-                }
-            });
         });
 
-        function doDelete(id, elm)
-        {
-            var q = confirm("Are you sure you want to delete this email template?");
-            if (q == true) {
-
-                $.ajax({
-                    type: "DELETE",
-                    url: '{{ URL::to('/practitioner/email-templates/destroy') }}/' + id,
-                    beforeSend: function (request) {
-                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                    },
-                    success: function (result) {
-                        /*if (result.status == 'success') {
-                            $(elm).closest('tr').fadeOut();
-                            $('.msg').html('<div class="alert alert-success"><strong>Template deleted successfully!</strong></div>').show().delay(5000).hide('slow');
-                        } else {
-                            $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                        }*/
-                        window.location.reload();
-                    },
-                    error:function (error) {
-                        $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                    }
-                });
-                return false;
-            }
-            return false;
+        function loadTemplate(elm) {
+            CKEDITOR.instances['template'].setData(elm.value);
         }
-
     </script>
 @endsection

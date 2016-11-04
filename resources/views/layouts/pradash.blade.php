@@ -96,6 +96,8 @@
 <script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.js')}}"></script>
 <script src="{{asset('public/dashboard/plugins/popup/jquery.bpopup.js')}}"></script>
 <script src="{{asset('public/dashboard/js/calendar.demo.min.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/datepicker/form-plugins.demo.min.js')}}"></script>
+
 @yield('bottom');
 <script src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <style>
@@ -144,25 +146,45 @@
 
     $(document).ready(function() {
         App.init();
+        FormPlugins.init();
         $('#calendar').fullCalendar({
             header: {
-                left: 'month,agendaWeek,agendaDay',
+                left: 'agendaDay',
                 center: 'title',
                 right: 'prev,today,next '
             },
-            droppable: true, // this allows things to be dropped onto the calendar
+            //droppable: true, // this allows things to be dropped onto the calendar
             drop: function() {
                 $(this).remove();
             },
             selectable: true,
             selectHelper: true,
             eventClick: function(event, element) {
-console.log(element);
-                $('#calendar').fullCalendar('updateEvent', event);
+                $('#my-button').click();
+                var id = event.title;
+                id = id.split(')')[0];
+                //event.title = id + " ) " + $('#patientname').val();
+                event.title =fetchRowSchedule(parseInt(id));
+                //$('#calendar').fullCalendar('updateEvent', event);
 
             },
             select: function(start, end) {
-                var title = prompt('Event Title:');
+                var title='';
+                $('#saveBtn').show();
+                $('#updateBtn').hide();
+                $('#my-button').click();
+                $('#calendar').fullCalendar('unselect');
+                var aDate;
+                var test = start.toString();
+                if (test.indexOf('GMT') > -1) {
+                    test = test.substring(0,test.indexOf('GMT'));
+                    aDate = new Date(Date.parse(test));
+                }
+                var mins = aDate.getMinutes()=="0"?"00":aDate.getMinutes();
+                var timeset = aDate.getHours()+":"+mins;
+                $('#time').val(timeset);
+
+                return;
                 var eventData;
 
                 if (title) {
@@ -178,8 +200,6 @@ console.log(element);
             editable: true,
             eventLimit: true // allow "more" link when too many events
         });
-
-
     });
 </script>
 @yield('bottom')

@@ -197,7 +197,7 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        $table1 = Patient::find(id);
+        $table1 = Patient::find($id);
         if(isset($table1)){
             if (isset($table1->photo) && (!empty($table1->photo))) {
                 if(file_exists(public_path() . '/practitioner/peter222220/' . $table1->photo)){
@@ -260,31 +260,48 @@ class PatientController extends Controller
             PatientFile::create($input);
         }
 
-
         Session::put('success','Files uploaded successfully!');
         return Redirect::to('/practitioner/patient/files/'.$request->pa_id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyFile($pa_id, $pf_id)
+
+    public function destroyFile($id)
     {
         $prac = Session::get('practitioner_session');
-        $table1 = PatientFile::select('*')->where('pa_id', $pa_id)->where('pf_id', $pf_id)->get();
-        $table2 = Patient::find($pa_id);
+        $table1 = PatientFile::find($id);
+        $table2 = Patient::select('directory')->where('pa_id', '=', $table1->pa_id)->first();
         if(isset($table1)){
-                if(file_exists(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name)){
-                    unlink(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name);
+            if (isset($table1->file_name) && (!empty($table1->file_name))) {
+                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/'.$table2->directory .'/' . $table1->file_name)){
+                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/'.$table2->directory .'/' . $table1->file_name);
+                }
             }
             $table1->delete();
-            Session::put('success','File is deleted successfully!');
-            return Redirect::to('/practitioner/patient/files/'.$pa_id);
+            //Session::put('success','Patient is deleted successfully!');
+            return response()->json(['status' => 'success']);
         }
         return response()->json(['status' => 'error']);
     }
+}
+/*
+ * <<<<<<< HEAD
+    
+public function destroyFile($pa_id, $pf_id)
+{
+    $prac = Session::get('practitioner_session');
+    $table1 = PatientFile::select('*')->where('pa_id', $pa_id)->where('pf_id', $pf_id)->get();
+    $table2 = Patient::find($pa_id);
+    if(isset($table1)){
+        if(file_exists(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name)){
+            unlink(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name);
+        }
+        $table1->delete();
+        Session::put('success','File is deleted successfully!');
+        return Redirect::to('/practitioner/patient/files/'.$pa_id);
+    }
+    return response()->json(['status' => 'error']);
+}
 
 }
+=======
+ */

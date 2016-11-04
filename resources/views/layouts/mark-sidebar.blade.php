@@ -58,8 +58,7 @@
                     <span>E-Mail Marketing</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="#">Compose Email</a></li>
-                    <li class="<?php if(isset($new_template))echo $new_template;?>"><a href="{{url('/practitioner/email-templates/new')}}">New Template</a></li>
+                    <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="{{url('/practitioner/emails/new')}}">Compose Email</a></li>
                     <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="#">Sent Emails</a></li>
                     <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/practitioner/email-templates')}}">Templates</a></li>
                 </ul>

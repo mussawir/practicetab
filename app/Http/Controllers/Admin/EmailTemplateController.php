@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Practitioner;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
@@ -15,9 +15,7 @@ class EmailTemplateController extends Controller
 {
     public function __construct()
     {
-        Session::set('marketing', 'active');
-        Session::pull('management');
-        Session::pull('dashboard');
+
     }
     /**
      * Display a listing of the resource.
@@ -26,10 +24,11 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        $list = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
+        $list = EmailTemplate::select('*')->where('user_id', Auth::user()->user_id)
+            ->orderBy('created_at', 'desc')->get();
 
-        return view('practitioner.email-template.index')->with('list', $list)
-            ->with('meta', array('page_title'=>'Email Template List',isset($list)?count($list):0))
+        return view('admin.email-template.index')->with('list', $list)
+            ->with('meta', array('page_title'=>'Email Template List','item_counter'=>isset($list)?count($list):0))
             ->with('template_menu','active')
             ->with('templates_list','active');
     }
@@ -41,9 +40,8 @@ class EmailTemplateController extends Controller
      */
     public function create()
     {
-
-        return view('practitioner.email-template.new')
-            ->with('meta', array('page_title'=>'New Email Template'))
+        return view('admin.email-template.new')
+            ->with('meta', array('page_title'=>'New Email Template','item_counter'=>0))
             ->with('template_menu','active')
             ->with('new_template','active');
     }
@@ -65,12 +63,11 @@ class EmailTemplateController extends Controller
                 }
         */
         $input = $request->all();
-        $prac = Session::get('practitioner_session');
-        $input['pra_id'] = $prac['pra_id'];
+        $input['user_id'] = Auth::user()->user_id;
         EmailTemplate::create($input);
 
         Session::put('success','New Email Template is created successfully!');
-        return Redirect::to('/practitioner/email-templates');
+        return Redirect::to('/admin/email-templates');
     }
 
     /**
@@ -93,9 +90,9 @@ class EmailTemplateController extends Controller
     public function edit($id)
     {
         $data = EmailTemplate::find($id);
-        return view('practitioner.email-template.edit')
+        return view('admin.email-template.edit')
             ->with('data', $data)
-            ->with('meta', array('page_title'=>'Edit Email Template'))
+            ->with('meta', array('page_title'=>'Edit Email Template','item_counter'=>0))
             ->with('template_menu','active');
     }
 
@@ -124,7 +121,7 @@ class EmailTemplateController extends Controller
         $table1->save();
 
         Session::put('success','Email template updated successfully!');
-        return Redirect::to('/practitioner/email-templates/');
+        return Redirect::to('/admin/email-templates/');
     }
 
     /**

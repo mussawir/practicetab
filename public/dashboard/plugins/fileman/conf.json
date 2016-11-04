@@ -1,5 +1,5 @@
 {
-"FILES_ROOT":          "/practicetab/public/dashboard/img/uploads",
+"FILES_ROOT":          "/practicetab/public/practitioners/practitioner-images",
 "RETURN_URL_PREFIX":   "",
 "SESSION_PATH_KEY":    "",
 "THUMBS_VIEW_WIDTH":   "140",

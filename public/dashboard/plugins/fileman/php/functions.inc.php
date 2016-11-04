@@ -30,6 +30,7 @@ include 'security.inc.php';
 ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../../').'/storage/framework/sessions');
 session_start();
 //$_SESSION['pra_dir'] = $pra_dir;
+//unset($_SESSION['pra_dir']);
 //var_dump($_SESSION['pra_dir']);return;
 function t($key){
   global $LANG;
@@ -99,9 +100,11 @@ function getSuccessRes($str = ''){
 function getErrorRes($str = ''){
   return gerResultStr('error', $str);
 }
-function getFilesPath(){
 
-  $ret = FILES_ROOT;
+function getFilesPath()
+{
+  $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
+
   $pra_dir = $_SESSION['pra_dir'];
   if(isset($pra_dir)){
     if($pra_dir['is_member']){
@@ -114,11 +117,11 @@ function getFilesPath(){
     if(mb_substr($tmp, -1) == '/' || mb_substr($tmp, -1) == '\\')
       $tmp = mb_substr($tmp, 0, -1);
     $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);*/
-    $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
   }
 
   return $ret;
 }
+
 function listDirectory($path){
   $ret = @scandir($path);
   if($ret === false){
