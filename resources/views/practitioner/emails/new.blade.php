@@ -92,13 +92,13 @@
                     <div class="form-group">
                         {!! Form::label('subject','Subject: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject')) !!}
+                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject', 'required'=>'required')) !!}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

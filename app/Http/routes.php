@@ -200,6 +200,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
+    Route::post('/emails/store', 'Practitioner\EmailsController@store');
 });
 
 Route::group(['middleware' => ['auth']], function () {

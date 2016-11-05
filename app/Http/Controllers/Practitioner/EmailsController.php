@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Models\ContactGroup;
 use App\Models\EmailTemplate;
+use App\Models\Patient;
+use App\Models\Practitioner;
+use App\Models\PractitionerEmail;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -73,13 +76,50 @@ class EmailsController extends Controller
                     return Redirect::back()->withErrors($validator)->withInput();
                 }
         */
-        $input = $request->all();
-        $prac = Session::get('practitioner_session');
-        $input['pra_id'] = $prac['pra_id'];
-        EmailTemplate::create($input);
+        $inputs = $request->all();
+        print_r($inputs);
 
-        Session::put('success','New Email Template is created successfully!');
-        return Redirect::to('/practitioner/email-templates');
+        //placeholders array
+        $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
+            'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone',
+            'SU.Name', 'SU.Description', 'SU.Url', 'SU.Benefits', 'SU.Usability', 'SU.Price', 'SU.Discount',
+            'NU.Name', 'NU.Description', 'NU.Url', 'NU.Benefits', 'NU.Usability', 'NU.Price', 'NU.Discount',
+            'EX.Heading', 'EX.Image1', 'EX.Image2');
+
+        $prac = Session::get('practitioner_session');
+        $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+            ->where('pra_id', '=', $prac['pra_id'])->first();
+        $pa = Patient::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+            ->first();
+
+        $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
+            $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
+
+        $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
+        $mail_body = str_replace($placeholders, $replace_with, $mail_body);
+        echo '<hr>';
+        print_r($mail_body);
+        return;
+
+        $pa_ids = array();
+
+        $mail_data = array('bcc'=>$inputs['bcc'], 'subject'=>$inputs['subject'], 'mail_body'=>$mail_body);
+        \Mail::queue([], [], function ($message) use ($mail_data)
+        {
+            $message->queue('me@myemail.com')
+                ->subject($mail_data['subject'])
+                ->bcc($mail_data['bcc'])
+                ->setBody($mail_data['mail_body'], 'text/html');
+        });
+
+        $prac = Session::get('practitioner_session');
+        $inputs['pra_id'] = $prac['pra_id'];
+        $inputs['pa_ids'] = json_encode($pa_ids);
+        $inputs['mail_body'] = $mail_body;
+        PractitionerEmail::create($inputs);
+
+        Session::put('success','Email campaign started.');
+        return Redirect::to('/practitioner/emails');
     }
 
     /**
