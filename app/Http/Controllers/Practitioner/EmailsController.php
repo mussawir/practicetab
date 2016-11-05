@@ -102,7 +102,7 @@ class EmailsController extends Controller
         return;
 
         $pa_ids = array();
-
+        
         $mail_data = array('bcc'=>$inputs['bcc'], 'subject'=>$inputs['subject'], 'mail_body'=>$mail_body);
         \Mail::queue([], [], function ($message) use ($mail_data)
         {
