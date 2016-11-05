@@ -28,18 +28,16 @@
                 <div class="vertical-box">
                     <div class="vertical-box-column p-15 bg-silver width-200">
                         <div id="external-events" class="fc-event-list">
-                            <h5 class="m-t-0 m-b-10">Draggable Events</h5>
-                            <div class="fc-event" data-color="#00acac"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-success"></i></div> Meeting with Client</div>
-                            <div class="fc-event" data-color="#348fe2"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-primary"></i></div> IOS App Development</div>
-                            <div class="fc-event" data-color="#f59c1a"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-warning"></i></div> Group Discussion</div>
-                            <div class="fc-event" data-color="#ff5b57"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-danger"></i></div> New System Briefing</div>
-                            <div class="fc-event"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-inverse"></i></div> Brainstorming</div>
-                            <h5 class="m-t-20 m-b-10">Other Events</h5>
-                            <div class="fc-event" data-color="#b6c2c9"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-muted"></i></div> Other Event 1</div>
-                            <div class="fc-event" data-color="#b6c2c9"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-muted"></i></div> Other Event 2</div>
-                            <div class="fc-event" data-color="#b6c2c9"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-muted"></i></div> Other Event 3</div>
-                            <div class="fc-event" data-color="#b6c2c9"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-muted"></i></div> Other Event 4</div>
-                            <div class="fc-event" data-color="#b6c2c9"><div class="fc-event-icon"><i class="fa fa-circle-o fa-fw text-muted"></i></div> Other Event 5</div>
+<div class="row">
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="datepicker-default" placeholder="Select Date" onchange="changeCalender();" />
+                                </div>
+                            <div class="col-md-3">
+                            <i class="fa fa-calendar"></i>
+                            </div>
+</div>
+
+
                         </div>
                     </div>
                     <div id="calendar" class="vertical-box-column p-15 calendar"></div>
@@ -53,14 +51,17 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
+                        <h1>
+                            Appointments
+
+                        </h1>
+
                         <div class="tabbable" id="tabs-477182">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a href="#panel-144564" data-toggle="tab">Section 1</a>
+
                                 </li>
-                                <li>
-                                    <a href="#panel-44682" data-toggle="tab">Section 2</a>
-                                </li>
+
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="panel-144564">
@@ -70,10 +71,12 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-12">
+<input type="hidden" name="scheduleId" id="scheduleId" />
                                                             <label class="col-md-4 control-label">Patient Name : </label>
                                                             <div class="col-md-8">
-                                                                <input type="text" class="form-control" placeholder="Patient Name" id="patientname" name="patientname">
-                                                        </div>
+
+                                                            <input type="text" class="form-control" placeholder="Patient Name" id="patientname" name="patientname">
+                                                            </div>
                                                     </div>
                                                     </div>
                                                     </br>
@@ -94,12 +97,14 @@
                                                                 </div>
                                                             <div class="col-md-4">
                                                                 Time :
-                                                                <select class="form-control" id="time" name="time">
+                                                                <select class="form-control" id="time" name="time" disabled="" >
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 Duration:(min)
-                                                                <input type="text" class="form-control" placeholder=""  name="pDuration" id="pDuration">
+                                                                <select class="form-control" id="pDuration" name="pDuration">
+                                                                </select>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -184,8 +189,10 @@
                                                     </br>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <input type="button" value="Save" class="btn btn-sm btn-primary m-r-5" onclick="addMaster();" />
+                                                            <input id="saveBtn" type="button" value="Save" class="btn btn-sm btn-primary m-r-5" onclick="addMaster();" />
+                                                            <input id="updateBtn" type="button" value="Update" class="btn btn-sm btn-primary m-r-5" onclick="updateScheduleData();" />
                                                             <button id="event-done" type="reset" class="btn btn-sm btn-default" onclick="$('#element_to_pop_up').bPopup().close();">Cancel</button>
+                                                            <img src="/practicetab/public/img/transparent/ajax-loader.gif" id="ajaxloaderImg" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -212,18 +219,40 @@
 <script type="text/javascript">
     var formData;
     $(document).ready(function(){
+        $('#updateBtn').hide();
         formData = $('#element_to_pop_up').html();
+        fetchSchedulerData();
+        $('#my-button').hide();
+        $('#ajaxloaderImg').hide();
     });
     function addMaster()
     {
-        var id = $('#patientname').val();
-        var reason = $('#reason').val();
-        var pDate = $('#pDate').val();
-        var pTime = $('#time').val();
-        var pDuration = $('#pDuration').val();
-        var pColor = $('#color').val();
-        var pstatus = $('#status').val();
-        var app_desc = $('#app_desc').val();
+
+        var id = $('#patientname').val();//$('#patientname').val('');
+        var reason = $('#reason').val();//$('#reason').val('');
+        var pDate = $('#pDate').val();//$('#pDate').val('');
+        var pTime = $('#time').val();//$('#time').val('');
+        var pDuration = $('#pDuration').val();//$('#pDuration').val('');
+        var pColor = $('#color').val();//$('#color').val('');
+        var pstatus = $('#status').val();//$('#status').val('');
+        var app_desc = $('#app_desc').val();//$('#app_desc').val('');
+        var breakTime = pTime.split(':');
+        var breaktime2 = (parseInt(pDuration)+parseInt(breakTime[1]));
+        if(pDuration==60)
+        {
+            breakTime[0] = (parseInt(breakTime[0])+1);
+        }
+        else if(breaktime2>60|breaktime2==60)
+        {
+            breakTime[0] = (parseInt(breakTime[0])+1);
+            breaktime2 = parseInt(breaktime2)-60;
+            breakTime[1] = breaktime2;
+        }
+        else
+        {
+            breakTime[1] = breaktime2;
+        }
+        $('#ajaxloaderImg').show();
         $.ajax({
                 type: "POST",
                 url: '{{ URL::to('/practitioner/schedule/') }}',
@@ -240,18 +269,171 @@
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function (result) {
-                    alert('Data successfully Entered into Database');
+                    //alert('Data successfully Entered into Database');
                     $('#element_to_pop_up').bPopup().close();
-                    $('#element_to_pop_up').html('');
-                    $('#element_to_pop_up').html(formData);
+                    //$('#element_to_pop_up').html('');
+                    //$('#element_to_pop_up').html(formData);
+                    eventData = {
+                        title: getMaxId() + " ) " +id,
+                        start: pDate+" "+pTime,
+                        end: pDate+" "+ breakTime[0]+":"+breakTime[1],
+                        color:'#'+pColor,
+                        textColor : 'black'
+                    };
+                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    $('#ajaxloaderImg').hide();
                 },
                 error:function (error) {
                     alert('error');
+                    $('#ajaxloaderImg').hide();
                 }
             });
-            return false;
 
-        return false;
+    }
+    function getMaxId()
+    {
+        $.ajax({
+            type: "POST",
+            url: '{{ URL::to('/practitioner/FetchscheduleMax/') }}',
+            data: {},
+            beforeSend: function (request) {
+                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+            },
+            success: function (result) {
+                var maxId = (parseInt(result)+1);
+                return maxId;
+            } ,
+            error:function (error) {
+                alert('error');
+            }
+        });
+    }
+
+    function fetchSchedulerData()
+    {
+
+        $.ajax({
+            type: "POST",
+            url: '{{ URL::to('/practitioner/Fetchschedule/') }}',
+            data: {},
+            beforeSend: function (request) {
+                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+            },
+            success: function (result) {
+                $breakitfirst = result.split('|');
+                for(var i=0;i<$breakitfirst.length;i++)
+                {
+                    $breakit = $breakitfirst[i].split(';');
+                    var breakTime = $breakit[2].split(':');
+                    var breaktime2 = (parseInt($breakit[3])+parseInt(breakTime[1]));
+                    if(pDuration==60)
+                    {
+                        breakTime[0] = (parseInt(breakTime[0])+1);
+                    }
+                    else if(breaktime2>60|breaktime2==60)
+                    {
+                        breakTime[0] = (parseInt(breakTime[0])+1);
+                        breaktime2 = parseInt(breaktime2)-60;
+                        breakTime[1] = breaktime2;
+                    }
+                    else
+                    {
+                        breakTime[1] = breaktime2;
+                    }
+                        eventData = {
+                            title: $breakit[0],
+                            start: $breakit[1]+' '+ $breakit[2],
+                            end: $breakit[1]+' '+ breakTime[0]+":"+breakTime[1],
+                            color:'#'+$breakit[4],
+                            textColor : 'black'
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                        eventData = {};
+                }
+            } ,
+            error:function (error) {
+                alert('error');
+            }
+        });
+    }
+    function fetchRowSchedule(id)
+    {
+        var test = '';
+        $('#ajaxloaderImg').show();
+        $.ajax({
+            type: "POST",
+            url: '{{ URL::to('/practitioner/FetchscheduleRow/') }}',
+            data: {
+                id : id
+            },
+            beforeSend: function (request) {
+                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+            },
+            success: function (result) {
+                if(result!="")
+                {
+                    $('#scheduleId').val(id);
+                    $('#patientname').val(result.split(';')[0]);
+                    $('#reason').val(result.split(';')[2]);
+                    $('#pDate').val(result.split(';')[1]);
+                    $('#time').val(result.split(';')[4]);
+                    $('#pDuration').val(result.split(';')[5]);
+                    $('#color').val(result.split(';')[6]);
+                    $('#status').val(result.split(';')[7]);
+                    $('#app_desc').val(result.split(';')[3]);
+                    $('#saveBtn').hide();
+                    $('#updateBtn').show();
+                    $('#ajaxloaderImg').hide();
+                    return $('#scheduleId').val() + " ) " + $('#patientname').val();
+                }
+            } ,
+            error:function (error) {
+                alert('error');
+                $('#ajaxloaderImg').hide();
+            }
+        });
+
+    }
+
+    function updateScheduleData()
+    {
+        var id = $('#scheduleId').val();//$('#patientname').val('');
+        var reason = $('#reason').val();//$('#reason').val('');
+        var pDate = $('#pDate').val();//$('#pDate').val('');
+        var pTime = $('#time').val();//$('#time').val('');
+        var pDuration = $('#pDuration').val();//$('#pDuration').val('');
+        var pColor = $('#color').val();//$('#color').val('');
+        var pstatus = $('#status').val();//$('#status').val('');
+        var app_desc = $('#app_desc').val();//$('#app_desc').val('');
+        var patient_id = $('#patientname').val();//$('#patientname').val('');
+        $('#ajaxloaderImg').show();
+        $.ajax({
+            type: "POST",
+            url: '{{ URL::to('/practitioner/updateScheduleData/') }}',
+            data: {id:id
+                ,reason : reason
+                ,pDate:pDate
+                ,pTime:pTime
+                ,pDuration:pDuration
+                ,pColor:pColor
+                ,pstatus:pstatus
+                ,app_desc:app_desc
+                ,patient_id:patient_id
+            },
+            beforeSend: function (request) {
+                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+            },
+            success: function (result) {
+                //alert('Successfully Updated Data in DataBase');
+                $('#element_to_pop_up').bPopup().close();
+                $('#ajaxloaderImg').hide();
+            } ,
+            error:function (error) {
+                alert('error');
+                $('#ajaxloaderImg').hide();
+            }
+        });
+
     }
 
 function insertinCombo(id,result)
@@ -293,6 +475,11 @@ function insertinCombo(id,result)
         map[this.value] = true;
     })
 
+    for(var k=1;k<61;k++)
+    {
+        insertinCombo('pDuration',k);
+    }
+
     var m_names = new Array("Jan", "Feb", "Mar",
             "Apr", "May", "Jun", "Jul", "Aug", "Sep",
             "Oct", "Nov", "Dec");
@@ -302,7 +489,16 @@ function insertinCombo(id,result)
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
     var finaleDate = curr_date + "/" + m_names[curr_month] + "/" + curr_year;
+    finaleDate = curr_year +"-"+ (curr_month+1) +"-"+ curr_date;
     $('#pDate').val(finaleDate);
+    $('#datepicker-default').val((curr_month+1)+"/"+curr_date+"/"+curr_year);
+
+    function changeCalender()
+    {
+        $('#calendar').fullCalendar('gotoDate', $('#datepicker-default').val());
+        $('#pDate').val($('#datepicker-default').val());
+    }
+
 
 </script>
 

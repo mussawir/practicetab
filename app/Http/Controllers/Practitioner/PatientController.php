@@ -264,6 +264,7 @@ class PatientController extends Controller
         return Redirect::to('/practitioner/patient/files/'.$request->pa_id);
     }
 
+
     public function destroyFile($id)
     {
         $prac = Session::get('practitioner_session');
@@ -282,3 +283,25 @@ class PatientController extends Controller
         return response()->json(['status' => 'error']);
     }
 }
+/*
+ * <<<<<<< HEAD
+    
+public function destroyFile($pa_id, $pf_id)
+{
+    $prac = Session::get('practitioner_session');
+    $table1 = PatientFile::select('*')->where('pa_id', $pa_id)->where('pf_id', $pf_id)->get();
+    $table2 = Patient::find($pa_id);
+    if(isset($table1)){
+        if(file_exists(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name)){
+            unlink(public_path() .'/practitioners/'.$prac['directory'].'/' .$table2->directory .'/'. $table1->file_name);
+        }
+        $table1->delete();
+        Session::put('success','File is deleted successfully!');
+        return Redirect::to('/practitioner/patient/files/'.$pa_id);
+    }
+    return response()->json(['status' => 'error']);
+}
+
+}
+=======
+ */

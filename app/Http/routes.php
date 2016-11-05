@@ -133,6 +133,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::patch('/contact-group/update', 'Practitioner\ContactGroupController@update');
     Route::delete('/contact-group/destroy/{id}', 'Practitioner\ContactGroupController@destroy');
     Route::post('/schedule', ['as' => 'schedule', 'uses' => 'Practitioner\ManagementController@saveData']);
+    Route::post('/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Practitioner\ManagementController@Fetchschedule']);
+    Route::post('/FetchscheduleMax', ['as' => 'FetchscheduleMax', 'uses' => 'Practitioner\ManagementController@FetchscheduleMax']);
+    Route::post('/FetchscheduleRow', ['as' => 'FetchscheduleRow', 'uses' => 'Practitioner\ManagementController@FetchscheduleRow']);
+    Route::post('/updateScheduleData', ['as' => 'updateScheduleData', 'uses' => 'Practitioner\ManagementController@updateScheduleData']);
     Route::get('/contact', ['as' => 'contacts', 'uses' => 'Practitioner\ContactController@index']);
     Route::get('/contact/new', 'Practitioner\ContactController@create');
     Route::post('/contact/store', 'Practitioner\ContactController@store');
@@ -153,7 +157,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
     Route::get('/patient/files/{id}', 'Practitioner\PatientController@files');
     Route::post('/patient/upload-files', 'Practitioner\PatientController@uploadFiles');
-    Route::delete('/patient/destroy-file/{id}', 'Practitioner\PatientController@destroyFile');
+    Route::delete('/patient/destroy-file/{pa_id}/{pf_id}', 'Practitioner\PatientController@destroyFile');
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises', 'Practitioner\ExercisePrescriptionController@exercises');
