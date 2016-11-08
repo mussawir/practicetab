@@ -32,6 +32,7 @@ class EmailTemplateController extends Controller
             ->with('template_menu','active')
             ->with('templates_list','active');
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -78,7 +79,12 @@ class EmailTemplateController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = EmailTemplate::find($id);
+        return view('admin.email-template.view')
+            ->with('data', $data)
+            ->with('meta', array('page_title'=>'View Email Template','item_counter'=>0))
+            ->with('template_menu','active');
+
     }
 
     /**

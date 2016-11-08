@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/email-templates/edit/{id}', 'Admin\EmailTemplateController@edit');
     Route::patch('/email-templates/update', 'Admin\EmailTemplateController@update');
     Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
+    Route::get('/email-templates/view/{id}', 'Admin\EmailTemplateController@show');
+
 });
 
 /* Patient module */
@@ -125,7 +127,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
+    //Email Group Routes
+    // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
+    Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
+    Route::post('/email-group/store', 'Practitioner\EmailGroupController@store');
+    // Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
+    // Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
+    // Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
 
+    // Contact Group Routes
     Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Practitioner\ContactGroupController@index']);
     Route::get('/contact-group/new', 'Practitioner\ContactGroupController@create');
     Route::post('/contact-group/store', 'Practitioner\ContactGroupController@store');

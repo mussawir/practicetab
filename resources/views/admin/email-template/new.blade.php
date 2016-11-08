@@ -72,35 +72,6 @@
                             <li>{PA.Phone}</li>
                         </ul>
                     </li>
-                    <li>Supplements
-                        <ul>
-                            <li>{SU.Name}</li>
-                            <li>{SU.Description}</li>
-                            <li>{SU.Url}</li>
-                            <li>{SU.Benefits}</li>
-                            <li>{SU.Usability}</li>
-                            <li>{SU.Price}</li>
-                            <li>{SU.Discount}</li>
-                        </ul>
-                    </li>
-                    <li>Nutrition
-                        <ul>
-                            <li>{NU.Name}</li>
-                            <li>{NU.Description}</li>
-                            <li>{NU.Url}</li>
-                            <li>{NU.Benefits}</li>
-                            <li>{NU.Usability}</li>
-                            <li>{NU.Price}</li>
-                            <li>{NU.Discount}</li>
-                        </ul>
-                    </li>
-                    <li>Exercise
-                        <ul>
-                            <li>{EX.Heading}</li>
-                            <li>{EX.Image1}</li>
-                            <li>{EX.Image2}</li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>

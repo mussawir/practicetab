@@ -59,8 +59,10 @@
                                 <div class="content-container">{!! $item->template!!}</div>
                             </td>
                             <td>
-                                <a href="{{url('/admin/email-templates/edit/'.$item->et_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->et_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a href="{{url('/admin/email-templates/view/'.$item->et_id)}}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                 |
+                                <a href="{{url('/admin/email-templates/edit/'.$item->et_id)}}"><i class="fa fa-pencil"></i> Edit</a>
+                                <!-- <a href="javascript:void(0);" onclick="doDelete('{{$item->et_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a> -->
                             </td>
 
                         </tr>

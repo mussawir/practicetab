@@ -81,10 +81,7 @@ class EmailsController extends Controller
 
         //placeholders array
         $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
-            'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone',
-            'SU.Name', 'SU.Description', 'SU.Url', 'SU.Benefits', 'SU.Usability', 'SU.Price', 'SU.Discount',
-            'NU.Name', 'NU.Description', 'NU.Url', 'NU.Benefits', 'NU.Usability', 'NU.Price', 'NU.Discount',
-            'EX.Heading', 'EX.Image1', 'EX.Image2');
+            'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone');
 
         $prac = Session::get('practitioner_session');
         $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
