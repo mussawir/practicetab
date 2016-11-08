@@ -45,7 +45,8 @@ class EmailGroupController extends Controller
         $meta = array('page_title'=>'New Email Group', 'cm_main_menu'=>'active', 'cg_sub_menu_new'=> 'active');
         $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
         $contacts = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
-        return view('practitioner.email-group.new')->with('meta', $meta)->with('patients', $patients)->with('contacts',$contacts);
+        return view('practitioner.email-group.new')->with('meta', $meta)
+            ->with('patients', $patients)->with('contacts',$contacts);
     }
 
     /**
