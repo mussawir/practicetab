@@ -84,7 +84,7 @@
            </td>
 
            <td>
-               <a href="javascript:void(0);" onclick="downloadFile('{{$item->pf_id}}', this);"><i class="fa fa-download"></i> Download</a> |
+               <a href="javascript:void(0);" onclick="window.location.href='{{url('/practitioner/patient/download-file/'.$item->pf_id)}}'"><i class="fa fa-download"></i> Download</a> |
                <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
 
            </td>
@@ -122,7 +122,6 @@
             }
         });
 
- * <<<<<<< HEAD
  <a href="#"><i class="fa fa-trash-o"></i> Download</a> |
 
  <a href="javascript:void(0);" onclick="doDelete('{{$table1->pa_id, $item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
@@ -155,8 +154,7 @@
      }
      return false;
  }
- *//
-
+ */
     function doDelete(id, elm)
         {
             var q = confirm("Are you sure you want to delete this file?");

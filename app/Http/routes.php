@@ -167,7 +167,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/patient/destroy/{id}', 'Practitioner\PatientController@destroy');
     Route::get('/patient/files/{id}', 'Practitioner\PatientController@files');
     Route::post('/patient/upload-files', 'Practitioner\PatientController@uploadFiles');
-    Route::delete('/patient/destroy-file/{pa_id}/{pf_id}', 'Practitioner\PatientController@destroyFile');
+    Route::delete('/patient/destroy-file/{id}', 'Practitioner\PatientController@destroyFile');
+    Route::get('/patient/download-file/{id}', 'Practitioner\PatientController@downloadFile');
 
     Route::get('/exercise-prescription/', 'Practitioner\ExercisePrescriptionController@index');
     Route::get('/exercise-prescription/exercises', 'Practitioner\ExercisePrescriptionController@exercises');
@@ -202,7 +203,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/profile/hours', 'Practitioner\ProfileController@hours');
     Route::patch('/profile/hours-update', 'Practitioner\ProfileController@hoursUpdate');
 
-
     Route::get('/blog', 'Practitioner\BlogController@index');
     Route::get('/blog/new', 'Practitioner\BlogController@create');
     Route::post('/blog/store', 'Practitioner\BlogController@store');
@@ -216,6 +216,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
 });
+
+// route for public profile page
+Route::get('/practitioner/{slug}', [
+    'uses' => 'HomeController@showPublicProfile'
+])->where('url', '([A-Za-z0-9\-\/]+)');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users','UserController');

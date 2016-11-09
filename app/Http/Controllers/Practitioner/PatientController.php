@@ -282,10 +282,23 @@ class PatientController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
+
+    public function downloadFile($id)
+    {
+        $prac = Session::get('practitioner_session');
+        $table1 = PatientFile::find($id);
+        $table2 = Patient::select('directory')->where('pa_id', '=', $table1->pa_id)->first();
+
+        $file = public_path() . '/practitioners/'.$prac['directory'].'/'.$table2->directory .'/' . $table1->file_name;
+
+        /*$headers = array(
+            'Content-Type: '.$table1->mime_type
+        );*/
+        return response()->download($file);
+        //return response()->download($file, $table1->file_name, $headers);
+    }
 }
 /*
- * <<<<<<< HEAD
-    
 public function destroyFile($pa_id, $pf_id)
 {
     $prac = Session::get('practitioner_session');
@@ -301,7 +314,5 @@ public function destroyFile($pa_id, $pf_id)
     }
     return response()->json(['status' => 'error']);
 }
-
 }
-=======
  */

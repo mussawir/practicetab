@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BlogPost;
+use App\Models\Hours;
+use App\Models\Practitioner;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -25,5 +28,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function showPublicProfile($url = null)
+    {
+        $pra = Practitioner::where('url', '=', $url)->firstOrFail();
+        $posts = BlogPost::where('pra_id', '=', $pra->pra_id)->orderBy('created_at', 'desc')->get();
+        $op_hours = Hours::where('pra_id', '=', $pra->pra_id)->first();
+
+        return view('pra-public-profile')->with('pra', $pra)
+            ->with('posts', $posts)->with('op_hours', $op_hours);
     }
 }
