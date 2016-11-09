@@ -7,10 +7,12 @@ use App\Models\scheduler;
 use Illuminate\Http\Request;
 use DB;
 use App\Quotation;
+use App\Models\Patient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
 
 class ManagementController extends Controller
 {
@@ -102,7 +104,9 @@ class ManagementController extends Controller
     }
     public function Fetchschedule()
     {
-        $scheduler = DB::table('scheduler')->get();
+        $scheduler = DB::table('scheduler')
+            ->where('pStatus','<>','13')
+            ->get();
 
         foreach ($scheduler as $schedule)
         {
@@ -161,6 +165,7 @@ class ManagementController extends Controller
     }
     public function saveData(Request $request)
     {
+        $practitioner = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();;
         $myId =  $request->id;
         $scheduler = new scheduler();
         $scheduler->patient_id = $myId;
@@ -171,6 +176,7 @@ class ManagementController extends Controller
         $scheduler->pColor = $request->pColor;
         $scheduler->pstatus = $request->pstatus;
         $scheduler->app_desc = $request->app_desc;
+        $scheduler->practitioner_id=$practitioner->first_name . ' ' . $practitioner->middle_name.' '.$practitioner->last_name;
         $scheduler->save();
         return 'success';
     }
