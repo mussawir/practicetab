@@ -137,11 +137,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
-<<<<<<< HEAD
 
-
-
-=======
     //Email Group Routes
     // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
     Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
@@ -151,7 +147,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     // Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
 
     // Contact Group Routes
->>>>>>> ca41eeb09addfca073821d416fec185fe5ca5d96
+
     Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Practitioner\ContactGroupController@index']);
     Route::get('/contact-group/new', 'Practitioner\ContactGroupController@create');
     Route::post('/contact-group/store', 'Practitioner\ContactGroupController@store');
