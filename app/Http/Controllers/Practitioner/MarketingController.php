@@ -30,6 +30,10 @@ class MarketingController extends Controller
     {
         return view('practitioner.marketing.index');
     }
+    public function SocialPost()
+    {
+        return view('practitioner.marketing.social');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -96,4 +100,5 @@ class MarketingController extends Controller
     {
         //
     }
+
 }

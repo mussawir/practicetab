@@ -111,6 +111,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
     Route::get('/index/nutrition-suggestion-details/{id}', 'Patient\IndexController@nutritionSuggestionDetails');
+    Route::get('/index/appointmentHistory', ['as' => 'appointmentHistory', 'uses' => 'Patient\IndexController@appointmentHistory']);
+    Route::get('/index/getAppointment', ['as' => 'getAppointment', 'uses' => 'Patient\IndexController@getAppointment']);
+    Route::post('/index/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Patient\IndexController@Fetchschedule']);
+    Route::post('/index/requestSchedule', ['as' => 'requestSchedule', 'uses' => 'Patient\IndexController@requestSchedule']);
+    Route::post('/index/getNotification', ['as' => 'getNotification', 'uses' => 'Patient\IndexController@getNotification']);
+    Route::post('/index/hideNotification', ['as' => 'hideNotification', 'uses' => 'Patient\IndexController@hideNotification']);
+
+
+
 });
 
 /* Practitioner module */
@@ -125,8 +134,14 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
+    Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
+<<<<<<< HEAD
+
+
+
+=======
     //Email Group Routes
     // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
     Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
@@ -136,6 +151,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     // Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
 
     // Contact Group Routes
+>>>>>>> ca41eeb09addfca073821d416fec185fe5ca5d96
     Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Practitioner\ContactGroupController@index']);
     Route::get('/contact-group/new', 'Practitioner\ContactGroupController@create');
     Route::post('/contact-group/store', 'Practitioner\ContactGroupController@store');
@@ -147,6 +163,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/FetchscheduleMax', ['as' => 'FetchscheduleMax', 'uses' => 'Practitioner\ManagementController@FetchscheduleMax']);
     Route::post('/FetchscheduleRow', ['as' => 'FetchscheduleRow', 'uses' => 'Practitioner\ManagementController@FetchscheduleRow']);
     Route::post('/updateScheduleData', ['as' => 'updateScheduleData', 'uses' => 'Practitioner\ManagementController@updateScheduleData']);
+
     Route::get('/contact', ['as' => 'contacts', 'uses' => 'Practitioner\ContactController@index']);
     Route::get('/contact/new', 'Practitioner\ContactController@create');
     Route::post('/contact/store', 'Practitioner\ContactController@store');

@@ -51,7 +51,7 @@
                     <span class="label">5</span>
                 </a>
                 <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                    <li class="dropdown-header">Notifications (5)</li>
+                    <li class="dropdown-header">Notifications</li>
                     <li class="media">
                         <a href="javascript:;">
                             <div class="media-left"><i class="fa fa-bug media-object bg-red"></i></div>
@@ -99,6 +99,7 @@
                             </div>
                         </a>
                     </li>
+
                     <li class="dropdown-footer text-center">
                         <a href="javascript:;">View more</a>
                     </li>

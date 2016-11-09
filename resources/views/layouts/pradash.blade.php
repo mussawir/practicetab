@@ -32,6 +32,7 @@
     <link href="{{ asset('public/dashboard/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/css/jquery.ui.autocomplete.min.css') }}" rel="stylesheet">
     @yield('head')
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 
@@ -97,6 +98,8 @@
 <script src="{{asset('public/dashboard/plugins/popup/jquery.bpopup.js')}}"></script>
 <script src="{{asset('public/dashboard/js/calendar.demo.min.js')}}"></script>
 <script src="{{asset('public/dashboard/plugins/datepicker/form-plugins.demo.min.js')}}"></script>
+
+<script src="{{asset('public/dashboard/plugins/Autocomplete/jquery.ui.autocomplete.min.js')}}"></script>
 
 @yield('bottom');
 <script src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
@@ -179,6 +182,8 @@
                 if (test.indexOf('GMT') > -1) {
                     test = test.substring(0,test.indexOf('GMT'));
                     aDate = new Date(Date.parse(test));
+                    $('#pDate').val(aDate.getFullYear()+'-'+(aDate.getMonth()+1)+'-'+(aDate.getDate()));
+
                 }
                 var mins = aDate.getMinutes()=="0"?"00":aDate.getMinutes();
                 var timeset = aDate.getHours()+":"+mins;
