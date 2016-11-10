@@ -115,21 +115,124 @@ class MarketingController extends Controller
         //if(isset($_POST["mode"]) && $_POST["mode"] == "type1")
         {
             $myerr='';
-            $msg = $_POST["msg"];
-            $param = array( 'message' => $msg );
+            $link='';
+            $imagePath='';
             $success = FALSE;
             $error = FALSE;
-            try {
-                $posted = $facebook->api('/me/feed/', 'post', $param);
-                if (strlen($posted["id"]) > 0 ) $success = TRUE;
-            } catch  (FacebookApiException $e) {
-                $errMsg = $e->getMessage();
-                $error = TRUE;
-                $myerr=$errMsg;
+            if(isset($_POST["link"]))
+            {
+                $link = $_POST["link"];
             }
-            if($success) return 'posted';
-            if($error) return 'error'. $myerr;
+            if(isset($_POST["imagePath"]))
+            {
+                $imagePath = $_POST["imagePath"];
+            }
 
+            if($link=="") {
+                $msg = $_POST["msg"];
+                $param = array('message' => $msg);
+                try {
+                    $posted = $facebook->api('/me/feed/', 'post', $param);
+                    if (strlen($posted["id"]) > 0) $success = TRUE;
+                } catch (FacebookApiException $e) {
+                    $errMsg = $e->getMessage();
+                    $error = TRUE;
+                    $myerr = $errMsg;
+                }
+                if ($success) echo 'posted';
+                if ($error) echo 'error' . $myerr;
+            }
+            else if($link!=""&$imagePath=="")
+            {
+                $msg = $_POST["msg"];
+                $param = array(
+                    'message' => $msg,
+                    'link' => $link,
+                );
+
+                try {
+                    $posted = $facebook->api('/me/feed/', 'post', $param);
+                    if (strlen($posted["id"]) > 0 ) $success = TRUE;
+                } catch  (FacebookApiException $e) {
+                    $errMsg = $e->getMessage();
+                    $error = TRUE;
+                    $myerr=$errMsg;
+                }
+                if ($success) echo 'posted';
+                if ($error) echo 'error' . $myerr;
+            }
+            /*(else if($imagePath!="") {
+
+                $msg = $_POST["msg"];
+                $param = array(
+                    'message' => $msg,
+                    'picture' => 'http://ajaxuploader.com/images/drag-drop-file-upload.png',
+                    'caption' => $msg,
+                );
+                try {
+                    $posted = $facebook->api('/me/feed/', 'post', $param);
+                    if (strlen($posted["id"]) > 0 ) $success = TRUE;
+                } catch  (FacebookApiException $e) {
+                    $errMsg = $e->getMessage();
+                    $error = TRUE;
+                    $myerr=$errMsg;
+                }
+                if ($success) echo 'posted';
+                if ($error) echo 'error' . $myerr;
+            }*/
+
+
+
+        }
+    }
+    function uploadImage()
+    {
+        $target_dir = public_path() . '/dashboard/img/marketing-img/';
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $target_file = $target_dir .uniqid(). basename($_FILES["file"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+// Check if image file is a actual image or fake image
+        if (isset($_POST["submit"])) {
+            $check = getimagesize($_FILES["file"]["tmp_name"]);
+            if ($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+// Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+// Check file size
+        if ($_FILES["file"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+// Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+// Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                //echo "The file " . basename($_FILES["file"]["name"]) . " has been uploaded.";
+                echo $target_file;
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
         }
     }
     public function fblogin()
