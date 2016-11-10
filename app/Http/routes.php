@@ -53,6 +53,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
+    Route::get('/index/active-practitioners', 'Admin\IndexController@showActivePractitioners');
+    Route::get('/index/users', 'Admin\IndexController@showUserList');
 
     Route::get('/supplements/index', 'Admin\SupplementsController@index');
     Route::get('/supplements/new', 'Admin\SupplementsController@create');
