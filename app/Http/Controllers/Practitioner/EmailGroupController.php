@@ -32,9 +32,12 @@ class EmailGroupController extends Controller
     public function index()
     {
         $cg_list = EmailGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
-        $meta = array('page_title'=>' EmailGroup List', 'cm_main_menu'=>'active', 'eg_sub_menu_list'=>'active');
+        $meta = array('page_title'=>' EmailGroup List');
 
-        return view('practitioner.email-group.index')->with('meta', $meta)->with('cg_list', $cg_list);
+        return view('practitioner.email-group.index')->with('meta', $meta)
+            ->with('template_menu', 'active')
+            ->with('eg_sub_menu_list', 'active')
+            ->with('cg_list', $cg_list);
     }
 
     /**
@@ -44,10 +47,12 @@ class EmailGroupController extends Controller
      */
     public function create()
     {
-        $meta = array('page_title'=>'New Email Group', 'cm_main_menu'=>'active', 'eg_sub_menu_new'=> 'active');
+        $meta = array('page_title'=>'New Email Group');
         $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
         $contacts = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
         return view('practitioner.email-group.new')->with('meta', $meta)
+            ->with('template_menu', 'active')
+            ->with('eg_sub_menu_new', 'active')
             ->with('patients', $patients)->with('contacts',$contacts);
     }
 
@@ -133,9 +138,10 @@ class EmailGroupController extends Controller
     public function edit($id)
     {
          $cg = EmailGroup::find($id);
-         $meta = array('page_title'=>'Edit Group', 'cm_main_menu'=>'active');
+         $meta = array('page_title'=>'Edit Group');
 
-         return view('practitioner.email-group.edit')->with('meta', $meta)->with('cg', $cg);
+         return view('practitioner.email-group.edit')->with('meta', $meta)
+             ->with('template_menu', 'active')->with('cg', $cg);
     }
 
     /**
