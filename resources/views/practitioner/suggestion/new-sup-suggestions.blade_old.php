@@ -29,14 +29,12 @@
         </div>
 
         {!! Form::open(array('url'=>'/practitioner/suggestion/confirm-supplement-suggestions', 'id'=>'frm-suggestions')) !!}
-        <div class="col-md-12" style="margin-bottom: 10px;">
-            {!! Form::submit('Next >>', array('class'=>'btn btn-success pull-right')) !!}
-        </div>
+
         <div class="col-md-6">
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        Select supplements For Recommendation
+                        Select Supplements For Recommendation
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -83,23 +81,34 @@
                     </h4>
                 </div>
                 <div class="panel-body">
+                    <div class="row">
+                    <div class="col-md-9">
+                        <select id="patients" class="default-select2 form-control">
+                            <option value="">Select Patient</option>
+                            @foreach($patients as $item)
+                                <option value="{{$item->pa_id}}">{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        {!! Form::submit('Next >>', array('class'=>'btn btn-success form-control')) !!}
+                    </div>
+                    </div>
+                    <hr/>
                     <table class="table table-striped table-hover" id="dt-patient">
                         <thead>
                         <tr>
                             <th>Patient</th>
-                            <th></th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($patients as $patient)
+                        @foreach($selected_patients as $patient)
                         <tr>
                             <td>{{$patient->full_name}}</td>
                             <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="pa_id[]" value="{{$patient->pa_id}}">
-                                    </label>
-                                </div>
+                                <input type="hidden" name="pa_id[]" value="{{$patient->pa_id}}" />
+                                <a href="javascript:void(0);" class="text-danger" onclick="removeRow(this, '{{$patient->pa_id}}')"><i class="fa fa-times"></i> Remove</a>
                             </td>
                         </tr>
                         @endforeach
@@ -114,19 +123,21 @@
 
 @section('page-scripts')
     <script type="text/javascript">
-        var dtSupTable = '';
-        var dtPatientTable = '';
-
+        var patientTable = {};
         $(function () {
-            dtSupTable = $('#dt-sup').DataTable({
-                responsive: true,
-                "aaSorting": [[1, "asc"]],
-                "iDisplayLength": 10,
-                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
-            });
+            $(".default-select2").select2();
 
-            dtPatientTable = $('#dt-patient').DataTable({
+            if ($('#dt-sup').length !== 0) {
+                $('#dt-sup').DataTable({
+                    responsive: true,
+                    "aaSorting": [[1, "asc"]],
+                    "iDisplayLength": 10,
+                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
+                });
+            }
+
+            patientTable = $('#dt-patient').DataTable({
                 responsive: true,
                 "aaSorting": [[0, "asc"]],
                 "iDisplayLength": 10,
@@ -136,44 +147,48 @@
 
         }); // ready function end
 
-        $('#frm-suggestions').submit(function () {
-            if ($('[name="sup_id[]"]:checked').length == 0) {
-                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one supplement.</strong></div>').show().delay(5000).hide('slow');
-                return false;
-            }
+        $('#patients').change(function () {
+            var patientId = $(this).val();
+            if(patientId > 0) {
+                patientTable.destroy();
 
-            if ($('[name="pa_id[]"]:checked').length == 0) {
-                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one patient.</strong></div>').show().delay(5000).hide('slow');
-                return false;
+                patientTable = $('#dt-patient').DataTable({
+                    responsive: true,
+                    serverSide: true,
+                    ajax: {
+                        url: '{{url('/practitioner/suggestion/getSelectedPatient')}}',
+                        data: function(d) {
+                            d.id = patientId;
+                        }
+                    }
+                });
             }
         });
 
-        $("#frm-suggestions1").on('submit', function(e){
+        /*$('#dt-patient .dataTables_empty').closest('tr').remove();
+         $("#dt-patient tbody").append(
+         '<tr><input type="hidden" name="pa_id[]" value="'+patientId+'" />' +
+         '<td>' + $("#patients option:selected").text() + '</td>' +
+         '<td><a href="javascript:void(0);" class="text-danger" onclick="removeRow(this)"><i class="fa fa-times"></i> Remove</a></td>' +
+         '</tr>'
+         );*/
 
-            var chkCount = 0;
+        function removeRow(elm, id) {
+            $(elm).closest('tr').remove();
 
-            // Iterate over all checkboxes in the table
-            dtSupTable.$('[name="sup_id[]"]').each(function(){
-                // If checkbox doesn't exist in DOM
-                if(!$.contains(document, this)){
-                    // If checkbox is checked
-                    if(this.checked){
-                        // Create a hidden element
-                        $(this).append(
-                                $('<input>')
-                                        .attr('type', 'hidden')
-                                        .attr('name', this.name)
-                                        .val(this.value)
-                        );
-                    }
-                }
+            var rowCount = $('#dt-patient tbody tr').length;
+            if(rowCount==0) {
+                $("#dt-patient tbody").append('<tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
+            }
 
-                if(this.checked){
-                    chkCount = chkCount+1;
-                }
+            $.get("{{url('/practitioner/suggestion/removeSelectedPatient')}}", { id: id }, function(data) {
+                console.log(data);
             });
+            return false;
+        }
 
-            if(chkCount==0){
+        $('#frm-suggestions').submit(function () {
+            if ($('[name="sup_id[]"]:checked').length == 0) {
                 $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one supplement.</strong></div>').show().delay(5000).hide('slow');
                 return false;
             }

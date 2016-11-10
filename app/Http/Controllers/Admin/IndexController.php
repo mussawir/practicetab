@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePassFormRequest;
+use App\Models\Practitioner;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -39,5 +40,23 @@ class IndexController extends Controller
 
 		Session::put('success', 'Your password has been changed successfully!');
 		return Redirect::Back();
+	}
+
+	public function showActivePractitioners()
+	{
+		$meta = array('page_title'=>'Active Practitioners List', 'item_counter'=>(0));
+		$list = Practitioner::where('inactive', '=', 0)->orderBy('first_name', 'asc')->get();
+
+		return view('admin.index.activePraList')->with('meta', $meta)->with('list', $list)
+			->with('active_pra_menu', 'active')->with('active_pra_list', 'active');
+	}
+
+	public function showUserList()
+	{
+		$meta = array('page_title'=>'User List', 'item_counter'=>(0));
+		$list = User::where('role', '!=', 1)->orderBy('first_name', 'asc')->get();
+
+		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
+			->with('user_menu', 'active')->with('user_list', 'active');
 	}
 }

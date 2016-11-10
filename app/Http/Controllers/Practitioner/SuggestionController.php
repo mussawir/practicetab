@@ -62,18 +62,19 @@ class SuggestionController extends Controller
 
 	public function newSupplementSuggestions()
 	{
-		$patients = Patient::select('pa_id', 'first_name', 'middle_name', 'last_name')
+		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
 			//->where('pra_id', '=', $this->practitioner_info->pra_id)
-			->orderBy('first_name')->get();
+			->orderBy('first_name', 'asc')->get();
 
-		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')->get();
+		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
+			->orderBy('name', 'asc')->get();
 
-		$unique_ids = array_unique(Session::get('patient_list') ? Session::get('patient_list') : array());
+		/*$unique_ids = array_unique(Session::get('patient_list') ? Session::get('patient_list') : array());
 		$selected_patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
-			->whereIn('pa_id', $unique_ids)->get();
+			->whereIn('pa_id', $unique_ids)->get();*/
 
 		return view('practitioner.suggestion.new-sup-suggestions')->with('patients', $patients)
-			->with('selected_patients', $selected_patients)
+			//->with('selected_patients', $selected_patients)
 			->with('supplements', $supplements)->with('sug_menu', 'active')->with('sup_sug', 'active');
 	}
 
@@ -190,9 +191,10 @@ class SuggestionController extends Controller
 	{
 		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
 			//->where('pra_id', '=', $this->practitioner_info->pra_id)
-			->orderBy('first_name')->get();
+			->orderBy('first_name', 'asc')->get();
 
-		$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')->get();
+		$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
+			->orderBy('name', 'asc')->get();
 
 		return view('practitioner.suggestion.new-nut-suggestions')->with('patients', $patients)
 			->with('nutrition', $nutrition)->with('sug_menu', 'active')->with('nut_sug', 'active');

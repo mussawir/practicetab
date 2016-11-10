@@ -179,7 +179,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="{{isset($meta['nut_sub_menu_new'])?$meta['nut_sub_menu_new']:''}}"><a href="{{url('/admin/nutrition/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['nut_sub_menu_list'])?$meta['nut_sub_menu_list']:''}}"><a href="{{url('/admin/nutrition/index')}}">List</a></li>
+                        <li class="{{isset($meta['nut_sub_menu_list'])?$meta['nut_sub_menu_list']:''}}"><a href="{{url('/admin/nutrition')}}">List</a></li>
                     </ul>
                 </li>
 
@@ -208,16 +208,16 @@
                     </ul>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub <?php if(isset($active_pra_menu))echo $active_pra_menu?>">
                     <a href="javascript:;">
                         <span class="badge pull-right">300</span>
                         <i class="fa fa-user-md"></i>
                         <span>Practitioners</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Active List</a></li>
-                        <li><a href="#">Blocked List</a></li>
-                        <li><a href="#">Inactive List</a></li>
+                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/active-practitioners')}}">Active List</a></li>
+                        <li class="<?php if(isset($block_pra_menu))echo $block_pra_menu?>"><a href="#">Blocked List</a></li>
+                        <li class="<?php if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li>
                     </ul>
                 </li>
 
@@ -244,15 +244,15 @@
                     </ul>
                 </li>
 
-                <li class="has-sub">
+                <li class="has-sub <?php if(isset($user_menu))echo $user_menu?>">
                     <a href="javascript:;">
                         <span class="badge pull-right">2</span>
                         <i class="fa fa-medkit"></i>
                         <span>Users</span>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="#">Add New</a></li>
-                        <li><a href="#">List</a></li>
+                        <li class="<?php if(isset($new_user))echo $new_user?>"><a href="#">Add New</a></li>
+                        <li class="<?php if(isset($user_list))echo $user_list?>"><a href="{{url('/admin/index/users')}}">List</a></li>
                     </ul>
                 </li>
 
