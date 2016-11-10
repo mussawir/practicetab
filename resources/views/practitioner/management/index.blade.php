@@ -74,8 +74,8 @@
 <input type="hidden" name="scheduleId" id="scheduleId" />
                                                             <label class="col-md-4 control-label">Patient Name : </label>
                                                             <div class="col-md-8">
-
-                                                            <input type="text" class="form-control" placeholder="Patient Name" id="patientname" name="patientname">
+                                                                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                                                                <input onchange="autoComplete();" type="text" name="patientname" id="patientname" class="form-control ui-autocomplete-input"  autocomplete="off">
                                                             </div>
                                                     </div>
                                                     </div>
@@ -102,8 +102,7 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                 Duration:(min)
-                                                                <select class="form-control" id="pDuration" name="pDuration">
-                                                                </select>
+                                                                <input type="text" value="30" class="form-control" placeholder="" disabled="" name="pDuration" id="pDuration">
 
                                                             </div>
                                                         </div>
@@ -159,6 +158,7 @@
             <option value="10" onclick="jQuery('#color').val('FFE817');">Rescheduled</option>
             <option value="11" onclick="jQuery('#color').val('2E2E2E');">Cancelled</option>
             <option value="12" onclick="jQuery('#color').val('DF12FF');">No Show</option>
+            <option value="13" disabled="" >Request</option>
         </select>
 
     </div>
@@ -220,10 +220,17 @@
     var formData;
     $(document).ready(function(){
         $('#updateBtn').hide();
-        formData = $('#element_to_pop_up').html();
         fetchSchedulerData();
         $('#my-button').hide();
         $('#ajaxloaderImg').hide();
+    });
+    $(window).load(function(){
+        $('.fc-left').children().click();
+        $('#pDate').val(getDate());
+        formData = $('#element_to_pop_up').html();
+        $( "#patientname" ).autocomplete({
+            source: availableTags
+        });
     });
     function addMaster()
     {
@@ -269,19 +276,15 @@
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function (result) {
-                    //alert('Data successfully Entered into Database');
                     $('#element_to_pop_up').bPopup().close();
-                    //$('#element_to_pop_up').html('');
-                    //$('#element_to_pop_up').html(formData);
-                    eventData = {
-                        title: getMaxId() + " ) " +id,
-                        start: pDate+" "+pTime,
-                        end: pDate+" "+ breakTime[0]+":"+breakTime[1],
-                        color:'#'+pColor,
-                        textColor : 'black'
-                    };
-                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                    $('#ajaxloaderImg').hide();
+                    fetchSchedulerData();
+                    $('#element_to_pop_up').html('');
+                    $('#element_to_pop_up').html(formData);
+                    $( "#patientname" ).autocomplete({
+                        source: availableTags
+                    });
+
+
                 },
                 error:function (error) {
                     alert('error');
@@ -311,7 +314,6 @@
 
     function fetchSchedulerData()
     {
-
         $.ajax({
             type: "POST",
             url: '{{ URL::to('/practitioner/Fetchschedule/') }}',
@@ -320,6 +322,12 @@
                 return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
             },
             success: function (result) {
+                $('#calendar').fullCalendar('removeEvents');
+                $('#element_to_pop_up').html('');
+                $('#element_to_pop_up').html(formData);
+                $( "#patientname" ).autocomplete({
+                    source: availableTags
+                });
                 $breakitfirst = result.split('|');
                 for(var i=0;i<$breakitfirst.length;i++)
                 {
@@ -358,6 +366,11 @@
     }
     function fetchRowSchedule(id)
     {
+        $('#element_to_pop_up').html('');
+        $('#element_to_pop_up').html(formData);
+        $( "#patientname" ).autocomplete({
+            source: availableTags
+        });
         var test = '';
         $('#ajaxloaderImg').show();
         $.ajax({
@@ -392,7 +405,6 @@
                 $('#ajaxloaderImg').hide();
             }
         });
-
     }
 
     function updateScheduleData()
@@ -427,6 +439,12 @@
                 //alert('Successfully Updated Data in DataBase');
                 $('#element_to_pop_up').bPopup().close();
                 $('#ajaxloaderImg').hide();
+                fetchSchedulerData();
+                $('#element_to_pop_up').html('');
+                $('#element_to_pop_up').html(formData);
+                $( "#patientname" ).autocomplete({
+                    source: availableTags
+                });
             } ,
             error:function (error) {
                 alert('error');
@@ -463,7 +481,6 @@ function insertinCombo(id,result)
                 mins = '45';
             }
             result = hours+':'+mins;
-            console.log(result);
             insertinCombo('time',result);
         }
     }
@@ -474,12 +491,6 @@ function insertinCombo(id,result)
         }
         map[this.value] = true;
     })
-
-    for(var k=1;k<61;k++)
-    {
-        insertinCombo('pDuration',k);
-    }
-
     var m_names = new Array("Jan", "Feb", "Mar",
             "Apr", "May", "Jun", "Jul", "Aug", "Sep",
             "Oct", "Nov", "Dec");
@@ -498,6 +509,50 @@ function insertinCombo(id,result)
         $('#calendar').fullCalendar('gotoDate', $('#datepicker-default').val());
         $('#pDate').val($('#datepicker-default').val());
     }
+    function autoComplete()
+    {
+        $( "#patientname" ).autocomplete({
+            source: availableTags
+        });
+    }
+    function getDate()
+    {
+        var m_names = new Array("Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec");
+
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+        var finaleDate = curr_date + "/" + m_names[curr_month] + "/" + curr_year;
+        finaleDate = curr_year +"-"+ (curr_month+1) +"-"+ curr_date;
+        var formatedDate = (curr_month+1)+"/"+curr_date+"/"+curr_year;
+        return formatedDate;
+    }
+    var availableTags
+    $( function() {
+        availableTags = [<?php
+            use App\Models\Practitioner;
+            use Illuminate\Support\Facades\Auth;
+            use Illuminate\Support\Facades\DB;
+            $scheduler = DB::table('patients')
+                    ->where('first_name','<>','')
+                    ->get();
+                $counter=0;
+                $result='';
+            foreach ($scheduler as $schedule)
+            {
+                $result.= '"'.$schedule->first_name .' '. $schedule->middle_name .' '. $schedule->last_name.'"';
+                $result.= ',';
+            }
+            $result = substr($result, 0, -1);
+                echo $result;
+            ?>];
+        $( "#patientname" ).autocomplete({
+            source: availableTags
+        });
+    });
 
 
 </script>

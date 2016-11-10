@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\scheduler;
 /**
  * IndexController
  *
@@ -118,7 +118,44 @@ class IndexController extends Controller
 	{
 		return view('patient.index.change-password');
 	}
+	public function requestSchedule(Request $request)
+    {
+        $scheduler = new scheduler();
+        $patient = Patient::where('user_id', '=', Auth::user()->user_id)->first();;
+        $scheduler->patient_id = $patient->first_name . ' ' . $patient->middle_name.' '.$patient->last_name;
+        $scheduler->reason = $request->pDesc;
+        $scheduler->pDate = $request->pDate;
+        $scheduler->pTime = $request->pTime;
+        $scheduler->pDuration = $request->pDuration;
+        $scheduler->pstatus = $request->ptype;
+        $scheduler->app_desc = $request->pDesc;
+        $scheduler->practitioner_id = $request->practitioner_id;
+        $scheduler->save();
+    }
+    public function Fetchschedule(Request $request)
+    {
+        $patient = Patient::where('user_id', '=', Auth::user()->user_id)->first();;
+        $scheduler = DB::table('scheduler')
+            ->where('practitioner_id', '=', $request->practitionerId)
+            ->where('pDate', '<=', $request->reqDate)
+            ->where('patient_id','=',$patient->first_name . ' ' . $patient->middle_name.' '.$patient->last_name)
+            //->where ('pStatus','<>','13')
+            ->get();
 
+        foreach ($scheduler as $schedule)
+        {
+            echo $schedule->id .' ) '.$schedule->patient_id;
+            echo ';';
+            echo $schedule->pDate;
+            echo ';';
+            echo $schedule->pTime;
+            echo ';';
+            echo $schedule->pDuration;
+            echo ';';
+            echo $schedule->pColor;
+            echo '|';
+        }
+    }
 	public function saveNewPassword(ChangePassFormRequest $request)
 	{
 		$user = User::find(Auth::user()->user_id);
@@ -128,4 +165,47 @@ class IndexController extends Controller
 		Session::put('success', 'Your password has been changed successfully!');
 		return Redirect::Back();
 	}
+    public function appointmentHistory()
+    {
+        $schedulerTable = scheduler::select('*')->orderBy('pDate', 'asc')->get();
+        //$user = User::find(Auth::user()->user_id);
+        return view('patient.index.appointmentHistory')->with('schedulerTable', $schedulerTable)
+            ->with('meta', array('page_title'=>'Appointment History',isset($schedulerTable)?count($schedulerTable):0));
+
+    }
+    public function getAppointment()
+    {
+        return view('patient.index.getAppointment');
+    }
+    public function getNotification(Request $request)
+    {
+
+        $patient = Patient::where('user_id', '=', Auth::user()->user_id)->first();;
+        $scheduler = DB::table('scheduler')
+            ->where('pDate', '>=',  date('m/d/Y'))
+            ->where('patient_id','=',$patient->first_name . ' ' . $patient->middle_name.' '.$patient->last_name)
+            ->where('notify_cancel','=',0)
+            ->where ('pStatus','<>','13')
+            ->get();
+        $notificationDivClose = '</div>';
+        foreach ($scheduler as $schedule)
+        {
+            //Main Div
+            echo '<div class="alert alert-success fade in m-b-15" id="notify_'.$schedule->id.'">';
+            //Child Divs
+            echo '<strong>'.$schedule->pDate.'</strong>';
+            echo '. Your Upcomming Appointment. Duration Will be <strong>'.$schedule->pDuration. ' </strong> minutes . Please be there on Time. Thankyou';
+            echo '<a href="#">';
+            echo '<span id="cancel_'.$schedule->id.'" onclick="hide('.$schedule->id.');" class="close" data-dismiss="alert">×</span>';
+            echo '</a>';
+            echo $notificationDivClose;
+        }
+    }
+    public function hideNotification(Request $request)
+    {
+        $myId =  $request->scheduleId;
+        $update = scheduler::find($myId);
+        $update->notify_cancel = 1;
+        $update->save();
+    }
 }

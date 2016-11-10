@@ -84,14 +84,9 @@
            </td>
 
            <td>
-<<<<<<< HEAD
-               <a href="#"><i class="fa fa-trash-o"></i> Download</a> |
-
-               <a href="javascript:void(0);" onclick="doDelete('{{$table1->pa_id, $item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
-=======
-               <a href="javascript:void(0);" onclick="downloadFile('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Download</a> |
+               <a href="javascript:void(0);" onclick="window.location.href='{{url('/practitioner/patient/download-file/'.$item->pf_id)}}'"><i class="fa fa-download"></i> Download</a> |
                <a href="javascript:void(0);" onclick="doDelete('{{$item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
->>>>>>> 183608317b52efe1acb190ef1cad586681b98ae7
+
            </td>
 
        </tr>
@@ -112,7 +107,10 @@
 
 @section('page-scripts')
 <script type="text/javascript">
-$(function () {
+
+/**
+ *
+ $(function () {
             if ($('#data-table').length !== 0) {
                 $('#data-table').DataTable({
                     responsive: true,
@@ -123,7 +121,11 @@ $(function () {
                 });
             }
         });
-/**
+
+ <a href="#"><i class="fa fa-trash-o"></i> Download</a> |
+
+ <a href="javascript:void(0);" onclick="doDelete('{{$table1->pa_id, $item->pf_id}}', this);"><i class="fa fa-trash-o"></i> Remove</a>
+ =======
  function doDelete(pa_id,pf_id, elm)
  {
      var q = confirm("Are you sure you want to remove this file?");
@@ -152,8 +154,7 @@ $(function () {
      }
      return false;
  }
- *//
-
+ */
     function doDelete(id, elm)
         {
             var q = confirm("Are you sure you want to delete this file?");

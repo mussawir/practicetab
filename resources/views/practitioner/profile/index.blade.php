@@ -133,6 +133,9 @@
                         {!! Form::label('url','URL :', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
                             {!! Form::text('url', null, array('class'=>'form-control', 'placeholder'=> 'Birth date', 'readonly'=>'readonly')) !!}
+                            <p>
+                                <a href="{{url('/practitioner/'.$table1->url)}}" target="_blank">Public Profile Url</a>
+                            </p>
                         </div>
                     </div>
                 </div>

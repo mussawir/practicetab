@@ -10,7 +10,7 @@ class scheduler extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['patient_id', 'timeIn', 'timeOut', 'app_date','reason','pDate',
-        'pTime','pDuration','pstatus','app_desc'];
+        'pTime','pDuration','pstatus','app_desc','notify_cancel','practitioner_id'];
 
 
 }

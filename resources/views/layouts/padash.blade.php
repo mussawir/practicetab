@@ -26,6 +26,8 @@
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+    <link href="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.print.css')}}" rel="stylesheet" media='print' />
+    <link href="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('public/dashboard/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
@@ -34,10 +36,12 @@
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
-
+    <link href="{{asset('public/dashboard/css/PopupBox.css')}}" rel="stylesheet" />
+    <link href="{{ asset('public/dashboard/css/jquery.ui.autocomplete.min.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/vnd.microsoft.icon" />
 
     <!-- ================== BEGIN BASE JS ================== -->
+    <script src="{{asset('public/dashboard/plugins/fullcalendar/lib/moment.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/dashboard/plugins/pace/pace.min.js')}}"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
@@ -76,57 +80,81 @@
                 <li class="dropdown">
                     <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label">5</span>
+                        <span class="label">0</span>
                     </a>
                     <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                        <li class="dropdown-header">Notifications (5)</li>
-                        <li class="media">
-                            <a href="javascript:;">
-                                <div class="media-left"><i class="fa fa-bug media-object bg-red"></i></div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">Server Error Reports</h6>
-                                    <div class="text-muted f-s-11">3 minutes ago</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="javascript:;">
-                                <div class="media-left"><img src="{{url('public/dashboard/img/user-1.jpg')}}" class="media-object" alt="" /></div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">John Smith</h6>
-                                    <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                    <div class="text-muted f-s-11">25 minutes ago</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="javascript:;">
-                                <div class="media-left"><img src="{{url('public/dashboard/img/user-2.jpg')}}" class="media-object" alt="" /></div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">Olivia</h6>
-                                    <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                    <div class="text-muted f-s-11">35 minutes ago</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="javascript:;">
-                                <div class="media-left"><i class="fa fa-plus media-object bg-green"></i></div>
-                                <div class="media-body">
-                                    <h6 class="media-heading"> New User Registered</h6>
-                                    <div class="text-muted f-s-11">1 hour ago</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="javascript:;">
-                                <div class="media-left"><i class="fa fa-envelope media-object bg-blue"></i></div>
-                                <div class="media-body">
-                                    <h6 class="media-heading"> New Email From John</h6>
-                                    <div class="text-muted f-s-11">2 hour ago</div>
-                                </div>
-                            </a>
-                        </li>
+                        <li class="dropdown-header">Notifications</li>
+                    <!--<li class="media">
+                        <a href="javascript:;">
+                            <div class="media-left"><i class="fa fa-bug media-object bg-red"></i></div>
+                            <div class="media-body">
+                                <h6 class="media-heading">Server Error Reports</h6>
+                                <div class="text-muted f-s-11">3 minutes ago</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="media">
+                        <a href="javascript:;">
+                            <div class="media-left"><img src="{{url('public/dashboard/img/user-1.jpg')}}" class="media-object" alt="" /></div>
+                            <div class="media-body">
+                                <h6 class="media-heading">Peter Behrouzi</h6>
+                                <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+                                <div class="text-muted f-s-11">25 minutes ago</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="media">
+                        <a href="javascript:;">
+                            <div class="media-left"><img src="{{url('public/dashboard/img/user-2.jpg')}}" class="media-object" alt="" /></div>
+                            <div class="media-body">
+                                <h6 class="media-heading">Olivia</h6>
+                                <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+                                <div class="text-muted f-s-11">35 minutes ago</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="media">
+                        <a href="javascript:;">
+                            <div class="media-left"><i class="fa fa-plus media-object bg-green"></i></div>
+                            <div class="media-body">
+                                <h6 class="media-heading"> New User Registered</h6>
+                                <div class="text-muted f-s-11">1 hour ago</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="media">
+                        <a href="javascript:;">
+                            <div class="media-left"><i class="fa fa-envelope media-object bg-blue"></i></div>
+                            <div class="media-body">
+                                <h6 class="media-heading"> New Email From John</h6>
+                                <div class="text-muted f-s-11">2 hour ago</div>
+                            </div>
+                        </a>
+                    </li>-->
+                        <?php
+                        use App\Models\Patient;
+                        use Illuminate\Support\Facades\Auth;
+                        use Illuminate\Support\Facades\DB;
+                        use App\Models\scheduler;
+                        $patient = Patient::where('user_id', '=', Auth::user()->user_id)->first();;
+                        $scheduler = DB::table('scheduler')
+                                ->where('pDate', '>=', date('m/d/Y'))
+                                ->where('patient_id','=',$patient->first_name . ' ' . $patient->middle_name.' '.$patient->last_name)
+                                ->where ('pStatus','<>','13')
+                                ->get();
+                        foreach ($scheduler as $schedule)
+                        {
+                            echo '<li class="media">';
+                            echo '<a href="javascript:;">';
+                            echo '<div class="media-left"><i class="fa fa-envelope media-object bg-blue"></i></div>';
+                            echo '<div class="media-body">';
+                            echo '<h6 class="media-heading"> Appointment Date '. $schedule->pDate  .'</h6>';
+                            echo '<div class="text-muted f-s-11">'.$schedule->pDate.'</div>';
+                            echo '</div>';
+                            echo '</a>';
+                            echo '</li>';
+                        }
+                        ?>
                         <li class="dropdown-footer text-center">
                             <a href="javascript:;">View more</a>
                         </li>
@@ -216,10 +244,115 @@
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
+<script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/popup/jquery.bpopup.js')}}"></script>
+<script src="{{asset('public/dashboard/js/calendar.demo.min.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/datepicker/form-plugins.demo.min.js')}}"></script>
+
+<script src="{{asset('public/dashboard/plugins/Autocomplete/jquery.ui.autocomplete.min.js')}}"></script>
+
+<style>
+    #element_to_pop_up {
+        background-color:#fff;
+        border-radius:15px;
+        color:#000;
+        display:none;
+        padding:20px;
+        width: 40%;
+        min-width: 900px;
+        max-height: 90vh;
+    }
+    .b-close{
+        cursor:pointer;
+        position:absolute;
+        right:10px;
+        top:5px;
+    }
+
+
+</style>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
 <script>
+    ;(function($) {
+
+        // DOM Ready
+        $(function() {
+
+            // Binding a click event
+            // From jQuery v.1.7.0 use .on() instead of .bind()
+            $('#my-button').bind('click', function(e) {
+
+                // Prevents the default action to be triggered.
+                e.preventDefault();
+
+                // Triggering bPopup when click event is fired
+                $('#element_to_pop_up').bPopup();
+
+            });
+
+        });
+
+    })(jQuery);
+
     $(document).ready(function() {
         App.init();
-        Dashboard.init();
+        FormPlugins.init();
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'agendaDay',
+                center: 'title',
+                right: 'prev,today,next '
+            },
+            //droppable: true, // this allows things to be dropped onto the calendar
+            drop: function() {
+                $(this).remove();
+            },
+            selectable: true,
+            selectHelper: true,
+            eventClick: function(event, element) {
+                $('#my-button').click();
+                var id = event.title;
+                id = id.split(')')[0];
+                //event.title = id + " ) " + $('#patientname').val();
+                event.title =fetchRowSchedule(parseInt(id));
+                //$('#calendar').fullCalendar('updateEvent', event);
+
+            },
+            select: function(start, end) {
+                var title='';
+                $('#saveBtn').show();
+                $('#my-button').click();
+                $('#calendar').fullCalendar('unselect');
+                var aDate;
+                var test = start.toString();
+                if (test.indexOf('GMT') > -1) {
+                    test = test.substring(0,test.indexOf('GMT'));
+                    aDate = new Date(Date.parse(test));
+                    $('#pDate').val(aDate.getFullYear()+'-'+(aDate.getMonth()+1)+'-'+(aDate.getDate()));
+
+                }
+                var mins = aDate.getMinutes()=="0"?"00":aDate.getMinutes();
+                var timeset = aDate.getHours()+":"+mins;
+                $('#time').val(timeset);
+
+                return;
+                var eventData;
+
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#calendar').fullCalendar('unselect');
+            },
+            editable: true,
+            eventLimit: true // allow "more" link when too many events
+        });
     });
 </script>
 @yield('page-scripts')
