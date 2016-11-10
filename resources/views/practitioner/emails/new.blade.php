@@ -96,7 +96,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-12">
                     {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
                 </div >
@@ -140,5 +139,6 @@
         function loadTemplate(elm) {
             CKEDITOR.instances['mail_body'].setData($(elm).find(':selected').data('template'));
         }
+
     </script>
 @endsection

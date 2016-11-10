@@ -69,9 +69,11 @@
                     <span>Contact Management</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{isset($meta['cg_sub_menu_new'])?$meta['cg_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact-group/new')}}">Create New Group</a></li>
+                    <li class="{{isset($meta['cg_sub_menu_new'])?$meta['cg_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact-group/new')}}"> New Group</a></li>
                     <li class="{{isset($meta['cg_sub_menu_list'])?$meta['cg_sub_menu_list']:''}}"><a href="{{url('/practitioner/contact-group')}}">Group List</a></li>
-                    <li class="{{isset($meta['cnt_sub_menu_new'])?$meta['cnt_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact/new')}}">Create New Contact</a></li>
+                    <li class="{{isset($meta['eg_sub_menu_new'])?$meta['eg_sub_menu_new']:''}}"><a href="{{url('/practitioner/email-group/new')}}"> New Email Group</a></li>
+                    <li class="{{isset($meta['eg_sub_menu_list'])?$meta['eg_sub_menu_list']:''}}"><a href="{{url('/practitioner/email-group')}}">Email Group List</a></li>
+                    <li class="{{isset($meta['cnt_sub_menu_new'])?$meta['cnt_sub_menu_new']:''}}"><a href="{{url('/practitioner/contact/new')}}"> New Contact</a></li>
                     <li class="{{isset($meta['cnt_sub_menu_list'])?$meta['cnt_sub_menu_list']:''}}"><a href="{{url('/practitioner/contact')}}">Contact List</a></li>
                 </ul>
             </li>

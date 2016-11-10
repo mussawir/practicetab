@@ -130,10 +130,14 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     //Email Group Routes
     // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
     Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
+    Route::get('/email-group', 'Practitioner\EmailGroupController@index');
+    Route::post('/email-group/contact', 'Practitioner\EmailGroupController@contact');
+    Route::post('/email-group/patients', 'Practitioner\EmailGroupController@patients');
+    Route::post('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
     Route::post('/email-group/store', 'Practitioner\EmailGroupController@store');
-    // Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
-    // Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
-    // Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
+    Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
+    Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
+    Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
 
     // Contact Group Routes
     Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Practitioner\ContactGroupController@index']);
@@ -215,6 +219,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
+    Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
 });
 
 Route::group(['middleware' => ['auth']], function () {

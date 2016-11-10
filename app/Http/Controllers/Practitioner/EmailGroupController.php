@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Models\Contact;
+use App\Models\Temp;
 use App\Models\EmailInGroup;
 use App\Models\EmailGroup;
 use App\Models\Practitioner;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Http\Requests;
+use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -29,10 +31,10 @@ class EmailGroupController extends Controller
      */
     public function index()
     {
-        // $cg_list = ContactGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
-        // $meta = array('page_title'=>'Group List', 'cm_main_menu'=>'active', 'cg_sub_menu_list'=>'active');
+        $cg_list = EmailGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
+        $meta = array('page_title'=>' EmailGroup List', 'cm_main_menu'=>'active', 'eg_sub_menu_list'=>'active');
 
-        // return view('practitioner.contact-group.index')->with('meta', $meta)->with('cg_list', $cg_list);
+        return view('practitioner.email-group.index')->with('meta', $meta)->with('cg_list', $cg_list);
     }
 
     /**
@@ -42,7 +44,7 @@ class EmailGroupController extends Controller
      */
     public function create()
     {
-        $meta = array('page_title'=>'New Email Group', 'cm_main_menu'=>'active', 'cg_sub_menu_new'=> 'active');
+        $meta = array('page_title'=>'New Email Group', 'cm_main_menu'=>'active', 'eg_sub_menu_new'=> 'active');
         $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
         $contacts = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
         return view('practitioner.email-group.new')->with('meta', $meta)
@@ -55,16 +57,47 @@ class EmailGroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function contact(Request $request){
+        $data = [
+            'name' => $request->name,
+            'desc' => $request->description,
+        ];
+        $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
+        return view('practitioner.email-group.addcontact')->with('data',$data)->with('patients',$patients);
+    }
+    public function patients(Request $request){
+        $data = [
+            'name' => $request->name,
+            'desc' => $request->description,
+        ];
+        if(isset($request->email) && (count($request->email)>0)){
+            foreach ($request->email  as $key => $value)
+                Temp::create([
+                    'email' =>  $value,
+                    'type' => '1',
+                ]);
+        }
+       $contact = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
+       return view('practitioner.email-group.addpatient')->with('data',$data)->with('contact',$contact);
+    }
+    public function confirmed(Request $request){
+        $data = [
+            'name' => $request->name,
+            'desc' => $request->description,
+        ];
+        if(isset($request->email) && (count($request->email)>0)){
+            foreach ($request->email  as $email)
+                Temp::create([
+                    'email' =>  $email,
+                    'type' => '2'
+                ]);
+        }
+        $patients = Temp::where('type', '1')->get();
+        $contacts = Temp::where('type', '2')->get();
+        return view('practitioner.email-group.confirm')->with('data',$data)->with('patients',$patients)->with('contacts',$contacts);
+    }
     public function store(Request $request)
     {
-    $validator = \Validator::make($request->toArray(), [
-            'name' => 'required|max:20'
-        ]);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
-
         $input = $request->all();
         $input['pra_id'] = $this->practitioner_info->pra_id;
         $contact = EmailGroup::create($input);
@@ -76,12 +109,10 @@ class EmailGroupController extends Controller
                 'cg_id' => $contact['cg_id']
             ]);
         }
-
-        Session::put('success','Email Group Created Successfully!');
-
-        return Redirect::Back();
-
-    /**
+        Temp::truncate();
+        Session::put('success','Email group created successfully!');
+        return Redirect::to('/practitioner/email-group/new');
+        /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -101,10 +132,10 @@ class EmailGroupController extends Controller
      */
     public function edit($id)
     {
-        // $cg = ContactGroup::find($id);
-        // $meta = array('page_title'=>'Edit Group', 'cm_main_menu'=>'active');
+         $cg = EmailGroup::find($id);
+         $meta = array('page_title'=>'Edit Group', 'cm_main_menu'=>'active');
 
-        // return view('practitioner.contact-group.edit')->with('meta', $meta)->with('cg', $cg);
+         return view('practitioner.email-group.edit')->with('meta', $meta)->with('cg', $cg);
     }
 
     /**
@@ -116,22 +147,14 @@ class EmailGroupController extends Controller
      */
     public function update(Request $request)
     {
-        // $validator = \Validator::make($request->toArray(), [
-        //     'name' => 'required|max:50'
-        // ]);
+         $cg = EmailGroup::find($request->cg_id);
+         $cg->name = $request->name;
+         $cg->description = $request->description;
+         $cg->save();
 
-        // if ($validator->fails()) {
-        //     return Redirect::back()->withErrors($validator)->withInput();
-        // }
+         Session::put('success','Email group updated successfully!');
 
-        // $cg = ContactGroup::find($request->cg_id);
-        // $cg->name = $request->name;
-        // $cg->description = $request->description;
-        // $cg->save();
-
-        // Session::put('success','Contact group updated successfully!');
-
-        // return Redirect::to('/practitioner/contact-group');
+         return Redirect::to('/practitioner/email-group');
     }
 
     /**
@@ -142,13 +165,13 @@ class EmailGroupController extends Controller
      */
     public function destroy($id)
     {
-        // $cg = ContactGroup::find($id);
-        // if(isset($cg)){
-        //     $cg->delete();
+         $cg = EmailGroup::find($id);
+         if(isset($cg)){
+             $cg->delete();
 
-        //     Session::put('success','Contact group deleted successfully!');
-        //     //return response()->json(['status' => 'success']);
-        // }
-        // return response()->json(['status' => 'error']);
+             Session::put('success','Contact group deleted successfully!');
+             //return response()->json(['status' => 'success']);
+         }
+         return response()->json(['status' => 'error']);
     }
 }
