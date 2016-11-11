@@ -69,7 +69,7 @@
             @endif
         </div>
         <!-- begin panel -->
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
                 <div class="panel-heading">
                     <div class="panel-heading-btn">
@@ -99,11 +99,7 @@
                             @foreach($patients as $item)
                                 <tr>
                                     <td>
-                                        <div id="ck-button">
-                                            <label>
-                                                <input type="checkbox" name="email[]" value="{{$item->email}}"><span>Add</span>
-                                            </label>
-                                        </div>
+                                        <a href="javascript:void(0);" onclick="doAdd({{$item->user_id}})" id="addbutton" class="btn btn-success btn-xs">Add</a>
                                     </td>
                                     <td>{{$item->first_name. ' ' . $item->last_name}}</td>
                                     <td>{{$item->email}}</td>
@@ -122,6 +118,35 @@
 
 
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                    <h4 class="panel-title">Add Patients To {{ $data['name'] }}</h4>
+                </div>
+                <div class="panel-body">
+                    <table id="selected-table data-table" class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody id="selectedpatients">
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
         </div>
         <!-- end panel -->
 
@@ -145,21 +170,51 @@
                 });
             }
         });
+        function doAdd(id)
+        {
 
-        $(":checkbox").on("click", function(){
-            if($(this).is(":checked")) {
-                $(this).closest("td").siblings("td").each(function(){
-                    $("#seleted-table").append($(this).text());
-                });
-            }
-            else {
-                $("#seleted-rows").html("");
-                $(":checkbox:checked").closest("td").siblings("td").each(function(){
-                    $("#seleted-table").append($(this).text());
-                });
-            }
-        })
+            $.ajax({
+                type: "GET",
+                url: '{{ URL::to('/practitioner/email-group/find') }}/' + id,
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function (result) {
+                    /*if (result.status == 'success') {
+                     $(elm).closest('tr').fadeOut();
+                     $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                     } else {
+                     $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                     }*/
+//                        location.reload(true);
+                    $("#selectedpatients").append("<tr><td>" + result.data.first_name + " " + result.data.last_name + "</td>" + "<td>" + "<a class='btn btn-danger btn-xs' onclick='deleteinfo(result.data.user_id)'>Remove</a>" + "</td></tr>");
+                }
+            });
+            return false;
 
+        }
+        function deleteinfo(id)
+        {
+            $.ajax({
+                type: "GET",
+                url: '{{ URL::to('/practitioner/email-group/deleteinfo') }}/' + id,
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function (result) {
+                    /*if (result.status == 'success') {
+                     $(elm).closest('tr').fadeOut();
+                     $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
+                     } else {
+                     $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                     }*/
+//                        location.reload(true);
+//                    $("#selectedpatients").append("<tr><td>" + result.data.first_name + " " + result.data.last_name + "</td>" + "<td>" + "<a class='btn btn-danger btn-xs' onclick='removeRow(elm, result.data.user_id)'>Remove</a>" + "</td></tr>");
+                alert(result.id);
+                }
+            });
+
+        }
 
     </script>
 @endsection

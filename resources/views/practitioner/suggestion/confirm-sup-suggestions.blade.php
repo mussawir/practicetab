@@ -149,10 +149,20 @@
             return false;
         }
 
+<<<<<<< HEAD
+        function removeSupRow(elm) {
+            $(elm).closest('<tr>').remove();
+
+            var rowCount = $('#dt-sup tbody tr').length;
+                if(rowCount==0) {
+                $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
+            }
+=======
         function removeSupRow(elm, id) {
             $.get("{{url('/practitioner/suggestion/removeSelectedSup')}}", { sup_id: id }, function(data) {
                 if(data == 'success') {
                     $(elm).closest('tr').remove();
+>>>>>>> fad8bb9e6c67839331db69d2ba21cf73a1340652
 
                     var rowCount = $('#dt-sup tbody tr').length;
                     if (rowCount == 0) {
