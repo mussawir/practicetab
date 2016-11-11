@@ -10,7 +10,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Suggestions <small>Send suggestions to selected patients</small></h1>
+    <h1 class="page-header">Suggestions <small>Supplement Suggestions</small></h1>
     <!-- end page-header -->
 
     <div class="row">
@@ -28,19 +28,13 @@
             @endif
         </div>
 
-        {!! Form::open(array('url'=>'/practitioner/suggestion/saveSupplementSuggestions', 'id'=>'frm-suggestions')) !!}
-        <div class="col-md-10" style="margin-bottom: 10px;">
-            <textarea name="message" class="form-control" rows="3" placeholder="Enter your message" required></textarea>
-        </div>
-        <div class="col-md-2">
-            {!! Form::submit('Send', array('class'=>'btn btn-success form-control')) !!}
-        </div>
+        {!! Form::open(array('url'=>'/practitioner/suggestion/confirm-supplement-suggestions', 'id'=>'frm-suggestions')) !!}
 
         <div class="col-md-6">
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        Selected Supplements
+                        Select Supplements For Recommendation
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -50,7 +44,7 @@
                             <th>Image</th>
                             <th>Name</th>
                             <th>Used For</th>
-                            <th>Remove</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,8 +60,11 @@
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->used_for}}</td>
                                 <td>
-                                    <input type="hidden" name="sup_id[]" value="{{$item->sup_id}}" />
-                                    <a href="javascript:void(0);" class="text-danger" onclick="removeSupRow(this, '{{$item->sup_id}}')"><i class="fa fa-times"></i> Remove</a>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="sup_id[]" value="{{$item->sup_id}}">
+                                        </label>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -80,10 +77,24 @@
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        Selected Patients
+                        Suggest To Patients
                     </h4>
                 </div>
                 <div class="panel-body">
+                    <div class="row">
+                    <div class="col-md-9">
+                        <select id="patients" class="default-select2 form-control">
+                            <option value="">Select Patient</option>
+                            @foreach($patients as $item)
+                                <option value="{{$item->pa_id}}">{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        {!! Form::submit('Next >>', array('class'=>'btn btn-success form-control')) !!}
+                    </div>
+                    </div>
+                    <hr/>
                     <table class="table table-striped table-hover" id="dt-patient">
                         <thead>
                         <tr>
@@ -92,14 +103,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($patients as $patient)
-                            <tr>
-                                <td>{{$patient->full_name}}</td>
-                                <td>
-                                    <input type="hidden" name="pa_id[]" value="{{$patient->pa_id}}" />
-                                    <a href="javascript:void(0);" class="text-danger" onclick="removeRow(this, '{{$patient->pa_id}}')"><i class="fa fa-times"></i> Remove</a>
-                                </td>
-                            </tr>
+                        @foreach($selected_patients as $patient)
+                        <tr>
+                            <td>{{$patient->full_name}}</td>
+                            <td>
+                                <input type="hidden" name="pa_id[]" value="{{$patient->pa_id}}" />
+                                <a href="javascript:void(0);" class="text-danger" onclick="removeRow(this, '{{$patient->pa_id}}')"><i class="fa fa-times"></i> Remove</a>
+                            </td>
+                        </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -112,7 +123,9 @@
 
 @section('page-scripts')
     <script type="text/javascript">
+        var patientTable = {};
         $(function () {
+            $(".default-select2").select2();
 
             if ($('#dt-sup').length !== 0) {
                 $('#dt-sup').DataTable({
@@ -124,63 +137,59 @@
                 });
             }
 
-            if ($('#dt-patient').length !== 0) {
-                $('#dt-patient').DataTable({
+            patientTable = $('#dt-patient').DataTable({
+                responsive: true,
+                "aaSorting": [[0, "asc"]],
+                "iDisplayLength": 10,
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "aoColumnDefs": [{'bSortable': false, 'aTargets': [1]}]
+            });
+
+        }); // ready function end
+
+        $('#patients').change(function () {
+            var patientId = $(this).val();
+            if(patientId > 0) {
+                patientTable.destroy();
+
+                patientTable = $('#dt-patient').DataTable({
                     responsive: true,
-                    "aaSorting": [[0, "asc"]],
-                    "iDisplayLength": 10,
-                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [1]}]
+                    serverSide: true,
+                    ajax: {
+                        url: '{{url('/practitioner/suggestion/getSelectedPatient')}}',
+                        data: function(d) {
+                            d.id = patientId;
+                        }
+                    }
                 });
             }
         });
 
+        /*$('#dt-patient .dataTables_empty').closest('tr').remove();
+         $("#dt-patient tbody").append(
+         '<tr><input type="hidden" name="pa_id[]" value="'+patientId+'" />' +
+         '<td>' + $("#patients option:selected").text() + '</td>' +
+         '<td><a href="javascript:void(0);" class="text-danger" onclick="removeRow(this)"><i class="fa fa-times"></i> Remove</a></td>' +
+         '</tr>'
+         );*/
+
         function removeRow(elm, id) {
-            $.get("{{url('/practitioner/suggestion/removeSelectedPatient')}}", { s_pa_id: id }, function(data) {
-                if(data == 'success'){
-                    $(elm).closest('tr').remove();
+            $(elm).closest('tr').remove();
 
-                    var rowCount = $('#dt-patient tbody tr').length;
-                    if(rowCount==0) {
-                        $("#dt-patient tbody").append('<tr id="pa-empty-row" class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
-                    }
-                }
-            });
-            return false;
-        }
-
-<<<<<<< HEAD
-        function removeSupRow(elm) {
-            $(elm).closest('<tr>').remove();
-
-            var rowCount = $('#dt-sup tbody tr').length;
-                if(rowCount==0) {
-                $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
+            var rowCount = $('#dt-patient tbody tr').length;
+            if(rowCount==0) {
+                $("#dt-patient tbody").append('<tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
             }
-=======
-        function removeSupRow(elm, id) {
-            $.get("{{url('/practitioner/suggestion/removeSelectedSup')}}", { sup_id: id }, function(data) {
-                if(data == 'success') {
-                    $(elm).closest('tr').remove();
->>>>>>> fad8bb9e6c67839331db69d2ba21cf73a1340652
 
-                    var rowCount = $('#dt-sup tbody tr').length;
-                    if (rowCount == 0) {
-                        $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
-                    }
-                }
+            $.get("{{url('/practitioner/suggestion/removeSelectedPatient')}}", { id: id }, function(data) {
+                console.log(data);
             });
             return false;
         }
 
         $('#frm-suggestions').submit(function () {
-            if($('#dt-sup').find('td').hasClass('dataTables_empty')){
-                $('.msg').html('<div class="alert alert-warning"><strong>Please add supplement(s).</strong></div>').show().delay(5000).hide('slow');
-                return false;
-            }
-
-            if($('#dt-patient').find('td').hasClass('dataTables_empty')){
-                $('.msg').html('<div class="alert alert-warning"><strong>Please add patient(s).</strong></div>').show().delay(5000).hide('slow');
+            if ($('[name="sup_id[]"]:checked').length == 0) {
+                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one supplement.</strong></div>').show().delay(5000).hide('slow');
                 return false;
             }
         });

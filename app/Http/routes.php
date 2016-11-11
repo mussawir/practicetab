@@ -53,6 +53,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
+    Route::get('/index/active-practitioners', 'Admin\IndexController@showActivePractitioners');
+    Route::get('/index/users', 'Admin\IndexController@showUserList');
 
     Route::get('/supplements/index', 'Admin\SupplementsController@index');
     Route::get('/supplements/new', 'Admin\SupplementsController@create');
@@ -135,6 +137,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
     Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
+    Route::get('/SocialPost/logoutFb', ['as' => '/SocialPost/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
+    Route::get('/SocialPost/fblogin', ['as' => '/SocialPost/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
+    Route::post('/SocialPost/formsubmit', ['as' => '/SocialPost/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
+    Route::post('/SocialPost/uploadImage', ['as' => '/SocialPost/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
+
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
 
@@ -201,10 +208,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/supplement-suggestions-list', 'Practitioner\SuggestionController@showSupplementSuggestions');
     Route::get('/suggestion/supplement-suggestions-details/{id}', 'Practitioner\SuggestionController@supplementSuggestionDetails');
     Route::get('/suggestion/supplement-suggestions', 'Practitioner\SuggestionController@newSupplementSuggestions');
+    Route::post('/suggestion/addSupplements', 'Practitioner\SuggestionController@addSupplements');
+    Route::get('/suggestion/supplement-suggestions-patients', 'Practitioner\SuggestionController@newSupSugPatients');
+    Route::post('/suggestion/addSugPatients', 'Practitioner\SuggestionController@addSugPatients');
     Route::get('/suggestion/getSelectedPatient', 'Practitioner\SuggestionController@getSelectedPatient');
-    Route::post('/suggestion/confirm-supplement-suggestions', 'Practitioner\SuggestionController@confirmSupplementSuggestions');
+    Route::get('/suggestion/confirm-supplement-suggestions', 'Practitioner\SuggestionController@confirmSupplementSuggestions');
     Route::post('/suggestion/saveSupplementSuggestions', 'Practitioner\SuggestionController@saveSupplementSuggestions');
     Route::get('/suggestion/removeSelectedPatient', 'Practitioner\SuggestionController@removeSelectedPatient');
+    Route::get('/suggestion/removeSelectedSup', 'Practitioner\SuggestionController@removeSelectedSupplements');
+    Route::get('/suggestion/clearSupSugSessions', 'Practitioner\SuggestionController@clearSupSugSessions');
 
     Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritionSuggestions');
     Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@nutritionSuggestionDetails');
