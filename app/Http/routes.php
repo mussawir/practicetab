@@ -245,6 +245,22 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
     Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
+
+    Route::get('/supplement-prescription', 'Practitioner\SupPrescriptionController@index');
+    Route::get('/supplement-prescription/add-master/{id}', 'Practitioner\SupPrescriptionController@addMaster');
+    Route::get('/supplement-prescription/supplements', 'Practitioner\SupPrescriptionController@showSupplements');
+    Route::get('/supplement-prescription/add/{id}', 'Practitioner\SupPrescriptionController@doPrescribeSupplements');
+    Route::post('/supplement-prescription/store', 'Practitioner\SupPrescriptionController@store');
+    Route::delete('/supplement-prescription/delete/{id}', 'Practitioner\SupPrescriptionController@delete');
+    Route::get('/supplement-prescription/prescribe', 'Practitioner\SupPrescriptionController@storePrescribedInfo');
+
+    Route::get('/nutrition-prescription', 'Practitioner\NutPrescriptionController@index');
+    Route::get('/nutrition-prescription/add-master/{id}', 'Practitioner\NutPrescriptionController@addMaster');
+    Route::get('/nutrition-prescription/nutrition', 'Practitioner\NutPrescriptionController@showNutrition');
+    Route::get('/nutrition-prescription/add/{id}', 'Practitioner\NutPrescriptionController@doPrescribeNutrition');
+    Route::post('/nutrition-prescription/store', 'Practitioner\NutPrescriptionController@store');
+    Route::delete('/nutrition-prescription/delete/{id}', 'Practitioner\NutPrescriptionController@delete');
+    Route::get('/nutrition-prescription/prescribe', 'Practitioner\NutPrescriptionController@storePrescribedInfo');
 });
 
 // route for public profile page

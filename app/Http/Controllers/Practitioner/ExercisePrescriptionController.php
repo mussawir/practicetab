@@ -21,11 +21,11 @@ use Intervention\Image\Facades\Image as InterventionImage;
 
 class ExercisePrescriptionController extends Controller
 {
-    protected $baseUrl;
-
-    public function __construct(UrlGenerator $url)
+    public function __construct()
     {
-        $this->baseUrl = $url;
+        Session::pull('marketing');
+        Session::set('management', 'active');
+        Session::pull('dashboard');
     }
     /**
      * Display a listing of the resource.
@@ -86,12 +86,9 @@ class ExercisePrescriptionController extends Controller
         }
 
         $inputs = array();
-        if(Session::has('parctitioner_session')){
-            $inputs['pra_id'] = Session::get('practitioner_session')->pra_id;
-        }
-
-        $patient = Patient::find($patient_id);
+        $patient = Patient::where('pa_id', '=' ,$patient_id)->first();
         $inputs['pa_id'] = $patient_id;
+        $inputs['pra_id'] = Session::get('practitioner_session')->pra_id;
         $inputs['first_name'] = $patient->first_name;
         $inputs['middle_name'] = $patient->middle_name;
         $inputs['last_name'] = $patient->last_name;
