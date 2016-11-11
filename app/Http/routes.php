@@ -149,6 +149,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
     Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
     Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
+    Route::get('email-group/find/{id}', 'Practitioner\EmailGroupController@findinfo');
+    Route::get('email-group/deleteinfo/{id}', 'Practitioner\EmailGroupController@deleteinfo');
 
     // Contact Group Routes
 
@@ -231,8 +233,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
+    Route::get('/emails/new_campaign', 'Practitioner\EmailsController@create_campaign');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
-    Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
+    Route::post('/emails/store_campaign', 'Practitioner\EmailsController@store_campaign');
+    Route::get('/emails/data', 'Practitioner\EmailsController@store');
+
 });
 
 // route for public profile page

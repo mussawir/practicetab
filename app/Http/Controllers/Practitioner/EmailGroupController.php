@@ -66,6 +66,7 @@ class EmailGroupController extends Controller
         return view('practitioner.email-group.addcontact')->with('data',$data)->with('patients',$patients);
     }
     public function patients(Request $request){
+        dd(Session::get('selected_list'));
         $data = [
             'name' => $request->name,
             'desc' => $request->description,
@@ -79,6 +80,16 @@ class EmailGroupController extends Controller
         }
        $contact = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
        return view('practitioner.email-group.addpatient')->with('data',$data)->with('contact',$contact);
+    }
+    public function findinfo(Request $request){
+        $id = $request->id;
+        $templates = Patient::where('user_id',$id)->first();
+        if(!Session::has('selected_list')){
+            Session::put('selected_list', array());
+        }
+        Session::push('selected_list', $id);
+        $data = array('data'=>$templates);
+        return response()->json($data);
     }
     public function confirmed(Request $request){
         $data = [
@@ -134,7 +145,6 @@ class EmailGroupController extends Controller
     {
          $cg = EmailGroup::find($id);
          $meta = array('page_title'=>'Edit Group', 'cm_main_menu'=>'active');
-
          return view('practitioner.email-group.edit')->with('meta', $meta)->with('cg', $cg);
     }
 

@@ -148,10 +148,10 @@
         }
 
         function removeSupRow(elm) {
-            $(elm).closest('tr').remove();
+            $(elm).closest('<tr>').remove();
 
             var rowCount = $('#dt-sup tbody tr').length;
-            if(rowCount==0) {
+                if(rowCount==0) {
                 $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
             }
 
