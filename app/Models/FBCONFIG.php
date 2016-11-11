@@ -37,6 +37,7 @@ require 'App\Models\facebook_library\facebook.php';
 
 define("APP_ID", "1156660211085328");
 define("APP_SECRET", "c4d0c3cccce065cec004ecd7cb25dd9b");
+define("fileUpload", true);
 /* make sure the url end with a trailing slash */
 define("SITE_URL", "http://localhost/practicetab/practitioner/SocialPost/");
 /* the page where you will be redirected after login */
