@@ -62,67 +62,45 @@ class SuggestionController extends Controller
 
 	public function newSupplementSuggestions()
 	{
-		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
-			->orderBy('name', 'asc')->get();
+		$selected_patients = Session::has('sup_pa_list') ? Session::get('sup_pa_list') : array();
+		$selected_sup = Session::has('sup_list') ? Session::get('sup_list') : array();
 
-		$sup_ids = Session::has('sup_list') ? Session::get('sup_list') : array();
-		$selected_sup = array();
-		if(!empty($sup_ids)) {
-			$selected_sup = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
-				->whereIn('sup_id', $sup_ids)->get();
-		}
-
-		return view('practitioner.suggestion.new-sup-sug')
-			->with('selected_sup', $selected_sup)->with('sup_ids', $sup_ids)
-			->with('supplements', $supplements)->with('sug_menu', 'active')->with('sup_sug', 'active');
-	}
-
-	public function addSupplements(Request $request)
-	{
-		Session::put('sup_list', $request['sup_id']);
-
-		return Redirect::Back();
-	}
-
-	public function newSupSugPatients()
-	{
 		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
 			//->where('pra_id', '=', $this->practitioner_info->pra_id)
 			->orderBy('first_name', 'asc')->get();
 
-		$patient_ids = Session::has('sup_pa_list') ? Session::get('sup_pa_list') : array();
-		$selected_patients = array();
-		if(!empty($patient_ids)) {
-			$selected_patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
-				->whereIn('pa_id', $patient_ids)->get();
-		}
-
-		return view('practitioner.suggestion.newSupSugPatient')
-			->with('selected_patients', $selected_patients)->with('patient_ids', $patient_ids)
-			->with('patients', $patients)->with('sug_menu', 'active')->with('sup_sug', 'active');
-	}
-
-	public function addSugPatients(Request $request)
-	{
-		Session::put('sup_pa_list', $request['pa_id']);
-
-		return Redirect::Back();
-	}
-
-	public function confirmSupplementSuggestions()
-	{
-		$sup_ids = Session::get('sup_list');
-		$patient_ids = Session::get('sup_pa_list');
-
 		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
-			->whereIn('sup_id', $sup_ids)->get();
+			->orderBy('name', 'asc')->get();
 
-		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
-			->whereIn('pa_id', $patient_ids)->get();
+		/*$unique_ids = array_unique(Session::get('patient_list') ? Session::get('patient_list') : array());
+		$selected_patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+			->whereIn('pa_id', $unique_ids)->get();*/
 
-		return view('practitioner.suggestion.confirm-sup-suggestions')
-			->with('patients', $patients)
-			->with('supplements', $supplements)->with('sug_menu', 'active');
+		return view('practitioner.suggestion.new-sup-suggestions')->with('patients', $patients)
+			->with('selected_patients', $selected_patients)
+			->with('selected_sup', $selected_sup)
+			->with('supplements', $supplements)->with('sug_menu', 'active')->with('sup_sug', 'active');
+	}
+
+	public function confirmSupplementSuggestions(Request $request)
+	{
+		if ($request->method('post'))
+		{
+			$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
+				->whereIn('sup_id', $request['sup_id'])->get();
+
+			$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+				->whereIn('pa_id', $request['pa_id'])->get();
+
+			Session::put('sup_pa_list', $request['pa_id']);
+			Session::put('sup_list',$request['sup_id']);
+
+			return view('practitioner.suggestion.confirm-sup-suggestions')
+				->with('patients', $patients)
+				->with('supplements', $supplements)->with('sug_menu', 'active');
+		} else {
+			return Redirect::Back();
+		}
 	}
 
 	public function saveSupplementSuggestions(Request $request)
