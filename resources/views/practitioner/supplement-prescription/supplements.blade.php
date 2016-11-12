@@ -7,11 +7,11 @@
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
     <li><a href="{{url('/practitioner/patient')}}">Patients</a></li>
-    <li class="active">Exercise Prescription</li>
+    <li class="active">Supplements Prescription</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Prescribe Exercise to {{ $table1->first_name }} {{ $table1->last_name }}</h1>
+<h1 class="page-header">Prescribe supplements to {{ $table1->first_name }} {{ $table1->last_name }}</h1>
 <!-- end page-header -->
 
 <div class="row">
@@ -44,15 +44,15 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Exercises List</h4>
+                <h4 class="panel-title">Supplements List</h4>
             </div>
             <div class="panel-body">
-                <table id="data-table" class="table table-striped table-hover">
+                <table id="dt-sup" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>image1</th>
-                        <th>image2</th>
-                        <th>heading</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Used For</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -60,28 +60,19 @@
                     @foreach($table2 as $item)
                         <tr>
                             <td>
-                                @if(isset($item->image1) && (!empty($item->image1)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image1)}}" alt="{{$item->image1}}" class="img-responsive" style="max-height: 64px;" />
+                                @if(isset($item->main_image) && (!empty($item->main_image)))
+                                    <img src="{{asset('public/dashboard/img/sup-img/'.$item->main_image)}}" alt="{{$item->name}}" class="img-responsive" style="max-height: 64px;" />
                                 @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
+                                    <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$item->name}}" />
                                 @endif
                             </td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->used_for}}</td>
                             <td>
-                                @if(isset($item->image2) && (!empty($item->image2)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image2)}}" alt="{{$item->image2}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
-                                @endif
+                                <a href="{{url('/practitioner/supplement-prescription/add/'.$item->sup_id)}}"><i class="fa fa-plus"></i> Add</a>
                             </td>
-
-                            <td>{{$item->heading}}</td>
-                            <td>
-                                <a href="{{url('/practitioner/exercise-prescription/add-exercise/'.$item->exe_id)}}"><i class="fa fa-plus"></i> Add</a>
-                            </td>
-
                         </tr>
                     @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -99,39 +90,32 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Selected Exercises</h4>
+                <h4 class="panel-title">Selected Supplements</h4>
             </div>
             <div class="panel-body">
-                <table id="dt-exercises" class="table table-striped table-hover">
+                <table id="dt-selected" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>image1</th>
-                        <th>image2</th>
-                        <th>heading</th>
-                        <th>Remove</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Used For</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($exe_list as $item)
+                    @foreach($sup_list as $item)
                         <tr>
                             <td>
-                                @if(isset($item->image1) && (!empty($item->image1)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image1)}}" alt="{{$item->image1}}" class="img-responsive" style="max-height: 64px;" />
+                                @if(isset($item->main_image) && (!empty($item->main_image)))
+                                    <img src="{{asset('public/dashboard/img/sup-img/'.$item->main_image)}}" alt="{{$item->name}}" class="img-responsive" style="max-height: 64px;" />
                                 @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
+                                    <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$item->name}}" />
                                 @endif
                             </td>
-                            <td>
-                                @if(isset($item->image2) && (!empty($item->image2)))
-                                    <img src="{{asset('public/img/exercise/'.$item->image2)}}" alt="{{$item->image2}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="{{$item->photo}}" />
-                                @endif
-                            </td>
-
-                            <td>{{$item->heading}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->used_for}}</td>
                             <td style="vertical-align: middle;text-align: center;">
-                                <a href="javascript:void(0);" onclick="doDeleteExercise('{{$item->exe_id}}', this);" class="text-danger"><i class="fa fa-times fa-2x"></i></a>
+                                <a href="javascript:void(0);" onclick="doDeleteSupplement('{{$item->sup_id}}', this);" class="text-danger"><i class="fa fa-times fa-2x"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -139,9 +123,9 @@
                     <tfoot>
                     <tr>
                         <td colspan="4">
-                            <a id="print-link" href="{{url('/practitioner/exercise-prescription/print')}}" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
+                            <a id="print-link" href="#" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> Prescribe &amp; Print</a>
                             &nbsp;
-                            <a href="{{url('/practitioner/exercise-prescription/prescribe')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Prescribe</a>
+                            <a href="{{url('/practitioner/supplement-prescription/prescribe')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Prescribe</a>
                         </td>
                     </tr>
                     </tfoot>
@@ -156,23 +140,23 @@
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {
-            if ($('#data-table').length !== 0) {
-                $('#data-table').DataTable({
+            if ($('#dt-sup').length !== 0) {
+                $('#dt-sup').DataTable({
                     responsive: true,
-                    "aaSorting": [[2, "asc"]],
+                    "aaSorting": [[1, "asc"]],
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0, 1, 3]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
                 });
             }
 
-            if ($('#dt-exercises').length !== 0) {
-                $('#dt-exercises').DataTable({
+            if ($('#dt-selected').length !== 0) {
+                $('#dt-selected').DataTable({
                     responsive: true,
-                    "aaSorting": [[2, "asc"]],
+                    "aaSorting": [[1, "asc"]],
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,1 ,3]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
                 });
             }
         }); // ready function end
@@ -181,17 +165,17 @@
             window.location.assign('{{url('/practitioner/patient')}}');
         });
 
-        function doDeleteExercise(id, elm)
+        function doDeleteSupplement(id, elm)
         {
             $.ajax({
                     type: "DELETE",
-                    url: '{{ url('/practitioner/exercise-prescription/delete-exercise') }}/' + id,
+                    url: '{{ url('/practitioner/supplement-prescription/delete') }}/' + id,
                     beforeSend: function (request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function (result) {
                         if (result.status == 'success') {
-                            $(elm).closest('tr').fadeOut();
+                            $(elm).closest('tr').remove();
                         } else {
                             $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
                         }
