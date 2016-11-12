@@ -203,7 +203,6 @@ class SuggestionController extends Controller
 				unset($sup_ids[$index]);
 			}
 		}
-
 		Session::put('sup_list', $sup_ids);
 		echo 'success';
 	}
@@ -212,7 +211,6 @@ class SuggestionController extends Controller
 	{
 		Session::forget('sup_pa_list');
 		Session::forget('sup_list');
-
 		return Redirect::to('/practitioner/suggestion/supplement-suggestions');
 	}
 
@@ -243,32 +241,86 @@ class SuggestionController extends Controller
 
 	public function newNutritionSuggestions()
 	{
-		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
-			//->where('pra_id', '=', $this->practitioner_info->pra_id)
-			->orderBy('first_name', 'asc')->get();
-
 		$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
 			->orderBy('name', 'asc')->get();
 
-		return view('practitioner.suggestion.new-nut-suggestions')->with('patients', $patients)
+		$nut_ids = Session::has('nut_selected_list') ? Session::get('nut_selected_list') : array();
+		$selected_nut = array();
+		if(!empty($nut_ids)) {
+			$selected_nut = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
+				->whereIn('nut_id', $nut_ids)->get();
+		}
+
+		return view('practitioner.suggestion.new-nut-suggestions')
+			->with('selected_nut', $selected_nut)->with('nut_ids', $nut_ids)
 			->with('nutrition', $nutrition)->with('sug_menu', 'active')->with('nut_sug', 'active');
 	}
+	public function addNutrition(Request $request)
+	{
+		Session::put('nut_selected_list', $request['nut_id']);
 
+		return Redirect::Back();
+	}
+	public function removeSelectedNut()
+	{
+		$nut_ids = Session::get('nut_selected_list');
+		foreach ($nut_ids as $index => $val) {
+			if ($val == Input::get('nut_id')) {
+				unset($nut_ids[$index]);
+			}
+		}
+		Session::put('nut_selected_list', $nut_ids);
+		echo 'success';
+	}
+	public function newNutSugPatients()
+	{
+		$patients = Patient::select('user_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+			//->where('pra_id', '=', $this->practitioner_info->pra_id)
+			->orderBy('first_name', 'asc')->get();
+
+		$patient_ids = Session::has('selected_nut_patients') ? Session::get('selected_nut_patients') : array();
+		$selected_patients = array();
+		if(!empty($patient_ids)) {
+			$selected_patients = Patient::select('user_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+				->whereIn('user_id', $patient_ids)->get();
+		}
+
+		return view('practitioner.suggestion.newNutSugPatients')
+			->with('selected_patients', $selected_patients)->with('patient_ids', $patient_ids)
+			->with('patients', $patients)->with('sug_menu', 'active')->with('sup_sug', 'active');
+	}
+	public function addNutPatients(Request $request)
+	{
+		Session::put('selected_nut_patients', $request['pa_id']);
+
+		return Redirect::Back();
+	}
+	public function removeNutPatient()
+	{
+		$patient_ids = Session::get('selected_nut_patients');
+		foreach ($patient_ids as $index => $val) {
+			if ($val == Input::get('nut_pat_id')) {
+				unset($patient_ids[$index]);
+			}
+		}
+
+		Session::put('selected_nut_patients', $patient_ids);
+		echo 'success';
+	}
 	public function confirmNutritionSuggestions(Request $request)
 	{
-		if ($request->method('post')) {
-			$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
-				->whereIn('nut_id', $request['nut_id'])->get();
+		$nuts_ids = Session::get('nut_selected_list');
+		$patient_ids = Session::get('selected_nut_patients');
 
-			$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
-				->whereIn('pa_id', $request['pa_id'])->get();
+		$nutritions = Nutrition::select('nut_id', 'name', 'usability', 'main_image')
+			->whereIn('nut_id', $nuts_ids)->get();
 
-			return view('practitioner.suggestion.confirm-nut-suggestions')
-				->with('patients', $patients)
-				->with('nutrition', $nutrition)->with('sug_menu', 'active');
-		} else {
-			return Redirect::Back();
-		}
+		$patients = Patient::select('user_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))
+			->whereIn('user_id', $patient_ids)->get();
+
+		return view('practitioner.suggestion.confirm-nut-suggestions')
+			->with('patients', $patients)
+			->with('nutritions', $nutritions)->with('sug_menu', 'active');
 	}
 
 	public function saveNutritionSuggestions(Request $request)
@@ -298,7 +350,8 @@ class SuggestionController extends Controller
 			'created_at' =>	date('Y/m/d H:i:s'),
 			'sug_type'	=>	2	// 2=nutrition
 		]);
-
+		Session::forget('selected_nut_patients');
+		Session::forget('nut_selected_list');
 		Session::put('success','Nutrition suggestions sent to patient(s) successfully!');
 		return Redirect::to('/practitioner/suggestion/nutrition-suggestions');
 	}

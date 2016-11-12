@@ -48,7 +48,7 @@
                 <h4 class="panel-title">New Email Group</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/email-group/contact', 'class'=> 'form-horizontal')) !!}
+                {!! Form::open(array('url'=>'/practitioner/email-group/toContact', 'class'=> 'form-horizontal')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">

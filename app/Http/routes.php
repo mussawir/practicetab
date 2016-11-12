@@ -148,16 +148,19 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     //Email Group Routes
     // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
     Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
+    Route::post('/email-group/toContact', 'Practitioner\EmailGroupController@toContact');
     Route::get('/email-group', 'Practitioner\EmailGroupController@index');
-    Route::post('/email-group/contact', 'Practitioner\EmailGroupController@contact');
-    Route::post('/email-group/patients', 'Practitioner\EmailGroupController@patients');
-    Route::post('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
+    Route::get('/email-group/contact', 'Practitioner\EmailGroupController@contact');
+    Route::post('/email-group/addPatients', 'Practitioner\EmailGroupController@addPatients');
+    Route::post('/email-group/addContacts', 'Practitioner\EmailGroupController@addContacts');
+    Route::get('/email-group/patients', 'Practitioner\EmailGroupController@patients');
+    Route::get('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
     Route::post('/email-group/store', 'Practitioner\EmailGroupController@store');
     Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
     Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
     Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
-    Route::get('email-group/find/{id}', 'Practitioner\EmailGroupController@findinfo');
-    Route::get('email-group/deleteinfo/{id}', 'Practitioner\EmailGroupController@deleteinfo');
+    Route::get('/email-group/removePatients', 'Practitioner\EmailGroupController@removePatients');
+    Route::get('/email-group/removeContacts', 'Practitioner\EmailGroupController@removeContacts');
 
     // Contact Group Routes
 
@@ -218,11 +221,16 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/removeSelectedSup', 'Practitioner\SuggestionController@removeSelectedSupplements');
     Route::get('/suggestion/clearSupSugSessions', 'Practitioner\SuggestionController@clearSupSugSessions');
 
-    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritionSuggestions');
-    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@nutritionSuggestionDetails');
+    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritnutritionSuggestionDetailsionSuggestions');
+    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@');
     Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
-    Route::post('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
+    Route::get('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
     Route::post('/suggestion/saveNutritionSuggestions', 'Practitioner\SuggestionController@saveNutritionSuggestions');
+    Route::post('/suggestion/addNutrition', 'Practitioner\SuggestionController@addNutrition');
+    Route::get('/suggestion/removeSelectedNut', 'Practitioner\SuggestionController@removeSelectedNut');
+    Route::get('/suggestion/nutrition-suggestions-patients', 'Practitioner\SuggestionController@newNutSugPatients');
+    Route::post('/suggestion/addNutPatients', 'Practitioner\SuggestionController@addNutPatients');
+    Route::get('/suggestion/removeNutPatient', 'Practitioner\SuggestionController@removeNutPatient');
 
     Route::get('/profile/', 'Practitioner\ProfileController@index');
     Route::get('/profile/index', 'Practitioner\ProfileController@index');
