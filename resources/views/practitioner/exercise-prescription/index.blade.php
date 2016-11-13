@@ -1,8 +1,12 @@
-@extends('layouts.management')
+@extends('layouts.pradash')
+@section('sidebar')
+@include('layouts.manage-sidebar')
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
+    <li><a href="{{url('/practitioner/patient')}}">Patients</a></li>
     <li class="active">Exercise Prescription</li>
 </ol>
 <!-- end breadcrumb -->

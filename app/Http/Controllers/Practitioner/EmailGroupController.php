@@ -15,6 +15,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Input;
+use Yajra\Datatables\Datatables;
 
 class EmailGroupController extends Controller
 {
@@ -48,86 +50,134 @@ class EmailGroupController extends Controller
     public function create()
     {
         $meta = array('page_title'=>'New Email Group');
-        $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
-        $contacts = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
         return view('practitioner.email-group.new')->with('meta', $meta)
             ->with('template_menu', 'active')
-            ->with('eg_sub_menu_new', 'active')
-            ->with('patients', $patients)->with('contacts',$contacts);
+            ->with('eg_sub_menu_new', 'active');
+    }
+    public function toContact(Request $request){
+        Session::put('group_name', $request->name);
+        Session::put('group_desc', $request->description);
+        return Redirect::to('/practitioner/email-group/contact');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function contact(Request $request){
-        $data = [
-            'name' => $request->name,
-            'desc' => $request->description,
-        ];
         $patients = Patient::select('*')->orderBy('first_name', 'asc')->get();
-        return view('practitioner.email-group.addcontact')->with('data',$data)->with('patients',$patients);
+        $pat_ids = Session::has('selected_patients_list') ? Session::get('selected_patients_list') : array();
+        $selected_pat = array();
+        if(!empty($pat_ids)) {
+            $selected_pat = Patient::select('user_id','first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+                ->whereIn('user_id', $pat_ids)->get();
+        }
+        return view('practitioner.email-group.addcontact')
+            ->with('selected_pat', $selected_pat)->with('pat_ids', $pat_ids)
+            ->with('patients', $patients);
     }
+    public function addPatients(Request $request)
+    {
+        Session::put('selected_patients_list', $request['sup_id']);
+        return Redirect::Back();
+    }
+    public function removePatients()
+    {
+        $pat = Session::get('selected_patients_list');
+        foreach ($pat as $index => $val) {
+            if ($val == Input::get('user_id')) {
+                unset($pat[$index]);
+            }
+        }
+        Session::put('selected_patients_list', $pat);
+        echo 'success';
+    }
+
     public function patients(Request $request){
-        dd(Session::get('selected_list'));
-        $data = [
-            'name' => $request->name,
-            'desc' => $request->description,
-        ];
-        if(isset($request->email) && (count($request->email)>0)){
-            foreach ($request->email  as $key => $value)
-                Temp::create([
-                    'email' =>  $value,
-                    'type' => '1',
-                ]);
+        $contact = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
+        $con_ids = Session::has('selected_contact_list') ? Session::get('selected_contact_list') : array();
+        $selected_con = array();
+        if(!empty($con_ids)) {
+            $selected_con = Contact::select('cnt_id','first_name', 'middle_name', 'last_name', 'email', 'phone')
+                ->whereIn('cnt_id', $con_ids)->get();
         }
-       $contact = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
-       return view('practitioner.email-group.addpatient')->with('data',$data)->with('contact',$contact);
+        return view('practitioner.email-group.addpatient')
+            ->with('selected_con', $selected_con)->with('con_ids', $con_ids)
+            ->with('contact', $contact);
+//       $contact = Contact::where('pra_id', '=', $this->practitioner_info->pra_id)->get(ssss);
+//       return view('practitioner.email-group.addpatient')->with('data',$data)->with('contact',$contact);
     }
-    public function findinfo(Request $request){
-        $id = $request->id;
-        $templates = Patient::where('user_id',$id)->first();
-        if(!Session::has('selected_list')){
-            Session::put('selected_list', array());
-        }
-        Session::push('selected_list', $id);
-        $data = array('data'=>$templates);
-        return response()->json($data);
+    public function addContacts(Request $request)
+    {
+        Session::put('selected_contact_list', $request['sup_id']);
+        return Redirect::Back();
     }
-    public function confirmed(Request $request){
-        $data = [
-            'name' => $request->name,
-            'desc' => $request->description,
-        ];
-        if(isset($request->email) && (count($request->email)>0)){
-            foreach ($request->email  as $email)
-                Temp::create([
-                    'email' =>  $email,
-                    'type' => '2'
-                ]);
+    public function removeContacts()
+    {
+        $con = Session::get('selected_contact_list');
+        foreach ($con as $index => $val) {
+            if ($val == Input::get('user_id')) {
+                unset($con[$index]);
+            }
         }
-        $patients = Temp::where('type', '1')->get();
-        $contacts = Temp::where('type', '2')->get();
-        return view('practitioner.email-group.confirm')->with('data',$data)->with('patients',$patients)->with('contacts',$contacts);
+        Session::put('selected_contact_list', $con);
+        echo 'success';
+    }
+    public function confirmed(Request $request)
+    {
+        $patients_id = Session::get('selected_patients_list');
+        $contacts_id = Session::get('selected_contact_list');
+
+        $patients = Patient::select('user_id','first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+            ->whereIn('user_id', $patients_id)->get();
+
+        $contacts = Contact::select('cnt_id','first_name', 'middle_name', 'last_name', 'email', 'phone')
+            ->whereIn('cnt_id', $contacts_id)->get();
+
+        return view('practitioner.email-group.confirm')
+            ->with('patients', $patients)
+            ->with('contacts', $contacts)->with('sug_menu', 'active');
+
     }
     public function store(Request $request)
     {
-        $input = $request->all();
-        $input['pra_id'] = $this->practitioner_info->pra_id;
-        $contact = EmailGroup::create($input);
+        $eg = new EmailGroup;
+        $eg->name = Session::get('group_name');
+        $eg->pra_id = $this->practitioner_info->pra_id;
+        $eg->description = Session::get('group_desc');
+        $eg->save();
 
-        if(isset($request->email) && (count($request->email)>0)){
-            foreach ($request->email  as $email)
+        if(isset($request->sup_id) && (count($request->sup_id)>0)){
+            foreach ($request->sup_id  as $sup_ids){
+                $patients = Patient::select('email','first_name','middle_name','last_name','primary_phone')->where('user_id',$sup_ids)->get()->first();
             EmailInGroup::create([
-                'email' =>  $email,
-                'cg_id' => $contact['cg_id']
+                'email' =>  $patients->email,
+                'cg_id' => $eg['cg_id'],
+                'first_name' => $patients->first_name,
+                'middle_name' => $patients->middle_name,
+                'last_name' => $patients->last_name,
+                'primary_phone' => $patients->primary_phone,
+                'type' => '1'
             ]);
+            }
         }
-        Temp::truncate();
+        if(isset($request->pa_id) && (count($request->pa_id)>0)){
+            foreach ($request->pa_id  as $pa_id){
+                $contact = Contact::select('email','first_name','middle_name','last_name','phone')->where('cnt_id',$pa_id)->get()->first();
+                EmailInGroup::create([
+                    'email' =>  $contact->email,
+                    'cg_id' => $eg['cg_id'],
+                    'first_name' => $patients->first_name,
+                    'middle_name' => $contact->middle_name,
+                    'last_name' => $contact->last_name,
+                    'primary_phone' => $contact->phone,
+                    'type' => '2'
+                ]);
+            }
+        }
+        Session::forget('selected_patients_list');
+        Session::forget('selected_contact_list');
+        Session::forget('group_name');
+        Session::forget('group_desc');
+
         Session::put('success','Email group created successfully!');
-        return Redirect::to('/practitioner/email-group/new');
+        return Redirect::to('/practitioner/email-group');
         /**
      * Display the specified resource.
      *
