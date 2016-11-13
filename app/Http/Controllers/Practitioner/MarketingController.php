@@ -33,8 +33,21 @@ class MarketingController extends Controller
     }
     public function SocialPost()
     {
-        return view('practitioner.marketing.social');
+        return view('practitioner.marketing.social')
+            ->with('meta', array('page_title'=>'New Social Post'))
+            ->with('social_marketing','active')
+        ->with('new_social_post','active');
+
     }
+
+    public function SocialPostsList()
+    {
+        return view('practitioner.marketing.posts-list')
+            ->with('meta', array('page_title'=>'Social Posts List'))
+            ->with('social_marketing','active')
+            ->with('social_posts_list','active');
+    }
+
 
     /**
      * Show the form for creating a new resource.

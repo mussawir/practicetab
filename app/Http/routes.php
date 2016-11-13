@@ -136,7 +136,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
-    Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
+    Route::get('/social-post', ['as' => 'social-post', 'uses' => 'Practitioner\MarketingController@SocialPost']);
+    Route::get('/social-posts-list', ['as' => 'social-posts-list', 'uses' => 'Practitioner\MarketingController@SocialPostsList']);
     Route::get('/SocialPost/logoutFb', ['as' => '/SocialPost/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
     Route::get('/SocialPost/fblogin', ['as' => '/SocialPost/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
     Route::post('/SocialPost/formsubmit', ['as' => '/SocialPost/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);

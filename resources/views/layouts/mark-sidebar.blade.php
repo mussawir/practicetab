@@ -31,14 +31,14 @@
                 </ul>
             </li>
 
-            <li class="has-sub">
+            <li class="has-sub <?php if(isset($social_marketing))echo $social_marketing; ?>">
                 <a href="javascript:;">
                     <i class="fa fa-desktop"></i>
                     <span>Social Marketing</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=" "><a href="">Write something</a></li>
-                    <li><a href="#">Posts</a></li>
+                    <li class="<?php if(isset($new_social_post))echo $new_social_post; ?>"><a href="{{url('/practitioner/social-post')}}">New Social Post</a></li>
+                    <li class="<?php if(isset($social_posts_list))echo $social_posts_list; ?>"><a href="{{url('/practitioner/social-posts-list')}}">Post</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
             </li>
