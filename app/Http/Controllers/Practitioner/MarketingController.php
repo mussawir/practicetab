@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use TwitterOAuth;
+
 
 class MarketingController extends Controller
 {
@@ -21,7 +23,105 @@ class MarketingController extends Controller
       Session::pull('management');
       Session::pull('dashboard');
     }
+    public function twitterlogin()
+    {
+        require_once 'App\Models\TWITTERCONFIG.php';
+        //require 'App\Models\twiiter_library\twitteroauth.php';
+        session_start();
+        //include_once("inc/twitteroauth.php");
+        //include_once("includes/functions.php");
 
+        if(isset($_REQUEST['oauth_token']) && $_SESSION['token']  !== $_REQUEST['oauth_token']) {
+
+            //If token is old, distroy session and redirect user to index.php
+            session_destroy();
+            return Redirect::to('practitioner/SocialPost');
+
+        }elseif(isset($_REQUEST['oauth_token']) && $_SESSION['token'] == $_REQUEST['oauth_token']) {
+            require_once base_path().'\TwitterInc\twitteroauth.php';
+            //Successful response returns oauth_token, oauth_token_secret, user_id, and screen_name
+            $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $_SESSION['token'] , $_SESSION['token_secret']);
+            $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+            if($connection->http_code == '200')
+            {
+                //Redirect user to twitter
+                $_SESSION['status'] = 'verified';
+                $_SESSION['request_vars'] = $access_token;
+
+                //Insert user into the database
+                $user_info = $connection->get('account/verify_credentials');
+                $name = explode(" ",$user_info->name);
+                $fname = isset($name[0])?$name[0]:'';
+                $lname = isset($name[1])?$name[1]:'';
+                $db_user = new Users();
+                //$db_user->checkUser('twitter',$user_info->id,$user_info->screen_name,$fname,$lname,$user_info->lang,$access_token['oauth_token'],$access_token['oauth_token_secret'],$user_info->profile_image_url);
+
+                //Unset no longer needed request tokens
+                unset($_SESSION['token']);
+                unset($_SESSION['token_secret']);
+                return Redirect::to('practitioner/SocialPost');
+            }else{
+                die("error, try again later!");
+            }
+
+        }else{
+            require_once base_path().'\TwitterInc\twitteroauth.php';
+            if(isset($_GET["denied"]))
+            {
+                return Redirect::to('practitioner/SocialPost');
+                die();
+            }
+            //Fresh authentication
+            $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+            $request_token = $connection->getRequestToken(OAUTH_CALLBACK);
+            //Received token info from twitter
+            $_SESSION['token'] 			= $request_token['oauth_token'];
+            $_SESSION['token_secret'] 	= $request_token['oauth_token_secret'];
+            $connection->http_code;
+            $twitter_url = $connection->getAuthorizeURL($request_token['oauth_token']);
+            //Any value other than 200 is failure, so continue only if http code is 200
+            if($twitter_url!="")
+            {
+                //header('Location: ' . $twitter_url);
+                return Redirect::to($twitter_url);
+            }else{
+                die("error connecting to twitter! try again later!");
+            }
+        }
+    }
+public function twitterpost($msg,$link,$picpath)
+{
+
+        require_once 'App\Models\TWITTERCONFIG.php';
+        require_once base_path().'\TwitterInc\twitteroauth.php';
+        $oauth_token 		= $_SESSION['request_vars']['oauth_token'];
+        $oauth_token_secret = $_SESSION['request_vars']['oauth_token_secret'];
+        $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $oauth_token, $oauth_token_secret);
+    if($link==""&&$msg!=""&&$picpath=="") {
+        $my_update = $connection->post('statuses/update', array('status' => $msg));
+    }
+    else if($link!=""&& $msg!=""&&$picpath=="")
+    {
+        $my_update = $connection->post('statuses/update', array('status' => $link .'  ' . $msg));
+    }
+    else if($link!=""&& $msg=="")
+    {
+        $my_update = $connection->post('statuses/update', array('status' => $link));
+    }
+    else if($picpath!="")
+    {
+        $tweetWM = $connection->upload('media/upload', ['media' => $picpath]);
+        if($msg!="")
+        {
+            $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $msg]);
+        }
+        else
+        {
+            $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $link]);
+        }
+    }
+        return Redirect::to('practitioner/SocialPost');
+}
     /**
      * Display a listing of the resource.
      *
@@ -142,7 +242,7 @@ class MarketingController extends Controller
                 if ($success) echo 'posted';
                 if ($error) echo 'error' . $myerr;
             }
-            else if($link!=""&$imagePath=="")
+            else if($link!="")
             {
                 $msg = $_POST["msg"];
                 $param = array(
@@ -160,6 +260,12 @@ class MarketingController extends Controller
                 }
                 if ($success) echo 'posted';
                 if ($error) echo 'error' . $myerr;
+            }
+            if(isset($_POST["msg"]) && $_POST["msg"]!="")
+            {
+                if(isset($_SESSION['status']) && $_SESSION['status'] == 'verified') {
+                   $this->twitterpost($_POST["msg"],$link,$imagePath);
+                }
             }
             /*(else if($imagePath!="") {
 
@@ -284,5 +390,13 @@ class MarketingController extends Controller
             return Redirect::to('practitioner/SocialPost');
         }
     }
+    public function twitterlogout()
+    {
+            session_start();
+            unset($_SESSION['userdata']);
+            session_destroy();
+            return Redirect::to('practitioner/SocialPost');
+    }
+
 
 }

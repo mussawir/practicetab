@@ -26,7 +26,7 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#ajaxloaderImg').hide();
-                $('#file').hide();
+                //$('#file').hide();
                 $('#fileLabel').hide();
 
             });
@@ -65,11 +65,10 @@
                     formsubmit();
                 }
                 else {
-                    uploadimage();
+                    //uploadimage();
                 }
             }
             function formsubmit() {
-
                     <?php if($_SESSION["user_id"] == "") { ?>
                     $('#failbody').html('');
                     $('#failbody').html('<strong>Please Login First!!</strong>');
@@ -87,7 +86,7 @@
                         data: {
                             msg: $('#msg').val(),
                             link: $('#link').val(),
-                            imagePath : $('#imagepath').val('http://ajaxuploader.com/images/drag-drop-file-upload.png')
+                            imagePath : $('#imagepath').val()
                         },
                         beforeSend: function (request) {
                             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -171,6 +170,31 @@
                 <div class="row">&nbsp;</div>
                 <?php } ?>
             </div>
+        <div  class="col-lg-2">
+            <!-- LogOut -->
+            <?php
+            require_once 'App\Models\TWITTERCONFIG.php';
+            require_once base_path().'\TwitterInc\twitteroauth.php';
+            ?>
+            <?php if(isset($_SESSION['status']) && $_SESSION['status'] == 'verified')
+            { ?>
+            <div class="row">
+                <a href="<?php $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; echo $actual_link;?>/twitterlogout">
+                    <i class="fa fa-twitter-square fa-3x pull-left fb-ico" id="fbbtn_text"></i> Log Out
+                </a>
+            </div>
+        <?php } else {?>
+            <!-- Login -->
+<div class="row">
+
+<a href="<?php $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; echo $actual_link;?>/twitterlogin">
+    <i class="fa fa-twitter-square fa-3x pull-left fb-ico" id="fbbtn_text"></i> Log In
+</a>
+</div>
+            <?php } ?>
+
+
+        </div>
         <div class="col-lg-10">
 
         <div class="row">

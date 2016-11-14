@@ -141,6 +141,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/SocialPost/fblogin', ['as' => '/SocialPost/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
     Route::post('/SocialPost/formsubmit', ['as' => '/SocialPost/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
     Route::post('/SocialPost/uploadImage', ['as' => '/SocialPost/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
+    Route::get('/SocialPost/twitterlogout', ['as' => '/SocialPost/twitterlogout', 'uses' => 'Practitioner\MarketingController@twitterlogout']);
+    Route::get('/SocialPost/twitterlogin', ['as' => '/SocialPost/twitterlogin', 'uses' => 'Practitioner\MarketingController@twitterlogin']);
+    Route::post('/SocialPost/twitterpost', ['as' => '/SocialPost/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
 
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
