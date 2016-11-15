@@ -136,14 +136,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
-    Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
-    Route::get('/SocialPost/logoutFb', ['as' => '/SocialPost/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
-    Route::get('/SocialPost/fblogin', ['as' => '/SocialPost/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
-    Route::post('/SocialPost/formsubmit', ['as' => '/SocialPost/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
-    Route::post('/SocialPost/uploadImage', ['as' => '/SocialPost/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
-    Route::get('/SocialPost/twitterlogout', ['as' => '/SocialPost/twitterlogout', 'uses' => 'Practitioner\MarketingController@twitterlogout']);
-    Route::get('/SocialPost/twitterlogin', ['as' => '/SocialPost/twitterlogin', 'uses' => 'Practitioner\MarketingController@twitterlogin']);
-    Route::post('/SocialPost/twitterpost', ['as' => '/SocialPost/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
+    Route::get('/social-post', ['as' => 'social-post', 'uses' => 'Practitioner\MarketingController@SocialPost']);
+    Route::get('/social-posts-list', ['as' => 'social-posts-list', 'uses' => 'Practitioner\MarketingController@SocialPostsList']);
+    Route::get('/social-post/logoutFb', ['as' => '/social-post/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
+    Route::get('/social-post/fblogin', ['as' => '/social-post/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
+    Route::post('/social-post/formsubmit', ['as' => '/social-post/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
+    Route::post('/social-post/uploadImage', ['as' => '/social-post/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
+    Route::get('/social-post/twitterlogout', ['as' => '/social-post/twitterlogout', 'uses' => 'Practitioner\MarketingController@twitterlogout']);
+    Route::get('/social-post/twitterlogin', ['as' => '/social-post/twitterlogin', 'uses' => 'Practitioner\MarketingController@twitterlogin']);
+    Route::post('/social-post/twitterpost', ['as' => '/social-post/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
 
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
@@ -151,14 +152,19 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     //Email Group Routes
     // Route::get('/email-group', ['as' => 'contacts', 'uses' => 'Practitioner\EmailGroupController@index']);
     Route::get('/email-group/new', 'Practitioner\EmailGroupController@create');
+    Route::post('/email-group/toContact', 'Practitioner\EmailGroupController@toContact');
     Route::get('/email-group', 'Practitioner\EmailGroupController@index');
-    Route::post('/email-group/contact', 'Practitioner\EmailGroupController@contact');
-    Route::post('/email-group/patients', 'Practitioner\EmailGroupController@patients');
-    Route::post('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
+    Route::get('/email-group/contact', 'Practitioner\EmailGroupController@contact');
+    Route::post('/email-group/addPatients', 'Practitioner\EmailGroupController@addPatients');
+    Route::post('/email-group/addContacts', 'Practitioner\EmailGroupController@addContacts');
+    Route::get('/email-group/patients', 'Practitioner\EmailGroupController@patients');
+    Route::get('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
     Route::post('/email-group/store', 'Practitioner\EmailGroupController@store');
     Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
     Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
     Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
+    Route::get('/email-group/removePatients', 'Practitioner\EmailGroupController@removePatients');
+    Route::get('/email-group/removeContacts', 'Practitioner\EmailGroupController@removeContacts');
 
     // Contact Group Routes
 
@@ -209,16 +215,26 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/supplement-suggestions-list', 'Practitioner\SuggestionController@showSupplementSuggestions');
     Route::get('/suggestion/supplement-suggestions-details/{id}', 'Practitioner\SuggestionController@supplementSuggestionDetails');
     Route::get('/suggestion/supplement-suggestions', 'Practitioner\SuggestionController@newSupplementSuggestions');
+    Route::post('/suggestion/addSupplements', 'Practitioner\SuggestionController@addSupplements');
+    Route::get('/suggestion/supplement-suggestions-patients', 'Practitioner\SuggestionController@newSupSugPatients');
+    Route::post('/suggestion/addSugPatients', 'Practitioner\SuggestionController@addSugPatients');
     Route::get('/suggestion/getSelectedPatient', 'Practitioner\SuggestionController@getSelectedPatient');
-    Route::post('/suggestion/confirm-supplement-suggestions', 'Practitioner\SuggestionController@confirmSupplementSuggestions');
+    Route::get('/suggestion/confirm-supplement-suggestions', 'Practitioner\SuggestionController@confirmSupplementSuggestions');
     Route::post('/suggestion/saveSupplementSuggestions', 'Practitioner\SuggestionController@saveSupplementSuggestions');
     Route::get('/suggestion/removeSelectedPatient', 'Practitioner\SuggestionController@removeSelectedPatient');
+    Route::get('/suggestion/removeSelectedSup', 'Practitioner\SuggestionController@removeSelectedSupplements');
+    Route::get('/suggestion/clearSupSugSessions', 'Practitioner\SuggestionController@clearSupSugSessions');
 
-    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritionSuggestions');
-    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@nutritionSuggestionDetails');
+    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritnutritionSuggestionDetailsionSuggestions');
+    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@');
     Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
-    Route::post('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
+    Route::get('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
     Route::post('/suggestion/saveNutritionSuggestions', 'Practitioner\SuggestionController@saveNutritionSuggestions');
+    Route::post('/suggestion/addNutrition', 'Practitioner\SuggestionController@addNutrition');
+    Route::get('/suggestion/removeSelectedNut', 'Practitioner\SuggestionController@removeSelectedNut');
+    Route::get('/suggestion/nutrition-suggestions-patients', 'Practitioner\SuggestionController@newNutSugPatients');
+    Route::post('/suggestion/addNutPatients', 'Practitioner\SuggestionController@addNutPatients');
+    Route::get('/suggestion/removeNutPatient', 'Practitioner\SuggestionController@removeNutPatient');
 
     Route::get('/profile/', 'Practitioner\ProfileController@index');
     Route::get('/profile/index', 'Practitioner\ProfileController@index');
@@ -241,8 +257,31 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
+    Route::get('/emails/new_campaign', 'Practitioner\EmailsController@create_campaign');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
+
     Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
+
+    Route::get('/supplement-prescription', 'Practitioner\SupPrescriptionController@index');
+    Route::get('/supplement-prescription/add-master/{id}', 'Practitioner\SupPrescriptionController@addMaster');
+    Route::get('/supplement-prescription/supplements', 'Practitioner\SupPrescriptionController@showSupplements');
+    Route::get('/supplement-prescription/add/{id}', 'Practitioner\SupPrescriptionController@doPrescribeSupplements');
+    Route::post('/supplement-prescription/store', 'Practitioner\SupPrescriptionController@store');
+    Route::delete('/supplement-prescription/delete/{id}', 'Practitioner\SupPrescriptionController@delete');
+    Route::get('/supplement-prescription/prescribe', 'Practitioner\SupPrescriptionController@storePrescribedInfo');
+
+    Route::get('/nutrition-prescription', 'Practitioner\NutPrescriptionController@index');
+    Route::get('/nutrition-prescription/add-master/{id}', 'Practitioner\NutPrescriptionController@addMaster');
+    Route::get('/nutrition-prescription/nutrition', 'Practitioner\NutPrescriptionController@showNutrition');
+    Route::get('/nutrition-prescription/add/{id}', 'Practitioner\NutPrescriptionController@doPrescribeNutrition');
+    Route::post('/nutrition-prescription/store', 'Practitioner\NutPrescriptionController@store');
+    Route::delete('/nutrition-prescription/delete/{id}', 'Practitioner\NutPrescriptionController@delete');
+    Route::get('/nutrition-prescription/prescribe', 'Practitioner\NutPrescriptionController@storePrescribedInfo');
+
+    Route::post('/emails/store_campaign', 'Practitioner\EmailsController@store_campaign');
+    Route::get('/emails/data', 'Practitioner\EmailsController@store');
+
+
 });
 
 // route for public profile page

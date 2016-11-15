@@ -30,7 +30,7 @@
 
         {!! Form::open(array('url'=>'/practitioner/suggestion/saveSupplementSuggestions', 'id'=>'frm-suggestions')) !!}
         <div class="col-md-10" style="margin-bottom: 10px;">
-            <textarea name="message" class="form-control" rows="3" placeholder="Enter your message"></textarea>
+            <textarea name="message" class="form-control" rows="3" placeholder="Enter your message" required></textarea>
         </div>
         <div class="col-md-2">
             {!! Form::submit('Send', array('class'=>'btn btn-success form-control')) !!}
@@ -67,7 +67,7 @@
                                 <td>{{$item->used_for}}</td>
                                 <td>
                                     <input type="hidden" name="sup_id[]" value="{{$item->sup_id}}" />
-                                    <a href="javascript:void(0);" class="text-danger" onclick="removeSupRow(this)"><i class="fa fa-times"></i> Remove</a>
+                                    <a href="javascript:void(0);" class="text-danger" onclick="removeSupRow(this, '{{$item->sup_id}}')"><i class="fa fa-times"></i> Remove</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -92,7 +92,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($selected_patients as $patient)
+                        @foreach($patients as $patient)
                             <tr>
                                 <td>{{$patient->full_name}}</td>
                                 <td>
@@ -113,7 +113,6 @@
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {
-            $(".default-select2").select2();
 
             if ($('#dt-sup').length !== 0) {
                 $('#dt-sup').DataTable({
@@ -137,24 +136,36 @@
         });
 
         function removeRow(elm, id) {
-            $(elm).closest('tr').remove();
+            $.get("{{url('/practitioner/suggestion/removeSelectedPatient')}}", { s_pa_id: id }, function(data) {
+                if(data == 'success'){
+                    $(elm).closest('tr').remove();
 
-            var rowCount = $('#dt-patient tbody tr').length;
-            if(rowCount==0) {
-                $("#dt-patient tbody").append('<tr id="pa-empty-row" class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
-            }
-
+                    var rowCount = $('#dt-patient tbody tr').length;
+                    if(rowCount==0) {
+                        $("#dt-patient tbody").append('<tr id="pa-empty-row" class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
+                    }
+                }
+            });
             return false;
         }
 
         function removeSupRow(elm) {
-            $(elm).closest('tr').remove();
+            $(elm).closest('<tr>').remove();
 
             var rowCount = $('#dt-sup tbody tr').length;
-            if(rowCount==0) {
+                if(rowCount==0) {
                 $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
             }
-
+        function removeSupRow(elm, id) {
+            $.get("{{url('/practitioner/suggestion/removeSelectedSup')}}", { sup_id: id }, function(data) {
+                if(data == 'success') {
+                    $(elm).closest('tr').remove();
+                    var rowCount = $('#dt-sup tbody tr').length;
+                    if (rowCount == 0) {
+                        $("#dt-sup tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
+                    }
+                }
+            });
             return false;
         }
 

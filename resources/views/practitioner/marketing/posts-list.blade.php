@@ -1,17 +1,16 @@
 @extends('layouts.pradash')
 @section('sidebar')
-@include('layouts.manage-sidebar')
+@include('layouts.mark-sidebar')
 @endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li><a href="{{url('/practitioner/patient')}}">Patients</a></li>
-    <li class="active">Exercise Prescription</li>
+    <li class="active">Social Posts</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Exercise Prescriptions<small></small></h1>
+<h1 class="page-header">Social Posts<small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -41,39 +40,35 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Patients List</h4>
+                <h4 class="panel-title">Social Posts</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Prescribe</th>
-                        <th>Details</th>
+                        <th>Date Time</th>
+                        <th>Heading</th>
+                        <th>Post</th>
+                        <th>Action</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($table1 as $item)
                         <tr>
-
-                            <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
-                                |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-fire"></i> Nutritions</a>
-                                |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-heart-o"></i> Exercises</a>
+                             11-11-2016 1:00pm
+                            </td>
+                            <td>Post Heading</td>
+                            <td>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                             </td>
 
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
-                            </td>
+                                <a href="{{url('/practitioner/patient/edit/')}}"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="javascript:void(0);" onclick="doDelete('', this);"><i class="fa fa-trash-o"></i> Remove</a>
+            </td>
 
                         </tr>
-                    @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -87,6 +82,7 @@
 
 @section('page-scripts')
     <script type="text/javascript">
+
         $(function () {
             if ($('#data-table').length !== 0) {
                 $('#data-table').DataTable({
@@ -99,33 +95,6 @@
             }
         });
 
-        function doDelete(id, elm)
-        {
-            var q = confirm("Are you sure you want to delete this manufacturer?");
-            if (q == true) {
 
-                $.ajax({
-                    type: "DELETE",
-                    url: '{{ URL::to('/admin/execategories/destroy') }}/' + id,
-                    beforeSend: function (request) {
-                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                    },
-                    success: function (result) {
-                        /*if (result.status == 'success') {
-                            $(elm).closest('tr').fadeOut();
-                            $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
-                        } else {
-                            $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                        }*/
-                        location.reload(true);
-                    },
-                    error:function (error) {
-                        $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                    }
-                });
-                return false;
-            }
-            return false;
-        }
     </script>
 @endsection

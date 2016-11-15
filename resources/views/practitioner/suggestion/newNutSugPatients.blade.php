@@ -10,7 +10,7 @@
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Suggestions <small>Nutrition Suggestions</small></h1>
+<h1 class="page-header">Suggestions <small>Supplement Suggestions</small></h1>
 <!-- end page-header -->
 
 <div class="row">
@@ -28,41 +28,31 @@
         @endif
     </div>
 
-    {!! Form::open(array('url'=>'/practitioner/suggestion/addNutrition', 'id'=>'frm-suggestions')) !!}
+    {!! Form::open(array('url'=>'/practitioner/suggestion/addNutPatients', 'id'=>'frm-suggestions')) !!}
     <div class="col-md-6" style="margin-top: 44px;">
 
         <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    Select nutrition For Recommendation
+                    Select Patients For Recommendation
                 </h4>
             </div>
             <div class="panel-body">
-                <table id="dt-sup" class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="dt-patient">
                     <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Used For</th>
+                        <th>Patient</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($nutrition as $item)
+                    @foreach($patients as $patient)
                         <tr>
-                            <td>
-                                @if(isset($item->main_image) && (!empty($item->main_image)))
-                                    <img src="{{asset('public/dashboard/img/nutrition/'.$item->main_image)}}" alt="{{$item->name}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$item->name}}" />
-                                @endif
-                            </td>
-                            <td>{{$item->name}}</td>
-                            <td>{{$item->used_for}}</td>
+                            <td>{{$patient->full_name}}</td>
                             <td>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="nut_id[]" value="{{$item->nut_id}}" {{in_array($item->nut_id, $nut_ids)? 'checked="checked"' : ''}}>
+                                        <input type="checkbox" name="pa_id[]" value="{{$patient->user_id}}" {{in_array($patient->user_id, $patient_ids)? 'checked="checked"' : ''}}>
                                     </label>
                                 </div>
                             </td>
@@ -82,40 +72,30 @@
         <div class="row">
             <div class="col-md-12" style="margin-bottom: 10px;">
                 {{--{!! Form::submit('Select Patient(s) >>', array('class'=>'btn btn-success pull-right')) !!}--}}
-                <button type="button" id="btn-next" class="btn btn-success pull-right">Select Patient(s) >></button>
+                <button type="button" id="btn-next" class="btn btn-success pull-right">Next >></button>
             </div>
         </div>
         <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    Selected Nutritions
+                    Selected Patients
                 </h4>
             </div>
             <div class="panel-body">
-                <table id="dt-sup-selected" class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="dt-pat-selected">
                     <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Used For</th>
+                        <th>Patient</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($selected_nut as $nut)
+                    @foreach($selected_patients as $patient)
                         <tr>
+                            <td>{{$patient->full_name}}</td>
                             <td>
-                                @if(isset($nut->main_image) && (!empty($item->main_image)))
-                                    <img src="{{asset('public/dashboard/img/nutrition/'.$nut->main_image)}}" alt="{{$nut->name}}" class="img-responsive" style="max-height: 64px;" />
-                                @else
-                                    <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$nut->name}}" />
-                                @endif
-                            </td>
-                            <td>{{$nut->name}}</td>
-                            <td>{{$nut->used_for}}</td>
-                            <td>
-                                {{--<input type="hidden" name="sup_id[]" value="{{$item->sup_id}}" />--}}
-                                <a href="javascript:void(0);" class="text-danger" onclick="removeSupRow(this, '{{$item->nut_id}}')"><i class="fa fa-times"></i> Remove</a>
+                                {{--<input type="hidden" name="pa_id[]" value="{{$patient->pa_id}}" />--}}
+                                <a href="javascript:void(0);" class="text-danger" onclick="removePatRow(this, '{{$patient->user_id}}')"><i class="fa fa-times"></i> Remove</a>
                             </td>
                         </tr>
                     @endforeach
@@ -130,35 +110,35 @@
 
 @section('page-scripts')
     <script type="text/javascript">
-        var dtSupTable = '';
+        var tblPatient = '';
         $(function () {
-            dtSupTable = $('#dt-sup').DataTable({
+            tblPatient = $('#dt-patient').DataTable({
                 responsive: true,
-                "aaSorting": [[1, "asc"]],
+                "aaSorting": [[0, "asc"]],
                 "iDisplayLength": 10,
                 "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
+                "aoColumnDefs": [{'bSortable': false, 'aTargets': [1]}]
             });
 
-            $('#dt-sup-selected').DataTable({
+            $('#dt-pat-selected').DataTable({
                 responsive: true,
-                "aaSorting": [[1, "asc"]],
+                "aaSorting": [[0, "asc"]],
                 "iDisplayLength": 10,
                 "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "aoColumnDefs": [{'bSortable': false, 'aTargets': [0,3]}]
+                "aoColumnDefs": [{'bSortable': false, 'aTargets': [1]}]
             });
 
         }); // ready function end
 
-        function removeSupRow(elm, id) {
-            $.get("{{url('/practitioner/suggestion/removeSelectedNut')}}", { nut_id: id }, function(data) {
+        function removePatRow(elm, id) {
+            $.get("{{url('/practitioner/suggestion/removeNutPatient')}}", { nut_pat_id: id }, function(data) {
                 $('#page-loader').removeClass('hide');
-                if(data == 'success') {
+                if(data == 'success'){
                     /*$(elm).closest('tr').remove();
 
-                     var rowCount = $('#dt-sup-selected tbody tr').length;
-                     if (rowCount == 0) {
-                     $("#dt-sup-selected tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
+                     var rowCount = $('#dt-pat-selected tbody tr').length;
+                     if(rowCount==0) {
+                     $("#dt-pat-selected tbody").append('<tr id="pa-empty-row" class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr>');
                      }*/
                     window.location.reload();
                 }
@@ -168,11 +148,11 @@
         }
 
         $('#btn-next').click(function () {
-            if($('#dt-sup-selected').find('td').hasClass('dataTables_empty')){
-                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one nutrition.</strong></div>').show().delay(5000).hide('slow');
+            if($('#dt-pat-selected').find('td').hasClass('dataTables_empty')){
+                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one patient.</strong></div>').show().delay(5000).hide('slow');
                 return false;
             } else {
-                window.location.assign('{{url('/practitioner/suggestion/nutrition-suggestions-patients')}}');
+                window.location.assign('{{url('/practitioner/suggestion/confirm-nutrition-suggestions')}}');
             }
         });
 
@@ -181,7 +161,7 @@
             var supChkCount = 0;
 
             // Iterate over all checkboxes in the table
-            dtSupTable.$('input[name="nut_id[]"]').each(function(){
+            tblPatient.$('input[name="pa_id[]"]').each(function(){
                 // If checkbox doesn't exist in DOM
                 if(!$.contains(document, this)){
                     // If checkbox is checked
@@ -202,7 +182,7 @@
             });
 
             if(supChkCount==0){
-                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one nutrition.</strong></div>').show().delay(5000).hide('slow');
+                $('.msg').html('<div class="alert alert-warning"><strong>Please select at least one patient.</strong></div>').show().delay(5000).hide('slow');
                 return false;
             }
         });

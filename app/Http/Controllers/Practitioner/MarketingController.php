@@ -1,28 +1,28 @@
 <?php
-
 namespace App\Http\Controllers\Practitioner;
-
 use App\Models\Practitioner;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use TwitterOAuth;
-
-
 class MarketingController extends Controller
 {
     var $practitioner_info = null;
     public function __construct()
     {
         $this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
-      Session::set('marketing', 'active');
-      Session::pull('management');
-      Session::pull('dashboard');
+        Session::set('marketing', 'active');
+        Session::pull('management');
+        Session::pull('dashboard');
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function twitterlogin()
     {
         require_once 'App\Models\TWITTERCONFIG.php';
@@ -35,7 +35,7 @@ class MarketingController extends Controller
 
             //If token is old, distroy session and redirect user to index.php
             session_destroy();
-            return Redirect::to('practitioner/SocialPost');
+            return Redirect::to('practitioner/social-post');
 
         }elseif(isset($_REQUEST['oauth_token']) && $_SESSION['token'] == $_REQUEST['oauth_token']) {
             require_once base_path().'\TwitterInc\twitteroauth.php';
@@ -59,7 +59,7 @@ class MarketingController extends Controller
                 //Unset no longer needed request tokens
                 unset($_SESSION['token']);
                 unset($_SESSION['token_secret']);
-                return Redirect::to('practitioner/SocialPost');
+                return Redirect::to('practitioner/social-post');
             }else{
                 die("error, try again later!");
             }
@@ -68,7 +68,7 @@ class MarketingController extends Controller
             require_once base_path().'\TwitterInc\twitteroauth.php';
             if(isset($_GET["denied"]))
             {
-                return Redirect::to('practitioner/SocialPost');
+                return Redirect::to('practitioner/social-post');
                 die();
             }
             //Fresh authentication
@@ -89,53 +89,64 @@ class MarketingController extends Controller
             }
         }
     }
-public function twitterpost($msg,$link,$picpath)
-{
+    public function twitterpost($msg,$link,$picpath)
+    {
 
         require_once 'App\Models\TWITTERCONFIG.php';
         require_once base_path().'\TwitterInc\twitteroauth.php';
         $oauth_token 		= $_SESSION['request_vars']['oauth_token'];
         $oauth_token_secret = $_SESSION['request_vars']['oauth_token_secret'];
         $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $oauth_token, $oauth_token_secret);
-    if($link==""&&$msg!=""&&$picpath=="") {
-        $my_update = $connection->post('statuses/update', array('status' => $msg));
-    }
-    else if($link!=""&& $msg!=""&&$picpath=="")
-    {
-        $my_update = $connection->post('statuses/update', array('status' => $link .'  ' . $msg));
-    }
-    else if($link!=""&& $msg=="")
-    {
-        $my_update = $connection->post('statuses/update', array('status' => $link));
-    }
-    else if($picpath!="")
-    {
-        $tweetWM = $connection->upload('media/upload', ['media' => $picpath]);
-        if($msg!="")
-        {
-            $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $msg]);
+        if($link==""&&$msg!=""&&$picpath=="") {
+            $my_update = $connection->post('statuses/update', array('status' => $msg));
         }
-        else
+        else if($link!=""&& $msg!=""&&$picpath=="")
         {
-            $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $link]);
+            $my_update = $connection->post('statuses/update', array('status' => $link .'  ' . $msg));
         }
+        else if($link!=""&& $msg=="")
+        {
+            $my_update = $connection->post('statuses/update', array('status' => $link));
+        }
+        else if($picpath!="")
+        {
+            $tweetWM = $connection->upload('media/upload', ['media' => $picpath]);
+            if($msg!="")
+            {
+                $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $msg]);
+            }
+            else
+            {
+                $tweet = $connection->post('statuses/update', ['media_ids' => $tweetWM->media_id, 'status' => $link]);
+            }
+        }
+        return Redirect::to('practitioner/social-post');
     }
-        return Redirect::to('practitioner/SocialPost');
-}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function twitterlogout()
+    {
+        session_start();
+        unset($_SESSION['userdata']);
+        session_destroy();
+        return Redirect::to('practitioner/social-post');
+    }
     public function index()
     {
         return view('practitioner.marketing.index');
     }
     public function SocialPost()
     {
-        return view('practitioner.marketing.social');
+        return view('practitioner.marketing.social')
+            ->with('meta', array('page_title'=>'New Social Post'))
+            ->with('social_marketing','active')
+            ->with('new_social_post','active');
     }
-
+    public function SocialPostsList()
+    {
+        return view('practitioner.marketing.posts-list')
+            ->with('meta', array('page_title'=>'Social Posts List'))
+            ->with('social_marketing','active')
+            ->with('social_posts_list','active');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -145,7 +156,6 @@ public function twitterpost($msg,$link,$picpath)
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -156,7 +166,6 @@ public function twitterpost($msg,$link,$picpath)
     {
         //
     }
-
     /**
      * Display the specified resource.
      *
@@ -167,7 +176,6 @@ public function twitterpost($msg,$link,$picpath)
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -178,7 +186,6 @@ public function twitterpost($msg,$link,$picpath)
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -190,7 +197,6 @@ public function twitterpost($msg,$link,$picpath)
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -207,7 +213,7 @@ public function twitterpost($msg,$link,$picpath)
         $_SESSION = array();
         unset($_SESSION);
         session_destroy();
-        return Redirect::to('practitioner/SocialPost');
+        return Redirect::to('practitioner/social-post');
     }
     public function formsubmit()
     {
@@ -227,7 +233,6 @@ public function twitterpost($msg,$link,$picpath)
             {
                 $imagePath = $_POST["imagePath"];
             }
-
             if($link=="") {
                 $msg = $_POST["msg"];
                 $param = array('message' => $msg);
@@ -242,14 +247,13 @@ public function twitterpost($msg,$link,$picpath)
                 if ($success) echo 'posted';
                 if ($error) echo 'error' . $myerr;
             }
-            else if($link!="")
+            else if($link!=""&$imagePath=="")
             {
                 $msg = $_POST["msg"];
                 $param = array(
                     'message' => $msg,
                     'link' => $link,
                 );
-
                 try {
                     $posted = $facebook->api('/me/feed/', 'post', $param);
                     if (strlen($posted["id"]) > 0 ) $success = TRUE;
@@ -261,34 +265,12 @@ public function twitterpost($msg,$link,$picpath)
                 if ($success) echo 'posted';
                 if ($error) echo 'error' . $myerr;
             }
-            if(isset($_POST["msg"]) && $_POST["msg"]!="")
+            if(isset($_POST[msg]) && $_POST[msg]!="")
             {
                 if(isset($_SESSION['status']) && $_SESSION['status'] == 'verified') {
-                   $this->twitterpost($_POST["msg"],$link,$imagePath);
+                    $this-twitterpost($_POST[msg],$link,$imagePath);
                 }
             }
-            /*(else if($imagePath!="") {
-
-                $msg = $_POST["msg"];
-                $param = array(
-                    'message' => $msg,
-                    'picture' => 'http://ajaxuploader.com/images/drag-drop-file-upload.png',
-                    'caption' => $msg,
-                );
-                try {
-                    $posted = $facebook->api('/me/feed/', 'post', $param);
-                    if (strlen($posted["id"]) > 0 ) $success = TRUE;
-                } catch  (FacebookApiException $e) {
-                    $errMsg = $e->getMessage();
-                    $error = TRUE;
-                    $myerr=$errMsg;
-                }
-                if ($success) echo 'posted';
-                if ($error) echo 'error' . $myerr;
-            }*/
-
-
-
         }
     }
     function uploadImage()
@@ -355,7 +337,6 @@ public function twitterpost($msg,$link,$picpath)
                 if ($_SESSION["user_id"] == "") {
                     // fetch user details.
                     $user_profile = $facebook->api('/me');
-
                     // Now check if user exist with same email ID
                     $sql = "SELECT COUNT(*) AS count from usersFb where email = :email_id";
                     try {
@@ -376,27 +357,17 @@ public function twitterpost($msg,$link,$picpath)
                     } catch (Exception $ex) {
                         echo $ex;
                     }
-
                     //return Redirect::Back();
-                    //return Redirect::to('practitioner/SocialPost');
+                    //return Redirect::to('practitioner/social-post');
                 }
                 $_SESSION["user_id"] = $userID;
-                return Redirect::to('practitioner/SocialPost');
+                return Redirect::to('practitioner/social-post');
             } catch (FacebookApiException $e) {
                 echo $e;
                 $userID = NULL;
             }
         } else {
-            return Redirect::to('practitioner/SocialPost');
+            return Redirect::to('practitioner/social-post');
         }
     }
-    public function twitterlogout()
-    {
-            session_start();
-            unset($_SESSION['userdata']);
-            session_destroy();
-            return Redirect::to('practitioner/SocialPost');
-    }
-
-
 }

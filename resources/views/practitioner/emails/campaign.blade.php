@@ -57,12 +57,12 @@
                     <div class="form-group">
                         {!! Form::label('templates','Select Template: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                        <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
-                            <option value="0">Select</option>
-                            @foreach($templates as $item)
-                                <option value="{{$item->et_id}}" data-template="{{$item->template}}">{{$item->name}}</option>
-                            @endforeach
-                        </select>
+                            <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
+                                <option value="0">Select</option>
+                                @foreach($templates as $item)
+                                    <option value="{{$item->et_id}}" data-template="{{$item->template}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -70,12 +70,12 @@
                     <div class="form-group">
                         {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                        <select id="contact_groups" name="cg_id" class="form-control" onchange="ajax();">
-                            <option value="0">Select</option>
-                            @foreach($contact_groups as $item)
-                                <option value="{{$item->cg_id}}">{{$item->name}}</option>
-                            @endforeach
-                        </select>
+                            <select id="contact_groups" name="cg_id" class="form-control" onchange="ajax();">
+                                <option value="0">Select</option>
+                                @foreach($contact_groups as $item)
+                                    <option value="{{$item->cg_id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -143,20 +143,20 @@
             CKEDITOR.instances['mail_body'].setData($(elm).find(':selected').data('template'));
         }
         {{--$("#contact_groups").on('change',function(){--}}
-            {{--var dataId = {'id': $("#contact_groups").val()};--}}
-            {{--$.ajax({--}}
-                {{--type:'GET',--}}
-                {{--url:'{!! URL::route('findInfo') !!}',--}}
-                {{--async:false,--}}
-                {{--dataType:'json',--}}
-                {{--data:dataId,--}}
-                {{--success:function(data){--}}
-                    {{--var obj = JSON.parse(data);--}}
-                    {{--$.each(obj, function(index, value){--}}
-                        {{--$('#getemail').append(value.data.cg_id + ": " + value.data.email + " " + value.data.egd_id + "<br />");--}}
-                    {{--})--}}
-                {{--}--}}
-            {{--});--}}
+        {{--var dataId = {'id': $("#contact_groups").val()};--}}
+        {{--$.ajax({--}}
+        {{--type:'GET',--}}
+        {{--url:'{!! URL::route('findInfo') !!}',--}}
+        {{--async:false,--}}
+        {{--dataType:'json',--}}
+        {{--data:dataId,--}}
+        {{--success:function(data){--}}
+        {{--var obj = JSON.parse(data);--}}
+        {{--$.each(obj, function(index, value){--}}
+        {{--$('#getemail').append(value.data.cg_id + ": " + value.data.email + " " + value.data.egd_id + "<br />");--}}
+        {{--})--}}
+        {{--}--}}
+        {{--});--}}
         {{--});--}}
     </script>
 @endsection

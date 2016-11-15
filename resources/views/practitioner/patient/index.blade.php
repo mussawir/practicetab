@@ -65,9 +65,9 @@
                             </td>
                             <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
                             <td>
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
+                                <a href="{{url('/practitioner/supplement-prescription/add-master/'.$item->pa_id)}}"><i class="fa fa-medkit"></i> Supplements</a>
                                 |
-                                <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutrition</a>
+                                <a href="{{url('/practitioner/nutrition-prescription/add-master/'.$item->pa_id)}}"><i class="fa fa-fire"></i> Nutrition</a>
                                 |
                                 <a href="{{ url('/practitioner/exercise-prescription/add-master/'.$item->pa_id) }}"><i class="fa fa-heart-o"></i> Exercises</a>
                             </td>
