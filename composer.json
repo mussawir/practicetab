@@ -11,7 +11,8 @@
         "intervention/image": "^2.3",
         "barryvdh/laravel-dompdf": "^0.7.0",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "cviebrock/eloquent-sluggable": "^4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

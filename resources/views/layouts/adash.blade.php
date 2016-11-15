@@ -221,6 +221,18 @@
                     </ul>
                 </li>
 
+                <li class="has-sub <?php if(isset($pages_menu))echo $pages_menu;?>">
+                    <a href="javascript:;">
+                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <i class="fa fa-file"></i>
+                        <span>Pages</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="<?php if(isset($new_page))echo $new_page;?>"><a href="{{url('/admin/page/new')}}">New</a></li>
+                        <li class="<?php if(isset($page_list))echo $page_list;?>"><a href="{{url('/admin/page')}}">List</a></li>
+                    </ul>
+                </li>
+
                 <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                     <a href="javascript:;">
                         <span class="badge pull-right">{{$meta['item_counter']}}</span>

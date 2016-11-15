@@ -101,6 +101,12 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
     Route::get('/email-templates/view/{id}', 'Admin\EmailTemplateController@show');
 
+    Route::get('/page', 'Admin\PageController@index');
+    Route::get('/page/new', 'Admin\PageController@create');
+    Route::post('/page/store', 'Admin\PageController@store');
+    Route::get('/page/edit/{id}', 'Admin\PageController@edit');
+    Route::patch('/page/update', 'Admin\PageController@update');
+    Route::delete('/page/destroy/{id}', 'Admin\PageController@destroy');
 });
 
 /* Patient module */
@@ -222,8 +228,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/removeSelectedSup', 'Practitioner\SuggestionController@removeSelectedSupplements');
     Route::get('/suggestion/clearSupSugSessions', 'Practitioner\SuggestionController@clearSupSugSessions');
 
-    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritnutritionSuggestionDetailsionSuggestions');
-    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@');
+    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritionSuggestions');
+    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@nutritionSuggestionDetails');
     Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
     Route::get('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
     Route::post('/suggestion/saveNutritionSuggestions', 'Practitioner\SuggestionController@saveNutritionSuggestions');
@@ -285,6 +291,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 Route::get('/practitioner/{slug}', [
     'uses' => 'HomeController@showPublicProfile'
 ])->where('url', '([A-Za-z0-9\-\/]+)');
+
+// route for CMS/pages
+Route::get('/p/{slug}', [
+    'uses' => 'HomeController@showPageBySlug'
+])->where('slug', '([A-Za-z0-9\-\/]+)');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users','UserController');
