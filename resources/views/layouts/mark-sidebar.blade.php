@@ -61,7 +61,9 @@
                     <li class="<?php if(isset($eg_sub_menu_new))echo $eg_sub_menu_new;?>"><a href="{{url('/practitioner/email-group/new')}}"> New Email Group</a></li>
                     <li class="<?php if(isset($eg_sub_menu_list))echo $eg_sub_menu_list;?>"><a href="{{url('/practitioner/email-group')}}">Email Group List</a></li>
                     <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="{{url('/practitioner/emails/new')}}">Compose Email</a></li>
-                    <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="#">Sent Emails</a></li>
+                    <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="{{url('/practitioner/emails/sent_list')}}">Sent Emails</a></li>
+                    <li class="<?php if(isset($campaign))echo $campaign;?>"><a href="{{url('/practitioner/emails/campaign')}}">Create Campaign</a></li>
+                    <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="{{url('/practitioner/emails/sent_list')}}">Sent Campaigns</a></li>
                     <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/practitioner/email-templates')}}">Templates</a></li>
                 </ul>
             </li>

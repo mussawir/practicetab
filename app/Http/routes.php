@@ -156,11 +156,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/email-group/patients', 'Practitioner\EmailGroupController@patients');
     Route::get('/email-group/confirmed', 'Practitioner\EmailGroupController@confirmed');
     Route::post('/email-group/store', 'Practitioner\EmailGroupController@store');
-    Route::get('/email-group/edit/{id}', 'Practitioner\EmailGroupController@edit');
     Route::patch('/email-group/update', 'Practitioner\EmailGroupController@update');
     Route::delete('/email-group/destroy/{id}', 'Practitioner\EmailGroupController@destroy');
     Route::get('/email-group/removePatients', 'Practitioner\EmailGroupController@removePatients');
     Route::get('/email-group/removeContacts', 'Practitioner\EmailGroupController@removeContacts');
+    Route::get('/email-group/email-group-details/{id}', 'Practitioner\EmailGroupController@edit');
 
     // Contact Group Routes
 
@@ -221,8 +221,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/suggestion/removeSelectedSup', 'Practitioner\SuggestionController@removeSelectedSupplements');
     Route::get('/suggestion/clearSupSugSessions', 'Practitioner\SuggestionController@clearSupSugSessions');
 
-    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritnutritionSuggestionDetailsionSuggestions');
-    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@');
+    Route::get('/suggestion/nutrition-suggestions-list', 'Practitioner\SuggestionController@showNutritionSuggestions');
+    Route::get('/suggestion/nutrition-suggestions-details/{id}', 'Practitioner\SuggestionController@nutritionSuggestionDetails');
     Route::get('/suggestion/nutrition-suggestions', 'Practitioner\SuggestionController@newNutritionSuggestions');
     Route::get('/suggestion/confirm-nutrition-suggestions', 'Practitioner\SuggestionController@confirmNutritionSuggestions');
     Route::post('/suggestion/saveNutritionSuggestions', 'Practitioner\SuggestionController@saveNutritionSuggestions');
@@ -253,8 +253,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
-    Route::get('/emails/new_campaign', 'Practitioner\EmailsController@create_campaign');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
+    Route::get('/emails/sent_list', 'Practitioner\EmailsController@sentList');
+    Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
+    Route::get('/emails/campaign', 'Practitioner\EmailsController@create_campaign');
+    Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
 
     Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
 

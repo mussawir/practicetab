@@ -11,12 +11,11 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li><a href="{{url('/practitioner/emails')}}">Email List</a></li>
-    <li class="active">Compose New Email</li>
+    <li class="active">Create New Campaign</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Compose New Email <small></small></h1>
+<h1 class="page-header">Create New Campaign <small></small></h1>
 <!-- end page-header -->
 
 <!-- begin row -->
@@ -48,15 +47,39 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Compose New Email</h4>
+                <h4 class="panel-title">Create New Campaign</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/emails/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/practitioner/emails/store_campaign', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::label('name','Campaign Name: ', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
+                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Campaign Name')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::label('start_date','Start Date:', array('class'=>'col-md-3 control-label')) !!}
+                        <div class="col-md-9">
+                            {!! Form::text('start_date', null, array('id'=>'start_date', 'class'=>'form-control', 'placeholder'=> 'Start Date', 'readonly')) !!}
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('templates','Select Template: ', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('stop_date','Stop Date:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
+                            {!! Form::text('stop_date', null, array('id'=>'stop_date', 'class'=>'form-control', 'placeholder'=> 'Stop Date', 'readonly')) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::label('templates','Select Template: ', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
                             <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
                                 <option value="0">Select</option>
                                 @foreach($templates as $item)
@@ -66,10 +89,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
+                        {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
                             <select id="contact_groups" name="cg_id" class="form-control" onchange="ajax();">
                                 <option value="0">Select</option>
                                 @foreach($contact_groups as $item)
@@ -79,29 +102,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('bcc','BCC: ', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('bcc', null, array('class'=>'form-control', 'placeholder'=> 'BCC Name')) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::label('subject','Subject: ', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject', 'required'=>'required')) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div id="getemail"></div>
-                </div >
                 <div class="col-md-12">
                     {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
-                </div >
+                </div>
                 <div class="col-md-12">
                     &nbsp;
                 </div>
@@ -137,6 +140,34 @@
                         removeDialogTabs: 'link:upload;image:upload',
                         enterMode	: Number(2)
                     })
+            $('#start_date').datepicker({
+                todayHighlight: false,
+                autoclose: true
+            });
+
+            $('#stop_date').datepicker({
+                todayHighlight: true,
+                autoclose: true
+            });
+
+            var d = new Date();
+            var day = d.getDate();
+            var month = d.getMonth();
+            var year = d.getFullYear();
+            var currentDate = (month+1) + "/" + day + "/" + year;
+
+            $('#start_date').val(currentDate);
+            $('#stop_date').val(currentDate);
+
+            // link between dates
+            $('#start_date').on("changeDate", function (e) {
+                var endDate = new Date(e.date.valueOf());
+                $('#stop_date').datepicker('setStartDate', endDate);
+            });
+            $('#stop_date').on("changeDate", function (e) {
+                var startDate = new Date(e.date.valueOf());
+                $('#start_date').datepicker('setEndDate', startDate);
+            });
         });
 
         function loadTemplate(elm) {

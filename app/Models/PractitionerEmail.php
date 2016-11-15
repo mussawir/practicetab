@@ -17,11 +17,10 @@ class PractitionerEmail extends Model
      */
     protected $fillable = [
         'pra_id',
-        'pa_ids',
+        'sent_to',
         'subject',
         'message',
-        'attachment',
-        'attachment_type'
+        'attachment'
     ];
 
     public function practitioner()

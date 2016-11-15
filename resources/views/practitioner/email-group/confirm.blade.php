@@ -61,7 +61,7 @@
                         <h4 class="panel-title">Selected Email</h4>
                     </div>
                     <div class="panel-body">
-                        <table id="dt-sup" class="table table-striped table-hover">
+                        <table id="dt-pat" class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -97,7 +97,7 @@
                         <h4 class="panel-title">Selected Contacts</h4>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-striped table-hover" id="dt-patient">
+                        <table class="table table-striped table-hover" id="dt-contacts">
                             <thead>
                             <tr>
                                 <th>Patient</th>
@@ -132,8 +132,8 @@
     <script type="text/javascript">
         $(function () {
 
-            if ($('#dt-sup').length !== 0) {
-                $('#dt-sup').DataTable({
+            if ($('#dt-pat').length !== 0) {
+                $('#dt-pat').DataTable({
                     responsive: true,
                     "aaSorting": [[1, "asc"]],
                     "iDisplayLength": 10,
@@ -142,8 +142,8 @@
                 });
             }
 
-            if ($('#dt-patient').length !== 0) {
-                $('#dt-patient').DataTable({
+            if ($('#dt-contacts').length !== 0) {
+                $('#dt-contacts').DataTable({
                     responsive: true,
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 10,
