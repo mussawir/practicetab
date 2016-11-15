@@ -345,7 +345,7 @@ class SuggestionController extends Controller
 			'pra_fullname' => ($this->practitioner_info->first_name . ' ' .$this->practitioner_info->middle_name . ' ' .$this->practitioner_info->last_name),
 			'message'	=>	$request['message'],
 			'master_id'	=>	$master['id'],
-			'pa_ids'		=>	json_encode($request['pa_id']),
+			'pa_ids'	=>	json_encode($request['pa_id']),
 			'nut_ids'	=>	json_encode($request['nut_id']),
 			'created_at' =>	date('Y/m/d H:i:s'),
 			'sug_type'	=>	2	// 2=nutrition

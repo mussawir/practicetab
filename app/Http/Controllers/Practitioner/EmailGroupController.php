@@ -35,11 +35,16 @@ class EmailGroupController extends Controller
     {
         $cg_list = EmailGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
         $meta = array('page_title'=>' EmailGroup List');
-
-        return view('practitioner.email-group.index')->with('meta', $meta)
+        return view('practitioner.email-group.index')->with('list', $cg_list)
             ->with('template_menu', 'active')
-            ->with('eg_sub_menu_list', 'active')
-            ->with('cg_list', $cg_list);
+            ->with('eg_sub_menu_list', 'active');
+//        $cg_list = EmailGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
+//        $meta = array('page_title'=>' EmailGroup List');
+//
+//        return view('practitioner.email-group.index')->with('meta', $meta)
+//            ->with('template_menu', 'active')
+//            ->with('eg_sub_menu_list', 'active')
+//            ->with('cg_list', $cg_list);
     }
 
     /**
@@ -153,7 +158,9 @@ class EmailGroupController extends Controller
                 'middle_name' => $patients->middle_name,
                 'last_name' => $patients->last_name,
                 'primary_phone' => $patients->primary_phone,
-                'type' => '1'
+                'type' => '1',
+                'group_name' => $eg['name'],
+                'pra_id' => $this->practitioner_info->pra_id
             ]);
             }
         }
@@ -167,7 +174,9 @@ class EmailGroupController extends Controller
                     'middle_name' => $contact->middle_name,
                     'last_name' => $contact->last_name,
                     'primary_phone' => $contact->phone,
-                    'type' => '2'
+                    'type' => '2',
+                    'group_name' => $eg['name'],
+                    'pra_id' => $this->practitioner_info->pra_id
                 ]);
             }
         }
@@ -198,15 +207,15 @@ class EmailGroupController extends Controller
      */
     public function edit($id)
     {
-         $cg = EmailGroup::find($id);
+        $meta = array('page_title'=>'Edit Group');
+        $list = EmailGroup::where('cg_id', $id)->get()->first();
+        $patients = EmailInGroup::select('first_name', 'last_name', 'email', 'primary_phone')
+            ->where('cg_id', $id)->where('type', '1')->get();
+        $contacts = EmailInGroup::select('first_name', 'last_name', 'email', 'primary_phone')
+            ->where('cg_id', $id)->where('type', '2')->get();
 
-         $meta = array('page_title'=>'Edit Group', 'cm_main_menu'=>'active');
-         return view('practitioner.email-group.edit')->with('meta', $meta)->with('cg', $cg);
-
-         $meta = array('page_title'=>'Edit Group');
-
-         return view('practitioner.email-group.edit')->with('meta', $meta)
-             ->with('template_menu', 'active')->with('cg', $cg);
+        return view('practitioner.email-group.edit')->with('meta', $meta)->with('list',$list)
+             ->with('template_menu', 'active')->with('patients', $patients)->with('contacts',$contacts);
 
     }
 

@@ -23,6 +23,7 @@ class EmailsController extends Controller
 {
     public function __construct()
     {
+        $this->practitioner_info = Session::get('practitioner_session');
         Session::set('marketing', 'active');
         Session::pull('management');
         Session::pull('dashboard');
@@ -74,9 +75,9 @@ class EmailsController extends Controller
         return view('practitioner.emails.campaign')
             ->with('meta', array('page_title'=>'Create New Campaign'))
             ->with('templates', $templates)
-            ->with('contact_groups', $contact_groups)
+            ->with('contact_groups',$contact_groups)
             ->with('template_menu','active')
-            ->with('compose_email','active');
+            ->with('campaign','active');
     }
     /**
      * Store a newly created resource in storage.
@@ -98,6 +99,8 @@ class EmailsController extends Controller
         $inputs = $request->all();
 
         $email = EmailInGroup::select('email')->where('cg_id', $inputs['cg_id'])->get();
+        $group = EmailInGroup::select('group_name')->where('cg_id', $inputs['cg_id'])->get()->first();
+
         $subject = $inputs['subject'];
 
         if(isset($email)){
@@ -108,8 +111,8 @@ class EmailsController extends Controller
             $prac = Session::get('practitioner_session');
             $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
                 ->where('pra_id', '=', $prac['pra_id'])->first();
-            $pa = Patient::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-                ->where('email', '=', $value->email)->first();
+            $pa = EmailInGroup::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+                ->where('cg_id',$inputs['cg_id'])->where('email', '=', $value->email)->first();
             $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
                 $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
             $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
@@ -124,46 +127,29 @@ class EmailsController extends Controller
                 });
             }
         }
-        Session::put('success','Email Campaign Successfully Sent!');
+        PractitionerEmail::create([
+            'pra_id'	=>	$this->practitioner_info->pra_id,
+            'sent_to' => $group->group_name,
+            'subject' => $inputs['subject'],
+            'message'	=>	$inputs['mail_body']
+        ]);
+        Session::put('success',"Email Successfully Sent! {{ $group->group_name }}");
         return Redirect::back();
-//        //placeholders array
-//        $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
-//            'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone');
-//
-//        $prac = Session::get('practitioner_session');
-//        $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-//            ->where('pra_id', '=', $prac['pra_id'])->first();
-//        $pa = Patient::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-//            ->first();
-//
-//        $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
-//            $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
-//
-//        $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
-//        $mail_body = str_replace($placeholders, $replace_with, $mail_body);
-//        echo '<hr>';
-//        print_r($mail_body);
-//        return;
-//
-//        $pa_ids = array();
-//
-//        $mail_data = array('bcc'=>$inputs['bcc'], 'subject'=>$inputs['subject'], 'mail_body'=>$mail_body);
-//        \Mail::queue([], [], function ($message) use ($mail_data)
-//        {
-//            $message->queue('me@myemail.com')
-//                ->subject($mail_data['subject'])
-//                ->bcc($mail_data['bcc'])
-//                ->setBody($mail_data['mail_body'], 'text/html');
-//        });
-//
-//        $prac = Session::get('practitioner_session');
-//        $inputs['pra_id'] = $prac['pra_id'];
-//        $inputs['pa_ids'] = json_encode($pa_ids);
-//        $inputs['mail_body'] = $mail_body;
-//        PractitionerEmail::create($inputs);
-//
-//        Session::put('success','Email campaign started.');
-//        return Redirect::to('/practitioner/emails');
+       }
+    public function sentList()
+    {
+        $list = PractitionerEmail::where('pra_id','=',$this->practitioner_info->pra_id)->get();
+        return view('practitioner.emails.simplelist')->with('list',$list)->with('sent_mails','active')
+            ->with('template_menu','active');
+    }
+    public function sentDetails($id)
+    {
+        $data = PractitionerEmail::find($id);
+        $name = PractitionerEmail::select('sent_to')->where('pe_id',$id)->get()->first();
+        $contacts = EmailInGroup::where('group_name',$name->sent_to)->get();
+        return view('practitioner.emails.sentdetails')
+            ->with('data', $data)->with('contacts',$contacts)
+            ->with('template_menu','active');
     }
     public function store_campaign(Request $request)
     {
@@ -180,8 +166,8 @@ class EmailsController extends Controller
                 $prac = Session::get('practitioner_session');
                 $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
                     ->where('pra_id', '=', $prac['pra_id'])->first();
-                $pa = Patient::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-                    ->where('email', '=', $value->email)->first();
+                $pa = EmailInGroup::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
+                    ->where('email', '=', $value->email)->where('cg_id',$inputs['cg_id'])->first();
                 $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
                     $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
                 $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
@@ -194,9 +180,11 @@ class EmailsController extends Controller
                     $message->to($value->email);
                     $message->subject($subject);
                 });
+
             }
         }
-        Session::put('success','Email Campaign Successfully Sent!');
+
+        Session::put('success','Email Successfully Sent to' );
         return Redirect::back();
 //        //placeholders array
 //        $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
@@ -243,10 +231,7 @@ class EmailsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
