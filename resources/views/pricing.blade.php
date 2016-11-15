@@ -1,6 +1,9 @@
 @extends('layouts.front')
 
 @section('content')
+    @if(Session::has('plan_type'))
+        {{Session::forget('plan_type')}}
+    @endif
     <div class="msg">
         @if(Session::has('success'))
             <div class="alert alert-success">
@@ -41,7 +44,7 @@
                         </ul>
                         <form action="{{url('/registration/account')}}" method="POST">
                             {{ csrf_field() }}
-                            <input type="hidden" name="pricing_plan_type" value="0">
+                            <input type="hidden" name="pricing_plan_type" value="1">
                             <input type="submit" class="btn" value="GET STARTED" />
                         </form>
                     </div>
@@ -66,10 +69,10 @@
                             <li class="listCheck"><span class="listY"></span>Secure Patient Portal</li>
                         </ul>
 
-                        <form action="#" method="POST" >
+                        <form action="{{url('/registration/account')}}" method="POST" >
                             {{ csrf_field() }}
-                            <input type="hidden" name="pricing_plan_type" value="1">
-                            <input type="button" class="btn" value="BUY PLAN" />
+                            <input type="hidden" name="pricing_plan_type" value="2">
+                            <input type="submit" class="btn" value="BUY PLAN" />
                         </form>
                     </div>
 
@@ -92,10 +95,10 @@
                             <li class="listCross"><span class="listX"></span>Secure Patient Portal</li>
                         </ul>
 
-                        <form action="#" method="POST" >
+                        <form action="{{url('/registration/account')}}" method="POST" >
                             {{ csrf_field() }}
-                            <input type="hidden" name="pricing_plan_type" value="2">
-                            <input type="button" class="btn" value="BUY PLAN" />
+                            <input type="hidden" name="pricing_plan_type" value="3">
+                            <input type="submit" class="btn" value="BUY PLAN" />
                         </form>
                     </div>
                 </div>

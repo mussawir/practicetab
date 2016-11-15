@@ -20,7 +20,11 @@
                             </div>
                         @endif
                     </div>
-                    <h2>You choose the {{$plan_type}} plan</h2>
+                    @if($plan_type==NULL)
+                        <h2 class="text-danger">Please choose a plan first</h2>
+                    @else
+                        <h2>You choose the {{$plan_type}} plan</h2>
+                    @endif
                     <p>First step of the registration process</p>
                     <div class="row-reg not-reg">
                         <div class="block-inp">
