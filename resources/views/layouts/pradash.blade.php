@@ -163,6 +163,9 @@
             selectable: true,
             selectHelper: true,
             eventClick: function(event, element) {
+                $('#element_to_pop_up').html('');
+                $('#element_to_pop_up').html(formData);
+                autoComplete();
                 $('#my-button').click();
                 var id = event.title;
                 id = id.split(')')[0];
@@ -173,6 +176,9 @@
             },
             select: function(start, end) {
                 var title='';
+                $('#element_to_pop_up').html('');
+                $('#element_to_pop_up').html(formData);
+                autoComplete();
                 $('#saveBtn').show();
                 $('#updateBtn').hide();
                 $('#my-button').click();

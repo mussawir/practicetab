@@ -136,11 +136,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
-    Route::get('/SocialPost', ['as' => 'SocialPost', 'uses' => 'Practitioner\MarketingController@SocialPost']);
-    Route::get('/SocialPost/logoutFb', ['as' => '/SocialPost/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
-    Route::get('/SocialPost/fblogin', ['as' => '/SocialPost/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
-    Route::post('/SocialPost/formsubmit', ['as' => '/SocialPost/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
-    Route::post('/SocialPost/uploadImage', ['as' => '/SocialPost/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
+    Route::get('/social-post', ['as' => 'social-post', 'uses' => 'Practitioner\MarketingController@SocialPost']);
+    Route::get('/social-posts-list', ['as' => 'social-posts-list', 'uses' => 'Practitioner\MarketingController@SocialPostsList']);
+    Route::get('/social-post/logoutFb', ['as' => '/social-post/logoutFb', 'uses' => 'Practitioner\MarketingController@logoutFb']);
+    Route::get('/social-post/fblogin', ['as' => '/social-post/fblogin', 'uses' => 'Practitioner\MarketingController@fblogin']);
+    Route::post('/social-post/formsubmit', ['as' => '/social-post/formsubmit', 'uses' => 'Practitioner\MarketingController@formsubmit']);
+    Route::post('/social-post/uploadImage', ['as' => '/social-post/uploadImage', 'uses' => 'Practitioner\MarketingController@uploadImage']);
+    Route::get('/social-post/twitterlogout', ['as' => '/social-post/twitterlogout', 'uses' => 'Practitioner\MarketingController@twitterlogout']);
+    Route::get('/social-post/twitterlogin', ['as' => '/social-post/twitterlogin', 'uses' => 'Practitioner\MarketingController@twitterlogin']);
+    Route::post('/social-post/twitterpost', ['as' => '/social-post/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
 
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);

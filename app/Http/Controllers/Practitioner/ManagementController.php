@@ -110,7 +110,7 @@ class ManagementController extends Controller
 
         foreach ($scheduler as $schedule)
         {
-            echo $schedule->id .' ) '.$schedule->patient_id;
+            echo $schedule->id .' ) Name : '.$schedule->patient_id . '. Reason : ' .$schedule->reason;
             echo ';';
             echo $schedule->pDate;
             echo ';';
@@ -163,8 +163,31 @@ class ManagementController extends Controller
         $update->patient_id = $request->patient_id;
         $update->save();
     }
+    public function ifExist($date,$duration,$time)
+    {
+        if (scheduler::where([
+            ['pDate', '=', $date],
+            ['pDuration', '=', $duration],
+            ['pTime', '=', $time]
+            ,])->exists()) {
+            return 'found';
+        }
+        else
+        {
+            return 'not found';
+        }
+    }
     public function saveData(Request $request)
     {
+        $add=0;
+        $goOrNot = $this->ifExist($request->pDate,$request->pDuration,$request->pTime);
+        if($goOrNot=="found")
+        {
+            $timeExp = explode(":",$request->pTime);
+            $add = (int)$timeExp[1] + 15;
+            $request->pTime = $timeExp[0].':'.$add;
+        }
+
         $practitioner = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();;
         $myId =  $request->id;
         $scheduler = new scheduler();
