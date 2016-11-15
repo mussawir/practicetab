@@ -71,34 +71,34 @@
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 50,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [5]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [4]}]
                 });
             }
-//            var maxHeight=22;
-//            var showText = "Show More";
-//            var hideText = "Show Less";
-//            $('.emailbody').each(function () {
-//                var text = $(this);
-//                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
-//                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
-//
-//                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
-//                    var linkDiv = $('<div></div>');
-//                    linkDiv.append(link);
-//                    $(this).after(linkDiv);
-//
-//                    link.click(function (event) {
-//                        event.preventDefault();
-//                        if (text.height() > maxHeight) {
-//                            $(this).html(showText);
-//                            text.css('height', maxHeight + 'px');
-//                        } else {
-//                            $(this).html(hideText);
-//                            text.css('height', 'auto');
-//                        }
-//                    });
-//                }
-//            });
+            var maxHeight=22;
+            var showText = "Show More";
+            var hideText = "Show Less";
+            $('.emailbody').each(function () {
+                var text = $(this);
+                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
+                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
+
+                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
+                    var linkDiv = $('<div></div>');
+                    linkDiv.append(link);
+                    $(this).after(linkDiv);
+
+                    link.click(function (event) {
+                        event.preventDefault();
+                        if (text.height() > maxHeight) {
+                            $(this).html(showText);
+                            text.css('height', maxHeight + 'px');
+                        } else {
+                            $(this).html(hideText);
+                            text.css('height', 'auto');
+                        }
+                    });
+                }
+            });
         });
 
     </script>
