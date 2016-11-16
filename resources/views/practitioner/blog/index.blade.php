@@ -46,22 +46,22 @@
                 <table id="data-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>date</th>
-                        <th>heading</th>
-                        <th>content</th>
-                        <th>Action</th>
+                        <th>Date</th>
+                        <th>Heading</th>
+                        <th>Content</th>
+                        <th>Actions</th>
 
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($table1 as $item)
                         <tr>
-                            <td>{{$item->created_at}} </td>
+                            <td>{{date('m/d/Y H:i:s', strtotime($item->created_at))}} </td>
                             <td>{{$item->heading}} </td>
                             <td>
-                                {{substr($item->contents,0,60)}}
+                                <?php $contents = strip_tags($item->contents); ?>
+                                @truncate($contents, 60)
                             </td>
-
                             <td>
                                 <a href="{{url('/practitioner/blog/edit/'.$item->post_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
                                 <a href="{{url('/practitioner/blog/show/'.$item->post_id)}}"><i class="fa fa-pencil"></i> View</a> |

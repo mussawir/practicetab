@@ -159,7 +159,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class
     ],
 
     /*

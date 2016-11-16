@@ -91,7 +91,7 @@
                 <h4 class="panel-title">Selected Contacts</h4>
             </div>
             <div class="panel-body">
-                <table id="selected-table data-table" class="table table-striped table-hover">
+                <table id="selected-table" class="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -129,6 +129,15 @@
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [2]}]
+                });
+            }
+            if ($('#selected-table').length !== 0) {
+                $('#selected-table').DataTable({
+                    responsive: true,
+                    "aaSorting": [[0, "asc"]],
+                    "iDisplayLength": 10,
+                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+                    //"aoColumnDefs": [{'bSortable': false, 'aTargets': [3]}]
                 });
             }
         });// ready function end

@@ -35,6 +35,7 @@
             @endif
         </div>
         <!-- begin panel -->
+
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
                 <div class="panel-heading-btn">
@@ -46,22 +47,26 @@
                 <h4 class="panel-title">Email Group List</h4>
             </div>
             <div class="panel-body">
-                <table id="data-table" class="table table-striped table-hover">
+                <table id="dt-email-group" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Email Group Name</th>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Name</th>
                         <th>Description</th>
-                        <th>Actions</th>
+                        <th>Details</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($cg_list as $item)
+                    <?php $counter=1;?>
+                    @foreach($list as $item)
                         <tr>
+                            <td>{{$counter++}}</td>
+                            <td>{{date('m/d/Y H:i:s', strtotime($item->created_at))}}</td>
                             <td>{{$item->name}}</td>
-                            <td>{{substr($item->description, 0, 50)}}</td>
+                            <td>{{$item->description}}</td>
                             <td>
-                                <a href="{{url('/practitioner/email-group/edit/'.$item->cg_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->cg_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{url('/practitioner/email-group/email-group-details/'.$item->cg_id)}}'">View</button>
                             </td>
                         </tr>
                     @endforeach
@@ -79,8 +84,8 @@
 @section('page-scripts')
     <script type="text/javascript">
         $(function () {
-            if ($('#data-table').length !== 0) {
-                $('#data-table').DataTable({
+            if ($('#dt-email-group').length !== 0) {
+                $('#dt-email-group').DataTable({
                     responsive: true,
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 10,
