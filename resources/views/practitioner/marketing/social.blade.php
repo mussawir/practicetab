@@ -24,7 +24,13 @@
             $('#ajaxloaderImg').hide();
             //$('#file').hide();
             $('#fileLabel').hide();
-
+            $('#toggle_link').hide();
+            getUrl();
+        });
+        $(function(){
+            $('#add_url').click(function () {
+                $('#toggle_link').toggle();
+            });
         });
         function uploadimage()
         {
@@ -34,7 +40,7 @@
             var form_data = new FormData();
             form_data.append('file', file_data);
             $.ajax({
-                url: '{{ URL::to('/practitioner/SocialPost/uploadImage/') }}',
+                url: '{{ URL::to('/practitioner/social-post/uploadImage/') }}',
                 type: "POST",
                 data: form_data,
                 dataType: 'text',
@@ -55,6 +61,33 @@
                 }
             });
         }
+        function getUrl()
+        {
+            $.ajax({
+                url: '{{ URL::to('/practitioner/social-post/socialStatus/') }}',
+                type: "POST",
+                data: {},
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(data){
+                    var divData = $('#fbLink').html();
+                    $('#fbLink').html('');
+                    $('#fbLink').html(divData + data);
+
+                },
+                error: function(data){
+
+                }
+            });
+        }
+        function isUrlValid(url) {
+            return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+        }
         function afterUpload()
         {
             if ($('#file').get(0).files.length === 0) {
@@ -65,7 +98,8 @@
             }
         }
         function formsubmit() {
-           /* <?php //if($_SESSION["user_id"] == "") { ?>
+            <?php session_start(); ?>
+            <?php if(isset($_SESSION["user_id"]) == "") { ?>
             $('#failbody').html('');
             $('#failbody').html('<strong>Please Login First!!</strong>');
             $("#failbody").show();
@@ -73,15 +107,24 @@
                 $("#failbody").hide();
             }, 2000);
             return;
-            <?php      //       } ?>
-        */
-            $('#ajaxloaderImg').show();
+            <?php       } ?>
 
+            $('#ajaxloaderImg').show();
+            if(!isUrlValid($('#link').val())&&$('#link').val()!="")
+            {
+                $('#failbody').html('');
+                $('#failbody').html('<strong>Please Enter a Valid URL</strong>');
+                $("#failbody").show();
+                setTimeout(function () {
+                    $("#failbody").hide();
+                }, 2000);
+                return;
+            }
             $.ajax({
                 type: "POST",
-                url: '{{ URL::to('/practitioner/SocialPost/formsubmit/') }}',
+                url: '{{ URL::to('/practitioner/social-post/formsubmit/') }}',
                 data: {
-                    msg: $('#content').val(),
+                    msg: $('#fb_description').val(),
                     link: $('#link').val(),
                     imagePath : $('#imagepath').val()
                 },
@@ -176,14 +219,19 @@
                                             <i class="fa fa-facebook"></i>
                                         </td>
                                         <td>
-                                            <div class="checkbox text-white">
+                                            <div class="checkbox text-white" id="fbLink">
                                                 <label class="text-white">
                                                     <input type="checkbox" value="">
                                                     Send to FACEBOOK
                                                 </label>
-                                            </div>
-                                        </td></tr>
+                                                    <?php
+                                                    require_once 'App\Models\TWITTERCONFIG.php';
+                                                    require_once base_path().'\TwitterInc\twitteroauth.php';
+                                                    ?>
 
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr><td>
                                             <i class="fa fa-twitter"></i>
                                         </td>
@@ -194,12 +242,6 @@
                                                     Send to TWITTER
                                                 </label>
                                                 <label class="text-white">
-                                                    <?php
-                                                    session_start();
-                                                    require_once 'App\Models\TWITTERCONFIG.php';
-                                                    //include_once("inc/twitteroauth.php");
-                                                    require_once base_path().'\TwitterInc\twitteroauth.php';
-                                                    ?>
                                                     <?php
                                                     if(isset($_SESSION['status']) && $_SESSION['status'] == 'verified')
                                                     {
@@ -266,7 +308,7 @@
                         <div class="form-group">
                             {!! Form::label('content','Post Contents *:', array('class'=>'control-label')) !!}
                             <div >
-                                {!! Form::textarea('content', null, array('class'=>'form-control', 'placeholder'=> 'Write something interesting')) !!}
+                                {!! Form::textarea('fb_description', null, array('class'=>'form-control', 'placeholder'=> 'Write something interesting','id'=>'fb_description')) !!}
                             </div>
                             @if ($errors->has('name'))
                                 <div class="text-danger">
@@ -274,11 +316,21 @@
                                 </div>
                             @endif
                         </div>
+                        <div class="form-group">
+                            <a href="#" class="fa fa-link" id="add_url" data-toggle="tooltip" data-placement="top" title="Add URL"></a>
+                        </div>
+                        <div class="form-group" id="toggle_link">
+                            <div class="col-md-4">
+                                {!! Form::text('link', null, array('class'=>'form-control', 'placeholder'=> 'Add link','id'=>'link')) !!}
+                            </div>
+
+                        </div>
 
                     </div>
 
                     <div class="col-md-12">
-                        {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
+
+                        {!! Form::button('Save', array('class'=>'btn btn-success pull-right','onclick'=>'formsubmit();')) !!}
                     </div>
                     {!! Form::close() !!}
 
