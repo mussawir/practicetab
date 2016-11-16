@@ -147,6 +147,28 @@ class MarketingController extends Controller
             ->with('social_marketing','active')
             ->with('social_posts_list','active');
     }
+    public function socialStatus()
+    {
+        $returnn='';
+        require_once 'App\Models\FBCONFIG.php';
+        $actual_link = "http://$_SERVER[HTTP_HOST]";
+        $actual_link = $actual_link.'/practicetab/practitioner/social-post/';
+if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] != "")
+{
+    $returnn='<label class="text-white">';
+    $returnn .= '<a id="linkId" href="'.$logoutURL.'">';
+    $returnn.='Logout';
+    $returnn.='</a>';
+    $returnn.='</label>';
+} else {
+    $returnn='<label class="text-white">';
+    $returnn .= '<a id="linkId" href="'.$loginURL.'">';
+    $returnn.='Log In';
+    $returnn.='</a>';
+    $returnn.='</label>';
+}
+        echo $returnn;
+    }
     /**
      * Show the form for creating a new resource.
      *

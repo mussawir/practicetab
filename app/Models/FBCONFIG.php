@@ -39,7 +39,8 @@ define("APP_ID", "1156660211085328");
 define("APP_SECRET", "c4d0c3cccce065cec004ecd7cb25dd9b");
 define("fileUpload", true);
 /* make sure the url end with a trailing slash */
-define("SITE_URL", "http://localhost/practicetab/practitioner/SocialPost/");
+$actual_link = "http://$_SERVER[HTTP_HOST]";
+define("SITE_URL", $actual_link.'/practicetab/practitioner/social-post/');
 /* the page where you will be redirected after login */
 define("REDIRECT_URL", SITE_URL."fblogin");
 //define("REDIRECT_URL", SITE_URL);
@@ -54,7 +55,7 @@ $userID = $facebook->getUser();
 
 // Login or logout url will be needed depending on current user login state.
 if ($userID) {
-  $logoutURL = $facebook->getLogoutUrl(array('next' => SITE_URL . 'logout.php'));
+  $logoutURL = $facebook->getLogoutUrl(array('next' => SITE_URL . 'logoutFb'));
 } else {
   $loginURL = $facebook->getLoginUrl(array('scope' => PERMISSIONS, 'redirect_uri' => REDIRECT_URL));
 }
