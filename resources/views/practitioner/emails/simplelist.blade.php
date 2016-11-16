@@ -26,11 +26,12 @@
                 <h4 class="panel-title">Email Group Sent List</h4>
             </div>
             <div class="panel-body">
-                <table id="dt-sent-list" class="table table-striped table-hover">
+                <table id="dt_list" class="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th>No.</th>
                         <th>Sent Date</th>
+                        <th>Email Body</th>
                         <th>Sent To Group</th>
                         <th>Details</th>
                     </tr>
@@ -41,7 +42,11 @@
                         <tr>
                             <td>{{$counter++}}</td>
                             <td>{{date('m/d/Y H:i:s', strtotime($item->created_at))}}</td>
-
+                            <td>
+                                <div class="emailbody">
+                                    {!! $item->message !!}
+                                </div>
+                            </td>
                             <td>{{$item->sent_to}}</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{url('/practitioner/emails/sent_list_details/'.$item->pe_id)}}'">View</button>
@@ -59,9 +64,9 @@
 
 @section('page-scripts')
     <script type="text/javascript">
-        $(document).ready(function() {
-            if ($('#dt-sent-list').length !== 0) {
-                $('#dt-sent-list').DataTable({
+        $(function() {
+            if ($('#dt_list').length !== 0) {
+                $('#dt_list').DataTable({
                     responsive: true,
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 50,
@@ -69,33 +74,32 @@
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [5]}]
                 });
             }
-            var maxHeight=22;
-            var showText = "Show More";
-            var hideText = "Show Less";
-            $('#email_body').each(function () {
-                var text = $(this);
-                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
-                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
-
-                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
-                    var linkDiv = $('<div></div>');
-                    linkDiv.append(link);
-                    $(this).after(linkDiv);
-
-                    link.click(function (event) {
-                        event.preventDefault();
-                        if (text.height() > maxHeight) {
-                            $(this).html(showText);
-                            text.css('height', maxHeight + 'px');
-                        } else {
-                            $(this).html(hideText);
-                            text.css('height', 'auto');
-                        }
-                    });
-                }
-            });
+//            var maxHeight=22;
+//            var showText = "Show More";
+//            var hideText = "Show Less";
+//            $('.emailbody').each(function () {
+//                var text = $(this);
+//                if (($(this).text().length > 100) && (text.height() > maxHeight)) {
+//                    text.css({ 'overflow': 'hidden','height': maxHeight + 'px' });
+//
+//                    var link = $('<a href="#" style="font-weight: bold;">' + showText + '</a>');
+//                    var linkDiv = $('<div></div>');
+//                    linkDiv.append(link);
+//                    $(this).after(linkDiv);
+//
+//                    link.click(function (event) {
+//                        event.preventDefault();
+//                        if (text.height() > maxHeight) {
+//                            $(this).html(showText);
+//                            text.css('height', maxHeight + 'px');
+//                        } else {
+//                            $(this).html(hideText);
+//                            text.css('height', 'auto');
+//                        }
+//                    });
+//                }
+//            });
         });
-
 
     </script>
 @endsection
