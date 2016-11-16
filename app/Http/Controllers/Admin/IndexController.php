@@ -54,7 +54,9 @@ class IndexController extends Controller
 	public function showUserList()
 	{
 		$meta = array('page_title'=>'User List', 'item_counter'=>(0));
-		$list = User::where('role', '!=', 1)->orderBy('first_name', 'asc')->get();
+		$list = User::whereNotIn('role', [3, 4])
+			->where('user_id', '!=', Auth::user()->user_id)
+			->orderBy('first_name', 'asc')->get();
 
 		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
 			->with('user_menu', 'active')->with('user_list', 'active');

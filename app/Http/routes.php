@@ -299,7 +299,7 @@ Route::get('/practitioner/{slug}', [
 ])->where('url', '([A-Za-z0-9\-\/]+)');
 
 // route for CMS/pages
-Route::get('/p/{slug}', [
+Route::get('/info/{slug}', [
     'uses' => 'HomeController@showPageBySlug'
 ])->where('slug', '([A-Za-z0-9\-\/]+)');
 

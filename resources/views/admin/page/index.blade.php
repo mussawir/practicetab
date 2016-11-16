@@ -54,7 +54,7 @@
                         <tr>
                             <td>{{date('m/d/Y H:i:s', strtotime($item->created_at))}} </td>
                             <td>
-                                <a href="{{url('/p/'.$item->slug)}}" target="_blank" title="View Page">{{$item->title}}</a>
+                                <a href="{{url('/info/'.$item->slug)}}" target="_blank" title="View Page">{{$item->title}}</a>
                             </td>
                             <td>
                                 <?php $contents = strip_tags($item->contents); ?>
