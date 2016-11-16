@@ -223,7 +223,7 @@
 
                 <li class="has-sub <?php if(isset($pages_menu))echo $pages_menu;?>">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-file"></i>
                         <span>Pages</span>
                     </a>
