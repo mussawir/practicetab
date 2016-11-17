@@ -24,7 +24,7 @@ class RegistrationController extends Controller
 
     public function showAccountPage()
     {
-        $selected_plan_type = Input::get('pricing_plan_type');
+        $selected_plan_type = Session::has('plan_type') ? Session::get('plan_type') : Input::get('pricing_plan_type');
         Session::put('plan_type', $selected_plan_type);
         $plan_type = $this->getPlanType($selected_plan_type);
 
@@ -33,7 +33,11 @@ class RegistrationController extends Controller
 
     public function savePractitioner(Requests\PraRegFormRequest $request)
     {
-        $plan_type = Session::pull('plan_type');
+        if(!Session::has('plan_type')) {
+            return Redirect::Back();
+        }
+
+        $plan_type = Session::get('plan_type');
         $password = Str::quickRandom(8);
         $user = User::create([
             'role'  => 3,
@@ -68,6 +72,8 @@ class RegistrationController extends Controller
             'plan_type' => $this->getPlanType($plan_type)
         ));
 
+        Session::forget('plan_type'); // remove by key
+
         Session::put('success', 'Thank you for registration. We have sent you an email with login credentials.');
         return Redirect::Back();
     }
@@ -90,12 +96,14 @@ class RegistrationController extends Controller
 
     private function getPlanType($val)
     {
-        if($val==0){
+        if($val==1){
             return 'Free';
-        } else if($val==1){
-            return 'Premium';
         } else if($val==2){
+            return 'Premium';
+        } else if($val==3){
             return 'Lite';
+        } else {
+            return NULL;
         }
     }
 

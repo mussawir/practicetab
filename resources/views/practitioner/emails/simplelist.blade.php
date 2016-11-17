@@ -72,9 +72,14 @@
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 10,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
                     "aoColumnDefs": [{'bSortable': false, 'aTargets': [3]}]
                 });
             }
+
+
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [4]}]
+                });
 
             var maxHeight=22;
             var showText = "Show More";
@@ -101,7 +106,7 @@
                     });
                 }
             });
-        });
+
 
         function doDelete(id, elm)
         {

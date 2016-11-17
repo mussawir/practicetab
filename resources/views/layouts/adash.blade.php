@@ -161,7 +161,7 @@
 
                 <li class="has-sub {{isset($meta['sup_main_menu'])?$meta['sup_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-medkit"></i>
                         <span>Supplements</span>
                     </a>
@@ -173,7 +173,7 @@
 
                 <li class="has-sub {{isset($meta['nut_main_menu'])?$meta['nut_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-fire"></i>
                         <span>Nutrition</span>
                     </a>
@@ -185,7 +185,7 @@
 
                 <li class="has-sub {{isset($meta['exe_main_menu'])?$meta['exe_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">25</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-heart"></i>
                         <span>Exercises</span>
                     </a>
@@ -198,7 +198,7 @@
                 </li>
                 <li class="has-sub {{isset($meta['man_main_menu'])?$meta['man_main_menu']:''}}">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-industry"></i>
                         <span>Manufacturers</span>
                     </a>
@@ -210,7 +210,7 @@
 
                 <li class="has-sub <?php if(isset($active_pra_menu))echo $active_pra_menu?>">
                     <a href="javascript:;">
-                        <span class="badge pull-right">300</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-user-md"></i>
                         <span>Practitioners</span>
                     </a>
@@ -221,9 +221,21 @@
                     </ul>
                 </li>
 
+                <li class="has-sub <?php if(isset($pages_menu))echo $pages_menu;?>">
+                    <a href="javascript:;">
+                        <span class="badge pull-right"></span>
+                        <i class="fa fa-file"></i>
+                        <span>Pages</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="<?php if(isset($new_page))echo $new_page;?>"><a href="{{url('/admin/page/new')}}">New</a></li>
+                        <li class="<?php if(isset($page_list))echo $page_list;?>"><a href="{{url('/admin/page')}}">List</a></li>
+                    </ul>
+                </li>
+
                 <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-envelope"></i>
                         <span>E-Mail Templates</span>
                     </a>
@@ -246,7 +258,7 @@
 
                 <li class="has-sub <?php if(isset($user_menu))echo $user_menu?>">
                     <a href="javascript:;">
-                        <span class="badge pull-right">2</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-medkit"></i>
                         <span>Users</span>
                     </a>

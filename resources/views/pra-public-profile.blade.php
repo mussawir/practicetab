@@ -49,12 +49,12 @@
                     @foreach($posts as $post)
                         <div style="border-bottom: 1px solid #aaa; margin-bottom: 10px; padding-bottom: 10px;">
                             <h2 class="text-primary">{{$post->heading}}</h2>
-                            <p>
-                                @truncate($post->contents, 300)
+                            <div>
+                                {!! substr($post->contents, 0, 300) !!}
                                 <span>&nbsp;
                                     <a href="#" class="text-primary">Read More</a>
                                 </span>
-                            </p>
+                            </div>
                         </div>
                     @endforeach
                     </div>

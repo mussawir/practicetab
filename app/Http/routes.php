@@ -101,6 +101,12 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
     Route::get('/email-templates/view/{id}', 'Admin\EmailTemplateController@show');
 
+    Route::get('/page', 'Admin\PageController@index');
+    Route::get('/page/new', 'Admin\PageController@create');
+    Route::post('/page/store', 'Admin\PageController@store');
+    Route::get('/page/edit/{id}', 'Admin\PageController@edit');
+    Route::patch('/page/update', 'Admin\PageController@update');
+    Route::delete('/page/destroy/{id}', 'Admin\PageController@destroy');
 });
 
 /* Patient module */
@@ -114,7 +120,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
     Route::get('/index/nutrition-suggestion-details/{id}', 'Patient\IndexController@nutritionSuggestionDetails');
     Route::get('/index/appointmentHistory', ['as' => 'appointmentHistory', 'uses' => 'Patient\IndexController@appointmentHistory']);
-    Route::get('/index/getAppointment', ['as' => 'getAppointment', 'uses' => 'Patient\IndexController@getAppointment']);
+    Route::get('/index/get-appointment', 'Patient\IndexController@getAppointment');
     Route::post('/index/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Patient\IndexController@Fetchschedule']);
     Route::post('/index/requestSchedule', ['as' => 'requestSchedule', 'uses' => 'Patient\IndexController@requestSchedule']);
     Route::post('/index/getNotification', ['as' => 'getNotification', 'uses' => 'Patient\IndexController@getNotification']);
@@ -145,6 +151,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/social-post/twitterlogout', ['as' => '/social-post/twitterlogout', 'uses' => 'Practitioner\MarketingController@twitterlogout']);
     Route::get('/social-post/twitterlogin', ['as' => '/social-post/twitterlogin', 'uses' => 'Practitioner\MarketingController@twitterlogin']);
     Route::post('/social-post/twitterpost', ['as' => '/social-post/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
+    Route::post('/social-post/socialStatus', ['as' => '/social-post/socialStatus', 'uses' => 'Practitioner\MarketingController@socialStatus']);
+
 
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
@@ -292,6 +300,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 Route::get('/practitioner/{slug}', [
     'uses' => 'HomeController@showPublicProfile'
 ])->where('url', '([A-Za-z0-9\-\/]+)');
+
+// route for CMS/pages
+Route::get('/info/{slug}', [
+    'uses' => 'HomeController@showPageBySlug'
+])->where('slug', '([A-Za-z0-9\-\/]+)');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users','UserController');

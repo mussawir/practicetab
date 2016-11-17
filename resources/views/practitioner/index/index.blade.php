@@ -12,8 +12,15 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 Today's Appointments &nbsp;&nbsp;
-                              <span class="badge badge-danger">5</span> &nbsp;&nbsp;
-                                Date:  {{date("Y-m-d H:i:s")}}
+                                <?php
+                                use Illuminate\Support\Facades\Auth;
+                                use Illuminate\Support\Facades\DB;
+                                $countScheduler = DB::table('scheduler')
+                                        ->where('pDate','=',date("Y-m-d"))
+                                        ->count();
+                                ?>
+                              <span class="badge badge-danger"><?php echo $countScheduler; ?></span> &nbsp;&nbsp;
+                                Date:  {{date("Y-m-d")}}
                             </h4>
                         </div>
                         <div class="panel-body">
@@ -21,95 +28,35 @@
                                 <table id="sug-data-table" class="table table-striped table-hover">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>Id</th>
                                         <th>Time</th>
+                                        <th>Duration (min)</th>
                                         <th>Patient</th>
                                         <th>Purpose</th>
-                                        <th>Details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php $date = new DateTime('08:00:00'); ?>
-                                    @for ($i = 1; $i < 21; $i++)
-                                        <tr>
-                                            <td>{{$i}}</td>
-                                            <td>
-                                                <?php
-                                                $date->add(new DateInterval('PT30M'));
-                                                echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
-                                                ?>
-
-                                            </td>
-                                            <td>
-                                                <?php
-                                        //PHP array containing forenames.
-                                        $names = array(
-                                                'Christopher',
-                                                'Ryan',
-                                                'Ethan',
-                                                'John',
-                                                'Zoey',
-                                                'Sarah',
-                                                'Michelle',
-                                                'Samantha',
-                                                'Noah		',
-                                                'Liam		',
-                                                'Ethan		',
-                                                'Mason		',
-                                                'Lucas		',
-                                                'Oliver		',
-                                                'Aiden		',
-                                                'Elijah		',
-                                                'James		',
-                                                'Benjamin	',
-                                                'Logan		',
-                                                'Jacob		',
-                                                'Jackson	',
-                                                'Michael	',
-                                                'Carter		',
-                                                'Daniel		',
-                                                'Alexander	',
-                                                'William	',
-                                                'Luke		',
-                                                'Owen		',
-                                                'Jack		',
-                                                'Gabriel	',
-                                                'Matthew	',
-                                                'Henry		',
-                                            );
-
-                                        //PHP array containing surnames.
-                                        $surnames = array(
-                                                'Walker',
-                                                'Thompson',
-                                                'Anderson',
-                                                'Johnson',
-                                                'Tremblay',
-                                                'Peltier',
-                                                'Cunningham',
-                                                'Simpson',
-                                                'Mercado',
-                                                'Sellers'
-                                        );
-
-                                        //Generate a random forename.
-                                        $random_name = $names[mt_rand(0, sizeof($names) - 1)];
-
-                                        //Generate a random surname.
-                                        $random_surname = $surnames[mt_rand(0, sizeof($surnames) - 1)];
-
-                                        //Combine them together and print out the result.
-                                        echo $random_name . ' ' . $random_surname;
-                                                ?>
-
-                                            </td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-info">View</button>
-                                            </td>
-                                        </tr>
-                                    @endfor
-
+                                    <?php
+                                    $scheduler = DB::table('scheduler')
+                                            ->where('pDate','=',date("Y-m-d"))
+                                            ->get();
+                                    $counter=0;
+                                    $result='';
+                                            $trOpen = "<tr>";
+                                            $closeTr = "</tr>";
+                                    foreach ($scheduler as $schedule)
+                                    {
+                                        $result = $trOpen;
+                                        $result .= '<td>'. $schedule->id .'</td>';
+                                        $result .= '<td>'. $schedule->pTime .'</td>';
+                                        $result .= '<td>'. $schedule->pDuration .'</td>';
+                                        $result .= '<td>'. $schedule->patient_id .'</td>';
+                                        $result .= '<td>'. $schedule->reason .'</td>';
+                                        $result.= $closeTr;
+                                    }
+                                    echo $result;
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
