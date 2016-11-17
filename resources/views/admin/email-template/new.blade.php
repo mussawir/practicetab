@@ -91,18 +91,18 @@
                 <h4 class="panel-title">Create New Email Template</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/email-templates/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/email-templates/store', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('name','Template Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', 'My Default Email Template', array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'required' => 'required')) !!}
+                            {!! Form::text('name', 'My Default Email Template', array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('template', setDefaultTemplate(), array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('template', setDefaultTemplate(), array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

@@ -47,18 +47,18 @@
                 <h4 class="panel-title">Create New Page</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/page/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/page/store', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('title','Page Title *:', array('class'=>'col-md-2 control-label')) !!}
                         <div class="col-md-10">
-                            {!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=> 'Page Title', 'required' => 'required')) !!}
+                            {!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=> 'Page Title', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('contents', null, array('class'=>'ckeditor','id'=>'page-content')) !!}
+                    {!! Form::textarea('contents', null, array('class'=>'ckeditor','id'=>'page-content', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;
