@@ -163,7 +163,9 @@ class ManufacturerController extends Controller
         $manufacturer = Manufacturer::find($id);
         if(isset($manufacturer)){
             if (isset($manufacturer->logo_image) && (!empty($manufacturer->logo_image))) {
-                unlink(public_path() . '/dashboard/img/manufac-img/' . $manufacturer->logo_image);
+                    if(file_exists(public_path() . '/dashboard/img/manufac-img/' . $manufacturer->logo_image)) {
+                        unlink(public_path() . '/dashboard/img/manufac-img/' . $manufacturer->logo_image);
+                    }
             }
             $manufacturer->delete();
 

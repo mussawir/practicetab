@@ -65,52 +65,6 @@ class TwitterOAuth {
       $this->token = NULL;
     }
   }
-    public function upload($path, array $parameters = [], $chunked = false)
-    {
-        if ($chunked) {
-            return $this->uploadMediaChunked($path, $parameters);
-        } else {
-            return $this->uploadMediaNotChunked($path, $parameters);
-        }
-    }
-    private function uploadMediaNotChunked($path, array $parameters)
-    {
-        $file = file_get_contents($parameters['media']);
-        $base = base64_encode($file);
-        $parameters['media'] = $base;
-        return $this->http('POST', self::UPLOAD_HOST, $path, $parameters);
-    }
-    const UPLOAD_HOST = 'https://upload.twitter.com';
-    private function uploadMediaChunked($path, array $parameters)
-    {
-        // Init
-        $init = $this->http('POST', self::UPLOAD_HOST, $path, [
-            'command' => 'INIT',
-            'media_type' => $parameters['media_type'],
-            'total_bytes' => filesize($parameters['media'])
-        ]);
-        // Append
-        $segment_index = 0;
-        $media = fopen($parameters['media'], 'rb');
-        while (!feof($media))
-        {
-            $this->http('POST', self::UPLOAD_HOST, 'media/upload', [
-                'command' => 'APPEND',
-                'media_id' => $init->media_id_string,
-                'segment_index' => $segment_index++,
-                'media_data' => base64_encode(fread($media, self::UPLOAD_CHUNK))
-            ]);
-        }
-        fclose($media);
-        // Finalize
-        $finalize = $this->http('POST', self::UPLOAD_HOST, 'media/upload', [
-            'command' => 'FINALIZE',
-            'media_id' => $init->media_id_string
-        ]);
-        return $finalize;
-    }
-
-
   /**
    * Get a request_token from Twitter
    *
@@ -155,6 +109,7 @@ class TwitterOAuth {
     $parameters['oauth_verifier'] = $oauth_verifier;
     $request = $this->oAuthRequest($this->accessTokenURL(), 'GET', $parameters);
     $token = OAuthUtil::parse_parameters($request);
+      return $token;
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
     return $token;
   }

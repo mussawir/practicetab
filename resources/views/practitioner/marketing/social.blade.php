@@ -224,11 +224,6 @@
                                                     <input type="checkbox" value="">
                                                     Send to FACEBOOK
                                                 </label>
-                                                    <?php
-                                                    require_once 'App\Models\TWITTERCONFIG.php';
-                                                    require_once base_path().'\TwitterInc\twitteroauth.php';
-                                                    ?>
-
                                             </div>
                                         </td>
                                     </tr>
@@ -243,7 +238,7 @@
                                                 </label>
                                                 <label class="text-white">
                                                     <?php
-                                                    if(isset($_SESSION['status']) && $_SESSION['status'] == 'verified')
+                                                    if(isset($_SESSION['access_token']))
                                                     {
                                                     ?>
                                                         <a id="linkId" href="<?php $actual_link = "http://$_SERVER[HTTP_HOST]"; echo $actual_link.'/practicetab/practitioner/social-post'.'/twitterlogout' ?>">

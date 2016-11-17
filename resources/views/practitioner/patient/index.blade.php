@@ -75,7 +75,7 @@
                             <td>
                                 <a href="{{url('/practitioner/patient/edit/'.$item->pa_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
                                 <a href="{{url('/practitioner/patient/files/'.$item->pa_id)}}"><i class="fa fa-file"></i> Files</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
+                                <a id="delete_{{$item->pa_id}}" href="javascript:void(0);" onclick="doDelete('{{$item->pa_id}}', this);"><i class="fa fa-trash-o"></i> Block</a>
 
                             </td>
 
@@ -109,8 +109,9 @@
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this manufacturer?");
-            if (q == true) {
+            //var q = confirm("Are you sure you want to delete this manufacturer?");
+            //if (q == true)
+            {
 
                 $.ajax({
                     type: "DELETE",
