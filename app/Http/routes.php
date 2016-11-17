@@ -260,8 +260,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
     Route::get('/emails/sent_list', 'Practitioner\EmailsController@sentList');
     Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
-    Route::get('/emails/campaign', 'Practitioner\EmailsController@create_campaign');
     Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
+    Route::get('/emails/campaign', 'Practitioner\EmailsController@create_campaign');
+    Route::get('/emails/store_campaign', 'Practitioner\EmailsController@store_campaign');
 
     Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
 
