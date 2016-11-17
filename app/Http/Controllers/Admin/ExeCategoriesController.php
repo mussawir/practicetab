@@ -167,7 +167,9 @@ class ExecategoriesController extends Controller
         $execats = Execategories::find($id);
         if(isset($execats)){
             if (isset($execats->cat_image) && (!empty($execats->cat_image))) {
-                unlink(public_path() . '/img/execats/' . $execats->cat_image);
+                if(file_exists(public_path() . '/img/execats/' . $execats->cat_image)) {
+                    unlink(public_path() . '/img/execats/' . $execats->cat_image);
+                }
             }
             $execats->delete();
 

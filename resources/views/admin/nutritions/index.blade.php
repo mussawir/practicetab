@@ -66,7 +66,7 @@
                             <td>{{$item->short_description}}</td>
                             <td>
                                 <a href="{{url('/admin/nutrition/edit/'.$item->nut_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->nut_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a id="delete_{{$item->nut_id}}" href="javascript:void(0);" onclick="doDelete('{{$item->nut_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -96,8 +96,9 @@
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this nutrition?");
-            if (q == true) {
+            //var q = confirm("Are you sure you want to delete this nutrition?");
+            //if (q == true)
+            {
 
                 $.ajax({
                     type: "DELETE",

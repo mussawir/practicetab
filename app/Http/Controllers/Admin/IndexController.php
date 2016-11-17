@@ -61,4 +61,13 @@ class IndexController extends Controller
 		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
 			->with('user_menu', 'active')->with('user_list', 'active');
 	}
+	public function destoryUser($id)
+    {
+        $User = User::find($id);
+        if(isset($User)){
+            $User->delete();
+            Session::put('success','Nutrition deleted successfully!');
+        }
+        return response()->json(['status' => 'error']);
+    }
 }
