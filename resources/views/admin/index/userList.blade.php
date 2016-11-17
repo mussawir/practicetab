@@ -60,7 +60,7 @@
                             <td>{{$item->email}}</td>
                             <td>
                                 <a href="#"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a id="delete_{{$item->user_id}}" href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -89,12 +89,13 @@
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this manufacturer?");
-            if (q == true) {
+           // var q = confirm("Are you sure you want to delete this manufacturer?");
+            //if (q == true)
+            {
 
                 $.ajax({
                     type: "DELETE",
-                    url: '{{ URL::to('/admin/manufacturer/destroy') }}/' + id,
+                    url: '{{ URL::to('/index/users/destoryUser') }}/' + id,
                     beforeSend: function (request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },

@@ -63,7 +63,7 @@
 
                             <td>
                                 <a href="{{url('/admin/page/edit/'.$item->page_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);" onclick="doDelete('{{$item->page_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <a id="delete_{{$item->page_id}}" href="javascript:void(0);" onclick="doDelete('{{$item->page_id}}', this);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
 
                         </tr>
@@ -96,8 +96,9 @@
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this page?");
-            if (q == true) {
+           // var q = confirm("Are you sure you want to delete this page?");
+            //if (q == true)
+            {
 
                 $.ajax({
                     type: "DELETE",
