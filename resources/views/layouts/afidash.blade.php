@@ -10,7 +10,7 @@
     <meta name="author" content="aliinfotech.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{isset($meta['page_title'])?$meta['page_title'].' - ':''}}Practice Tabs</title>
+    <title><?php if(isset($page_title)) echo $page_title.' - ';?>Practice Tabs</title>
     <!-- Fonts -->
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">--}}
 
@@ -55,7 +55,7 @@
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="{{url('/admin')}}" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
+                <a href="{{url('/member')}}" class="navbar-brand"><span class="navbar-logo"></span> Practice Tabs</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -115,10 +115,7 @@
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
                         <li><a href="javascript:;">Edit Profile</a></li>
-                        <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
-                        <li><a href="javascript:;">Calendar</a></li>
-                        <li><a href="javascript:;">Setting</a></li>
-                        <li><a href="{{url('/admin/index/change-password')}}">Change Password</a></li>
+                        <li><a href="{{url('/member/index/change-password')}}">Change Password</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ url('/logout') }}">Log Out</a></li>
                     </ul>
@@ -142,8 +139,10 @@
                         <a href="javascript:;"><img src="{{url('public/dashboard/img/user-13.jpg')}}" alt="" /></a>
                     </div>
                     <div class="info">
-                        Peter Behrouzi
-                        <small>Super Admin</small>
+                        @if(Auth::check())
+                            {{Auth::user()->first_name . ' ' .Auth::user()->last_name}}
+                        @endif
+                        <small>Affiliated Member</small>
                     </div>
                 </li>
             </ul>
@@ -151,132 +150,24 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
                 <li class="nav-header">Navigation</li>
-                <li class="has-sub {{isset($meta['db_main_menu'])?$meta['db_main_menu']:''}}">
-                    <a href="{{url('/admin')}}">
+
+                <li class="has-sub <?php if(isset($db_main_menu)) echo $db_main_menu;?>">
+                    <a href="{{url('/member')}}">
                         <i class="fa fa-laptop"></i>
                         <span>Dashboard</span>
                     </a>
                     <li>
                 </li>
 
-                <li class="has-sub {{isset($meta['sup_main_menu'])?$meta['sup_main_menu']:''}}">
+                <li class="has-sub <?php if(isset($afi_main_menu)) echo $afi_main_menu;?>">
                     <a href="javascript:;">
                         <span class="badge pull-right"></span>
-                        <i class="fa fa-medkit"></i>
-                        <span>Supplements</span>
+                        <i class="fa fa-users"></i>
+                        <span>Affiliates</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="{{isset($meta['sup_sub_menu_new'])?$meta['sup_sub_menu_new']:''}}"><a href="{{url('/admin/supplements/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['sup_sub_menu_list'])?$meta['sup_sub_menu_list']:''}}"><a href="{{url('/admin/supplements/index')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub {{isset($meta['nut_main_menu'])?$meta['nut_main_menu']:''}}">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-fire"></i>
-                        <span>Nutrition</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="{{isset($meta['nut_sub_menu_new'])?$meta['nut_sub_menu_new']:''}}"><a href="{{url('/admin/nutrition/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['nut_sub_menu_list'])?$meta['nut_sub_menu_list']:''}}"><a href="{{url('/admin/nutrition')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub {{isset($meta['exe_main_menu'])?$meta['exe_main_menu']:''}}">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-heart"></i>
-                        <span>Exercises</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="{{isset($meta['exe_sub_menu_new'])?$meta['exe_sub_menu_new']:''}}"><a href="{{url('/admin/exercises/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['exe_sub_menu_list'])?$meta['exe_sub_menu_list']:''}}"><a href="{{url('/admin/exercises/index')}}">List</a></li>
-                        <li class="{{isset($meta['execat_sub_menu_new'])?$meta['execat_sub_menu_new']:''}}"><a href="{{url('/admin/execategories/new')}}">Add New Category</a></li>
-                        <li class="{{isset($meta['execat_sub_menu_list'])?$meta['execat_sub_menu_list']:''}}"><a href="{{url('/admin/execategories/index')}}">Categories List</a></li>
-                    </ul>
-                </li>
-                <li class="has-sub {{isset($meta['man_main_menu'])?$meta['man_main_menu']:''}}">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-industry"></i>
-                        <span>Manufacturers</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="{{isset($meta['man_sub_menu_new'])?$meta['man_sub_menu_new']:''}}"><a href="{{url('/admin/manufacturer/new')}}">Add New</a></li>
-                        <li class="{{isset($meta['man_sub_menu_list'])?$meta['man_sub_menu_list']:''}}"><a href="{{url('/admin/manufacturer/index')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub <?php if(isset($active_pra_menu))echo $active_pra_menu?>">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-user-md"></i>
-                        <span>Practitioners</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/active-practitioners')}}">Active List</a></li>
-                        <li class="<?php if(isset($block_pra_menu))echo $block_pra_menu?>"><a href="#">Blocked List</a></li>
-                        <li class="<?php if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub <?php if(isset($pages_menu))echo $pages_menu;?>">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-file"></i>
-                        <span>Pages</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="<?php if(isset($new_page))echo $new_page;?>"><a href="{{url('/admin/page/new')}}">New</a></li>
-                        <li class="<?php if(isset($page_list))echo $page_list;?>"><a href="{{url('/admin/page')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-envelope"></i>
-                        <span>E-Mail Templates</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="<?php if(isset($new_template))echo $new_template;?>"><a href="{{url('/admin/email-templates/new')}}">New</a></li>
-                        <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/admin/email-templates')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub">
-                    <a href="javascript:;">
-                        <i class="fa fa-medkit"></i>
-                        <span>Reprots</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Sales</a></li>
-                        <li><a href="#">Visits</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub <?php if(isset($user_menu))echo $user_menu?>">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-medkit"></i>
-                        <span>Users</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="<?php if(isset($new_user))echo $new_user?>"><a href="#">Add New</a></li>
-                        <li class="<?php if(isset($user_list))echo $user_list?>"><a href="{{url('/admin/index/users')}}">List</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-sub <?php if(isset($user_menu))echo $user_menu?>">
-                    <a href="javascript:;">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-tags"></i>
-                        <span>Coupon</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="<?php if(isset($new_coupon))echo $new_coupon?>"><a href="<?php echo e(url('/admin/coupon/new')); ?>">Generate New</a></li>
-                        <li class="<?php if(isset($new_coupon))echo $new_coupon?>"><a href="<?php echo e(url('/admin/coupon')); ?>">List</a></li>
+                        <li class="<?php if(isset($afi_new_menu)) echo $afi_new_menu;?>"><a href="{{url('/member/affiliate/new')}}">Add New</a></li>
+                        <li class="<?php if(isset($afi_list_menu)) echo $afi_list_menu;?>"><a href="{{url('/member/affiliate')}}">List</a></li>
                     </ul>
                 </li>
 
@@ -334,67 +225,11 @@
 <!-- ================== END PAGE LEVEL JS ================== -->
 @yield('bottom');
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
-<script src="{{asset('public/dashboard/plugins/datepicker/form-plugins.demo.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         App.init();
         Dashboard.init();
-        FormPlugins.init();
-        var render = '<div class="row">';
-        render+='<a id="deleteDialogue" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Delete</a>';
-        render+='        <div class="modal fade" id="modal-dialog">';
-        render+='<div class="modal-dialog">';
-        render+='<div class="modal-content">';
-        render+='<div class="modal-header">';
-        render+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
-        render+='<h4 class="modal-title">Delete Entry</h4>';
-        render+='</div>';
-        render+='<div class="modal-body">';
-        render+='<div class="alert alert-danger m-b-0">';
-        render+='<h4><i class="fa fa-info-circle"></i> Sure you want to Delete this entry permanently?</h4>';
-        render+='</div>';
-        render+='</div>';
-        render+='<div class="modal-footer">';
-        render+='<input type="button" value="Yes" id="btnDelete" class="btn btn-sm btn-success" />';
-        render+='<a href="javascript:;" class="btn btn-sm btn-danger" data-dismiss="modal">No</a>';
-        render+='</div>';
-        render+='</div>';
-        render+='</div>';
-        render+='</div>';
-        render+='</div>';
-        $('#content').append(render);
-        $('[id^="delete_"]').removeAttr('onclick');
-        $('#deleteDialogue').hide();
            });
-    $('[id^="delete_"]').click(function() {
-        var deleteId = $(this).attr('id').split('_')[1];
-        $('#deleteDialogue').click();
-//        $("#btnDelete").click(DelteDialouge(deleteId));
-        $("#btnDelete").attr("onclick", "DelteDialouge("+deleteId+")");
-    });
-    function getDate()
-    {
-        var m_names = new Array("Jan", "Feb", "Mar",
-                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-                "Oct", "Nov", "Dec");
-
-        var d = new Date();
-        var curr_date = d.getDate();
-        var curr_month = d.getMonth();
-        var curr_year = d.getFullYear();
-        var finaleDate = curr_date + "/" + m_names[curr_month] + "/" + curr_year;
-        finaleDate = curr_year +"-"+ (curr_month+1) +"-"+ curr_date;
-        var formatedDate = (curr_month+1)+"/"+curr_date+"/"+curr_year;
-        return formatedDate;
-    }
-
-</script>
-<script  type="text/javascript">
-    function DelteDialouge(id)
-    {
-        doDelete(id,'');
-        $('#deleteDialogue').click();
-    }
 </script>
 @yield('page-scripts')
 </body>

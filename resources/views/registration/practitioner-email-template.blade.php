@@ -18,7 +18,7 @@
         <strong>Password: </strong>{{$password}}
     </p>
     <p>
-        Use the following to login:
+        Use the following link to login:
         <a href="{{url('/users/practitioner/login')}}">Login</a>
     </p>
     <p>

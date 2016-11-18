@@ -74,7 +74,7 @@ class RegistrationController extends Controller
 
         Session::forget('plan_type'); // remove by key
 
-        Session::put('success', 'Thank you for registration. We have sent you an email with login credentials.');
+        Session::put('success', 'Thank you for registration. We have sent you an email with login details.');
         return Redirect::Back();
     }
 

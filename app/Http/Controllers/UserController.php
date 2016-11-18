@@ -16,7 +16,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth',
-            ['except' => array('showAdminLogin', 'showPatientLogin', 'showPractitionerLogin')]);
+            ['except' => array('showAdminLogin', 'showPatientLogin', 'showPractitionerLogin', 'showMemberLogin')]);
     }
 
     public function showAdminLogin()
@@ -32,6 +32,11 @@ class UserController extends Controller
     public function showPractitionerLogin()
     {
         return view('user.practitioner-login');
+    }
+
+    public function showMemberLogin()
+    {
+        return view('user.member-login');
     }
 
     /**
