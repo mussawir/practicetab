@@ -108,6 +108,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/page/edit/{id}', 'Admin\PageController@edit');
     Route::patch('/page/update', 'Admin\PageController@update');
     Route::delete('/page/destroy/{id}', 'Admin\PageController@destroy');
+
+    Route::get('/coupon/new', 'Admin\CouponController@create');
+    Route::post('/coupon/store', 'Admin\CouponController@store');
+    Route::get('/coupon', 'Admin\CouponController@index');
 });
 
 /* Patient module */
