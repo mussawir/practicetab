@@ -38,7 +38,7 @@ class AffiliateController extends Controller
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
             'phone' => 'required|max:30',
-            'email' => 'required|email|max:50|unique:affiliates',
+            'email' => 'required|email|max:50',
         ]);
 
         if ($validator->fails()) {
