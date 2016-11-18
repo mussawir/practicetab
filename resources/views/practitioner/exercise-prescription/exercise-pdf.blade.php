@@ -32,12 +32,14 @@
         text-align: right;
         float: left;
     }
+    .tbl-calendar td {
+        font-size: 10px;
+        text-align: center;
+    }
     .footer {
         position: fixed;
-        bottom: 120px;
-        text-align: center;
-        font-size: 14px;
-        color: #aaaaaa;
+        bottom: 18px;
+        font-size: 10px;
         line-height: 1.3;
     }
     .footer span {
@@ -57,80 +59,164 @@
 </head>
 <body>
 <div class="page-wrapper">
-    <hr/>
+    <div style="margin-bottom: 5px;">
+    <table class="table">
+        <tr>
+            <td style="width: 20%;">
+                @if(isset($pra_info->clinic_logo) && (!empty($pra_info->clinic_logo)))
+                    <img src="{{asset('public/practitioners/'.$pra_info->directory.'/'.$pra_info->clinic_logo)}}" style="max-height: 64px;" />
+                @else
+                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" style="max-height: 64px;" />
+                @endif
+            </td>
+            <td>{!! $pra_info->clinic_doc_head !!}</td>
+        </tr>
+    </table>
+    </div>
     @foreach($data as $item)
-        <div style="clear: both;">
-            <div style="width: 85%; float: left;">
-                <table style="width: 100%;border-collapse: collapse;">
+        <div style="clear: both; margin-bottom: 5px;">
+            <div style="width: 44%; float: left;">
+                <div class="mt-5">
+                <span>
+                    @if(isset($item->image1) && (!empty($item->image1)))
+                        <img src="{{asset('public/img/exercise/'.$item->image1)}}" />
+                    @else
+                        <img src="{{asset('public/img/no_image_64x64.jpg')}}" />
+                    @endif
+                </span>
+                <span>
+                    @if(isset($item->image2) && (!empty($item->image2)))
+                        <img src="{{asset('public/img/exercise/'.$item->image2)}}" />
+                    @else
+                        <img src="{{asset('public/img/no_image_64x64.jpg')}}" />
+                    @endif
+                </span>
+                </div>
+                <div class="mt-5">
+                    <div style="width: 40%; float: left;">
+                    <table style="width: 100%; font-size: 12px; text-align: center; border: 1px solid #000000; border-collapse: collapse;" border="1">
+                        <tr>
+                            <td>Sets:</td>
+                            <td>{{$item->sets}}</td>
+                        </tr>
+                        <tr style="background-color: #dddddd;">
+                            <td>Reps:</td>
+                            <td>{{$item->reps}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50px;">Weight:</td>
+                            <td style="">{{$item->weight}}</td>
+                        </tr>
+                        <tr style="background-color: #dddddd;">
+                            <td>Hold:</td>
+                            <td>{{$item->hold}}</td>
+                        </tr>
+                        <tr>
+                            <td>Rest:</td>
+                            <td>{{$item->rest}}</td>
+                        </tr>
+                        <tr style="background-color: #dddddd;">
+                            <td colspan="2">{{$item->duration}}</td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div style="width: 40%; float: right; margin-right: 16px;">
+                    <table style="width: 100%;" class="tbl-calendar">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+                <!--table style="width: 100%;border-collapse: collapse;">
                     <tr>
                         <td style="width: 90px; height: 90px; text-align: center;">
-                            @if(isset($item->image1) && (!empty($item->image1)))
-                                <img src="{{asset('public/img/exercise/'.$item->image1)}}" />
-                            @else
-                                <img src="{{asset('public/img/no_image_64x64.jpg')}}" />
-                            @endif
+
                         </td>
                         <td style="width: 90px; height: 90px; text-align: center;">
-                            @if(isset($item->image2) && (!empty($item->image2)))
-                                <img src="{{asset('public/img/exercise/'.$item->image2)}}" />
-                            @else
-                                <img src="{{asset('public/img/no_image_64x64.jpg')}}" />
-                            @endif
-                        </td>
-                        <td style="">
-                            <div style="margin-left: 5px;">
-                                <strong>{{$item->heading}}</strong><br/>
-                                <p style="margin-top: 5px;">{{$item->description}}</p>
-                            </div>
+
                         </td>
                     </tr>
-                </table>
-                Notes: <br/>
-                <p style="margin-top: 5px;">{{$item->notes}}</p>
-            </div>
-            <div style="width: 15%; float: left;">
-                <table style="width: 100%; font-size: 12px; text-align: center; border: 1px solid #000000; border-collapse: collapse;" border="1">
-                    <tr>
-                        <td>Sets:</td>
-                        <td>{{$item->sets}}</td>
-                    </tr>
-                    <tr>
-                        <td>Reps:</td>
-                        <td>{{$item->reps}}</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 50px;">Weight:</td>
-                        <td style="">{{$item->weight}}</td>
-                    </tr>
-                    <tr>
-                        <td>Hold:</td>
-                        <td>{{$item->hold}}</td>
-                    </tr>
-                    <tr>
-                        <td>Rest:</td>
-                        <td>{{$item->rest}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">{{$item->duration}}</td>
-                    </tr>
-                </table>
-                <table style="width: 100%;">
                     <tr>
                         <td colspan="2">
-                            @for($i=1; $i<=31; $i++)
-                                <span class="calendar">{{$i}}</span>
-                                @if($i==7 || $i==14 || $i==21 || $i==28)
-                                    <br/>
-                                @endif
-                            @endfor
+
                         </td>
                     </tr>
-                </table>
+                </table-->
             </div>
+            <div style="width: 26%; float: left; border-right: 1px solid #dddddd; margin-right: 1%;">
+                <div style="background-color: #dddddd; font-weight: bold; margin-top: 5px; padding: 2px;">{{$item->heading}}</div>
+                <p>{{$item->description}}</p>
+            </div>
+            <div style="width: 29%; float: left;">
+                <div style="background-color: #dddddd; font-weight: bold; margin-top: 5px; padding: 2px;">Notes</div>
+                <p>{{$item->notes}}</p>
+            </div>
+            <hr style="width: 100%;"/>
         </div>
-
-        <hr/>
     @endforeach
+
+    <div class="footer">
+        <hr/>
+        {!! $pra_info->clinic_doc_footer !!}
+    </div>
 </div>
+<script type="text/php">
+ if (isset($pdf)) {
+    // v.0.7.0 and greater
+    $x = 546;
+    $y = 754;
+    $text = "Page {PAGE_NUM} of {PAGE_COUNT}";
+    $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+    $size = 6;
+    $color = array(255,0,0);
+    $word_space = 0.0;  //  default
+    $char_space = 0.0;  //  default
+    $angle = 0.0;   //  default
+    $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+ }
+</script>
 </body>
 </html>

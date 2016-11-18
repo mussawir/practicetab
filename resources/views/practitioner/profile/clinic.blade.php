@@ -2,6 +2,11 @@
 @section('sidebar')
 @include('layouts.profile-sidebar')
 @endsection
+@section('head')
+        <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="{{ asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css') }}" rel="stylesheet">
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@endsection
 @section('content')
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
@@ -73,22 +78,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-12" style="margin-top: 10px;">
                     <div class="form-group">
-                        {!! Form::label('clinic_doc_head','Document Header:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('clinic_doc_head', null, array('class'=>'form-control', 'placeholder'=> 'Document Header' )) !!}
+                        {!! Form::label('clinic_doc_head','Document Header:', array('class'=>'col-md-2')) !!}
+                        <div class="col-md-10">
+                            {!! Form::textarea('clinic_doc_head', null, array('id'=>'clinic_doc_head', 'class'=>'form-control', 'placeholder'=> 'Document Header', 'rows'=>'3')) !!}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('clinic_doc_footer','Document Footer:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('clinic_doc_footer', null, array('class'=>'form-control', 'placeholder'=> 'Document Footer')) !!}
+                        {!! Form::label('clinic_doc_footer','Document Footer:', array('class'=>'col-md-2')) !!}
+                        <div class="col-md-10">
+                            {!! Form::textarea('clinic_doc_footer', null, array('id'=>'clinic_doc_footer', 'class'=>'form-control', 'placeholder'=> 'Document Footer', 'rows'=>'3')) !!}
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <h4>Contact/Address</h4>    <hr/></div>
 
@@ -217,9 +224,36 @@
 </div>
 <!-- end row -->
 @endsection
-
+@section('bottom')
+        <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
 @section('page-scripts')
-    <script language="JavaScript/text">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            FormWysihtml5.init();
 
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
+            CKEDITOR.replace('clinic_doc_head',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2),
+                        height: 150
+                    });
+
+            CKEDITOR.replace('clinic_doc_footer',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2),
+                        height: 150
+                    });
+        });
     </script>
 @endsection
