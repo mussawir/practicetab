@@ -38,7 +38,7 @@
     }
     .footer {
         position: fixed;
-        bottom: 18px;
+        bottom: 24px;
         font-size: 10px;
         line-height: 1.3;
     }
@@ -60,23 +60,23 @@
 <body>
 <div class="page-wrapper">
     <div style="margin-bottom: 5px;">
-    <table class="table">
-        <tr>
-            <td style="width: 20%;">
-                @if(isset($pra_info->clinic_logo) && (!empty($pra_info->clinic_logo)))
-                    <img src="{{asset('public/practitioners/'.$pra_info->directory.'/'.$pra_info->clinic_logo)}}" style="max-height: 64px;" />
-                @else
-                    <img src="{{asset('public/img/no_image_64x64.jpg')}}" style="max-height: 64px;" />
-                @endif
-            </td>
-            <td>{!! $pra_info->clinic_doc_head !!}</td>
-        </tr>
-    </table>
+        <span style="width: 20%; float: left; padding: 5px; text-align: center;">
+            @if(isset($pra_info->clinic_logo) && (!empty($pra_info->clinic_logo)))
+                <img src="{{public_path(). '/practitioners/'.$pra_info->directory.'/'.$pra_info->clinic_logo}}" style="max-height: 64px;" />
+            @else
+                <img src="{{public_path().'/img/no_image_64x64.jpg'}}" style="max-height: 64px;" />
+            @endif
+        </span>
+        <span style="width: 80%; float: left; font-size: 12px;">
+            {!! $pra_info->clinic_doc_head !!}
+        </span>
     </div>
+    <div style="clear: both;"></div>
+    <hr/>
     @foreach($data as $item)
-        <div style="clear: both; margin-bottom: 5px;">
+        <div>
             <div style="width: 44%; float: left;">
-                <div class="mt-5">
+                <div>
                 <span>
                     @if(isset($item->image1) && (!empty($item->image1)))
                         <img src="{{asset('public/img/exercise/'.$item->image1)}}" />
@@ -187,15 +187,16 @@
                 </table-->
             </div>
             <div style="width: 26%; float: left; border-right: 1px solid #dddddd; margin-right: 1%;">
-                <div style="background-color: #dddddd; font-weight: bold; margin-top: 5px; padding: 2px;">{{$item->heading}}</div>
+                <div style="background-color: #dddddd; font-weight: bold; padding: 2px;">{{$item->heading}}</div>
                 <p>{{$item->description}}</p>
             </div>
             <div style="width: 29%; float: left;">
-                <div style="background-color: #dddddd; font-weight: bold; margin-top: 5px; padding: 2px;">Notes</div>
+                <div style="background-color: #dddddd; font-weight: bold; padding: 2px;">Notes</div>
                 <p>{{$item->notes}}</p>
             </div>
-            <hr style="width: 100%;"/>
         </div>
+        <div style="clear: both;"></div>
+        <hr/>
     @endforeach
 
     <div class="footer">
@@ -206,8 +207,8 @@
 <script type="text/php">
  if (isset($pdf)) {
     // v.0.7.0 and greater
-    $x = 546;
-    $y = 754;
+    $x = 300;
+    $y = 750;
     $text = "Page {PAGE_NUM} of {PAGE_COUNT}";
     $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
     $size = 6;

@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-md-6 col-md-offset-3">
                         <img src="{{asset('public/practitioners/'. $directory .'/'.$table1->clinic_logo)}}" alt="{{$table1->clinic_logo}}" class="img-responsive" style="max-height: 64px;" />
-
+                        <input type="hidden" name="saved_clinic_logo" value="{{$table1->clinic_logo}}"/>
                     </div>
                 </div>
 

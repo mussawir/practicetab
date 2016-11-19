@@ -144,7 +144,9 @@ class NutritionController extends Controller
             $filename = $rand_num. '_' .$file->getClientOriginalName();
 
             if (isset($nutrition->main_image) && (!empty($nutrition->main_image))) {
-                unlink(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image);
+                if(file_exists(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image)){
+                    unlink(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image);
+                }
             }
 
             $file->move(public_path().'/dashboard/img/nutrition/', $filename);
