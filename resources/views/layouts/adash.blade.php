@@ -339,10 +339,8 @@
     $(document).ready(function() {
         App.init();
         Dashboard.init();
-<<<<<<< HEAD
-=======
         FormPlugins.init();
->>>>>>> 05960f68d163de80a96dc11f8e5c0dad7cdd6df8
+
         var render = '<div class="row">';
         render+='<a id="deleteDialogue" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Delete</a>';
         render+='        <div class="modal fade" id="modal-dialog">';
@@ -367,24 +365,21 @@
         render+='</div>';
         $('#content').append(render);
         $('[id^="delete_"]').removeAttr('onclick');
-<<<<<<< HEAD
-=======
+
         $('#deleteDialogue').hide();
->>>>>>> 05960f68d163de80a96dc11f8e5c0dad7cdd6df8
-           });
+
+    });
+
     $('[id^="delete_"]').click(function() {
         var deleteId = $(this).attr('id').split('_')[1];
         $('#deleteDialogue').click();
 //        $("#btnDelete").click(DelteDialouge(deleteId));
         $("#btnDelete").attr("onclick", "DelteDialouge("+deleteId+")");
     });
-<<<<<<< HEAD
-=======
+
     function getDate()
     {
-        var m_names = new Array("Jan", "Feb", "Mar",
-                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-                "Oct", "Nov", "Dec");
+        var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 
         var d = new Date();
         var curr_date = d.getDate();
@@ -395,8 +390,6 @@
         var formatedDate = (curr_month+1)+"/"+curr_date+"/"+curr_year;
         return formatedDate;
     }
->>>>>>> 05960f68d163de80a96dc11f8e5c0dad7cdd6df8
-
 </script>
 <script  type="text/javascript">
     function DelteDialouge(id)
