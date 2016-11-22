@@ -98,7 +98,7 @@
                     "aaSorting": [[0, "asc"]],
                     "iDisplayLength": 50,
                     "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [6]}]
+                    "aoColumnDefs": [{'bSortable': false, 'aTargets': [5]}]
                 });
             }
         });
