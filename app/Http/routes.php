@@ -50,9 +50,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
-    Route::get('/index/active-practitioners', 'Admin\IndexController@showActivePractitioners');
+    Route::get('/index/practitioners', 'Admin\IndexController@showActivePractitioners');
     Route::get('/index/users', 'Admin\IndexController@showUserList');
     Route::delete('/index/users/destoryUser/{id}', 'Admin\NutritionController@destoryUser');
+    Route::post('/index/blockUnblockPra', 'Admin\IndexController@blockUnblockPra');
+    Route::get('/index/practitioner/{id}', 'Admin\IndexController@viewPractitioners');
 
     Route::get('/supplements/index', 'Admin\SupplementsController@index');
     Route::get('/supplements/new', 'Admin\SupplementsController@create');
@@ -109,6 +111,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/coupon/new', 'Admin\CouponController@create');
     Route::post('/coupon/store', 'Admin\CouponController@store');
     Route::get('/coupon', 'Admin\CouponController@index');
+    Route::get('/coupon/printCoupon/{id}', 'Admin\CouponController@printCoupon');
 });
 
 /* Patient module */
@@ -127,7 +130,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::post('/index/requestSchedule', ['as' => 'requestSchedule', 'uses' => 'Patient\IndexController@requestSchedule']);
     Route::post('/index/getNotification', ['as' => 'getNotification', 'uses' => 'Patient\IndexController@getNotification']);
     Route::post('/index/hideNotification', ['as' => 'hideNotification', 'uses' => 'Patient\IndexController@hideNotification']);
-
 
 
 });
@@ -281,6 +283,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/supplement-prescription/supplements', 'Practitioner\SupPrescriptionController@showSupplements');
     Route::get('/supplement-prescription/add/{id}', 'Practitioner\SupPrescriptionController@doPrescribeSupplements');
     Route::post('/supplement-prescription/store', 'Practitioner\SupPrescriptionController@store');
+    Route::post('/supplement-prescription/storeNote', 'Practitioner\SupPrescriptionController@storeNote');
     Route::delete('/supplement-prescription/delete/{id}', 'Practitioner\SupPrescriptionController@delete');
     Route::get('/supplement-prescription/prescribe', 'Practitioner\SupPrescriptionController@storePrescribedInfo');
 

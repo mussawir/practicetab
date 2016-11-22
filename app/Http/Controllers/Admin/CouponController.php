@@ -25,13 +25,16 @@ class CouponController extends Controller
     public function index()
     {
         $coupon = ad_coupon::select('*')->orderBy('expiryDate', 'asc')->get();
-        $meta = array('page_title'=>'Coupons', 'man_main_menu'=>'active', 'man_sub_menu_list'=> 'active', 'item_counter'=>(isset($coupon)?count($coupon):0));
+        $meta = array('page_title'=>'Coupons', 'coupon_menu'=>'active', 'list_coupon'=> 'active', 'item_counter'=>(isset($coupon)?count($coupon):0));
 
-        return view('admin.ad_coupon.index')->with('coupon', $coupon)->with('meta', $meta);
+        return view('admin.ad_coupon.index')->with('coupon', $coupon)->with('meta', $meta)
+            ->with('coupon_menu', 'active')->with('list_coupon', 'active');
     }
     public function Create()
     {
-        return view('admin.ad_coupon.new');
+        return view('admin.ad_coupon.new')
+            ->with('coupon_menu', 'active')->with('new_coupon', 'active')
+            ;
     }
     public function generateCoupons($maxNumberOfCoupons,$generate)
     {
@@ -53,6 +56,28 @@ class CouponController extends Controller
             $couponss[] = $coupons;
         }
         return $couponss;
+    }
+    public function printCoupon($id)
+    {
+        $counter=0;
+        #couponCode = '';
+        $coupon = ad_coupon::where('cId','=',$id)->get();
+        if(isset($coupon)&&(!empty($coupon)))
+        {
+            foreach($coupon as $record){
+                $couponCode = $record->cCode;
+            }
+
+            $counter = explode(',',$couponCode);
+            $pdf = \PDF::loadView('admin.ad_coupon.coupon-pdf', array('data'=>$coupon,'counter'=>count($counter)));
+            //return view('admin.ad_coupon.coupon-pdf')->with('data', $coupon)->with('counter',count($counter));
+            return $pdf->stream();//download('Quotation_'.$pdf_data[0]->job_code.'.pdf');
+        }
+        else
+        {
+            Session::put('error','Record Not Found');
+            return Redirect::Back();
+        }
     }
     public function store(Request $request)
     {
@@ -82,15 +107,18 @@ class CouponController extends Controller
         //{
             $coupons = $this->generateCoupons($counter,$generate);
         //}
+        $couponCode='';
         foreach ($coupons as $key => $value)
         {
-            $couponCode = $value;
-            $input['generatedBy'] = Auth::user()->user_id;
-            $input['cCode'] = $couponCode;
-            $input['cFile'] = $filename;
-
-            ad_coupon::create($input);
+            $couponCode .= $value;
+            $couponCode .= ',';
         }
+        $couponCode = rtrim($couponCode, ",");
+        $input['generatedBy'] = Auth::user()->user_id;
+        $input['cCode'] = $couponCode;
+        $input['cFile'] = $filename;
+
+        ad_coupon::create($input);
         Session::put('success','Coupon Generated Successfully!');
         return Redirect::Back();
     }

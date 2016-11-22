@@ -215,9 +215,9 @@
                         <span>Practitioners</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/active-practitioners')}}">Active List</a></li>
-                        <li class="<?php if(isset($block_pra_menu))echo $block_pra_menu?>"><a href="#">Blocked List</a></li>
-                        <li class="<?php if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li>
+                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/practitioners')}}">List</a></li>
+                        <!-- <li class="<?php //if(isset($block_pra_list))echo $block_pra_list?>"><a href="//{{url('/admin/index/active-practitioners/1')}}">Blocked List</a></li>
+                        <li class="<?php //if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li> -->
                     </ul>
                 </li>
 
@@ -268,7 +268,7 @@
                     </ul>
                 </li>
 
-                <li class="has-sub <?php if(isset($user_menu))echo $user_menu?>">
+                <li class="has-sub <?php if(isset($coupon_menu))echo $coupon_menu?>">
                     <a href="javascript:;">
                         <span class="badge pull-right"></span>
                         <i class="fa fa-tags"></i>
@@ -276,7 +276,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="<?php if(isset($new_coupon))echo $new_coupon?>"><a href="<?php echo e(url('/admin/coupon/new')); ?>">Generate New</a></li>
-                        <li class="<?php if(isset($new_coupon))echo $new_coupon?>"><a href="<?php echo e(url('/admin/coupon')); ?>">List</a></li>
+                        <li class="<?php if(isset($list_coupon))echo $list_coupon?>"><a href="<?php echo e(url('/admin/coupon')); ?>">List</a></li>
                     </ul>
                 </li>
 

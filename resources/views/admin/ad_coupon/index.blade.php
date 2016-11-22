@@ -45,12 +45,12 @@
                     <thead>
                     <tr>
                         <th>Logo</th>
-                        <th>Code</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Discount</th>
                         <th>Expiry Date</th>
                         <th>Status</th>
+                        <th>Print</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -63,14 +63,14 @@
                                     <img src="{{asset('public/dashboard/img/no_image_64x64.jpg')}}" alt="{{$item->cCode}}" />
                                 @endif
                             </td>
-                            <td>{{$item->cCode}}</td>
                             <td>{{$item->cTitle}}</td>
                             <td>{{$item->cDescription}}</td>
-                            <td>{{$item->discount}}</td>
-                            <td>{{$item->expiryDate}}</td>
-                            <td>
-                                {{$item->Status}}
+                            <td>{{$item->discount}}
+                                {{$item->discountType == 1?'%':'Amount'}}
                             </td>
+                            <td>{{$item->expiryDate}}</td>
+                            <td>{{$item->status == 1?'NEW':'Used'}}</td>
+                            <td><a href="{{url('/admin/coupon/printCoupon/'.$item->cId)}}"><i class="fa fa-print"></i> Print</a></td>
                         </tr>
                     @endforeach
                     </tbody>

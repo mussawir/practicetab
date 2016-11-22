@@ -7,7 +7,7 @@
                     </a>
                 </li>
                 <li><a href="{{url('patient/index/get-appointment')}}"><i class="fa fa-calendar-o"></i> <span>Get Appointment</span></a></li>
-                <li><a href="{{url('#')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
+                <li><a href="{{url('patient/index/appointmentHistory')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
                 <li><a href="{{url('/patient/index/supplement-request')}}"><i class="fa fa-medkit"></i> <span>Supplements</span></a></li>
                 <li><a href="{{url('#')}}"><i class="fa fa-fire"></i> <span>Nutritions</span></a></li>
                 <li><a href="{{url('#')}}"><i class="fa fa-heart"></i> <span>Exercises</span></a></li>

@@ -159,5 +159,6 @@
             }
             return false;
         }
+
     </script>
 @endsection

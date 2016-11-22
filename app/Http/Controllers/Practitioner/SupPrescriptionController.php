@@ -92,7 +92,29 @@ class SupPrescriptionController extends Controller
 
         return Redirect::to('/practitioner/supplement-prescription/supplements');
     }
+    public function storeNote(Request $request)
+    {
+        //$inputs = $request->all();
+        $request->master_id = Session::get('sup_pre_master')['master_data']->id;
+        //$inputs['start_date'] = date('Y-m-d', strtotime(str_replace('/', '-', $inputs['start_date'])));
+        //$inputs['stop_date'] = date('Y-m-d', strtotime(str_replace('/', '-', $inputs['stop_date'])));
+        $SupplementPresDetails = new SupplementPresDetails();
+        $SupplementPresDetails->master_id = $request->master_id;
+        $SupplementPresDetails->notes = $request->notes;
+        $SupplementPresDetails->sup_id = $request->sup_id;
+        $SupplementPresDetails->save();
 
+        if($SupplementPresDetails){
+            if(!Session::has('sup_cart_array')){
+                Session::put('sup_cart_array', array());
+            }
+            Session::push('sup_cart_array', $request->sup_id);
+            Session::put('success','Supplement added successfully!');
+            return Redirect::to('/practitioner/supplement-prescription/supplements');
+        }
+
+        return Redirect::Back();
+    }
     public function store(Request $request)
     {
         $inputs = $request->all();
@@ -121,17 +143,15 @@ class SupPrescriptionController extends Controller
 
         $master_id = Session::get('sup_pre_master')['master_data']->id;
         $details = SupplementPresDetails::where('master_id', '=', $master_id)->where('sup_id', '=', $id)->first();
+        $cart = Session::get('sup_cart_array');
+        foreach ($cart as $index => $val) {
+            if ($val == $id) {
+                unset($cart[$index]);
+            }
+        }
+        Session::put('sup_cart_array', $cart);
         if(isset($details)){
             $details->delete();
-
-            $cart = Session::get('sup_cart_array');
-            foreach ($cart as $index => $val) {
-                if ($val == $id) {
-                    unset($cart[$index]);
-                }
-            }
-
-            Session::put('sup_cart_array', $cart);
 
             //Session::put('success','Exercise removed successfully!');
             return response()->json(['status' => 'success']);

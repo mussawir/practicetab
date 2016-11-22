@@ -4,11 +4,11 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/admin')}}">Dashboard</a></li>
-    <li class="active">Active Practitioners</li>
+    <li class="active">Practitioners</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Active Practitioners <small></small></h1>
+<h1 class="page-header">Practitioners <small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -39,7 +39,7 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Active Practitioners List</h4>
+                <h4 class="panel-title">Practitioners List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
@@ -50,7 +50,6 @@
                         <th>Full Name</th>
                         <th>Email</th>
                         <th>Primary Phone</th>
-                        <th>Plan Type</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -69,10 +68,15 @@
                             <td>{{$item->first_name}} {{$item->middle_name}} {{$item->last_name}}</td>
                             <td>{{$item->email}}</td>
                             <td>{{$item->primary_phone}}</td>
-                            <td>{{$item->plan_type}}</td>
                             <td>
                                 <a href="#"><i class="fa fa-pencil"></i> Edit</a> |
-                                <a href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a>
+                                <!--<a href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a> -->
+                                <?php if($item->inactive == 0) { ?>
+                                <a id="block_{{$item->pra_id}}"  onclick="doDelete('{{$item->pra_id}}', 'block');" href="javascript:void(0);" ><i class="fa fa-lock"></i> Block</a>
+                            <?php } else { ?>
+                                <a id="unblock_{{$item->pra_id}}"  onclick="doDelete('{{$item->pra_id}}', 'unblock');" href="javascript:void(0);" ><i class="fa fa-unlock"></i> unBlock</a>
+                                <?php } ?>
+                                |<a href="{{url('admin/index/practitioner')}}/{{$item->pra_id}}"><i class="fa fa-eye"></i> View</a>
                             </td>
                         </tr>
                     @endforeach
@@ -101,29 +105,36 @@
 
         function doDelete(id, elm)
         {
-            var q = confirm("Are you sure you want to delete this manufacturer?");
-            if (q == true) {
+            //var q = confirm("Are you sure you want to delete this manufacturer?");
+            //if (q == true)
+            blockOrUnblock = 1;
+            if(elm=='block')
+            {
+                blockOrUnblock = 1;
+            }
+            else if (elm == 'unblock')
+            {
+                blockOrUnblock = 0;
+            }
+            {
 
                 $.ajax({
-                    type: "DELETE",
-                    url: '{{ URL::to('/admin/manufacturer/destroy') }}/' + id,
+                    type: "POST",
+                    url: '{{ URL::to('/admin/index/blockUnblockPra') }}',
+                    data : {
+                        blockOrUnblock : blockOrUnblock
+                        ,pra_id : id
+                    },
                     beforeSend: function (request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function (result) {
-                        /*if (result.status == 'success') {
-                         $(elm).closest('tr').fadeOut();
-                         $('.msg').html('<div class="alert alert-success"><strong>Manufacturer deleted successfully!</strong></div>').show().delay(5000).hide('slow');
-                         } else {
-                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
-                         }*/
                         location.reload(true);
                     },
                     error:function (error) {
                         $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
                     }
                 });
-                return false;
             }
             return false;
         }

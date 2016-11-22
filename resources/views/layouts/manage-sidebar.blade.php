@@ -17,8 +17,8 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class="menu"><a href="javascript:;"><i class="fa fa-calendar"></i><span>Calendar</span> </a></li>
-            <li class="menu"><a href="javascript:;"><i class="fa fa-calendar-plus-o"></i> <span>Today's Appointments </span></a></li>
+            <li class="menu"><a href="{{url('/practitioner/management')}}"><i class="fa fa-calendar"></i><span>Calendar</span> </a></li>
+            <li class="menu"><a href="{{url('/practitioner/management')}}"><i class="fa fa-calendar-plus-o"></i> <span>Today's Appointments </span></a></li>
             <li class="menu"><a href="javascript:;"><i class="fa fa-bell"></i> <span>Important notifications </span></a></li>
             <li class="menu <?php if(isset($new_patient))echo $new_patient ?>"><a href="{{url('/practitioner/patient/new')}}"><i class="fa fa-user-plus"></i> <span>New Patient</span></a></li>
             <li class="menu <?php if(isset($patients_list))echo $patients_list ?> "><a href="{{url('/practitioner/patient/')}}"><i class="fa fa-list"></i> <span>Patients List</span></a></li>
