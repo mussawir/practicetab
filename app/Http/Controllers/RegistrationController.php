@@ -69,13 +69,14 @@ class RegistrationController extends Controller
             'name' => ucwords($request->get('first_name')) .' '. ucwords($request->get('last_name')),
             'email' => $request->get('email'),
             'password'  => $password,
-            'plan_type' => $this->getPlanType($plan_type)
+            'plan_type' => $this->getPlanType($plan_type),
+            'package_payment'   => '$0'
         ));
 
         Session::forget('plan_type'); // remove by key
 
         Session::put('success', 'Thank you for registration. We have sent you an email with login details.');
-        return Redirect::Back();
+        return Redirect::to('/users/practitioner/login');
     }
 
     public function newPractitioner(Request $request)
@@ -107,13 +108,87 @@ class RegistrationController extends Controller
         }
     }
 
-    public function showAccountPaymentPage()
+    public function showPaymentPage()
     {
-        return view('registration.payment');
+        if(!Session::has('plan_type')) {
+            return Redirect::to('/pricing');
+        }
+
+        $plan_type = $this->getPlanType(Session::get('plan_type'));
+        return view('registration.payment')->with('plan_type', $plan_type);
     }
 
-    public function saveAccountPayment(Request $request)
+    public function showAccountPaymentPage(Requests\PraRegFormRequest $request)
     {
-var_dump($request);
+        if(!Session::has('plan_type')) {
+            return Redirect::to('/pricing');
+        }
+
+        Session::put('reg_info', $request->all());
+
+        return Redirect::to('/registration/account/payment');
+    }
+
+    public function saveAccountPayment(Requests\PaymentFormRequest $request)
+    {
+        if(!Session::has('plan_type')) {
+            return Redirect::Back();
+        }
+
+        $plan_type = Session::get('plan_type');
+        $password = Str::quickRandom(8);
+        $reg_info = Session::get('reg_info');
+        $user = User::create([
+            'role'  => 3,
+            'first_name' => $reg_info['first_name'],
+            'last_name' => $reg_info['last_name'],
+            'email' => $reg_info['email'],
+            'password'  => bcrypt($password)
+        ]);
+
+        $directory = uniqid(strtolower($reg_info['first_name']),false);
+        $practitioner = Practitioner::create([
+            'user_id'  => $user->user_id,
+            'plan_type' => $plan_type,
+            'directory' => $directory,
+            'cc_type'   => $request['cc_type'],
+            'cc_number' => $request['cc_number'],
+            'cc_cvv'    => $request['cc_cvv'],
+            'cc_month'  => $request['cc_month'],
+            'cc_year'   => $request['cc_year']
+        ]);
+
+        //create directory
+        $path = public_path().'/practitioners/'.$directory.'/images';
+        File::makeDirectory($path,0777, true, true);
+
+        $practice_profile = PracticeProfile::create([
+            'pra_id'  => $practitioner->pra_id,
+        ]);
+
+        $hours = Hours::create([
+            'pra_id'  => $practitioner->pra_id,
+        ]);
+
+        $package_payment = 0;
+        if($plan_type == 2) {
+            $package_payment = 89.95;
+        } else if($plan_type == 3){
+            $package_payment = 19.95;
+        }
+
+        $this->sendEmail(array(
+            'name' => ucwords($reg_info['first_name']) .' '. ucwords($reg_info['last_name']),
+            'email' => $reg_info['email'],
+            'password'  => $password,
+            'plan_type' => $this->getPlanType($plan_type),
+            'package_payment'   => '$'.$package_payment
+        ));
+
+        Session::forget('plan_type'); // remove by key
+        Session::forget('reg_info'); // remove by key
+
+        Session::put('success', 'Thank you for registration. We have sent you an email with login details.');
+        return Redirect::to('/users/practitioner/login');
     }
 }

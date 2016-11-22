@@ -24,14 +24,15 @@ include 'security.inc.php';
 //require realpath(dirname(__FILE__).'/../../../../../').'/bootstrap/autoload.php';
 //$app = require_once realpath(dirname(__FILE__).'/../../../../../').'/bootstrap/app.php';
 //$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
-//$pra_dir = Session::get('pra_dir');
+//$pra_dir = Session::get('praDir');
 //var_dump($pra_dir);return;
 //set session save path where user session will save
 ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../../').'/storage/framework/sessions');
-session_start();
-//$_SESSION['pra_dir'] = $pra_dir;
+if(session_status() != PHP_SESSION_ACTIVE) session_start();
+//var_dump(isset($_SESSION['praDir']) ? $_SESSION['praDir'] : NULL);return;
+//$_SESSION['praDir'] = Session::get('praDir');
 //unset($_SESSION['pra_dir']);
-//var_dump($_SESSION['pra_dir']);return;
+//var_dump($_SESSION['praDir']);return;
 function t($key){
   global $LANG;
   if(empty($LANG)){
@@ -105,8 +106,8 @@ function getFilesPath()
 {
   $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
 
-  $pra_dir = $_SESSION['pra_dir'];
-  if(isset($pra_dir)){
+  $pra_dir = isset($_SESSION['praDir']) ? $_SESSION['praDir'] : NULL;
+  if(isset($pra_dir)) {
     if($pra_dir['is_member']){
         $ret = $pra_dir['dir_path'];
         //unset($_SESSION['member_folder']);

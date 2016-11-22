@@ -9,6 +9,11 @@
                         {{ csrf_field() }}
                 <div class="box">
                     <div style="padding-top: 50px;"></div>
+                    @if(Session::has('success'))
+                        <div class="alert alert-success">
+                            <strong>{{Session::pull('success')}}</strong>
+                        </div>
+                    @endif
                     @if(Session::has('warning'))
                         <div class="alert alert-warning">
                             <strong>{{Session::get('warning')}}</strong>

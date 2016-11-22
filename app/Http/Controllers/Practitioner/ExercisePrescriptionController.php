@@ -160,11 +160,13 @@ class ExercisePrescriptionController extends Controller
 
         if (isset($data) && (!empty($data)))
         {
-            $this->saveExePrescribedInfo();
+            //$this->saveExePrescribedInfo();
 
-            $pdf = \PDF::loadView('practitioner.exercise-prescription.exercise-pdf', array('data'=>$data));
+            $pra_info = Session::get('practitioner_session');
+
+            $pdf = \PDF::loadView('practitioner.exercise-prescription.exercise-pdf', array('data'=>$data, 'pra_info'=>$pra_info));
             return $pdf->stream();//download('Quotation_'.$pdf_data[0]->job_code.'.pdf');
-            //return view('practitioner.exercise-prescription.exercise-pdf', compact('data'));
+            //return view('practitioner.exercise-prescription.exercise-pdf', compact('data', 'pra_info'));
 
         } else {
             Session::put('error', 'Record not found');
@@ -178,7 +180,7 @@ class ExercisePrescriptionController extends Controller
             return Redirect::Back();
         }
 
-        $this->saveExePrescribedInfo();
+        //$this->saveExePrescribedInfo();
 
         return Redirect::to('/practitioner/exercise-prescription');
     }

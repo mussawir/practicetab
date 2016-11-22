@@ -145,7 +145,9 @@ class SupplementsController extends Controller
             $filename = $rand_num. '_' .$file->getClientOriginalName();
 
             if (isset($supplement->main_image) && (!empty($supplement->main_image))) {
-                unlink(public_path() . '/dashboard/img/sup-img/' . $supplement->main_image);
+                if(file_exists(public_path() . '/dashboard/img/sup-img/' . $supplement->main_image)){
+                    unlink(public_path() . '/dashboard/img/sup-img/' . $supplement->main_image);
+                }
             }
 
             $file->move(public_path().'/dashboard/img/sup-img/', $filename);
