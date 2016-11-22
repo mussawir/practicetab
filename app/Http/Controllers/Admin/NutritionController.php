@@ -181,7 +181,9 @@ class NutritionController extends Controller
         $nutrition = Nutrition::find($id);
         if(isset($nutrition)){
             if (isset($nutrition->main_image) && (!empty($nutrition->main_image))) {
-                unlink(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image);
+                if(file_exists(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image)) {
+                    unlink(public_path() . '/dashboard/img/nutrition/' . $nutrition->main_image);
+                }
             }
             $nutrition->delete();
 

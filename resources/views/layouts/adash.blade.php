@@ -223,7 +223,7 @@
 
                 <li class="has-sub <?php if(isset($pages_menu))echo $pages_menu;?>">
                     <a href="javascript:;">
-                        <span class="badge pull-right">{{$meta['item_counter']}}</span>
+                        <span class="badge pull-right"></span>
                         <i class="fa fa-file"></i>
                         <span>Pages</span>
                     </a>
@@ -326,7 +326,45 @@
     $(document).ready(function() {
         App.init();
         Dashboard.init();
+        var render = '<div class="row">';
+        render+='<a id="deleteDialogue" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Delete</a>';
+        render+='        <div class="modal fade" id="modal-dialog">';
+        render+='<div class="modal-dialog">';
+        render+='<div class="modal-content">';
+        render+='<div class="modal-header">';
+        render+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+        render+='<h4 class="modal-title">Delete Entry</h4>';
+        render+='</div>';
+        render+='<div class="modal-body">';
+        render+='<div class="alert alert-danger m-b-0">';
+        render+='<h4><i class="fa fa-info-circle"></i> Sure you want to Delete this entry permanently?</h4>';
+        render+='</div>';
+        render+='</div>';
+        render+='<div class="modal-footer">';
+        render+='<input type="button" value="Yes" id="btnDelete" class="btn btn-sm btn-success" />';
+        render+='<a href="javascript:;" class="btn btn-sm btn-danger" data-dismiss="modal">No</a>';
+        render+='</div>';
+        render+='</div>';
+        render+='</div>';
+        render+='</div>';
+        render+='</div>';
+        $('#content').append(render);
+        $('[id^="delete_"]').removeAttr('onclick');
            });
+    $('[id^="delete_"]').click(function() {
+        var deleteId = $(this).attr('id').split('_')[1];
+        $('#deleteDialogue').click();
+//        $("#btnDelete").click(DelteDialouge(deleteId));
+        $("#btnDelete").attr("onclick", "DelteDialouge("+deleteId+")");
+    });
+
+</script>
+<script  type="text/javascript">
+    function DelteDialouge(id)
+    {
+        doDelete(id,'');
+        $('#deleteDialogue').click();
+    }
 </script>
 @yield('page-scripts')
 </body>
