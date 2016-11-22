@@ -92,6 +92,7 @@ class IndexController extends Controller
             ->where('user_id', '!=', Auth::user()->user_id)
             ->orderBy('first_name', 'asc')->get();
 
+
         return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
             ->with('user_menu', 'active')->with('user_list', 'active');
     }
