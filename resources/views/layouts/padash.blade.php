@@ -354,6 +354,41 @@
             eventLimit: true // allow "more" link when too many events
         });
     });
+    function showDialouge(renderIn,Title,Content)
+    {
+        var render = '';
+        render='<a id="reqDialouge_link" href="#modal-without-animation" class="btn btn-sm btn-default" data-toggle="modal">showDialouge</a>';
+        render+='<div class="modal in" id="modal-without-animation" style="display: block; padding-right: 17px;">';
+        render+='<div class="modal-dialog" id="reqDialouge">';
+        render+='<div class="modal-content">';
+        render+='<div class="modal-header">';
+        render+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+        render+='<h4 class="modal-title" id ="reqDial_title">'+Title+'</h4>';
+        render+='</div>';
+        render+='<div class="modal-body" id="reqDial_content">';
+        render+=Content;
+        render+='</div>';
+        render+='<div class="modal-footer">';
+        render+='<a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>';
+        render+='</div>';
+        render+='</div>';
+        render+='</div>';
+        render+='</div>';
+        if($("#reqDialouge").length == 0) {
+            $('#'+renderIn).append(render);
+            $('#reqDialouge_link').hide();
+            $('#reqDialouge_link').click();
+        }
+        else
+        {
+            $('#reqDialouge_link').hide();
+            $('#reqDial_title').text('');
+            $('#modal-body').text('');
+            $('#reqDial_title').text(Title);
+            $('#modal-body').text(Content);
+            $('#reqDialouge_link').click();
+        }
+    }
 </script>
 @yield('page-scripts')
 </body>

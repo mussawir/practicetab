@@ -86,7 +86,7 @@
 <script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
 @endsection
 @section('page-scripts')
-    <script>
+    <script type="text/javascript">
         $(document).ready(function() {
             FormWysihtml5.init();
 
@@ -99,10 +99,5 @@
                         enterMode	: Number(2)
                     })
         });
-    </script>
-@endsection
-@section('page-scripts')
-    <script language="JavaScript/text">
-
     </script>
 @endsection

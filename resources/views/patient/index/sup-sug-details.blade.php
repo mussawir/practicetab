@@ -34,6 +34,7 @@
                                 <th>No.</th>
                                 <th>Image</th>
                                 <th>Name</th>
+                                <th>Description</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -50,6 +51,9 @@
                                         @endif
                                     </td>
                                     <td>{{$item->name}}</td>
+                                    <td>
+                                        <button onclick="showDescription('{{$item->long_description}}')" type="button" class="btn btn-sm btn-info">View</button>
+                                    </td>
                                     <td>
                                         <div class="checkbox">
                                             <label>
@@ -83,5 +87,13 @@
                 });
             }
         });
+        function showDescription(desc)
+        {
+            if(desc=="")
+            {
+                return;
+            }
+            showDialouge('content','Description',desc);
+        }
     </script>
 @endsection

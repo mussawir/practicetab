@@ -163,11 +163,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::textarea('long_description', null, array('class'=>'form-control', 'placeholder'=> 'Long Description', 'rows'=>'3')) !!}
+                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-2')) !!}
+                        <div class="col-md-10">
+                            <!--  //Form::textarea('long_description', null, array('class'=>'form-control', 'placeholder'=> 'Long Description', 'rows'=>'3'))
+                                -->
+                            {!! Form::textarea('long_description',null, array('class'=>'ckeditor','id'=>'long_description', 'rows'=>'20')) !!}
                         </div>
                     </div>
                 </div>
@@ -182,5 +184,28 @@
     </div>
     <!-- end col 6 -->
 </div>
+
 <!-- end row -->
+@endsection
+@section('bottom')
+    <script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
+    <script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
+    <script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
+    <script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
+@section('page-scripts')
+    <script>
+        $(document).ready(function() {
+            FormWysihtml5.init();
+
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
+            CKEDITOR.replace('long_description',
+                    {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                        removeDialogTabs: 'link:upload;image:upload',
+                        enterMode	: Number(2)
+                    })
+        });
+    </script>
 @endsection
