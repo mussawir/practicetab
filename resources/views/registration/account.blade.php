@@ -6,7 +6,11 @@
             <h1>Join Practicetabs</h1>
             <h2>Your all-in-one, cloud-based, practice solution.</h2>
 
-            {!!Form::open(array('url'=>'/registration/savePractitioner', 'id'=>'pra-reg-form')) !!}
+            @if(($plan_type != NULL) && ($plan_type=='Free'))
+                {!!Form::open(array('url'=>'/registration/savePractitioner', 'id'=>'pra-reg-form')) !!}
+            @elseif(($plan_type != NULL) && ($plan_type=='Premium' || $plan_type=='Lite'))
+                {!!Form::open(array('url'=>'/registration/account/payment', 'id'=>'pra-reg-form')) !!}
+            @endif
             <div class="box">
                 <div id="step_1">
                     <div class="msg">
@@ -67,7 +71,7 @@
 
                     <div class="row">
                         <div class="col-md-12 btn sub-reg">
-                            <button type="submit">Join PracticeTabs</button>
+                            <button type="submit"><?php if(($plan_type != NULL) && ($plan_type!='Free')) echo 'Next >>'; else echo 'Join PracticeTabs';?></button>
                         </div>
                     </div>
                 </div>

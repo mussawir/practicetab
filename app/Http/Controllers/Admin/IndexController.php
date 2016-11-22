@@ -61,10 +61,7 @@ class IndexController extends Controller
 		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
 			->with('user_menu', 'active')->with('user_list', 'active');
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> 55ea35d4d2171f03eae6a0e35a506ad86c9d7163
 	public function destoryUser($id)
     {
         $User = User::find($id);
@@ -74,8 +71,4 @@ class IndexController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 55ea35d4d2171f03eae6a0e35a506ad86c9d7163

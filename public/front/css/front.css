@@ -756,3 +756,81 @@ textarea {
 #contact_frm .btn {
   font-size: 16px;
 }
+
+/* Payment form */
+.register ul {
+  margin-top: 4em;
+}
+
+.register ul li {
+  clear: left;
+  margin-bottom: 1em;
+}
+
+.ctype {
+  text-align: right;
+  margin-right: 1.3em;
+}
+
+.register label {
+  width: 30%;
+  font-size: .9em;
+  font-weight: normal;
+  color: #404041;
+  padding-bottom: 1.5em;
+  float: left;
+  text-align: left;
+}
+
+.register ul li:first-child select {
+  width: 12em;
+  margin-left: 6px;
+}
+
+.register select {
+  border: 1px solid #ebe7de;
+  font-size: .9em;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.06) inset;
+  clear: none;
+  float: left;
+  padding: 0 1%;
+  transition: all .5s ease .05s;
+  height: 2.5em;
+  outline: none;
+
+  text-align: left !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  background: url('../img/dropdown.png')no-repeat transparent scroll 100% center;
+}
+
+.register input[type="text"] {
+  border-radius: 5px!important;
+  float: left;
+  width: 67%;
+}
+
+.register span.fa {
+  font-size: 2em;
+  color: #808184;
+}
+
+.register ul li:nth-child(4) select {
+  width: 11em;
+  margin-right: 1em;
+}
+
+.register ul li:nth-child(4) select.year {
+  width: 7em;
+}
+
+.register ul li:nth-child(5) input, .register ul li:nth-child(3) input {
+  width: 11em;
+}
+
+.register ul li:nth-child(6) label {
+  width: 100%;
+}

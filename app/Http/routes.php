@@ -35,7 +35,8 @@ Route::get('registration/account', ['as' => 'account', 'uses' => 'RegistrationCo
 Route::post('registration/account', ['as' => 'account', 'uses' => 'RegistrationController@showAccountPage']);
 Route::post('registration/savePractitioner', 'RegistrationController@savePractitioner');
 Route::post('registration/newPractitioner', 'RegistrationController@newPractitioner');
-Route::get('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showAccountPaymentPage']);
+Route::get('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showPaymentPage']);
+Route::post('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showAccountPaymentPage']);
 Route::post('registration/saveAccountPayment', 'RegistrationController@saveAccountPayment');
 
 Route::get('affiliate', 'AffiliateController@create');
@@ -155,8 +156,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/social-post/twitterpost', ['as' => '/social-post/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
     Route::post('/social-post/socialStatus', ['as' => '/social-post/socialStatus', 'uses' => 'Practitioner\MarketingController@socialStatus']);
     Route::get('/social-post/twitter-callback', ['as' => '/social-post/twitter-callback', 'uses' => 'Practitioner\MarketingController@twittercallback']);
-
-
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
 
