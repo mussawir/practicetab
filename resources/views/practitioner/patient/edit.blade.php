@@ -218,7 +218,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-),$table1->mailing_state ,array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+),$table1->mailing_state ,array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -306,7 +306,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-             ),$table1->billing_state , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+             ),$table1->billing_state , array('class'=>'form-control')) !!}
 
                         </div>
                     </div>
@@ -325,7 +325,7 @@
 "mastercard"=>"Mastercard",
 "discovery"=>"Discovery",
 "maestro"=>"Maestro",
-),$table1->cc_type , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+),$table1->cc_type , array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -356,7 +356,7 @@
 "10"=>"10",
 "11"=>"11",
 "12"=>"12"
-      ),$table1->cc_month ,array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+      ),$table1->cc_month ,array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -391,7 +391,7 @@
 "2037"=>"2037",
 "2038"=>"2038",
 "2039"=>"2039"
-      ),$table1->cc_year , array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+      ),$table1->cc_year , array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>

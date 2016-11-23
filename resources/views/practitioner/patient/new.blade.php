@@ -88,7 +88,7 @@
                     <div class="form-group">
                         {!! Form::label('email','eMail *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'eMail address', 'data-parsley-required'=>'true', , 'data-parsley-type'=>'email')) !!}
+                            {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'eMail address', 'data-parsley-required'=>'true', 'data-parsley-type'=>'email')) !!}
                         </div>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+),null, array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
 "WV"=>"West Virginia",
 "WI"=>"Wisconsin",
 "WY"=>"Wyoming"
-             ), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+             ),null, array('class'=>'form-control')) !!}
 
                         </div>
                     </div>
@@ -317,7 +317,7 @@
 "mastercard"=>"Mastercard",
 "discovery"=>"Discovery",
 "maestro"=>"Maestro",
-), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+),null, array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -348,7 +348,7 @@
 "10"=>"10",
 "11"=>"11",
 "12"=>"12"
-      ), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+      ),null, array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
@@ -383,7 +383,7 @@
 "2037"=>"2037",
 "2038"=>"2038",
 "2039"=>"2039"
-      ), array('class'=>'form-control', 'placeholder'=> 'State Name')) !!}
+      ), null, array('class'=>'form-control')) !!}
                         </div>
                     </div>
                 </div>
