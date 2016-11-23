@@ -50,7 +50,7 @@
                 <h4 class="panel-title">Edit post</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($table1, array('url'=>'/practitioner/blog/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::model($table1, array('url'=>'/practitioner/blog/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
                 {!! Form::hidden('post_id') !!}
 
                 <div class="col-md-12">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('contents',$table1->contents, array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('contents',$table1->contents, array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

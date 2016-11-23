@@ -45,7 +45,7 @@
                 <h4 class="panel-title">Edit Details</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($table1, array('url'=>'/practitioner/patient/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::model($table1, array('url'=>'/practitioner/patient/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 {!! Form::hidden('pa_id') !!}
                 {!! Form::hidden('photo') !!}
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         {!! Form::label('first_name','First Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('first_name', null, array('class'=>'form-control', 'placeholder'=> 'First Name', 'required' => 'required')) !!}
+                            {!! Form::text('first_name', null, array('class'=>'form-control', 'placeholder'=> 'First Name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         {!! Form::label('middle_name','Middle Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('middle_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name')) !!}
+                            {!! Form::text('middle_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     <div class="form-group">
                         {!! Form::label('last_name','Last Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('last_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name', 'required' => 'required')) !!}
+                            {!! Form::text('last_name', null, array('class'=>'form-control', 'placeholder'=> 'Last Name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <div class="form-group">
                         {!! Form::label('email','eMail *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'eMail address', 'required' => 'required')) !!}
+                            {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'eMail address', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                     <div class="form-group">
                         {!! Form::label('primary_phone','Primary Phone *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('primary_phone', null, array('class'=>'form-control', 'placeholder'=> 'Primary Phone', 'required' => 'required')) !!}
+                            {!! Form::text('primary_phone', null, array('class'=>'form-control', 'placeholder'=> 'Primary Phone', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>

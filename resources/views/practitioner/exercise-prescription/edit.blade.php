@@ -42,7 +42,7 @@
                 <h4 class="panel-title">Edit Exercise Category</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($execat, array('url'=>'/admin/execategories/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::model($execat, array('url'=>'/admin/execategories/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 {!! Form::hidden('execat_id') !!}
 
@@ -62,7 +62,7 @@
                         <div class="form-group">
                             {!! Form::label('category','Category *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('category', null, array('class'=>'form-control', 'placeholder'=> 'Category Name')) !!}
+                                {!! Form::text('category', null, array('class'=>'form-control', 'placeholder'=> 'Category Name', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('category'))
                                 <div class="text-danger">

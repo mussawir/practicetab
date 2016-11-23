@@ -23,7 +23,7 @@ class EmailGroupController extends Controller
     var $practitioner_info = null;
     public function __construct()
     {
-        $this->practitioner_info = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();
+        $this->practitioner_info = Practitioner::where('pra_id', '=', Auth::user()->user_id)->first();
     }
 
     /**
@@ -33,7 +33,7 @@ class EmailGroupController extends Controller
      */
     public function index()
     {
-        $cg_list = EmailGroup::where('pra_id', '=', $this->practitioner_info->pra_id)->get();
+        $cg_list = EmailGroup::where('user_id', '=', $this->practitioner_info->pra_id)->where('user_type','2')->get();
         $meta = array('page_title'=>' EmailGroup List');
         return view('practitioner.email-group.index')->with('list', $cg_list)
             ->with('template_menu', 'active')
@@ -144,8 +144,9 @@ class EmailGroupController extends Controller
     {
         $eg = new EmailGroup;
         $eg->name = Session::get('group_name');
-        $eg->pra_id = $this->practitioner_info->pra_id;
+        $eg->user_id = $this->practitioner_info->pra_id;
         $eg->description = Session::get('group_desc');
+        $eg->user_type = '2'; // 2 defined the user type of practitioner
         $eg->save();
 
         if(isset($request->sup_id) && (count($request->sup_id)>0)){
@@ -160,7 +161,7 @@ class EmailGroupController extends Controller
                 'primary_phone' => $patients->primary_phone,
                 'type' => '1',
                 'group_name' => $eg['name'],
-                'pra_id' => $this->practitioner_info->pra_id
+                'user_id' => $this->practitioner_info->pra_id
             ]);
             }
         }
@@ -170,13 +171,13 @@ class EmailGroupController extends Controller
                 EmailInGroup::create([
                     'email' =>  $contact->email,
                     'cg_id' => $eg['cg_id'],
-                    'first_name' => $patients->first_name,
+                    'first_name' => $contact->first_name,
                     'middle_name' => $contact->middle_name,
                     'last_name' => $contact->last_name,
                     'primary_phone' => $contact->phone,
                     'type' => '2',
                     'group_name' => $eg['name'],
-                    'pra_id' => $this->practitioner_info->pra_id
+                    'user_id' => $this->practitioner_info->pra_id
                 ]);
             }
         }

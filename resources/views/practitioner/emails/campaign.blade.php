@@ -11,13 +11,14 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
-    <li class="active">Create New Campaign</li>
+    <li><a href="{{url('/practitioner/emails')}}">Email Marketing</a></li>
+    <li class="active">Create Campaign</li>
 </ol>
+
 <!-- end breadcrumb -->
 <!-- begin page-header -->
 <h1 class="page-header">Create New Campaign <small></small></h1>
 <!-- end page-header -->
-
 <!-- begin row -->
 <div class="row">
     <!-- begin col-6 -->
@@ -53,8 +54,8 @@
                 {!! Form::open(array('url'=>'/practitioner/emails/store_campaign', 'class'=> 'form-horizontal', 'files'=>true)) !!}
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('name','Campaign Name: ', array('class'=>'control-label')) !!}
-                        {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Campaign Name')) !!}
+                        {!! Form::label('campaign_name','Campaign Name: ', array('class'=>'control-label')) !!}
+                        {!! Form::text('campaign_name', null, array('class'=>'form-control', 'placeholder'=> 'Campaign Name')) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -151,7 +152,7 @@
             var day = d.getDate();
             var month = d.getMonth();
             var year = d.getFullYear();
-            var currentDate = (month+1) + "/" + day + "/" + year;
+            var currentDate = (month+1) + "-" + day + "-" + year;
 
             $('#start_date').val(currentDate);
             $('#stop_date').val(currentDate);

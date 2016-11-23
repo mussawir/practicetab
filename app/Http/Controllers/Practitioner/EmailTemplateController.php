@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Input;
 
 class EmailTemplateController extends Controller
 {
@@ -26,12 +27,21 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        $list = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
-
+        $prac = Session::get('practitioner_session');
+        $list = EmailTemplate::select('*')->where('user_id',$prac['pra_id'])->whereIn('user_type', [1, 2])->orderBy('name', 'asc')->get();
+        return view('practitioner.email-template.list')->with('list', $list)
+            ->with('meta', array('page_title'=>'Email Template List',isset($list)?count($list):0))
+            ->with('template_body','active')
+            ->with('template_list','active');
+    }
+    public function templates()
+    {
+        $prac = Session::get('practitioner_session');
+        $list = EmailTemplate::select('*')->where('user_id',$prac['pra_id'])->whereIn('user_type', [1, 2])->orderBy('name', 'asc')->get();
         return view('practitioner.email-template.index')->with('list', $list)
             ->with('meta', array('page_title'=>'Email Template List',isset($list)?count($list):0))
-            ->with('template_menu','active')
-            ->with('templates_list','active');
+            ->with('template_body','active')
+            ->with('template_list','active');
     }
 
     /**
@@ -44,7 +54,7 @@ class EmailTemplateController extends Controller
 
         return view('practitioner.email-template.new')
             ->with('meta', array('page_title'=>'New Email Template'))
-            ->with('template_menu','active')
+            ->with('template_body','active')
             ->with('new_template','active');
     }
 
@@ -64,13 +74,25 @@ class EmailTemplateController extends Controller
                     return Redirect::back()->withErrors($validator)->withInput();
                 }
         */
-        $input = $request->all();
-        $prac = Session::get('practitioner_session');
-        $input['pra_id'] = $prac['pra_id'];
-        EmailTemplate::create($input);
+        $data = EmailTemplate::where('name', '=', Input::get('name'))->first();
+        if ($data === null) {
+//            $input = $request->all();
+            $prac = Session::get('practitioner_session');
+//            $input['pra_id'] = $prac['pra_id'];
+//            EmailTemplate::create($input);
+            $template = new EmailTemplate;
+            $template->name = $request->name;
+            $template->template = $request->template;
+            $template->user_id = $prac['pra_id'];
+            $template->user_type = '2'; // 2 defined "practitioner", and 1 defined "admin"
+            $template->save();
+            Session::put('success','New Email Template is created successfully!');
+            return Redirect::to('/practitioner/email-templates');
+        }else{
+            Session::put('error','Email Template Already Found!');
+            return Redirect::back();
+        }
 
-        Session::put('success','New Email Template is created successfully!');
-        return Redirect::to('/practitioner/email-templates');
     }
 
     /**
@@ -81,7 +103,11 @@ class EmailTemplateController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = EmailTemplate::find($id);
+        return view('practitioner.email-template.view')
+            ->with('data', $data)
+            ->with('meta', array('page_title'=>'View Email Template','item_counter'=>0))
+            ->with('template_body','active');
     }
 
     /**
@@ -96,7 +122,7 @@ class EmailTemplateController extends Controller
         return view('practitioner.email-template.edit')
             ->with('data', $data)
             ->with('meta', array('page_title'=>'Edit Email Template'))
-            ->with('template_menu','active');
+            ->with('template_body','active');
     }
 
     /**

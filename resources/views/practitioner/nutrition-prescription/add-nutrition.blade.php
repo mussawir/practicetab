@@ -57,7 +57,7 @@
                 <h4 class="panel-title">For {{ $table2->first_name }} {{ $table2->last_name }}</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/nutrition-prescription/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/practitioner/nutrition-prescription/store', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
 
                 {!! Form::hidden('nut_id', $table1->nut_id) !!}
 
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         {!! Form::label('notes','Notes *:', array('class'=>'col-md-2 control-label')) !!}
                         <div class="col-md-10">
-                            {!! Form::textarea('notes', null, array('class'=>'form-control', 'placeholder'=> 'Notes', 'required'=> 'required')) !!}
+                            {!! Form::textarea('notes', null, array('class'=>'form-control', 'placeholder'=> 'Notes', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                  </div>

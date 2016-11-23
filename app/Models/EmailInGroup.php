@@ -17,7 +17,7 @@ class EmailInGroup extends Model
      * @var array
      */
     protected $fillable = [
-         'email', 'cg_id', 'first_name', 'middle_name', 'last_name', 'primary_phone', 'type', 'group_name', 'pra_id'
+         'email', 'cg_id', 'first_name', 'middle_name', 'last_name', 'primary_phone', 'type', 'group_name', 'user_id'
     ];
 
     public function contactGroups()

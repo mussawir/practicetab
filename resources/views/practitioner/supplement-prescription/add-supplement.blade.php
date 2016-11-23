@@ -57,7 +57,7 @@
                 <h4 class="panel-title">For {{ $table2->first_name }} {{ $table2->last_name }}</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/supplement-prescription/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/practitioner/supplement-prescription/store', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
 
                 {!! Form::hidden('sup_id', $table1->sup_id) !!}
 
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         {!! Form::label('notes','Notes *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::textarea('notes', null, array('class'=>'form-control', 'placeholder'=> 'Notes', 'required'=> 'required')) !!}
+                            {!! Form::textarea('notes', null, array('class'=>'form-control', 'placeholder'=> 'Notes', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                  </div>

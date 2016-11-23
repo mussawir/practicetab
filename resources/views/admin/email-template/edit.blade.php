@@ -49,22 +49,22 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li>Practitioner
+                    <li>Admin
                         <ul>
-                            <li>{PR.FirstName}</li>
-                            <li>{PR.MiddleName}</li>
-                            <li>{PR.LastName}</li>
-                            <li>{PR.Email}</li>
-                            <li>{PR.Phone}</li>
+                            <li>{AD.FirstName}</li>
+                            <li>{AD.MiddleName}</li>
+                            <li>{AD.LastName}</li>
+                            <li>{AD.Email}</li>
+                            <li>{AD.Phone}</li>
                         </ul>
                     </li>
-                    <li>Patient
+                    <li>Contacts
                         <ul>
-                            <li>{PA.FirstName}</li>
-                            <li>{PA.MiddleName}</li>
-                            <li>{PA.LastName}</li>
-                            <li>{PA.Email}</li>
-                            <li>{PA.Phone}</li>
+                            <li>{CN.FirstName}</li>
+                            <li>{CN.MiddleName}</li>
+                            <li>{CN.LastName}</li>
+                            <li>{CN.Email}</li>
+                            <li>{CN.Phone}</li>
                         </ul>
                     </li>
                 </ul>

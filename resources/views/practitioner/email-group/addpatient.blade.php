@@ -28,7 +28,7 @@
         @endif
     </div>
 
-    {!! Form::open(array('url'=>'/practitioner/email-group/addContacts', 'id'=>'frm-suggestions')) !!}
+    {!! Form::open(array('url'=>'/practitioner/email-group/addContacts', 'id'=>'frm-suggestions', 'data-parsley-validate' => 'true')) !!}
     <div class="col-md-6" style="margin-top: 44px;">
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
@@ -57,7 +57,7 @@
                             <td>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="sup_id[]" value="{{$item->cnt_id}}" {{in_array($item->cnt_id, $con_ids)? 'checked="checked"' : ''}}>
+                                        <input type="checkbox" data-parsley-required="true" name="sup_id[]" value="{{$item->cnt_id}}" {{in_array($item->cnt_id, $con_ids)? 'checked="checked"' : ''}}>
                                     </label>
                                 </div>
                             </td>

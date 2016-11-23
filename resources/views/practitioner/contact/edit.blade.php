@@ -33,7 +33,7 @@
             </div>
         @endif
     </div>
-    {!! Form::model($contact, array('url'=>'/practitioner/contact/update', 'method' => 'PATCH', 'id'=>'frm-contact', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+    {!! Form::model($contact, array('url'=>'/practitioner/contact/update', 'method' => 'PATCH', 'id'=>'frm-contact', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
     <!-- begin col-8 -->
     <div class="col-md-8">
         <!-- begin panel -->
@@ -66,7 +66,7 @@
                         <div class="form-group">
                             {!! Form::label('first_name','First Name *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('first_name', null, array('class'=>'form-control', 'placeholder'=> 'First Name')) !!}
+                                {!! Form::text('first_name', null, array('class'=>'form-control', 'placeholder'=> 'First Name', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('first_name'))
                                 <div class="text-danger">
@@ -91,7 +91,7 @@
                         <div class="form-group">
                             {!! Form::label('email','Email *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'Email')) !!}
+                                {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'Email', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('email'))
                                 <div class="text-danger">
@@ -107,7 +107,7 @@
                         <div class="form-group">
                             {!! Form::label('phone','Phone *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('phone', null, array('class'=>'form-control', 'placeholder'=> 'Phone')) !!}
+                                {!! Form::text('phone', null, array('class'=>'form-control', 'placeholder'=> 'Phone', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('phone'))
                                 <div class="text-danger">

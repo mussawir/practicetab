@@ -50,18 +50,18 @@
                 <h4 class="panel-title">Write a post</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/blog/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/practitioner/blog/store', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('heading','Post Heading*:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Post Heading', 'required' => 'required')) !!}
+                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Post Heading', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('contents', '<h1>Write a great post today!</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('contents', '<h1>Write a great post today!</h1>', array('class'=>'ckeditor','id'=>'editor1', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

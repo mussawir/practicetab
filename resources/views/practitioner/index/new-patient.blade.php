@@ -22,16 +22,16 @@
 
     <div class="row">
         <div class="col-md-9 col-md-offset-1">
-            {!! Form::open(array('url'=>'/practitioner/index/savePatient', 'class'=>'form-horizontal'))!!}
+            {!! Form::open(array('url'=>'/practitioner/index/savePatient', 'class'=>'form-horizontal','data-parsley-validate' => 'true'))!!}
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3>New Patient</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        {!! Form::label('first_name','First Name:', array('class'=>'col-sm-3')) !!}
+                        {!! Form::label('first_name','First Name:*', array('class'=>'col-sm-3')) !!}
                         <div class="col-sm-9">
-                            {!! Form::text('first_name', null, array('id'=> 'first_name','class'=>'form-control')) !!}
+                            {!! Form::text('first_name', null, array('id'=> 'first_name','class'=>'form-control', 'data-parsley-required'=>'true')) !!}
                             @if ($errors->has('first_name'))
                                 <span class="text-danger">
                                     <strong>{{ $errors->first('first_name') }}</strong>
@@ -41,9 +41,9 @@
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label('last_name','Last Name:', array('class'=>'col-sm-3')) !!}
+                        {!! Form::label('last_name','Last Name:*', array('class'=>'col-sm-3')) !!}
                         <div class="col-sm-9">
-                            {!! Form::text('last_name', null, array('id'=> 'last_name','class'=>'form-control')) !!}
+                            {!! Form::text('last_name', null, array('id'=> 'last_name','class'=>'form-control', 'data-parsley-required'=>'true')) !!}
                             @if ($errors->has('last_name'))
                                 <span class="text-danger">
                                     <strong>{{ $errors->first('last_name') }}</strong>
@@ -53,9 +53,9 @@
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label('email','Email:', array('class'=>'col-sm-3')) !!}
+                        {!! Form::label('email','Email:*', array('class'=>'col-sm-3')) !!}
                         <div class="col-sm-9">
-                            {!! Form::email('email', null, array('id'=> 'email','class'=>'form-control')) !!}
+                            {!! Form::email('email', null, array('id'=> 'email','class'=>'form-control', 'data-parsley-required'=>'true')) !!}
                             @if ($errors->has('email'))
                                 <span class="text-danger">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -65,9 +65,9 @@
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label('phone','Phone:', array('class'=>'col-sm-3')) !!}
+                        {!! Form::label('phone','Phone:*', array('class'=>'col-sm-3')) !!}
                         <div class="col-sm-9">
-                            {!! Form::text('phone', null, array('id'=> 'phone','class'=>'form-control')) !!}
+                            {!! Form::text('phone', null, array('id'=> 'phone','class'=>'form-control', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
 

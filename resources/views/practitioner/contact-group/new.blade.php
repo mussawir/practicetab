@@ -47,13 +47,13 @@
                 <h4 class="panel-title">Create New Contact Group</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/contact-group/store', 'class'=> 'form-horizontal')) !!}
+                {!! Form::open(array('url'=>'/practitioner/contact-group/store', 'class'=> 'form-horizontal','data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-5">
                     <div class="form-group">
                         {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name')) !!}
+                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name', 'data-parsley-required'=>'true')) !!}
                         </div>
                         @if ($errors->has('name'))
                             <div class="text-danger">

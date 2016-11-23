@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('contents', null, array('class'=>'ckeditor','id'=>'page-content', 'data-parsley-required'=>'true')) !!}
+                    {!! Form::textarea('contents', null, array('class'=>'ckeditor','id'=>'page-content')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

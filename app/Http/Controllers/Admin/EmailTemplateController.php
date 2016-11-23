@@ -65,6 +65,7 @@ class EmailTemplateController extends Controller
         */
         $input = $request->all();
         $input['user_id'] = Auth::user()->user_id;
+        $input['user_type'] = '1'; // 1 defined admin 2 defined practitoner
         EmailTemplate::create($input);
 
         Session::put('success','New Email Template is created successfully!');

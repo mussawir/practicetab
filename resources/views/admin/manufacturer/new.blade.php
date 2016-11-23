@@ -46,7 +46,7 @@
 
                     <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::file('logo_image', array('class'=>'form-control', 'accept'=>'image/*', 'data-parsley-required'=>'true')) !!}
+                        {!! Form::file('logo_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
                     </div>
                     </div>
 

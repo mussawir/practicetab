@@ -65,7 +65,7 @@
                     <div class="form-group">
                         {!! Form::label('man_id','Manufactures *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            <select id="man_id" name="man_id" class="form-control">
+                            <select id="man_id" name="man_id" class="form-control" data-parsley-required="true>
                                 <option value="">Select</option>
                                 @foreach($manufacturers as $item)
                                     <option value="{{$item->man_id}}" {{($supplement->man_id==$item->man_id) ? 'selected' :''}}>{{$item->name}}</option>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name')) !!}
+                                {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('name'))
                                 <div class="text-danger">
@@ -157,11 +157,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('short_description','Short Description *:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
-                            {!! Form::text('short_description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description')) !!}
+                        {!! Form::label('short_description','Short Description *:', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
+                            {!! Form::text('short_description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description', 'data-parsley-required'=>'true')) !!}
                         </div>
                         @if ($errors->has('short_description'))
                             <div class="text-danger">
@@ -171,10 +171,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-3 control-label')) !!}
-                        <div class="col-md-9">
+                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-2 control-label')) !!}
+                        <div class="col-md-10">
                             <!--//Form::textarea('long_description', null, array('class'=>'form-control', 'placeholder'=> 'Long Description', 'rows'=>'3')) -->
                             {!! Form::textarea('long_description',null, array('class'=>'ckeditor','id'=>'long_description', 'rows'=>'20')) !!}
                         </div>
