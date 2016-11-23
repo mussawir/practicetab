@@ -28,7 +28,7 @@ class EmailTemplateController extends Controller
     public function index()
     {
         $prac = Session::get('practitioner_session');
-        $list = EmailTemplate::select('*')->where('user_id',$prac['pra_id'])->whereIn('user_type', [1, 2])->orderBy('name', 'asc')->get();
+        $list = EmailTemplate::select('*')->where('user_id',$prac['pra_id'])->whereIn('user_type', [2])->orderBy('name', 'asc')->get();
         return view('practitioner.email-template.list')->with('list', $list)
             ->with('meta', array('page_title'=>'Email Template List',isset($list)?count($list):0))
             ->with('template_body','active')

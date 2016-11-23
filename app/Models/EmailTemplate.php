@@ -19,6 +19,7 @@ class EmailTemplate extends Model
         'user_id',
         'name',
         'template',
+        'user_type'
     ];
 
     public function users()
