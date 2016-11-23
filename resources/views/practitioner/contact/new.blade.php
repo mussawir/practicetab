@@ -89,7 +89,7 @@
                         <div class="form-group">
                             {!! Form::label('email','Email *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'Email', 'data-parsley-required'=>'true')) !!}
+                                {!! Form::text('email', null, array('class'=>'form-control', 'placeholder'=> 'Email', 'data-parsley-required'=>'true', 'data-parsley-type'=>'email')) !!}
                             </div>
                             @if ($errors->has('email'))
                                 <div class="text-danger">
