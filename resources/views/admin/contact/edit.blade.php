@@ -29,7 +29,7 @@
     </div>
     {!! Form::model($contact, array('url'=>'/admin/contact/update', 'method' => 'PATCH', 'id'=>'frm-contact', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
     <!-- begin col-8 -->
-    <div class="col-md-8">
+    <div class="col-md-7">
         <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
@@ -150,7 +150,7 @@
     </div>
     <!-- end col 8 -->
     <!-- begin col-4 -->
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
                 <div class="panel-heading-btn">
