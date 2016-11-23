@@ -69,7 +69,7 @@
                             <td>{{$item->name}}</td>
                             <td>{{$item->used_for}}</td>
                             <td>
-                                <a href="{{url('/practitioner/supplement-prescription/add/'.$item->sup_id)}}"><i class="fa fa-plus"></i> Add</a>
+                                <a onclick="callDialouge({{$item->sup_id}})" href="#"><i class="fa fa-plus"></i> Add</a>
                             </td>
                         </tr>
                     @endforeach
@@ -185,6 +185,87 @@
                     }
             });
             return false;
+        }
+        function saveNote()
+        {
+            var notes = $('#notes_'+$('#noteId').val()).val();
+            $.ajax({
+                type: "POST",
+                url: '{{ url('/practitioner/supplement-prescription/storeNote') }}',
+                data : {
+                    sup_id :   $('#noteId').val(),
+                    master_id : '',
+                    notes : notes
+                },
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function (result) {
+                    location.reload(true);
+                },
+                error:function (error) {
+                    $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
+                }
+            });
+            $('#noteId').val('');
+            $('#notes_'+$('#noteId').val()).val('');
+            return false;
+        }
+        function callDialouge(id)
+        {
+            var ContentRender = '';
+            var ContentFooter = '';
+            ContentRender='<div class="form-group">';
+            ContentRender+='<label for="notes" class="col-md-3 control-label">Notes *:</label>';
+            ContentRender+='<div class="col-md-9">';
+            ContentRender+='<input type="hidden" value= "'+id+'" id="noteId" />';
+            ContentRender+='<textarea class="form-control" placeholder="Notes" required="required" name="notes" cols="50" rows="10" id="notes_'+id+'"></textarea>';
+            ContentRender+='</div>';
+            ContentRender+='</div>';
+            ContentFooter='<br/>';
+            ContentFooter+='<a onclick="saveNote();" href="javascript:;" class="btn btn-sm btn-success" data-dismiss="modal">Save</a>';
+            ContentFooter+='<a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>';
+            showDialouge('content','Supplement Note',ContentRender,ContentFooter);
+        }
+        function showDialouge(renderIn,Title,Content,ModelFooter)
+        {
+            var render = '';
+            render='<a id="reqDialouge_link" href="#modal-without-animation" class="btn btn-sm btn-default" data-toggle="modal">showDialouge</a>';
+            render+='<div class="modal in" id="modal-without-animation" style="display: block; padding-right: 17px;">';
+            render+='<div class="modal-dialog" id="reqDialouge">';
+            render+='<div class="modal-content">';
+            render+='<div class="modal-header">';
+            render+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+            render+='<h4 class="modal-title" id ="reqDial_title">'+Title+'</h4>';
+            render+='</div>';
+            render+='<div class="modal-body" id="reqDial_content">';
+            render+=Content;
+            render+='</br>';
+            render+='</div>';
+            render+='<div class="modal-footer" id="reqDia_footer">';
+            render+=ModelFooter;
+            //render+='<a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>';
+            render+='</div>';
+            render+='</div>';
+            render+='</div>';
+            render+='</div>';
+            if($("#reqDialouge").length == 0) {
+                $('#'+renderIn).append(render);
+                $('#reqDialouge_link').hide();
+                $('#reqDialouge_link').click();
+            }
+            else
+            {
+                $('#reqDialouge_link').hide();
+                $('#reqDial_title').text('');
+                $('#modal-body').text('');
+                $('#reqDial_title').text(Title);
+                $('#modal-body').text(Content);
+                $('#reqDia_footer').html('');
+                $('#reqDia_footer').html(ModelFooter);
+                $('#reqDialouge_link').click();
+            }
+            $('#reqDia_footer').css('border-top','0px');
         }
     </script>
 @endsection

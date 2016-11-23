@@ -11,14 +11,26 @@
     <p>
         Thank you for registration on Practicetabs.com.
     </p>
+    <table style="border-collapse: collapse; border: 1px solid #000;" border="1">
+        <tr>
+            <th colspan="2" style="background-color: #d6d8dd; padding: 5px;">Login Information: </th>
+        </tr>
+        <tr><td style="padding: 5px;">Email: </td><td>{{$email}}</td></tr>
+        <tr><td style="padding: 5px;">Password: </td><td>{{$password}}</td></tr>
+    </table>
+    <br/>
+    <table style="border-collapse: collapse; border: 1px solid #000;" border="1">
+        <tr style="background-color: #d6d8dd;">
+            <th style="padding: 5px;">Selected Plan</th>
+            <th style="padding: 5px;">Amount</th>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">{{$plan_type}}</td>
+            <td style="text-align: right; padding: 5px;">{{$package_payment}}</td>
+        </tr>
+    </table>
     <p>
-        <strong>Plan: </strong>{{$plan_type}}<br/>
-        <strong>Name: </strong>{{$name}}<br/>
-        <strong>Email: </strong>{{$email}}<br/>
-        <strong>Password: </strong>{{$password}}
-    </p>
-    <p>
-        Use the following to login:
+        Use the following link to login:
         <a href="{{url('/users/practitioner/login')}}">Login</a>
     </p>
     <p>

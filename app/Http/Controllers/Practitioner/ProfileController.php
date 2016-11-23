@@ -144,14 +144,14 @@ class ProfileController extends Controller
             $filename = $rand_num. '_' .$file->getClientOriginalName();
 
             if (isset($table1->clinic_logo) && (!empty($table1->clinic_logo))) {
-
                 if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo)){
                     unlink(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->clinic_logo);
-                }
-                $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
+                }                
             }
+
+            $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
         } else {
-            $filename = $request->clinic_logo;
+            $filename = $request->saved_clinic_logo;
         }
 
         $table1->clinic_logo = $filename;

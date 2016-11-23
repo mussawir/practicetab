@@ -65,7 +65,7 @@
                     <div class="form-group">
                         {!! Form::label('man_id','Manufactures *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            <select id="man_id" name="man_id" class="form-control" data-parsley-required="true>
+                            <select id="man_id" name="man_id" class="form-control" data-parsley-required="true">
                                 <option value="">Select</option>
                                 @foreach($manufacturers as $item)
                                     <option value="{{$item->man_id}}" {{($supplement->man_id==$item->man_id) ? 'selected' :''}}>{{$item->name}}</option>
@@ -174,6 +174,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('long_description','Long Description:', array('class'=>'col-md-2 control-label')) !!}
+                        {!! Form::label('long_description','Long Description:', array('class'=>'col-md-2')) !!}
                         <div class="col-md-10">
                             <!--//Form::textarea('long_description', null, array('class'=>'form-control', 'placeholder'=> 'Long Description', 'rows'=>'3')) -->
                             {!! Form::textarea('long_description',null, array('class'=>'ckeditor','id'=>'long_description', 'rows'=>'20')) !!}
@@ -194,21 +195,24 @@
 <!-- end row -->
 @endsection
 @section('bottom')
-@section('page-scripts')
     <script type="text/javascript" src="{{asset('public/dashboard/plugins/ckeditor/ckeditor.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/lib/js/wysihtml5-0.3.0.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/dashboard/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/dashboard/js/form-wysiwyg.demo.min.j')}}s"></script>
+@endsection
+@section('page-scripts')
     <script>
         $(document).ready(function() {
             FormWysihtml5.init();
 
+            var roxyFileman = '{{asset('public/dashboard/plugins/fileman/index.html')}}';
             CKEDITOR.replace('long_description',
                     {
+                        filebrowserBrowseUrl:roxyFileman,
+                        filebrowserImageBrowseUrl:roxyFileman+'?type=image',
                         removeDialogTabs: 'link:upload;image:upload',
                         enterMode	: Number(2)
                     })
         });
     </script>
-@endsection
 @endsection

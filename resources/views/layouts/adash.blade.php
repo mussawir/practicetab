@@ -215,9 +215,9 @@
                         <span>Practitioners</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/active-practitioners')}}">Active List</a></li>
-                        <li class="<?php if(isset($block_pra_menu))echo $block_pra_menu?>"><a href="#">Blocked List</a></li>
-                        <li class="<?php if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li>
+                        <li class="<?php if(isset($active_pra_list))echo $active_pra_list?>"><a href="{{url('/admin/index/practitioners')}}">List</a></li>
+                        <!-- <li class="<?php //if(isset($block_pra_list))echo $block_pra_list?>"><a href="//{{url('/admin/index/active-practitioners/1')}}">Blocked List</a></li>
+                        <li class="<?php //if(isset($inactive_pra_menu))echo $inactive_pra_menu?>"><a href="#">Inactive List</a></li> -->
                     </ul>
                 </li>
 
@@ -290,6 +290,18 @@
                     </ul>
                 </li>
 
+                <li class="has-sub <?php if(isset($coupon_menu))echo $coupon_menu?>">
+                    <a href="javascript:;">
+                        <span class="badge pull-right"></span>
+                        <i class="fa fa-tags"></i>
+                        <span>Coupon</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="<?php if(isset($new_coupon))echo $new_coupon?>"><a href="<?php echo e(url('/admin/coupon/new')); ?>">Generate New</a></li>
+                        <li class="<?php if(isset($list_coupon))echo $list_coupon?>"><a href="<?php echo e(url('/admin/coupon')); ?>">List</a></li>
+                    </ul>
+                </li>
+
                 <!-- begin sidebar minify button -->
                 <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
                 <!-- end sidebar minify button -->
@@ -344,10 +356,13 @@
 <!-- ================== END PAGE LEVEL JS ================== -->
 @yield('bottom');
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
+<script src="{{asset('public/dashboard/plugins/datepicker/form-plugins.demo.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         App.init();
         Dashboard.init();
+        FormPlugins.init();
+
         var render = '<div class="row">';
         render+='<a id="deleteDialogue" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Delete</a>';
         render+='        <div class="modal fade" id="modal-dialog">';
@@ -372,8 +387,11 @@
         render+='</div>';
         $('#content').append(render);
         $('[id^="delete_"]').removeAttr('onclick');
+
         $('#deleteDialogue').hide();
-           });
+
+    });
+
     $('[id^="delete_"]').click(function() {
         var deleteId = $(this).attr('id').split('_')[1];
         $('#deleteDialogue').click();
@@ -381,6 +399,19 @@
         $("#btnDelete").attr("onclick", "DelteDialouge("+deleteId+")");
     });
 
+    function getDate()
+    {
+        var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+        var finaleDate = curr_date + "/" + m_names[curr_month] + "/" + curr_year;
+        finaleDate = curr_year +"-"+ (curr_month+1) +"-"+ curr_date;
+        var formatedDate = (curr_month+1)+"/"+curr_date+"/"+curr_year;
+        return formatedDate;
+    }
 </script>
 <script  type="text/javascript">
     function DelteDialouge(id)

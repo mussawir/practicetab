@@ -52,7 +52,7 @@ class IndexController extends Controller
 	public function supplementSuggestionDetails($id)
 	{
 		$sup_sug_master = SuggestionsSearch::where('id', $id)->first();
-		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
+		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image','long_description')
 			->whereIn('sup_id', json_decode($sup_sug_master->sup_ids))->get();
 
 		return view('patient.index.sup-sug-details')->with('sup_sug_master', $sup_sug_master)

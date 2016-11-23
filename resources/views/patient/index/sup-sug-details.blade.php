@@ -91,10 +91,9 @@
         {
             if(desc=="")
             {
-                alert('empty');
                 return;
             }
-            alert(desc);
+            showDialouge('content','Description',desc);
         }
     </script>
 @endsection

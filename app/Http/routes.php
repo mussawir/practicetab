@@ -30,19 +30,17 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/affiliate', function () {
-    return view('affiliate');
-});
-
-
 //Route::get('registration/pricing', ['as' => 'pricing', 'uses' => 'RegistrationController@showPricingPage']);
-
 Route::get('registration/account', ['as' => 'account', 'uses' => 'RegistrationController@showAccountPage']);
 Route::post('registration/account', ['as' => 'account', 'uses' => 'RegistrationController@showAccountPage']);
 Route::post('registration/savePractitioner', 'RegistrationController@savePractitioner');
 Route::post('registration/newPractitioner', 'RegistrationController@newPractitioner');
-Route::get('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showAccountPaymentPage']);
+Route::get('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showPaymentPage']);
+Route::post('registration/account/payment', ['as' => 'payment', 'uses' => 'RegistrationController@showAccountPaymentPage']);
 Route::post('registration/saveAccountPayment', 'RegistrationController@saveAccountPayment');
+
+Route::get('affiliate', 'AffiliateController@create');
+Route::post('affiliate/saveAffiliate', 'AffiliateController@saveAffiliate');
 
 Route::auth();
 
@@ -53,9 +51,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/', ['as' => 'index', 'uses' => 'Admin\IndexController@index']);
     Route::get('/index/change-password', 'Admin\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
-    Route::get('/index/active-practitioners', 'Admin\IndexController@showActivePractitioners');
+    Route::get('/index/practitioners', 'Admin\IndexController@showActivePractitioners');
     Route::get('/index/users', 'Admin\IndexController@showUserList');
     Route::delete('/index/users/destoryUser/{id}', 'Admin\NutritionController@destoryUser');
+    Route::post('/index/blockUnblockPra', 'Admin\IndexController@blockUnblockPra');
+    Route::get('/index/practitioner/{id}', 'Admin\IndexController@viewPractitioners');
 
     Route::get('/supplements/index', 'Admin\SupplementsController@index');
     Route::get('/supplements/new', 'Admin\SupplementsController@create');
@@ -147,6 +147,11 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::get('/page/edit/{id}', 'Admin\PageController@edit');
     Route::patch('/page/update', 'Admin\PageController@update');
     Route::delete('/page/destroy/{id}', 'Admin\PageController@destroy');
+
+    Route::get('/coupon/new', 'Admin\CouponController@create');
+    Route::post('/coupon/store', 'Admin\CouponController@store');
+    Route::get('/coupon', 'Admin\CouponController@index');
+    Route::get('/coupon/printCoupon/{id}', 'Admin\CouponController@printCoupon');
 });
 
 /* Patient module */
@@ -165,7 +170,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::post('/index/requestSchedule', ['as' => 'requestSchedule', 'uses' => 'Patient\IndexController@requestSchedule']);
     Route::post('/index/getNotification', ['as' => 'getNotification', 'uses' => 'Patient\IndexController@getNotification']);
     Route::post('/index/hideNotification', ['as' => 'hideNotification', 'uses' => 'Patient\IndexController@hideNotification']);
-
 
 
 });
@@ -193,8 +197,6 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/social-post/twitterpost', ['as' => '/social-post/twitterpost', 'uses' => 'Practitioner\MarketingController@twitterpost']);
     Route::post('/social-post/socialStatus', ['as' => '/social-post/socialStatus', 'uses' => 'Practitioner\MarketingController@socialStatus']);
     Route::get('/social-post/twitter-callback', ['as' => '/social-post/twitter-callback', 'uses' => 'Practitioner\MarketingController@twittercallback']);
-
-
 
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
 
@@ -328,6 +330,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/supplement-prescription/supplements', 'Practitioner\SupPrescriptionController@showSupplements');
     Route::get('/supplement-prescription/add/{id}', 'Practitioner\SupPrescriptionController@doPrescribeSupplements');
     Route::post('/supplement-prescription/store', 'Practitioner\SupPrescriptionController@store');
+    Route::post('/supplement-prescription/storeNote', 'Practitioner\SupPrescriptionController@storeNote');
     Route::delete('/supplement-prescription/delete/{id}', 'Practitioner\SupPrescriptionController@delete');
     Route::get('/supplement-prescription/prescribe', 'Practitioner\SupPrescriptionController@storePrescribedInfo');
 
@@ -343,6 +346,18 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/emails/data', 'Practitioner\EmailsController@store');
 
 
+});
+
+Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'member'], function () {
+    Route::get('/', 'Member\IndexController@index');
+    Route::get('/index/change-password', 'Member\IndexController@changePassword');
+    Route::post('/index/saveNewPassword', 'Member\IndexController@saveNewPassword');
+
+    Route::get('affiliate', 'Member\AffiliateController@index');
+    Route::get('affiliate/new', 'Member\AffiliateController@create');
+    Route::post('affiliate/createList', 'Member\AffiliateController@createList');
+    Route::get('affiliate/removeAddedMember', 'Member\AffiliateController@removeAddedMember');
+    Route::post('affiliate/store', 'Member\AffiliateController@store');
 });
 
 // route for public profile page
@@ -362,6 +377,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('users/admin/login', ['as' => 'login', 'uses' => 'UserController@showAdminLogin']);
 Route::get('users/patient/login', ['as' => 'login', 'uses' => 'UserController@showPatientLogin']);
 Route::get('users/practitioner/login', ['as' => 'login', 'uses' => 'UserController@showPractitionerLogin']);
+Route::get('users/member/login', ['as' => 'login', 'uses' => 'UserController@showMemberLogin']);
 
 Route::post('login', function()
 {
@@ -384,6 +400,11 @@ Route::post('login', function()
     if (Auth::user()->role==4) // patient
     {
         return Redirect::to('/patient');
+    }
+
+    if (Auth::user()->role==5) // affiliated member
+    {
+        return Redirect::to('/member');
     }
 
     return Redirect::Back();

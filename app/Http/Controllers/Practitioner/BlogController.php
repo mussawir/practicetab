@@ -23,6 +23,7 @@ class BlogController extends Controller
         Session::set('marketing', 'active');
         Session::pull('management');
         Session::pull('dashboard');
+        //var_dump(isset($_SESSION['praDir']) ? $_SESSION['praDir'] : NULL);
     }
     /**
      * Display a listing of the resource.
