@@ -41,63 +41,77 @@
                 <h4 class="panel-title">Create New Campaign</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/emails/store_campaign', 'class'=> 'form-horizontal', 'files'=>true)) !!}
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('campaign_name','Campaign Name: ', array('class'=>'control-label')) !!}
-                        {!! Form::text('campaign_name', null, array('class'=>'form-control', 'placeholder'=> 'Campaign Name')) !!}
-                    </div>
-                </div>
+                {!! Form::open(array('url'=>'/admin/emails/store_campaign', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('start_date','Start Date:', array('class'=>' control-label')) !!}
-                        {!! Form::text('start_date', null, array('id'=>'start_date', 'class'=>'form-control', 'placeholder'=> 'Start Date', 'readonly')) !!}
+                        <div class="col-sm-12">
+                        {!! Form::label('campaign_name','Campaign Name: * ', array('class'=>'control-label')) !!}
+                        {!! Form::text('campaign_name', null, array('class'=>'form-control', 'placeholder'=> 'Campaign Name', 'data-parsley-required'=>'true')) !!}
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('stop_date','Stop Date:', array('class'=>' control-label')) !!}
-                        {!! Form::text('stop_date', null, array('id'=>'stop_date', 'class'=>'form-control', 'placeholder'=> 'Stop Date', 'readonly')) !!}
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('templates','Select Template: ', array('class'=>'control-label')) !!}
+                        <div class="col-sm-12">
 
-                            <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
-                                <option value="0">Select Campaign Template</option>
+                        {!! Form::label('start_date','Start Date: *', array('class'=>' control-label')) !!}
+                        {!! Form::text('start_date', null, array('id'=>'start_date', 'class'=>'form-control', 'placeholder'=> 'Start Date', 'readonly', 'data-parsley-required'=>'true')) !!}
+                    </div>
+                </div></div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+
+                        {!! Form::label('stop_date','Stop Date: *', array('class'=>' control-label')) !!}
+                        {!! Form::text('stop_date', null, array('id'=>'stop_date', 'class'=>'form-control', 'placeholder'=> 'Stop Date', 'readonly', 'data-parsley-required'=>'true')) !!}
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+
+                        {!! Form::label('templates','Select Template: *', array('class'=>'control-label')) !!}
+
+                            <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)" data-parsley-required="true">
+                                <option value="">Select Campaign Template</option>
                                 @foreach($templates as $item)
                                     <option value="{{$item->et_id}}" data-template="{{$item->template}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
-
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'control-label')) !!}
+                        <div class="col-sm-12">
 
-                            <select id="contact_groups" name="ag_id" class="form-control" onchange="ajax();">
-                                <option value="0">Select Campaign Group</option>
+                        {!! Form::label('contact_groups','Contact Groups: *', array('class'=>'control-label')) !!}
+
+                            <select id="contact_groups" name="ag_id" class="form-control" onchange="ajax();" data-parsley-required="true">
+                                <option value="">Select Campaign Group</option>
                                 @foreach($contact_groups as $item)
                                     <option value="{{$item->ag_id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
-
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
+                        <div class="col-sm-12">
+
                         {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
-                    </div>
+                        </div></div>
                 </div>
                 <div class="col-md-12">
                     &nbsp;
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::submit('Create Campaign', array('class'=>'btn btn-success btn-block')) !!}
-                    </div>
+                        <div class="col-sm-12">
+                        {!! Form::submit('Start Campaign', array('class'=>'btn btn-success pull-right')) !!}
+                    </div></div>
                 </div>
                 {!! Form::close() !!}
             </div>

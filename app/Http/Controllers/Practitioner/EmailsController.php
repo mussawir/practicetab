@@ -54,10 +54,9 @@ class EmailsController extends Controller
     {
         $prac = Session::get('practitioner_session');
 
-        $templates = EmailTemplate::select('*')->where('user_id','=',$prac['pra_id'])->where('user_type','2')
+        $templates = EmailTemplate::select('*')->where('user_id','=',$prac['pra_id'])->whereIn('user_type', [1,2])
             ->orderBy('name', 'asc')->get();
-        $contact_groups = EmailGroup::select('cg_id', 'name')->where('user_id','=',$prac['user_id'])->where('user_type','2')
-            ->orderBy('name', 'asc')->get();
+        $contact_groups = EmailGroup::where('user_id',$this->practitioner_info->pra_id)->where('user_type', '2')->get();
 
         return view('practitioner.emails.new')
             ->with('meta', array('page_title'=>'Compose New Email'))
@@ -67,7 +66,7 @@ class EmailsController extends Controller
             ->with('compose_email','active');
     }
     public function create_campaign(){
-        $templates = EmailTemplate::select('*')->where('user_id','=',$this->practitioner_info->pra_id)->where('user_type', '2')->orderBy('name', 'asc')->get();
+        $templates = EmailTemplate::select('*')->where('user_id','=',$this->practitioner_info->pra_id)->whereIn('user_type', [1,2])->orderBy('name', 'asc')->get();
         $contact_groups = EmailGroup::where('user_id',$this->practitioner_info->pra_id)->where('user_type', '2')->get();
 
         return view('practitioner.emails.campaign')

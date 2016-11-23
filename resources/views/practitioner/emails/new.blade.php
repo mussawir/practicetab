@@ -92,7 +92,7 @@
                     <div class="form-group">
                         {!! Form::label('subject','Subject*: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject', 'data-parsley-required'=>'true')) !!}
+                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject')) !!}
                         </div>
                     </div>
                 </div>
