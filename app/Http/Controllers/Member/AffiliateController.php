@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Affiliate;
+use App\Models\AffiliateContact;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,9 +29,10 @@ class AffiliateController extends Controller
 
 	public function index()
 	{
-		$list = Affiliate::where('created_by', '=', $this->member_info->id)->get();
+		$list = AffiliateContact::where('afi_id', '=', $this->member_info->id)
+			->orderBY('last_invite_at', 'desc')->get();
 		return view('member.affiliate.index')->with('list', $list)
-			->with('page_title', 'Affiliate List')
+			->with('page_title', 'Practitioners/Members List')
 			->with('afi_main_menu', 'active')
 			->with('afi_list_menu', 'active');
 	}
@@ -50,7 +52,7 @@ class AffiliateController extends Controller
 		$session_data = Session::has('afi_data') ? Session::get('afi_data') : array();
 		foreach ($session_data as $data) {
 			if ($data['email'] == $request['email']) {
-				Session::put('error', 'Affiliate already added');
+				Session::put('error', 'Practitioner already added');
 				return Redirect::Back();
 			}
 		}
@@ -93,22 +95,22 @@ class AffiliateController extends Controller
 				'password' => bcrypt($password)
 			]);*/
 
-			$member = Affiliate::create([
+			$member = AffiliateContact::create([
 				'first_name' => $inputs['first_name'][$i],
 				'last_name' => $inputs['last_name'][$i],
 				'email' => $inputs['email'][$i],
 				'phone' => $inputs['phone'][$i],
 				'message' => $inputs['message'],
-				//'user_id' => $user->user_id,
-				'created_by' => $this->member_info->id,
-				'affiliate_type' => 2
+				'afi_id' => $this->member_info->id,
+				'invitation_count' => 1,
+				'last_invite_at' => date('Y/m/d H:i:s')
 			]);
 
 			\Mail::queue([], [], function ($message) use ($member) {
 
 				$message->from('noreply@practicetabs.com', 'practicetabs.com');
 				$message->to(trim($member['email']));
-				$message->subject('Practice Tabs Affiliation');
+				$message->subject('Invitation - Practice Tabs');
 				$message->setBody($member['message'], 'text/html');
 			});
 
@@ -121,7 +123,38 @@ class AffiliateController extends Controller
 		}
 
 		Session::forget('afi_data');
-		Session::put('success', 'Record has been saved and emailed to your affiliates');
+		Session::put('success', 'An invitation has been sent to your Practitioner(s)');
 		return Redirect::to('/member/affiliate');
+	}
+
+	public function showExistingContacts(Request $request)
+	{
+		$list = AffiliateContact::whereIn('id', $request['id'])->get();
+		return view('member.affiliate.resend')
+			->with('list', $list);
+	}
+
+	public function resendInvitation(Request $request)
+	{
+		$inputs = $request->all();
+
+		for ($i = 0; $i < count($inputs['id']); $i++)
+		{
+			$member = AffiliateContact::where('id', '=', $inputs['id'][$i])->first();
+			$member->invitation_count = $member->invitation_count +1;
+			$member->last_invite_at = date('Y/m/d H:i:s');
+			$member->save();
+
+			\Mail::queue([], [], function ($message) use ($member, $inputs) {
+
+				$message->from('noreply@practicetabs.com', 'practicetabs.com');
+				$message->to(trim($member['email']));
+				$message->subject('Invitation - Practice Tabs');
+				$message->setBody($inputs['message'], 'text/html');
+			});
+		}
+
+		Session::put('success', 'An invitation has been sent to your Practitioner(s)');
+		return Redirect::to('/member');
 	}
 }

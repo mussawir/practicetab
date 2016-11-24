@@ -20,7 +20,11 @@ class AffiliateContact extends Model
         'first_name',
         'last_name',
         'phone',
-        'email'
+        'email',
+        'message',
+        'is_paid',          // 0=free, 1=paid
+        'invitation_count', // record the count of invitations
+        'last_invite_at',   // record last invitation date and time
     ];
 
     public function affiliate()
