@@ -86,7 +86,6 @@ class IndexController extends Controller
 
     }
 
-<<<<<<< HEAD
 	public function showUserList()
 	{
 		$meta = array('page_title'=>'User List', 'item_counter'=>(0));
@@ -98,22 +97,7 @@ class IndexController extends Controller
 			->with('user_menu', 'active')->with('user_list', 'active');
 	}
 
-	public function destoryUser($id)
-=======
-    public function showUserList()
-    {
-        $meta = array('page_title' => 'User List', 'item_counter' => (0));
-        $list = User::whereNotIn('role', [3, 4])
-            ->where('user_id', '!=', Auth::user()->user_id)
-            ->orderBy('first_name', 'asc')->get();
-
-
-        return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
-            ->with('user_menu', 'active')->with('user_list', 'active');
-    }
-
     public function destoryUser($id)
->>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
     {
         $User = User::find($id);
         if (isset($User)) {
@@ -122,9 +106,4 @@ class IndexController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
 }
