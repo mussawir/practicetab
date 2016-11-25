@@ -42,6 +42,16 @@
                     <li><a href="#">Settings</a></li>
                 </ul>
             </li>
+            <li class="has-sub <?php if(isset($message))echo $message?>">
+                <a href="javascript:;">
+                    <i class="fa fa-comment "></i>
+                    <span>Messaging</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if(isset($send_message))echo $send_message ?>"><a href="{{url('/practitioner/send-message')}}"><span>New Message</span></a></li>
+                    <li class="<?php if(isset($message_history))echo $message_history ?>"><a href="{{url('/practitioner/message-history')}}"><span>Message History</span></a></li>
+                </ul>
+            </li>
             <li class="has-sub <?php if(isset($blogging))echo $blogging;?>">
                 <a href="javascript:;">
                     <i class="fa fa-comment "></i>

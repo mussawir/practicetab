@@ -94,10 +94,14 @@ class SupPrescriptionController extends Controller
     }
     public function storeNote(Request $request)
     {
-        //$inputs = $request->all();
         $request->master_id = Session::get('sup_pre_master')['master_data']->id;
-        //$inputs['start_date'] = date('Y-m-d', strtotime(str_replace('/', '-', $inputs['start_date'])));
+
         //$inputs['stop_date'] = date('Y-m-d', strtotime(str_replace('/', '-', $inputs['stop_date'])));
+        $is_exist = in_array($request->sup_id, Session::get('sup_cart_array')==null ? array() : Session::get('sup_cart_array'));
+        if($is_exist){
+            return 'This supplement is already added';
+            //return Redirect::to('/practitioner/supplement-prescription/supplements');
+        }
         $SupplementPresDetails = new SupplementPresDetails();
         $SupplementPresDetails->master_id = $request->master_id;
         $SupplementPresDetails->notes = $request->notes;

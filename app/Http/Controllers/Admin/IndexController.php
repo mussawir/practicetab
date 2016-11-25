@@ -82,6 +82,7 @@ class IndexController extends Controller
         $meta = array('page_title' => 'Practitioners '.$firstNAme, 'item_counter' => (0));
         return view('admin.index.viewPra')->with('meta', $meta)->with('list', $list)
             ->with('active_pra_menu', 'active')->with('active_pra_list', 'active');
+
     }
 
 	public function showUserList()
@@ -94,10 +95,7 @@ class IndexController extends Controller
 		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
 			->with('user_menu', 'active')->with('user_list', 'active');
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> 3cb331d94d4d948c361081b6a80c10ad4aa1b10f
 	public function destoryUser($id)
     {
         $User = User::find($id);
@@ -107,8 +105,5 @@ class IndexController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 3cb331d94d4d948c361081b6a80c10ad4aa1b10f

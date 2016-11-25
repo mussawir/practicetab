@@ -29,6 +29,8 @@
                 <span class="close" data-dismiss="alert">×</span>
             </div>
         @endif
+            <div class="alert alert-danger fade in" id="errorLog" style="display: none">
+            </div>
     </div>
 </div>
 <!-- begin row -->
@@ -201,7 +203,20 @@
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function (result) {
-                    location.reload(true);
+                    if(result=='This supplement is already added')
+                    {
+                    var append = '<strong>Error!</strong>';
+                    append+='<strong>'+result+'</strong>';
+                    append+='<span class="close" data-dismiss="alert">×</span>';
+                        $('#errorLog').html('');
+                        $('#errorLog').html(append);
+                        $("#errorLog").show();
+                        setTimeout(function () {
+                            $("#errorLog").hide();
+                        }, 2000);
+                    }else {
+                        location.reload(true);
+                    }
                 },
                 error:function (error) {
                     $('.msg').html('<div class="alert alert-danger"><strong>Some error occur. Please try again.</strong></div>').show().delay(5000).hide('slow');
