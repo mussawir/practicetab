@@ -42,11 +42,11 @@
                 <h4 class="panel-title">New Exercise Category</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/execategories/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/execategories/store', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                     <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::file('cat_image', array('class'=>'form-control', 'accept'=>'image/*')) !!}
+                        {!! Form::file('cat_image', array('class'=>'form-control', 'accept'=>'image/*', 'data-parsley-required'=>'true')) !!}
                     </div>
                     </div>
 
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             {!! Form::label('category','Category *:', array('class'=>'col-md-3 control-label')) !!}
                             <div class="col-md-9">
-                                {!! Form::text('category', null, array('class'=>'form-control', 'placeholder'=> 'Category Name', 'required'=> 'required')) !!}
+                                {!! Form::text('category', null, array('class'=>'form-control', 'placeholder'=> 'Category Name', 'data-parsley-required'=>'true')) !!}
                             </div>
                             @if ($errors->has('category'))
                                 <div class="text-danger">

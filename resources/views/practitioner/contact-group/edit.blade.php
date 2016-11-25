@@ -47,13 +47,14 @@
                 <h4 class="panel-title">Edit Contact Group</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($cg, array('url'=>'/practitioner/contact-group/update', 'method' => 'PATCH', 'class'=> 'form-horizontal')) !!}
+                {!! Form::model($cg, array('url'=>'/practitioner/contact-group/update', 'method' => 'PATCH', 'class'=> 'form-horizontal','data-parsley-validate' => 'true')) !!}
 
                 {!! Form::hidden('cg_id') !!}
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('name','Name *:', array('class'=>'col-md-3 control-label', 'data-parsley-required'=>'true'
+)) !!}
                         <div class="col-md-9">
                             {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Name')) !!}
                         </div>

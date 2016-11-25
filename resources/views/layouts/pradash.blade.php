@@ -21,6 +21,7 @@
     <link href="{{asset('public/dashboard/css/PopupBox.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/style-responsive.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/dashboard/css/theme/default.css')}}" rel="stylesheet" id="theme" />
+
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
@@ -33,6 +34,7 @@
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/css/jquery.ui.autocomplete.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/plugins/parsley/src/parsley.css') }}" rel="stylesheet" />
     @yield('head')
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 
@@ -91,6 +93,7 @@
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/parsley/dist/parsley.js')}}"></script>
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.js')}}"></script>

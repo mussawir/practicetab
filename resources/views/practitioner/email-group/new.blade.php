@@ -48,12 +48,13 @@
                 <h4 class="panel-title">New Email Group</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/email-group/toContact', 'class'=> 'form-horizontal')) !!}
+                {!! Form::open(array('url'=>'/practitioner/email-group/toContact', 'class'=> 'form-horizontal','data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('name','Email Group Name *:', array('class'=>'text-center control-label','style'=>'margin-bottom:10px')) !!}
-                        {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Email Group Name')) !!}
+                        {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Email Group Name', 'data-parsley-required'=>'true'
+)) !!}
                         @if ($errors->has('name'))
                             <div class="text-danger">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -64,7 +65,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('description','Email Group Description *:', array('class'=>'text-center control-label','style'=>'margin-bottom:10px')) !!}
-                        {!! Form::textarea('description', null, array('class'=>'form-control', 'placeholder'=> 'Email Group Name')) !!}
+                        {!! Form::textarea('description', null, array('class'=>'form-control', 'placeholder'=> 'Email Group Name', 'data-parsley-required'=>'true'
+)) !!}
                         @if ($errors->has('description'))
                             <div class="text-danger">
                                 <strong>{{ $errors->first('description') }}</strong>

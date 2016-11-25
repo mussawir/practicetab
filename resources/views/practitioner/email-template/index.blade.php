@@ -12,6 +12,7 @@
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/practitioner')}}">Dashboard</a></li>
     <li class="active">Email Templates</li>
+    <li class="active">Templates</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->

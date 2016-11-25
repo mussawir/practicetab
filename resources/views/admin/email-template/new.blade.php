@@ -54,22 +54,22 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li>Practitioner
+                    <li>Admin
                         <ul>
-                            <li>{PR.FirstName}</li>
-                            <li>{PR.MiddleName}</li>
-                            <li>{PR.LastName}</li>
-                            <li>{PR.Email}</li>
-                            <li>{PR.Phone}</li>
+                            <li>{AD.FirstName}</li>
+                            <li>{AD.MiddleName}</li>
+                            <li>{AD.LastName}</li>
+                            <li>{AD.Email}</li>
+                            <li>{AD.Phone}</li>
                         </ul>
                     </li>
-                    <li>Patient
+                    <li>Contacts
                         <ul>
-                            <li>{PA.FirstName}</li>
-                            <li>{PA.MiddleName}</li>
-                            <li>{PA.LastName}</li>
-                            <li>{PA.Email}</li>
-                            <li>{PA.Phone}</li>
+                            <li>{CN.FirstName}</li>
+                            <li>{CN.MiddleName}</li>
+                            <li>{CN.LastName}</li>
+                            <li>{CN.Email}</li>
+                            <li>{CN.Phone}</li>
                         </ul>
                     </li>
                 </ul>
@@ -91,18 +91,18 @@
                 <h4 class="panel-title">Create New Email Template</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/email-templates/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/email-templates/store', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('name','Template Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', 'My Default Email Template', array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'required' => 'required')) !!}
+                            {!! Form::text('name', 'My Default Email Template', array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('template', setDefaultTemplate(), array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('template', setDefaultTemplate(), array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;
@@ -146,17 +146,13 @@
 <?php
 function setDefaultTemplate()
     {
-        return "<p>Dear {PA.FirstName},</p>
-                <p>&nbsp;</p>
-                <p>Your practitioner {PR.FirstName} {PR.MiddleName} {PR.LastName} has recommended a new supplement for you to add to your regimen. Please do not hesitate to contact our office if you have any questions.</p>
-                <p>&nbsp;</p>
-                <p>As always, thank you for choosing {PR.FirstName} {PR.MiddleName} {PR.LastName}.</p>
+        return "<p>Dear {CN.FirstName},</p>
+                <p>Thank you fir choosing practicetab as your practice management system.</p>
+                <p>As always, thank you for choosing {AD.FirstName} {AD.MiddleName} {AD.LastName}.</p>
                 <p>&nbsp;</p>
                 <p>Best in health,</p>
-                <p>&nbsp;</p>
-                <p>{PR.FirstName} {PR.MiddleName} {PR.LastName}</p>
-                <p>&nbsp;</p>
-                <p>{PR.Email}</p>
-                <p>{PR.Phone}</p>";
+                <p>{AD.FirstName} {AD.MiddleName} {AD.LastName}</p>
+                <p>{AD.Email}</p>
+                <p>{AD.Phone}</p>";
     }
 ?>

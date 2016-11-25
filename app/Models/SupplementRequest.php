@@ -16,7 +16,7 @@ class SupplementRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'pa_id', 'pra_id', 'title', 'message'
+        'pa_id', 'pra_id', 'title', 'message', 'status'
     ];
 
     public function patient()

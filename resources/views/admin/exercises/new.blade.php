@@ -47,13 +47,13 @@
                 <h4 class="panel-title">New Exercise</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/admin/exercises/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/admin/exercises/store', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('man_id','Category *:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            <select id="execat_id" name="execat_id" class="form-control">
+                            <select id="execat_id" name="execat_id" class="form-control" data-parsley-required="true">
                                 <option value="">Select</option>
                                 @foreach($execats as $item)
                                     <option value="{{$item->execat_id}}">{{$item->category}}</option>
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         {!! Form::label('heading','Heading *:', array('class'=>'col-md-4 control-label')) !!}
                         <div class="col-md-8">
-                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading', 'required')) !!}
+                            {!! Form::text('heading', null, array('class'=>'form-control', 'placeholder'=> 'Exercise Heading', 'data-parsley-required'=>'true')) !!}
                         </div>
                         @if ($errors->has('heading'))
                             <div class="text-danger">
@@ -103,7 +103,7 @@
                     <div class="form-group">
                         {!! Form::label('description','Description *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::textarea('description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description', 'rows'=>'10', 'required')) !!}
+                            {!! Form::textarea('description', null, array('class'=>'form-control', 'placeholder'=> 'Short Description', 'rows'=>'10', 'data-parsley-required'=>'true')) !!}
                         </div>
                         @if ($errors->has('description'))
                             <div class="text-danger">

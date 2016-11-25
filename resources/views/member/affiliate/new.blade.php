@@ -8,16 +8,19 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/member')}}">Dashboard</a></li>
-    <li><a href="{{url('/member/affiliate')}}">Affiliate List</a></li>
+    <li><a href="{{url('/member/affiliate')}}">Practitioners List</a></li>
     <li class="active">New</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">New Affiliate <small></small></h1>
+<h1 class="page-header">New <small>Send Invitation to New Practitioner(s)</small></h1>
 <!-- end page-header -->
 
 <!-- begin row -->
 <div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-info"><strong>Invite as many Practitioners as you wish to PracticeTabs and receive $75 per Premium-Plan sign ups</strong></div>
+    </div>
     <div class="col-md-12 msg">
         @if(Session::has('success'))
             <div class="alert alert-success fade in">
@@ -45,12 +48,12 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">New Affiliate Entry</h4>
+                <h4 class="panel-title">New Invitation</h4>
             </div>
             <div class="panel-body">
                 <div class="row">
                 <div class="col-md-12">
-                    <h4 class="text-primary">Your information:</h4>
+                    <h4 class="text-primary">Your Information:</h4>
                     First Name: {{$my_info->first_name}}<br/>
                     Last Name: {{$my_info->last_name}}<br/>
                     Email: {{$my_info->email}}
@@ -58,7 +61,7 @@
                 </div>
                 <hr/>
                 {!! Form::open(array('url'=>'/member/affiliate/createList', 'class'=> 'form-horizontal')) !!}
-                <h4 class="text-primary">Affiliate information:</h4>
+                <h4 class="text-primary">Practitioner Information:</h4>
 
                 <div class="col-md-12">
                     <div class="form-group">
@@ -114,12 +117,12 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Added Affiliates</h4>
+                <h4 class="panel-title">Added Practitioner(s)</h4>
             </div>
             <div class="panel-body">
                 <div class="row">
                 <div class="col-md-12">
-                    {!! Form::textarea('message', null, array('class'=>'ckeditor','id'=>'message', 'rows'=>'3')) !!}
+                    {!! Form::textarea('message', setDefaultTemplate(), array('class'=>'ckeditor','id'=>'message', 'rows'=>'3')) !!}
                 </div>
                 </div>
                 <hr/>
@@ -224,7 +227,7 @@
         $("#frm-affiliate").on('submit', function(e){
 
             if($('#data-table').find('td').hasClass('dataTables_empty')){
-                $('.footer-msg').html('<div class="alert alert-warning"><strong>Please first add affiliate(s).</strong></div>').show().delay(5000).hide('slow');
+                $('.footer-msg').html('<div class="alert alert-warning"><strong>Please first add practitioner(s).</strong></div>').show().delay(5000).hide('slow');
                 return false;
             }
 
@@ -242,3 +245,12 @@
         });
     </script>
 @endsection
+<?php
+function setDefaultTemplate()
+{
+    return "<p>Hey, check this website out <a href='".url('/pricing')."' target='_blank'>PracticeTabs</a></p>
+            <p>&nbsp;</p>
+            <p>If you register, you will get the exiting features that makes your life easier.</p>
+            <p>Thanks, in advance</p>";
+}
+?>

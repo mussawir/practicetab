@@ -8,6 +8,7 @@ use App\Models\EmailInGroup;
 use App\Models\EmailTemplate;
 use App\Models\Patient;
 use App\Models\Practitioner;
+use App\Models\PractitionerCampaign;
 use App\Models\PractitionerEmail;
 use Illuminate\Http\Request;
 
@@ -53,9 +54,9 @@ class EmailsController extends Controller
     {
         $prac = Session::get('practitioner_session');
 
-        $templates = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
-        $contact_groups = EmailGroup::select('cg_id', 'name')->where('pra_id','=',$prac['pra_id'])
+        $templates = EmailTemplate::select('*')->where('user_id','=',$prac['pra_id'])->whereIn('user_type', [1,2])
             ->orderBy('name', 'asc')->get();
+        $contact_groups = EmailGroup::where('user_id',$this->practitioner_info->pra_id)->where('user_type', '2')->get();
 
         return view('practitioner.emails.new')
             ->with('meta', array('page_title'=>'Compose New Email'))
@@ -64,13 +65,9 @@ class EmailsController extends Controller
             ->with('template_menu','active')
             ->with('compose_email','active');
     }
-    public function create_campaign()
-    {
-        $prac = Session::get('practitioner_session');
-
-        $templates = EmailTemplate::select('*')->orderBy('name', 'asc')->get();
-        $contact_groups = EmailGroup::select('cg_id', 'name')->where('pra_id','=',$prac['pra_id'])
-            ->orderBy('name', 'asc')->get();
+    public function create_campaign(){
+        $templates = EmailTemplate::select('*')->where('user_id','=',$this->practitioner_info->pra_id)->whereIn('user_type', [1,2])->orderBy('name', 'asc')->get();
+        $contact_groups = EmailGroup::where('user_id',$this->practitioner_info->pra_id)->where('user_type', '2')->get();
 
         return view('practitioner.emails.campaign')
             ->with('meta', array('page_title'=>'Create New Campaign'))
@@ -153,92 +150,37 @@ class EmailsController extends Controller
     }
     public function store_campaign(Request $request)
     {
-        $inputs = $request->all();
-
-        $email = EmailInGroup::select('email')->where('cg_id', $inputs['cg_id'])->get();
-        $subject = $inputs['subject'];
-
-        if(isset($email)){
-            foreach($email as $key => $value) {
-                $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
-                    'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone');
-
-                $prac = Session::get('practitioner_session');
-                $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-                    ->where('pra_id', '=', $prac['pra_id'])->first();
-                $pa = EmailInGroup::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-                    ->where('email', '=', $value->email)->where('cg_id',$inputs['cg_id'])->first();
-                $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
-                    $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
-                $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
-                $mail_body = str_replace($placeholders, $replace_with, $mail_body);
-                $data = [
-                    'messagebody'=>  $mail_body,
-                ];
-                Mail::send(['html' => 'practitioner.emails.emailbody'], $data, function ($message) use ($value , $subject) {
-                    $message->from('valeedmahmood@gmail.com', 'Practice Tabs');
-                    $message->to($value->email);
-                    $message->subject($subject);
-                });
-
-            }
-        }
-
-        Session::put('success','Email Successfully Sent to' );
+        $group_name = EmailGroup::where('cg_id',$request->cg_id)->get()->first();
+        $campaign = new PractitionerCampaign();
+        $campaign->campaign_name = $request->campaign_name;
+        $campaign->start_date = $request->start_date;
+        $campaign->end_date = $request->stop_date;
+        $campaign->sent_to = $request->cg_id;
+        $campaign->group_name = $group_name['name'];
+        $campaign->message = $request->mail_body;
+        $campaign->status = '0';
+        $campaign->user_id = $this->practitioner_info->pra_id;
+        $campaign->save();
+        Session::put('success',"Email Campaign will get started on $request->start_date ");
         return Redirect::back();
-//        //placeholders array
-//        $placeholders = array('PR.FirstName', 'PR.MiddleName', 'PR.LastName', 'PR.Email', 'PR.Phone',
-//            'PA.FirstName', 'PA.MiddleName', 'PA.LastName', 'PA.Email', 'PA.Phone');
 //
-//        $prac = Session::get('practitioner_session');
-//        $pr = Practitioner::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-//            ->where('pra_id', '=', $prac['pra_id'])->first();
-//        $pa = Patient::select('first_name', 'middle_name', 'last_name', 'email', 'primary_phone')
-//            ->first();
-//
-//        $replace_with = array($pr->first_name, $pr->middle_name, $pr->last_name, $pr->email, $pr->primary_phone,
-//            $pa->first_name, $pa->middle_name, $pa->last_name, $pa->email, $pa->primary_phone);
-//
-//        $mail_body = preg_replace('/\{[^}]*\)|[{}]/', '', $inputs['mail_body']);
-//        $mail_body = str_replace($placeholders, $replace_with, $mail_body);
-//        echo '<hr>';
-//        print_r($mail_body);
-//        return;
-//
-//        $pa_ids = array();
-//
-//        $mail_data = array('bcc'=>$inputs['bcc'], 'subject'=>$inputs['subject'], 'mail_body'=>$mail_body);
-//        \Mail::queue([], [], function ($message) use ($mail_data)
-//        {
-//            $message->queue('me@myemail.com')
-//                ->subject($mail_data['subject'])
-//                ->bcc($mail_data['bcc'])
-//                ->setBody($mail_data['mail_body'], 'text/html');
-//        });
-//
-//        $prac = Session::get('practitioner_session');
-//        $inputs['pra_id'] = $prac['pra_id'];
-//        $inputs['pa_ids'] = json_encode($pa_ids);
-//        $inputs['mail_body'] = $mail_body;
-//        PractitionerEmail::create($inputs);
-//
-//        Session::put('success','Email campaign started.');
-//        return Redirect::to('/practitioner/emails');
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function campaignList(){
+        $list = PractitionerCampaign::where('user_id',$this->practitioner_info->pra_id)->get();
+        return view('practitioner.emails.campaignlist')
+            ->with('list', $list)
+            ->with('template_menu','active')
+            ->with('campaign_lists','active')->with('campaignlists','active');
+    }
+    public function campaignDetails($id)
+    {
+        $data = PractitionerCampaign::find($id);
+        $contacts = EmailInGroup::where('cg_id',$data->sent_to)->get();
+        return view('practitioner.emails.campaigndetails')
+            ->with('contacts',$contacts)
+            ->with('data', $data)
+            ->with('email_marketing','active');
+    }
     public function edit($id)
     {
         $data = EmailTemplate::find($id);

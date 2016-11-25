@@ -232,7 +232,18 @@
                         <li class="<?php if(isset($page_list))echo $page_list;?>"><a href="{{url('/admin/page')}}">List</a></li>
                     </ul>
                 </li>
-
+                <li class="has-sub <?php if(isset($email_marketing))echo $email_marketing;?>">
+                    <a href="javascript:;">
+                        <i class="fa fa-envelope"></i>
+                        <span>E-Mail Marketing</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="{{url('/admin/emails/new')}}">Compose Email</a></li>
+                        <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="{{url('/admin/emails/sent_list')}}">Sent Emails</a></li>
+                        <li class="<?php if(isset($campaign))echo $campaign;?>"><a href="{{url('/admin/emails/campaign')}}">Create Campaign</a></li>
+                        <li class="<?php if(isset($campaign_lists))echo $campaign_lists;?>"><a href="{{url('/admin/emails/campaignlist')}}">Sent Campaigns</a></li>
+                    </ul>
+                </li>
                 <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                     <a href="javascript:;">
                         <span class="badge pull-right"></span>
@@ -244,11 +255,22 @@
                         <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/admin/email-templates')}}">List</a></li>
                     </ul>
                 </li>
-
+                <li class="has-sub {{isset($meta['cm_main_menu'])?$meta['cm_main_menu']:''}}">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Contact Management</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="{{isset($meta['cg_sub_menu_new'])?$meta['cg_sub_menu_new']:''}}"><a href="{{url('/admin/contact-group/new')}}"> New Group</a></li>
+                        <li class="{{isset($meta['cg_sub_menu_list'])?$meta['cg_sub_menu_list']:''}}"><a href="{{url('/admin/contact-group')}}">Group List</a></li>
+                        <li class="{{isset($meta['cnt_sub_menu_new'])?$meta['cnt_sub_menu_new']:''}}"><a href="{{url('/admin/contact/new')}}"> New Contact</a></li>
+                        <li class="{{isset($meta['cnt_sub_menu_list'])?$meta['cnt_sub_menu_list']:''}}"><a href="{{url('/admin/contact')}}">Contact List</a></li>
+                    </ul>
+                </li>
                 <li class="has-sub">
                     <a href="javascript:;">
                         <i class="fa fa-medkit"></i>
-                        <span>Reprots</span>
+                        <span>Reports</span>
                     </a>
                     <ul class="sub-menu">
                         <li><a href="#">Sales</a></li>

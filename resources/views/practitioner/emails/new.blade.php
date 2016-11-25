@@ -51,13 +51,13 @@
                 <h4 class="panel-title">Compose New Email</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(array('url'=>'/practitioner/emails/store', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::open(array('url'=>'/practitioner/emails/store', 'class'=> 'form-horizontal', 'files'=>true,'data-parsley-validate' => 'true')) !!}
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('templates','Select Template: ', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('templates','Select Template*: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                        <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)">
+                        <select id="templates" name="et_id" class="form-control" onchange="loadTemplate(this)" data-parsley-required="true">
                             <option value="0">Select</option>
                             @foreach($templates as $item)
                                 <option value="{{$item->et_id}}" data-template="{{$item->template}}">{{$item->name}}</option>
@@ -68,9 +68,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('contact_groups','Contact Groups: ', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('contact_groups','Contact Groups*: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                        <select id="contact_groups" name="cg_id" class="form-control" onchange="ajax();">
+                        <select id="contact_groups" name="cg_id" class="form-control" onchange="ajax();" data-parsley-required="true">
                             <option value="0">Select</option>
                             @foreach($contact_groups as $item)
                                 <option value="{{$item->cg_id}}">{{$item->name}}</option>
@@ -90,9 +90,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::label('subject','Subject: ', array('class'=>'col-md-3 control-label')) !!}
+                        {!! Form::label('subject','Subject*: ', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject', 'required'=>'required')) !!}
+                            {!! Form::text('subject', null, array('class'=>'form-control', 'placeholder'=> 'Subject')) !!}
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     <div id="getemail"></div>
                 </div >
                 <div class="col-md-12">
-                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
+                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

@@ -2,9 +2,17 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Models\message_header;
 use App\Models\message_history;
+=======
+use App\Models\ExerciseRequest;
+use App\Models\ExerciseRequestDetail;
+use App\Models\Exercises;
+>>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
 use App\Models\Nutrition;
+use App\Models\NutritionRequest;
+use App\Models\NutritionRequestDetail;
 use App\Models\Patient;
 use App\Models\SupplementRequest;
 use App\Models\SupplementRequestDetail;
@@ -88,29 +96,137 @@ class IndexController extends Controller
 
 	public function saveSupplementRequest(Request $request)
 	{
-		if($request->method('post')){
-			$sup_request = SupplementRequest::create([
-				'pa_id'		=>	$this->patient_info->pa_id,
-				'pra_id'	=>	$request->pra_id,
-				'title'		=>	$request->title,
-				'message'	=>	$request->message
-			]);
+		if(isset($request->sup_id)){
+			if($request->method('post')){
+				$sup_request = SupplementRequest::create([
+					'pa_id'		=>	$this->patient_info->pa_id,
+					'pra_id'	=>	$request->pra_id,
+					'title'		=>	$request->title,
+					'message'	=>	$request->message,
+					'status' => '0'
+				]);
 
-			if(isset($request->sup_id) && (count($request->sup_id)>0)){
-				foreach ($request->sup_id as $id) {
-					SupplementRequestDetail::create([
-						'sr_id' 	=>	$sup_request['sr_id'],
-						'sup_id'	=>	$id
-					]);
+				if(isset($request->sup_id) && (count($request->sup_id)>0)){
+					foreach ($request->sup_id as $id) {
+						SupplementRequestDetail::create([
+							'sr_id' 	=>	$sup_request['sr_id'],
+							'sup_id'	=>	$id
+						]);
+					}
 				}
+
+				Session::put('success', 'Request send successfully!');
 			}
 
-			Session::put('success', 'Request send successfully!');
+			return Redirect::Back();
+		}else{
+			Session::put('error','Please select one supplement');
+			return redirect::back();
 		}
 
-		return Redirect::Back();
+	}
+	public function supplementRequestList(){
+		$request = SupplementRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		return view('patient.index.supplement-requests-list')->with('request', $request);
+	}
+	public function createNutritionRequest()
+	{
+		$practitioners = DB::table('practitioners as p')
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('p.pra_id', 'u.first_name', 'u.last_name')
+			->where('u.role', '=', 3)
+			->get();
+		$nutrition = Nutrition::select('nut_id', 'name', 'usability', 'main_image')->get();
+
+		return view('patient.index.nutrition-request')
+			->with('practitioners', $practitioners)
+			->with('nutrition', $nutrition);
 	}
 
+	public function saveNutritionRequest(Request $request)
+	{
+		if(isset($request->nut_id)){
+			if($request->method('post')){
+				$sup_request = NutritionRequest::create([
+					'pa_id'		=>	$this->patient_info->pa_id,
+					'pra_id'	=>	$request->pra_id,
+					'title'		=>	$request->title,
+					'message'	=>	$request->message,
+					'status' => '0'
+				]);
+
+				if(isset($request->nut_id) && (count($request->nut_id)>0)){
+					foreach ($request->nut_id as $id) {
+						NutritionRequestDetail::create([
+							'nr_id' 	=>	$sup_request['nr_id'],
+							'nut_id'	=>	$id
+						]);
+					}
+				}
+
+				Session::put('success', 'Request sent successfully!');
+			}
+
+			return Redirect::Back();
+		}else{
+			Session::put('error', 'Please select atleast one nutrition');
+			return Redirect::Back();
+		}
+
+	}
+	public function nutritionRequestList(){
+		$request = NutritionRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		return view('patient.index.nutrition-requests-list')->with('request', $request);
+	}
+	public function createExerciseRequest()
+	{
+		$practitioners = DB::table('practitioners as p')
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('p.pra_id', 'u.first_name', 'u.last_name')
+			->where('u.role', '=', 3)
+			->get();
+		$exercise = Exercises::select('exe_id', 'heading', 'description', 'image1')->get();
+
+		return view('patient.index.exercise-request')
+			->with('practitioners', $practitioners)
+			->with('exercise', $exercise);
+	}
+
+	public function saveExerciseRequest(Request $request)
+	{
+		if(isset($request->exe_id)){
+			if($request->method('post')){
+				$sup_request = ExerciseRequest::create([
+					'pa_id'		=>	$this->patient_info->pa_id,
+					'pra_id'	=>	$request->pra_id,
+					'title'		=>	$request->title,
+					'message'	=>	$request->message,
+					'status' => '0'
+				]);
+
+				if(isset($request->exe_id) && (count($request->exe_id)>0)){
+					foreach ($request->exe_id as $id) {
+						ExerciseRequestDetail::create([
+							'er_id' 	=>	$sup_request['er_id'],
+							'exe_id'	=>	$id
+						]);
+					}
+				}
+
+				Session::put('success', 'Request sent successfully!');
+			}
+
+			return Redirect::Back();
+		}else{
+			Session::put('error', 'Please select atleast one exercise');
+			return Redirect::Back();
+		}
+
+	}
+	public function exerciseRequestList(){
+		$request = ExerciseRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		return view('patient.index.exercise-requests-list')->with('request', $request);
+	}
 	public function suggestionDetails()
 	{
 		$supplements = Supplement::select('sup_id', 'name', 'main_image')->get();

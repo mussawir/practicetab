@@ -59,7 +59,6 @@ class SuggestionController extends Controller
 			->with('supplements', $supplements)->with('patients', $patients)
 			->with('directory', $this->practitioner_info['directory'])->with('sug_menu', 'active');
 	}
-
 	public function newSupplementSuggestions()
 	{
 		$supplements = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
@@ -71,19 +70,16 @@ class SuggestionController extends Controller
 			$selected_sup = Supplement::select('sup_id', 'name', 'used_for', 'main_image')
 				->whereIn('sup_id', $sup_ids)->get();
 		}
-
 		return view('practitioner.suggestion.new-sup-sug')
 			->with('selected_sup', $selected_sup)->with('sup_ids', $sup_ids)
 			->with('supplements', $supplements)->with('sug_menu', 'active')->with('sup_sug', 'active');
 	}
-
 	public function addSupplements(Request $request)
 	{
 		Session::put('sup_list', $request['sup_id']);
 
 		return Redirect::Back();
 	}
-
 	public function newSupSugPatients()
 	{
 		$patients = Patient::select('pa_id', DB::raw('CONCAT(first_name, " ", middle_Name, " ", last_Name) AS full_name'))

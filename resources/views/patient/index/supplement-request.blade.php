@@ -24,7 +24,7 @@
         <h1 class="page-header">Supplements Request <small></small></h1>
         <!-- end page-header -->
 
-        {!! Form::open(array('url'=>'/patient/index/saveSupplementRequest')) !!}
+        {!! Form::open(array('url'=>'/patient/index/saveSupplementRequest','data-parsley-validate' => 'true')) !!}
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary" data-sortable-id="ui-widget-6" data-init="true">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <select name="pra_id" class="default-select2 form-control">
+                        <select name="pra_id" class="default-select2 form-control" data-parsley-required="true">
                                 <option value="">Select Practitioner</option>
                             @foreach($practitioners as $item)
                                     <option value="{{$item->pra_id}}">{{$item->first_name .' '.$item->last_name}}</option>
@@ -43,7 +43,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        {!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=>'Request Title')) !!}
+                        {!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=>'Request Title', 'data-parsley-required'=>'true')) !!}
                         @if ($errors->has('title'))
                             <span class="text-danger">
                                 <strong>{{ $errors->first('title') }}</strong>
@@ -51,7 +51,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        {!! Form::textarea('message', null, array('class'=>'form-control', 'placeholder'=>'Request Message', 'rows'=>'5')) !!}
+                        {!! Form::textarea('message', null, array('class'=>'form-control', 'placeholder'=>'Request Message', 'rows'=>'5', 'data-parsley-required'=>'true')) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::submit('Send', array('class'=>'btn btn-success pull-right')) !!}

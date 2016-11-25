@@ -5,6 +5,21 @@
 @endsection
 
     <div class="row">
+        <div class="col-md-12 msg">
+            @if(Session::has('success'))
+                <div class="alert alert-success fade in">
+                    <strong>Success!</strong>
+                    <strong>{{Session::pull('success')}}</strong>
+                    <span class="close" data-dismiss="alert">×</span>
+                </div>
+            @elseif(Session::has('error'))
+                <div class="alert alert-danger fade in">
+                    <strong>Error!</strong>
+                    <strong>{{Session::pull('error')}}</strong>
+                    <span class="close" data-dismiss="alert">×</span>
+                </div>
+            @endif
+        </div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
@@ -128,18 +143,30 @@
                                 <table id="sup-data-table" class="table table-striped table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Request Title</th>
                                         <th>Patient Name</th>
+                                        <th>Request Content</th>
+                                        <th>Sup #</th>
                                         <th>Details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php $counter = 1; ?>
                                     @foreach($supplement_requests as $sr)
                                     <tr>
+                                        <td>{{ $counter++ }}</td>
                                         <td>{{$sr->title}}</td>
                                         <td>{{$sr->first_name.' '. $sr->last_name}}</td>
+                                        <td>{{$sr->message}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-success">View</button>
+                                            <?php
+                                            $sup = \App\Models\SupplementRequestDetail::where('sr_id',$sr->sr_id)->get();
+                                            ?>
+                                            <span class='badge badge-danger'>{{ count($sup) }}</span>
+                                        </td>
+                                        <td>
+                                            <a href="{{url('practitioner/index/supplement-request-detail/'.$sr->sr_id)}}" class="btn btn-sm btn-success">View</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -162,98 +189,32 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Date</th>
-                                        <th>Patient</th>
-                                        <th>Request Contents</th>
-                                        <th>Nut#</th>
+                                        <th>Request Title</th>
+                                        <th>Patient Name</th>
+                                        <th>Request Content</th>
+                                        <th>Sup #</th>
                                         <th>Details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $date = new DateTime('08:00:00'); ?>
-                                    @for ($i = 1; $i < 21; $i++)
+                                    <?php $counter = 1; ?>
+                                    @foreach($nutrition_requests as $nr)
                                         <tr>
-                                            <td>{{$i}}</td>
+                                            <td>{{ $counter++ }}</td>
+                                            <td>{{$nr->title}}</td>
+                                            <td>{{$nr->first_name.' '. $nr->last_name}}</td>
+                                            <td>{{$nr->message}}</td>
                                             <td>
                                                 <?php
-                                                $date->add(new DateInterval('PT30M'));
-                                               echo date("d/m/Y");
-                                                    echo "<br/>";
-                                               echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
+                                                $nut = \App\Models\NutritionRequestDetail::where('nr_id',$nr->nr_id)->get();
                                                 ?>
-
+                                                <span class='badge badge-danger'>{{ count($nut) }}</span>
                                             </td>
                                             <td>
-                                                <?php
-                                                //PHP array containing forenames.
-                                                $names = array(
-                                                        'Christopher',
-                                                        'Ryan',
-                                                        'Ethan',
-                                                        'John',
-                                                        'Zoey',
-                                                        'Sarah',
-                                                        'Michelle',
-                                                        'Samantha',
-                                                        'Noah		',
-                                                        'Liam		',
-                                                        'Ethan		',
-                                                        'Mason		',
-                                                        'Lucas		',
-                                                        'Oliver		',
-                                                        'Aiden		',
-                                                        'Elijah		',
-                                                        'James		',
-                                                        'Benjamin	',
-                                                        'Logan		',
-                                                        'Jacob		',
-                                                        'Jackson	',
-                                                        'Michael	',
-                                                        'Carter		',
-                                                        'Daniel		',
-                                                        'Alexander	',
-                                                        'William	',
-                                                        'Luke		',
-                                                        'Owen		',
-                                                        'Jack		',
-                                                        'Gabriel	',
-                                                        'Matthew	',
-                                                        'Henry		',
-                                                );
-
-                                                //PHP array containing surnames.
-                                                $surnames = array(
-                                                        'Walker',
-                                                        'Thompson',
-                                                        'Anderson',
-                                                        'Johnson',
-                                                        'Tremblay',
-                                                        'Peltier',
-                                                        'Cunningham',
-                                                        'Simpson',
-                                                        'Mercado',
-                                                        'Sellers'
-                                                );
-
-                                                //Generate a random forename.
-                                                $random_name = $names[mt_rand(0, sizeof($names) - 1)];
-
-                                                //Generate a random surname.
-                                                $random_surname = $surnames[mt_rand(0, sizeof($surnames) - 1)];
-
-                                                //Combine them together and print out the result.
-                                                echo $random_name . ' ' . $random_surname;
-                                                ?>
-
-                                            </td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-                                            <td><span class="badge badge-danger">{{rand ( 1 , 10)}}</span></td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-info">View</button>
+                                                <a href="{{url('practitioner/index/nutrition-request-detail/'.$nr->nr_id)}}" class="btn btn-sm btn-success">View</a>
                                             </td>
                                         </tr>
-                                    @endfor
-
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -274,103 +235,32 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Date</th>
-                                        <th>Exercise/s</th>
-                                        <th>Patient</th>
-                                        <th>Request Contents</th>
+                                        <th>Request Title</th>
+                                        <th>Patient Name</th>
+                                        <th>Request Content</th>
+                                        <th>Exe #</th>
                                         <th>Details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $date = new DateTime('08:00:00'); ?>
-                                    @for ($i = 1; $i < 9; $i++)
+                                    <?php $counter = 1; ?>
+                                    @foreach($exercise_requests as $er)
                                         <tr>
-                                            <td>{{$i}}</td>
+                                            <td>{{ $counter++ }}</td>
+                                            <td>{{$er->title}}</td>
+                                            <td>{{$er->first_name.' '. $sr->last_name}}</td>
+                                            <td>{{$er->message}}</td>
                                             <td>
                                                 <?php
-                                                $date->add(new DateInterval('PT30M'));
-                                                echo date("d/m/Y");
-                                                echo "<br/>";
-                                                echo $date->format('h:i:s') . "\n";  //it i will give you 10:00:00
+                                                $exe = \App\Models\ExerciseRequestDetail::where('er_id',$er->er_id)->get();
                                                 ?>
-
+                                                <span class='badge badge-danger'>{{ count($exe) }}</span>
                                             </td>
                                             <td>
-                                                                                                <!-- img src="{{asset('public/img/exercise/'.$i.'.jpg')}}" alt="" class="img-responsive"/ -->
-                                                <span class="badge badge-danger">{{rand ( 1 , 10)}}</span>
-
-                                            </td>
-                                            <td>
-                                                <?php
-                                                //PHP array containing forenames.
-                                                $names = array(
-                                                        'Christopher',
-                                                        'Ryan',
-                                                        'Ethan',
-                                                        'John',
-                                                        'Zoey',
-                                                        'Sarah',
-                                                        'Michelle',
-                                                        'Samantha',
-                                                        'Noah		',
-                                                        'Liam		',
-                                                        'Ethan		',
-                                                        'Mason		',
-                                                        'Lucas		',
-                                                        'Oliver		',
-                                                        'Aiden		',
-                                                        'Elijah		',
-                                                        'James		',
-                                                        'Benjamin	',
-                                                        'Logan		',
-                                                        'Jacob		',
-                                                        'Jackson	',
-                                                        'Michael	',
-                                                        'Carter		',
-                                                        'Daniel		',
-                                                        'Alexander	',
-                                                        'William	',
-                                                        'Luke		',
-                                                        'Owen		',
-                                                        'Jack		',
-                                                        'Gabriel	',
-                                                        'Matthew	',
-                                                        'Henry		',
-                                                );
-
-                                                //PHP array containing surnames.
-                                                $surnames = array(
-                                                        'Walker',
-                                                        'Thompson',
-                                                        'Anderson',
-                                                        'Johnson',
-                                                        'Tremblay',
-                                                        'Peltier',
-                                                        'Cunningham',
-                                                        'Simpson',
-                                                        'Mercado',
-                                                        'Sellers'
-                                                );
-
-                                                //Generate a random forename.
-                                                $random_name = $names[mt_rand(0, sizeof($names) - 1)];
-
-                                                //Generate a random surname.
-                                                $random_surname = $surnames[mt_rand(0, sizeof($surnames) - 1)];
-
-                                                //Combine them together and print out the result.
-                                                echo $random_name . ' ' . $random_surname;
-                                                ?>
-
-                                            </td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-info">View</button>
+                                                <a href="{{url('practitioner/index/exercise-request-details/'.$er->er_id)}}" class="btn btn-sm btn-success">View</a>
                                             </td>
                                         </tr>
-                                    @endfor
-
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>

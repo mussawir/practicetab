@@ -17,14 +17,14 @@
                 </div>
 
                 <div class="panel-body">
-                    <form id="frm-pc" class="form-horizontal" role="form" method="POST" action="{{ url('practitioner/index/saveNewPassword') }}">
+                    <form id="frm-pc" class="form-horizontal" role="form" method="POST" action="{{ url('practitioner/index/saveNewPassword') }}" data-parsley-validate="true">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Old Password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" id="old-password" name="old_password">
+                                <input type="password" class="form-control" id="old-password" name="old_password" data-parsley-requried="true">
 
                                 @if ($errors->has('old_password'))
                                     <span class="text-danger">
@@ -38,7 +38,7 @@
                             <label class="col-md-4 control-label">New Password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" id="new-password" name="new_password">
+                                <input type="password" class="form-control" id="new-password" name="new_password" data-parsley-requried="true">
 
                                 @if ($errors->has('new_password'))
                                     <span class="text-danger">
@@ -51,7 +51,7 @@
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" id="con-password" name="password_confirmation">
+                                <input type="password" class="form-control" id="con-password" name="password_confirmation" data-parsley-requried="true">
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="text-danger">

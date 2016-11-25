@@ -94,6 +94,16 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/execategories/update', 'Admin\ExecategoriesController@update');
     Route::delete('/execategories/destroy/{id}', 'Admin\ExecategoriesController@destroy');
 
+    Route::get('/emails', 'Admin\EmailsController@index');
+    Route::get('/emails/new', 'Admin\EmailsController@create');
+    Route::post('/emails/store', 'Admin\EmailsController@store');
+    Route::get('/emails/sent_list', 'Admin\EmailsController@sentList');
+    Route::get('/emails/sent_list_details/{id}', 'Admin\EmailsController@sentDetails');
+    Route::get('/emails/campaign', 'Admin\EmailsController@create_campaign');
+    Route::post('/emails/store_campaign', 'Admin\EmailsController@store_campaign');
+    Route::get('/emails/campaignlist', 'Admin\EmailsController@campaignList');
+    Route::get('/emails/campaigndetails/{id}', 'Admin\EmailsController@campaignDetails');
+
     Route::get('/email-templates', 'Admin\EmailTemplateController@index');
     Route::get('/email-templates/new', 'Admin\EmailTemplateController@create');
     Route::post('/email-templates/store', 'Admin\EmailTemplateController@store');
@@ -101,6 +111,35 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::patch('/email-templates/update', 'Admin\EmailTemplateController@update');
     Route::delete('/email-templates/destroy/{id}', 'Admin\EmailTemplateController@destroy');
     Route::get('/email-templates/view/{id}', 'Admin\EmailTemplateController@show');
+
+    Route::get('/email-group/new', 'Admin\EmailGroupController@create');
+    Route::post('/email-group/toContact', 'Admin\EmailGroupController@toContact');
+    Route::get('/email-group', 'Admin\EmailGroupController@index');
+    Route::get('/email-group/contact', 'Admin\EmailGroupController@contact');
+    Route::post('/email-group/addPatients', 'Admin\EmailGroupController@addPatients');
+    Route::post('/email-group/addContacts', 'Admin\EmailGroupController@addContacts');
+    Route::get('/email-group/patients', 'Admin\EmailGroupController@patients');
+    Route::get('/email-group/confirmed', 'Admin\EmailGroupController@confirmed');
+    Route::post('/email-group/store', 'Admin\EmailGroupController@store');
+    Route::patch('/email-group/update', 'Admin\EmailGroupController@update');
+    Route::delete('/email-group/destroy/{id}', 'Admin\EmailGroupController@destroy');
+    Route::get('/email-group/removePatients', 'Admin\EmailGroupController@removePatients');
+    Route::get('/email-group/removeContacts', 'Admin\EmailGroupController@removeContacts');
+    Route::get('/email-group/email-group-details/{id}', 'Admin\EmailGroupController@edit');
+
+    Route::get('/contact', ['as' => 'contacts', 'uses' => 'Admin\ContactController@index']);
+    Route::get('/contact/new', 'Admin\ContactController@create');
+    Route::post('/contact/store', 'Admin\ContactController@store');
+    Route::get('/contact/edit/{id}', 'Admin\ContactController@edit');
+    Route::patch('/contact/update', 'Admin\ContactController@update');
+    Route::delete('/contact/destroy/{id}', 'Admin\ContactController@destroy');
+
+    Route::get('/contact-group', ['as' => 'contacts', 'uses' => 'Admin\ContactGroupController@index']);
+    Route::get('/contact-group/new', 'Admin\ContactGroupController@create');
+    Route::post('/contact-group/store', 'Admin\ContactGroupController@store');
+    Route::get('/contact-group/edit/{id}', 'Admin\ContactGroupController@edit');
+    Route::patch('/contact-group/update', 'Admin\ContactGroupController@update');
+    Route::delete('/contact-group/destroy/{id}', 'Admin\ContactGroupController@destroy');
 
     Route::get('/page', 'Admin\PageController@index');
     Route::get('/page/new', 'Admin\PageController@create');
@@ -120,11 +159,23 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/', ['as' => 'index', 'uses' => 'Patient\IndexController@index']);
     Route::get('/index/change-password', 'Patient\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Patient\IndexController@saveNewPassword');
+    // Supplement request
     Route::get('/index/supplement-request', 'Patient\IndexController@createSupplementRequest');
     Route::post('/index/saveSupplementRequest', 'Patient\IndexController@saveSupplementRequest');
+    Route::get('/index/supplement-request-list', 'Patient\IndexController@supplementRequestList');
+    // Nutrition request
+    Route::get('/index/nutrition-request', 'Patient\IndexController@createNutritionRequest');
+    Route::post('/index/saveNutritionRequest', 'Patient\IndexController@saveNutritionRequest');
+    Route::get('/index/nutrition-request-list', 'Patient\IndexController@nutritionRequestList');
+    // Exercise request
+    Route::get('/index/exercise-request', 'Patient\IndexController@createExerciseRequest');
+    Route::post('/index/saveExerciseRequest', 'Patient\IndexController@saveExerciseRequest');
+    Route::get('/index/exercise-request-list', 'Patient\IndexController@exerciseRequestList');
+
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
     Route::get('/index/nutrition-suggestion-details/{id}', 'Patient\IndexController@nutritionSuggestionDetails');
+
     Route::get('/index/appointmentHistory', ['as' => 'appointmentHistory', 'uses' => 'Patient\IndexController@appointmentHistory']);
     Route::get('/index/get-appointment', 'Patient\IndexController@getAppointment');
     Route::post('/index/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Patient\IndexController@Fetchschedule']);
@@ -149,6 +200,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/index/patient-list', ['as' => 'patient-list', 'uses' => 'Practitioner\IndexController@patientList']);
     Route::get('/index/suggestions', 'Practitioner\IndexController@newSuggestions');
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
+    Route::get('/index/supplement-request-detail/{id}', 'Practitioner\IndexController@supplementRequestDetails');
+    Route::get('/index/nutrition-request-detail/{id}', 'Practitioner\IndexController@nutritionRequestDetails');
+    Route::get('/index/exercise-request-details/{id}', 'Practitioner\IndexController@exerciseRequestDetails');
+    Route::post('/index/exercise-approved/{id}', 'Practitioner\IndexController@exerciseApproved');
+    Route::post('/index/exercise-rejected/{id}', 'Practitioner\IndexController@exerciseEeject');
+    Route::post('/index/supplement-approved/{id}', 'Practitioner\IndexController@supplementApproved');
+    Route::post('/index/supplement-reject/{id}', 'Practitioner\IndexController@supplementReject');
+    Route::post('/index/nutrition-approved/{id}', 'Practitioner\IndexController@nutritionApproved');
+    Route::post('/index/nutrition-reject/{id}', 'Practitioner\IndexController@nutritionReject');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
     Route::get('/social-post', ['as' => 'social-post', 'uses' => 'Practitioner\MarketingController@SocialPost']);
@@ -270,14 +330,23 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::delete('/blog/destroy/{id}', 'Practitioner\BlogController@destroy');
 
     Route::get('/email-templates', 'Practitioner\EmailTemplateController@index');
+    Route::get('/email-templates/templates', 'Practitioner\EmailTemplateController@templates');
+    Route::get('/email-templates/new', 'Practitioner\EmailTemplateController@create');
+    Route::post('/email-templates/store', 'Practitioner\EmailTemplateController@store');
+    Route::get('/email-templates/edit/{id}', 'Practitioner\EmailTemplateController@edit');
+    Route::patch('/email-templates/update', 'Practitioner\EmailTemplateController@update');
+    Route::get('/email-templates/view/{id}', 'Practitioner\EmailTemplateController@show');
 
     Route::get('/emails', 'Practitioner\EmailsController@index');
     Route::get('/emails/new', 'Practitioner\EmailsController@create');
     Route::post('/emails/store', 'Practitioner\EmailsController@store');
     Route::get('/emails/sent_list', 'Practitioner\EmailsController@sentList');
     Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
-    Route::get('/emails/campaign', 'Practitioner\EmailsController@create_campaign');
     Route::get('/emails/sent_list_details/{id}', 'Practitioner\EmailsController@sentDetails');
+    Route::get('/emails/campaign', 'Practitioner\EmailsController@create_campaign');
+    Route::get('/emails/store_campaign', 'Practitioner\EmailsController@store_campaign');
+    Route::get('/emails/campaignlist', 'Practitioner\EmailsController@campaignList');
+    Route::get('/emails/campaigndetails/{id}', 'Practitioner\EmailsController@campaignDetails');
 
     Route::get('emails/find',array('as' => 'findInfo', 'uses'=>'Practitioner\EmailsController@findinfo'));
 
@@ -320,6 +389,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'member'], function (
     Route::post('affiliate/createList', 'Member\AffiliateController@createList');
     Route::get('affiliate/removeAddedMember', 'Member\AffiliateController@removeAddedMember');
     Route::post('affiliate/store', 'Member\AffiliateController@store');
+    Route::post('affiliate/resend-invitation', 'Member\AffiliateController@showExistingContacts');
+    Route::post('affiliate/resendInvitation', 'Member\AffiliateController@resendInvitation');
 });
 
 // route for public profile page

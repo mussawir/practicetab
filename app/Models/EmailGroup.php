@@ -16,7 +16,7 @@ class EmailGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'pra_id', 'name', 'description'
+        'user_id', 'name', 'description', 'user_type'
     ];
 
     public function practitioner()

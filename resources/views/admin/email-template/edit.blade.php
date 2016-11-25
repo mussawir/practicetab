@@ -49,22 +49,22 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li>Practitioner
+                    <li>Admin
                         <ul>
-                            <li>{PR.FirstName}</li>
-                            <li>{PR.MiddleName}</li>
-                            <li>{PR.LastName}</li>
-                            <li>{PR.Email}</li>
-                            <li>{PR.Phone}</li>
+                            <li>{AD.FirstName}</li>
+                            <li>{AD.MiddleName}</li>
+                            <li>{AD.LastName}</li>
+                            <li>{AD.Email}</li>
+                            <li>{AD.Phone}</li>
                         </ul>
                     </li>
-                    <li>Patient
+                    <li>Contacts
                         <ul>
-                            <li>{PA.FirstName}</li>
-                            <li>{PA.MiddleName}</li>
-                            <li>{PA.LastName}</li>
-                            <li>{PA.Email}</li>
-                            <li>{PA.Phone}</li>
+                            <li>{CN.FirstName}</li>
+                            <li>{CN.MiddleName}</li>
+                            <li>{CN.LastName}</li>
+                            <li>{CN.Email}</li>
+                            <li>{CN.Phone}</li>
                         </ul>
                     </li>
                 </ul>
@@ -85,19 +85,19 @@
                 <h4 class="panel-title">Edit Email Template</h4>
             </div>
             <div class="panel-body">
-                {!! Form::model($data, array('url'=>'/admin/email-templates/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true)) !!}
+                {!! Form::model($data, array('url'=>'/admin/email-templates/update', 'method' => 'PATCH', 'class'=> 'form-horizontal', 'files'=>true, 'data-parsley-validate' => 'true')) !!}
                 {!! Form::hidden('et_id') !!}
 
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('name','Template Name *:', array('class'=>'col-md-3 control-label')) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'required' => 'required')) !!}
+                            {!! Form::text('name', null, array('class'=>'form-control', 'placeholder'=> 'Enter you template name', 'data-parsley-required'=>'true')) !!}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    {!! Form::textarea('template',null, array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'required' => 'required')) !!}
+                    {!! Form::textarea('template',null, array('class'=>'ckeditor','id'=>'template', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

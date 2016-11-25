@@ -20,15 +20,16 @@ class Affiliate extends Model
         'first_name',
         'last_name',
         'phone',
-        'email',
-        'created_by',       // member id if by member
-        'affiliate_type',   // 1=direct, 2=by member
-        'is_paid',          // 0=free, 1=paid
-        'message'
+        'email'
     ];
 
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function affiliate_contacts()
+    {
+        return $this->hasMany('App\Models\AffiliateContact', 'afi_id');
     }
 }

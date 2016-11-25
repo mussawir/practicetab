@@ -62,6 +62,18 @@
                     <li class="<?php if(isset($my_post))echo $my_post; ?>"><a href="{{url('/practitioner/blog/')}}">Posts</a></li>
                 </ul>
             </li>
+            <li class="has-sub <?php if(isset($template_body))echo $template_body;?>">
+                <a href="javascript:;">
+                    <span class="badge pull-right"></span>
+                    <i class="fa fa-envelope"></i>
+                    <span>E-Mail Templates</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if(isset($new_template))echo $new_template;?>"><a href="{{url('/practitioner/email-templates/new')}}">New</a></li>
+                    <li class="<?php if(isset($templates))echo $templates;?>"><a href="{{url('/practitioner/email-templates/templates')}}">Templates</a></li>
+                    <li class="<?php if(isset($template_list))echo $template_list;?>"><a href="{{url('/practitioner/email-templates')}}">List</a></li>
+                </ul>
+            </li>
             <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                 <a href="javascript:;">
                     <i class="fa fa-envelope"></i>
@@ -73,8 +85,7 @@
                     <li class="<?php if(isset($compose_email))echo $compose_email;?>"><a href="{{url('/practitioner/emails/new')}}">Compose Email</a></li>
                     <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="{{url('/practitioner/emails/sent_list')}}">Sent Emails</a></li>
                     <li class="<?php if(isset($campaign))echo $campaign;?>"><a href="{{url('/practitioner/emails/campaign')}}">Create Campaign</a></li>
-                    <li class="<?php if(isset($sent_mails))echo $sent_mails;?>"><a href="{{url('/practitioner/emails/sent_list')}}">Sent Campaigns</a></li>
-                    <li class="<?php if(isset($templates_list))echo $templates_list;?>"><a href="{{url('/practitioner/email-templates')}}">Templates</a></li>
+                    <li class="<?php if(isset($campaignlists))echo $campaignlists;?>"><a href="{{url('/practitioner/emails/campaignlist')}}">Campaign List</a></li>
                 </ul>
             </li>
             <li class="has-sub {{isset($meta['cm_main_menu'])?$meta['cm_main_menu']:''}}">

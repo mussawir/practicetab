@@ -28,7 +28,7 @@
             @endif
         </div>
 
-        {!! Form::open(array('url'=>'/practitioner/suggestion/confirm-supplement-suggestions', 'id'=>'frm-suggestions')) !!}
+        {!! Form::open(array('url'=>'/practitioner/suggestion/confirm-supplement-suggestions', 'id'=>'frm-suggestions','data-parsley-validate' => 'true')) !!}
         <div class="col-md-12" style="margin-bottom: 10px;">
             {!! Form::submit('Next >>', array('class'=>'btn btn-success pull-right')) !!}
             <button type="button" style="margin-right: 20px;" class="btn btn-info pull-right" onclick="window.location.href='{{url('/practitioner/suggestion/clearSupSugSessions')}}'">Reset</button>
@@ -65,7 +65,8 @@
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="sup_id[]" value="{{$item->sup_id}}" {{in_array($item->sup_id, $selected_sup)? 'checked="checked"' : ''}}>
+                                            <input type="checkbox" name="sup_id[]" data-parsley-required="true"
+                                                   value="{{$item->sup_id}}" {{in_array($item->sup_id, $selected_sup)? 'checked="checked"' : ''}}>
                                         </label>
                                     </div>
                                 </td>
