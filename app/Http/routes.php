@@ -379,6 +379,8 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'member'], function (
     Route::post('affiliate/createList', 'Member\AffiliateController@createList');
     Route::get('affiliate/removeAddedMember', 'Member\AffiliateController@removeAddedMember');
     Route::post('affiliate/store', 'Member\AffiliateController@store');
+    Route::post('affiliate/resend-invitation', 'Member\AffiliateController@showExistingContacts');
+    Route::post('affiliate/resendInvitation', 'Member\AffiliateController@resendInvitation');
 });
 
 // route for public profile page

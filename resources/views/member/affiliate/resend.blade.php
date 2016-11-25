@@ -13,7 +13,7 @@
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">New <small>Send Invitation to New Practitioner(s)</small></h1>
+<h1 class="page-header">Re-send Invitation <small></small></h1>
 <!-- end page-header -->
 
 <!-- begin row -->
@@ -37,77 +37,8 @@
         @endif
     </div>
 
-    <!-- begin col-6 -->
-    <div class="col-md-5">
-        <!-- begin panel -->
-        <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
-            <div class="panel-heading">
-                <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                </div>
-                <h4 class="panel-title">New Invitation</h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                <div class="col-md-12">
-                    <h4 class="text-primary">Your Information:</h4>
-                    First Name: {{$my_info->first_name}}<br/>
-                    Last Name: {{$my_info->last_name}}<br/>
-                    Email: {{$my_info->email}}
-                </div>
-                </div>
-                <hr/>
-                {!! Form::open(array('url'=>'/member/affiliate/createList', 'class'=> 'form-horizontal')) !!}
-                <h4 class="text-primary">Practitioner Information:</h4>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('first_name','First Name *:', array('class'=>'col-md-4 control-label')) !!}
-                        <div class="col-md-8">
-                            {!! Form::text('first_name', null, array('class'=>'form-control', 'id'=>'first_name', 'placeholder'=> 'First Name', 'required' => 'required')) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('last_name','Last Name *:', array('class'=>'col-md-4 control-label')) !!}
-                        <div class="col-md-8">
-                            {!! Form::text('last_name', null, array('class'=>'form-control', 'id'=>'last_name', 'placeholder'=> 'Last Name', 'required' => 'required')) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('phone','Phone *:', array('class'=>'col-md-4 control-label')) !!}
-                        <div class="col-md-8">
-                            {!! Form::text('phone', null, array('class'=>'form-control', 'id'=>'phone', 'placeholder'=> 'Phone', 'required' => 'required')) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {!! Form::label('email','Email *:', array('class'=>'col-md-4 control-label')) !!}
-                        <div class="col-md-8">
-                            {!! Form::text('email', null, array('class'=>'form-control', 'id'=>'email', 'placeholder'=> 'Email', 'required' => 'required')) !!}
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-                <div class="col-md-12">
-                    {!! Form::submit('Add', array('class'=>'btn btn-info pull-right')) !!}
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-        <!-- end panel -->
-    </div>
-    <!-- end col 6 -->
-
-    <div class="col-md-7">
-        {!! Form::open(array('url'=>'/member/affiliate/store', 'class'=> 'form-horizontal', 'id'=>'frm-affiliate')) !!}
+    <div class="col-md-12">
+        {!! Form::open(array('url'=>'/member/affiliate/resendInvitation', 'class'=> 'form-horizontal', 'id'=>'frm-affiliate')) !!}
 
         <div class="panel panel-inverse" data-sortable-id="form-stuff-3">
             <div class="panel-heading">
@@ -117,7 +48,7 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Added Practitioner(s)</h4>
+                <h4 class="panel-title">Selected Practitioners</h4>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -140,23 +71,21 @@
                     @foreach($list as $item)
                         <tr>
                             <td>
-                                <input type="hidden" name="first_name[]" value="{{$item['first_name']}}" />
-                                {{$item['first_name']}}
+                                {{$item->first_name}}
                             </td>
                             <td>
-                                <input type="hidden" name="last_name[]" value="{{$item['last_name']}}" />
-                                {{$item['last_name']}}
+                                {{$item->last_name}}
                             </td>
                             <td>
-                                <input type="hidden" name="phone[]" value="{{$item['phone']}}" />
-                                {{$item['phone']}}
+                                {{$item->phone}}
                             </td>
                             <td style="word-wrap: break-word;">
-                                <input type="hidden" name="email[]" value="{{$item['email']}}" />
-                                {{$item['email']}}
+                                <input type="hidden" name="email[]" value="{{$item->email}}" />
+                                {{$item->email}}
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="text-danger" onclick="removeRow(this, '{{$item['email']}}')"><i class="fa fa-times"></i> Remove</a>
+                                <input type="hidden" name="id[]" value="{{$item->id}}" />
+                                <a href="javascript:void(0);" class="text-danger" onclick="removeRow(this)"><i class="fa fa-times"></i> Remove</a>
                             </td>
                         </tr>
                     @endforeach
@@ -165,7 +94,7 @@
                 <hr/>
                 <div class="col-md-12">
                     <div class="footer-msg"></div>
-                    {!! Form::submit('Save', array('class'=>'btn btn-success pull-right')) !!}
+                    {!! Form::submit('Send', array('class'=>'btn btn-success pull-right')) !!}
                 </div>
             </div>
         </div>
@@ -207,20 +136,13 @@
 
         });
 
-        function removeRow(elm, email) {
-            $.get("{{url('/member/affiliate/removeAddedMember')}}", { email: email}, function(data) {
-                $('#page-loader').removeClass('hide');
-                if(data == 'success') {
-                    /*$(elm).closest('tr').remove();
+        function removeRow(elm) {
+            $(elm).closest('tr').remove();
 
-                     var rowCount = $('#dt-sup-selected tbody tr').length;
-                     if (rowCount == 0) {
-                     $("#dt-sup-selected tbody").append('<tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>');
-                     }*/
-                    window.location.reload();
-                }
-                $('#page-loader').addClass('hide');
-            });
+            var rowCount = $('#data-table tbody tr').length;
+            if (rowCount == 0) {
+                $("#data-table tbody").append('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>');
+            }
             return false;
         }
 

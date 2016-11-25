@@ -3,11 +3,11 @@
         <!-- begin breadcrumb -->
 <ol class="breadcrumb pull-right">
     <li><a href="{{url('/member')}}">Dashboard</a></li>
-    <li class="active">Affiliate List</li>
+    <li class="active">Practitioners List</li>
 </ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Affiliate List <small></small></h1>
+<h1 class="page-header">Practitioners List <small></small></h1>
 <!-- end page-header -->
 <!-- begin row -->
 <div class="row">
@@ -36,7 +36,7 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">Affiliate List</h4>
+                <h4 class="panel-title">Practitioners List</h4>
             </div>
             <div class="panel-body">
                 <table id="data-table" class="table table-striped table-hover">
@@ -47,6 +47,8 @@
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Status</th>
+                        <th>Invitations</th>
+                        <th>Last Invitation At</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -63,6 +65,8 @@
                                     Paid
                                 @endif
                             </td>
+                            <td class="text-center"><span class="badge badge-danger">{{$item->invitation_count}}</span></td>
+                            <td>{{date('m/d/Y H:i:s', strtotime($item->last_invite_at))}}</td>
                         </tr>
                     @endforeach
                     </tbody>

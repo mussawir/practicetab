@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Models\Patient;
 use App\Models\PatientFile;
+use App\Models\PractitionerPatient;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -67,22 +68,30 @@ class PatientController extends Controller
         */
         $input = $request->all();
         $prac = Session::get('practitioner_session');
+
+        //create directory
+        $directory = uniqid(strtolower($request->get('first_name')),false);
+        $path = public_path().'/practitioners/'.$prac['directory'].'/'.$directory;
+        File::makeDirectory($path, 0777, true, true);
+
         $filename = '';
         if($request->hasFile('photo')) {
             $file = $request->file('photo');
             $rand_num = rand(11111, 99999);
             $filename = $rand_num. '-' .$file->getClientOriginalName();
-            $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
+            $file->move(public_path().'/practitioners/'.$prac['directory'].'/'.$directory.'/', $filename);
         }
-        //create directory
-        $directory = uniqid(strtolower($request->get('first_name')),false);
-        $path = public_path().'/practitioners/'.$prac['directory'].'/'.$directory;
-        File::makeDirectory($path,0777, true, true);
-       // $input['category'] =  $request->file('category');
+
         $input['photo'] = $filename;
         $input['pra_id'] = $prac['pra_id'];
         $input['directory'] = $directory;
-        Patient::create($input);
+        $patient = Patient::create($input);
+
+        PractitionerPatient::create([
+            'pra_id'    =>  $prac['pra_id'],
+            'pa_id'     =>  $patient['pa_id']
+        ]);
+        
         Session::put('success','Patient is created successfully!');
         return Redirect::to('/practitioner/patient/index');
     }
@@ -144,16 +153,10 @@ class PatientController extends Controller
 
             if (isset($table1->photo) && (!empty($table1->photo))) {
 
-                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->photo)){
-                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/' . $table1->photo);
+                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/'.$table1->directory.'/' . $table1->photo)){
+                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/'.$table1->directory.'/' . $table1->photo);
                 }
-                $file->move(public_path().'/practitioners/'.$prac['directory'].'/', $filename);
-                /*
-                if(file_exists(public_path() . '/practitioners/peter222220/' . $table1->photo)){
-                    unlink(public_path() . '/practitioners/peter222220/' . $table1->photo);
-                }
-                $file->move(public_path().'/practitioners/peter222220/', $filename);
-*/
+                $file->move(public_path().'/practitioners/'.$prac['directory'].'/'.$table1->directory.'/', $filename);
             }
         } else {
             $filename = $request->photo;
@@ -197,14 +200,16 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
+        $prac = Session::get('practitioner_session');
         $table1 = Patient::find($id);
         if(isset($table1)){
             if (isset($table1->photo) && (!empty($table1->photo))) {
-                if(file_exists(public_path() . '/practitioner/peter222220/' . $table1->photo)){
-                    unlink(public_path() . '/practitioner/peter222220/' . $table1->photo);
+                if(file_exists(public_path() . '/practitioners/'.$prac['directory'].'/'.$table1->directory.'/' . $table1->photo)){
+                    unlink(public_path() . '/practitioners/'.$prac['directory'].'/'.$table1->directory.'/' . $table1->photo);
                 }
             }
             $table1->delete();
+
             Session::put('success','Patient is deleted successfully!');
             //return response()->json(['status' => 'success']);
         }

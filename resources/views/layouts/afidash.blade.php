@@ -163,7 +163,7 @@
                     <a href="javascript:;">
                         <span class="badge pull-right"></span>
                         <i class="fa fa-users"></i>
-                        <span>Affiliates</span>
+                        <span>Practitioners</span>
                     </a>
                     <ul class="sub-menu">
                         <li class="<?php if(isset($afi_new_menu)) echo $afi_new_menu;?>"><a href="{{url('/member/affiliate/new')}}">Add New</a></li>
