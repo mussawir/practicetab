@@ -34,10 +34,12 @@
     <link href="{{ asset('public/dashboard/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/dashboard/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/dashboard/plugins/parsley/src/parsley.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/dashboard/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
     <link href="{{asset('public/dashboard/css/PopupBox.css')}}" rel="stylesheet" />
     <link href="{{ asset('public/dashboard/css/jquery.ui.autocomplete.min.css') }}" rel="stylesheet">
+
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/vnd.microsoft.icon" />
 
     <!-- ================== BEGIN BASE JS ================== -->
@@ -242,6 +244,7 @@
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/dashboard.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/dashboard/plugins/parsley/dist/parsley.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/dashboard/js/apps.min.js')}}"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
 <script src="{{asset('public/dashboard/plugins/fullcalendar/fullcalendar.min.js')}}"></script>

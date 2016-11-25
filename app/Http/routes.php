@@ -159,11 +159,23 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/', ['as' => 'index', 'uses' => 'Patient\IndexController@index']);
     Route::get('/index/change-password', 'Patient\IndexController@changePassword');
     Route::post('/index/saveNewPassword', 'Patient\IndexController@saveNewPassword');
+    // Supplement request
     Route::get('/index/supplement-request', 'Patient\IndexController@createSupplementRequest');
     Route::post('/index/saveSupplementRequest', 'Patient\IndexController@saveSupplementRequest');
+    Route::get('/index/supplement-request-list', 'Patient\IndexController@supplementRequestList');
+    // Nutrition request
+    Route::get('/index/nutrition-request', 'Patient\IndexController@createNutritionRequest');
+    Route::post('/index/saveNutritionRequest', 'Patient\IndexController@saveNutritionRequest');
+    Route::get('/index/nutrition-request-list', 'Patient\IndexController@nutritionRequestList');
+    // Exercise request
+    Route::get('/index/exercise-request', 'Patient\IndexController@createExerciseRequest');
+    Route::post('/index/saveExerciseRequest', 'Patient\IndexController@saveExerciseRequest');
+    Route::get('/index/exercise-request-list', 'Patient\IndexController@exerciseRequestList');
+
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
     Route::get('/index/nutrition-suggestion-details/{id}', 'Patient\IndexController@nutritionSuggestionDetails');
+
     Route::get('/index/appointmentHistory', ['as' => 'appointmentHistory', 'uses' => 'Patient\IndexController@appointmentHistory']);
     Route::get('/index/get-appointment', 'Patient\IndexController@getAppointment');
     Route::post('/index/Fetchschedule', ['as' => 'Fetchschedule', 'uses' => 'Patient\IndexController@Fetchschedule']);
@@ -184,6 +196,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::get('/index/patient-list', ['as' => 'patient-list', 'uses' => 'Practitioner\IndexController@patientList']);
     Route::get('/index/suggestions', 'Practitioner\IndexController@newSuggestions');
     Route::post('/index/saveSuggestions', 'Practitioner\IndexController@saveSuggestions');
+    Route::get('/index/supplement-request-detail/{id}', 'Practitioner\IndexController@supplementRequestDetails');
+    Route::get('/index/nutrition-request-detail/{id}', 'Practitioner\IndexController@nutritionRequestDetails');
+    Route::get('/index/exercise-request-details/{id}', 'Practitioner\IndexController@exerciseRequestDetails');
+    Route::post('/index/exercise-approved/{id}', 'Practitioner\IndexController@exerciseApproved');
+    Route::post('/index/exercise-rejected/{id}', 'Practitioner\IndexController@exerciseEeject');
+    Route::post('/index/supplement-approved/{id}', 'Practitioner\IndexController@supplementApproved');
+    Route::post('/index/supplement-reject/{id}', 'Practitioner\IndexController@supplementReject');
+    Route::post('/index/nutrition-approved/{id}', 'Practitioner\IndexController@nutritionApproved');
+    Route::post('/index/nutrition-reject/{id}', 'Practitioner\IndexController@nutritionReject');
 
     Route::get('/marketing', ['as' => 'marketing', 'uses' => 'Practitioner\MarketingController@index']);
     Route::get('/social-post', ['as' => 'social-post', 'uses' => 'Practitioner\MarketingController@SocialPost']);

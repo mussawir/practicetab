@@ -9,6 +9,8 @@ use App\Models\Patient;
 use App\Models\Practitioner;
 use App\Models\Supplement;
 use App\Models\SupplementRequest;
+use App\Models\NutritionRequest;
+use App\Models\ExerciseRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,15 +49,128 @@ class IndexController extends Controller
 		$sup_requests = DB::table("supplement_requests AS sr")
 		->join("patients AS p", "p.pa_id", "=", "sr.pa_id")
 		->join("users AS u", "u.user_id", "=", "p.user_id")
-		->select('u.first_name', 'u.last_name', 'sr.title',
+		->select('u.first_name', 'u.last_name', 'sr.*',
 			'u.cell', 'u.gender', 'u.address')
-		->where('sr.pra_id', '=', $this->practitioner_info->pra_id)
+		->where('sr.pra_id', '=', $this->practitioner_info->pra_id)->where('sr.status', '=', '0')
 		->get();
-
+		$nut_requests = DB::table("nutrition_requests AS nr")
+			->join("patients AS p", "p.pa_id", "=", "nr.pa_id")
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('u.first_name', 'u.last_name', 'nr.*',
+				'u.cell', 'u.gender', 'u.address')
+			->where('nr.pra_id', '=', $this->practitioner_info->pra_id)
+			->where('nr.status', '=', '0')
+			->get();
+		$exe_requests = DB::table("exercise_requests AS er")
+			->join("patients AS p", "p.pa_id", "=", "er.pa_id")
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('u.first_name', 'u.last_name', 'er.*',
+				'u.cell', 'u.gender', 'u.address')
+			->where('er.pra_id', '=', $this->practitioner_info->pra_id)
+			->where('er.status', '=', '0')
+			->get();
 		return view('practitioner.index.index')->with('hide_sidebar', 'no-sidebar')
-			->with('supplement_requests', $sup_requests);
+			->with('supplement_requests', $sup_requests)
+			->with('nutrition_requests', $nut_requests)
+			->with('exercise_requests', $exe_requests);
 	}
+	
+	public function supplementRequestDetails($id){
+		$sup_requests = DB::table("supplement_requests AS sr")
+			->join("patients AS p", "p.pa_id", "=", "sr.pa_id")
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('u.*', 'sr.*')->where('sr.sr_id',$id)
+			->get();
+		$sup_details = DB::table("supplement_request_details AS srd")
+			->join("supplements AS s", "s.sup_id", "=", "srd.sup_id")
+			->select('s.*', 'srd.*')->where('srd.sr_id',$id)
+			->get();
+		$supplement = SupplementRequest::find($id);
+		return view('practitioner.index.supplement-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('supplement', $supplement);
+	}
+	public function nutritionRequestDetails($id){
+		$sup_requests = DB::table("nutrition_requests AS nr")
+			->join("patients AS p", "p.pa_id", "=", "nr.pa_id")
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('u.*', 'nr.*')->where('nr.nr_id',$id)
+			->get();
+		$sup_details = DB::table("nutrition_request_details AS nrd")
+			->join("nutritions AS n", "n.nut_id", "=", "nrd.nut_id")
+			->select('n.*', 'nrd.*')->where('nrd.nr_id',$id)
+			->get();
+		$nutrition = NutritionRequest::find($id);
+		return view('practitioner.index.nutrition-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('nutrition', $nutrition);
+	}
+	public function exerciseRequestDetails($id){
+		$sup_requests = DB::table("exercise_requests AS nr")
+			->join("patients AS p", "p.pa_id", "=", "nr.pa_id")
+			->join("users AS u", "u.user_id", "=", "p.user_id")
+			->select('u.*', 'nr.*')->where('nr.er_id',$id)
+			->get();
+		$sup_details = DB::table("exercise_request_details AS nrd")
+			->join("exercises AS n", "n.exe_id", "=", "nrd.exe_id")
+			->select('n.*', 'nrd.*')->where('nrd.er_id',$id)
+			->get();
+		$exercise = ExerciseRequest::find($id);
+		return view('practitioner.index.exercise-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('exercise', $exercise);
+	}
+	public function exerciseApproved($id){
 
+		$exercise = ExerciseRequest::find($id);
+		$exercise->status = '1';
+		$exercise->save();
+		Session::put('success','Exercise has been approved');
+		return Redirect::to('/practitioner/');
+	}
+	public function exerciseReject($id){
+
+		$exercise = ExerciseRequest::find($id);
+		$exercise->status = '2';
+		$exercise->save();
+		Session::put('success','Exercise has been rejected');
+		return Redirect::to('/practitioner/');
+	}
+	public function supplementApproved($id){
+
+	$exercise = SupplementRequest::find($id);
+	$exercise->status = '1';
+	$exercise->save();
+	Session::put('success','Supplement has been approved');
+	return Redirect::to('/practitioner/');
+}
+	public function supplementReject($id){
+
+		$exercise = SupplementRequest::find($id);
+		$exercise->status = '2';
+		$exercise->save();
+		Session::put('success','Supplement has been rejected');
+		return Redirect::to('/practitioner/');
+	}
+	public function nutritionApproved($id){
+
+		$exercise = NutritionRequest::find($id);
+		$exercise->status = '1';
+		$exercise->save();
+		Session::put('success','Supplement has been approved');
+		return Redirect::to('/practitioner/');
+	}
+	public function nutritionReject($id){
+
+		$exercise = NutritionRequest::find($id);
+		$exercise->status = '2';
+		$exercise->save();
+		Session::put('success','Supplement has been rejected');
+		return Redirect::to('/practitioner/');
+	}
 	public function createPatient()
 	{
 		return view('practitioner.index.new-patient');

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SupplementRequest extends Model
+class NutritionRequest extends Model
 {
     // explicitly define table and primary key
-    protected $table = 'supplement_requests';
-    protected $primaryKey = 'sr_id';
+    protected $table = 'nutrition_requests';
+    protected $primaryKey = 'nr_id';
 
     /**
      * The attributes that are mass assignable.
@@ -29,8 +29,8 @@ class SupplementRequest extends Model
         return $this->belongsTo('App\Models\Practitioner', 'pra_id');
     }
 
-    public function supplementRequestDetails()
+    public function nutritionRequestDetails()
     {
-        return $this->hasMany('App\Models\Supplement', 'sr_id');
+        return $this->hasMany('App\Models\Supplement', 'nr_id');
     }
 }
