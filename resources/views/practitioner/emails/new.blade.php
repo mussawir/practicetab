@@ -100,7 +100,7 @@
                     <div id="getemail"></div>
                 </div >
                 <div class="col-md-12">
-                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20', 'data-parsley-required'=>'true')) !!}
+                    {!! Form::textarea('mail_body', null, array('class'=>'ckeditor','id'=>'mail_body', 'rows'=>'20')) !!}
                 </div >
                 <div class="col-md-12">
                     &nbsp;

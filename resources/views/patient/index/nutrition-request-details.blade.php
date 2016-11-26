@@ -1,8 +1,10 @@
-@extends('layouts.pradash')
+@extends('layouts.padash')
 @section('content')
-@section('sidebar')
-@include('layouts.pradash-sidebar')
-@endsection
+        <!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="{{url('/patient')}}">Dashboard</a></li>
+    <li class="active">Exercise Request List</li>
+</ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
 <h1 class="page-header">Nutrition Request Detail<small></small></h1>
@@ -39,7 +41,8 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Action</th>
+                        <th>Status</th>
+                        <th><i class="fa fa-check-square-o" aria-hidden="true"></i></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,12 +61,7 @@
                             <td>
                                 <?php
                                 if($srd->status == '0'){?>
-                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-approved/'.$srd->nrd_id,'class'=>'pull-left')) !!}
-                                    {!! Form::submit('Approve', array('class'=>'btn btn-success btn-xs')) !!}
-                                    {!! Form::close() !!}
-                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-reject/'.$srd->nrd_id,'class'=>'pull-left','style'=>'position:relative;left:5px;')) !!}
-                                    {!! Form::submit('Reject', array('class'=>'btn btn-danger  btn-xs')) !!}
-                                    {!! Form::close() !!}
+                                    <span class="label label-warning">Unapproved</span>
                                 {!! Form::close() !!}
                                 <?php }elseif($srd->status == '1'){ ?>
                                 <span class="label label-success">Approved</span>
@@ -75,10 +73,21 @@
                                 ?>
 
                             </td>
+                            <td>
+                                <?php
+                                if($srd->status == '1'){?>
+                                    <input type="checkbox" name="nrd_id[]" value="{{$srd->nrd_id}}">
+                                <?php
+                                }else{ ?>
+
+                                    <?php }
+                                ?>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
-                </table>
+                </table><hr>
+                <button type="button" class="btn btn-success pull-right">Order</button>
             </div>
         </div>
     </div> </div>

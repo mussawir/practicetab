@@ -1,21 +1,23 @@
-@extends('layouts.pradash')
+@extends('layouts.padash')
 @section('content')
-@section('sidebar')
-@include('layouts.pradash-sidebar')
-@endsection
+        <!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="{{url('/patient')}}">Dashboard</a></li>
+    <li class="active">Supplement Request List</li>
+</ol>
 <!-- end breadcrumb -->
 <!-- begin page-header -->
-<h1 class="page-header">Nutrition Request Detail<small></small></h1>
+<h1 class="page-header">Supplement Request Detail<small></small></h1>
 <!-- end page-header -->
 <div class="row">
     <div class="col-md-12">
         <div class="alert alert-info">
-            <p><b>Requested On:</b> {{$nutrition->created_at}}</p>
+            <p><b>Requested On:</b> {{$supplement->created_at}}</p>
             @foreach($sup_requests as $sr)
                 <h5><b>Patient Name:</b> {{ $sr->first_name . ' ' . $sr->last_name}}</h5>
             @endforeach
-            <h5><b>Request Title:</b> {{$nutrition->title}}</h5>
-            <h5><b>Message:</b> {!! $nutrition->message !!}</h5>
+            <h5><b>Request Title:</b> {{$supplement->title}}</h5>
+            <h5><b>Message:</b> {!! $supplement->message !!}</h5>
 
         </div>
     </div>
@@ -30,7 +32,7 @@
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title">List of Requested Nutrition</h4>
+                <h4 class="panel-title">List of Requested Supplements</h4>
             </div>
             <div class="panel-body">
                 <table id="dt-cnt-list" class="table table-striped table-hover">
@@ -39,7 +41,8 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Action</th>
+                        <th>Status</th>
+                        <th><i class="fa fa-check-square-o" aria-hidden="true"></i></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,7 +51,7 @@
                         <tr>
                             <td>
                                 @if(isset($srd->main_image) && (!empty($srd->main_image)))
-                                    <img src="{{asset('public/dashboard/img/nutrition/'.$srd->main_image)}}" alt="" class="img-responsive" style="max-height: 64px;" />
+                                    <img src="{{asset('public/dashboard/img/sup-img/'.$srd->main_image)}}" alt="" class="img-responsive" style="max-height: 64px;" />
                                 @else
                                     <img src="{{asset('public/img/no_image_64x64.jpg')}}" alt="" />
                                 @endif
@@ -57,28 +60,33 @@
                             <td>{{$srd->short_description}}</td>
                             <td>
                                 <?php
-                                if($srd->status == '0'){?>
-                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-approved/'.$srd->nrd_id,'class'=>'pull-left')) !!}
-                                    {!! Form::submit('Approve', array('class'=>'btn btn-success btn-xs')) !!}
-                                    {!! Form::close() !!}
-                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-reject/'.$srd->nrd_id,'class'=>'pull-left','style'=>'position:relative;left:5px;')) !!}
-                                    {!! Form::submit('Reject', array('class'=>'btn btn-danger  btn-xs')) !!}
-                                    {!! Form::close() !!}
-                                {!! Form::close() !!}
-                                <?php }elseif($srd->status == '1'){ ?>
-                                <span class="label label-success">Approved</span>
-                                <?php
-                                }elseif($srd->status == '2'){ ?>
-                                <span class="label label-danger">Rejected</span>
-                                <?php
-                                }
+                                    if($srd->status == '0'){?>
+                                    <span class="label label-warning">Unapproved</span>
+                                    <?php }elseif($srd->status == '1'){ ?>
+                                    <span class="label label-success">Approved</span>
+                                    <?php
+                                    }elseif($srd->status == '2'){ ?>
+                                    <span class="label label-danger">Rejected</span>
+                                    <?php
+                                    }
                                 ?>
 
+                            </td>
+                            <td>
+                                <?php
+                                if($srd->status == '1'){?>
+                                    <input type="checkbox" name="srd_id[]" value="{{$srd->srd_id}}">
+                                <?php
+                                }else{ ?>
+
+                                    <?php }
+                                ?>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
-                </table>
+                </table><hr>
+                <button type="button" class="btn btn-success pull-right">Order</button>
             </div>
         </div>
     </div> </div>
