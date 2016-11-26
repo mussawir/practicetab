@@ -17,7 +17,7 @@ class ExerciseRequestDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'exe_id', 'er_id'
+        'exe_id', 'er_id','status'
     ];
 
     public function exercise()

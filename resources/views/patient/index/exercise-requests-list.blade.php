@@ -29,9 +29,8 @@
                         <th>No.</th>
                         <th>Title</th>
                         <th>Message</th>
-                        <th>No of Exercises</th>
                         <th>Requested To</th>
-                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,26 +42,12 @@
                             <td>{{$item->message}}</td>
                             <td>
                                 <?php
-                                    $nut = \App\Models\ExerciseRequestDetail::where('er_id',$item->er_id)->get();
-                                ?>
-                                   <span class='badge badge-danger'>{{ count($nut) }}</span>
-                            </td>
-                            <td>
-                                <?php
                                     $name = \App\Models\Practitioner::select('first_name','last_name')->where('pra_id',$item->pra_id)->get()->first();
                                     echo $name['first_name']. ' '. $name['last_name'];
                                 ?>
                             </td>
                             <td>
-                                <?php
-                                if($item->status == 0){
-                                    echo ' <i class="fa fa-circle" aria-hidden="true" style="color:orange"> Pending</i> ';
-                                }elseif($item->status == 1){
-                                    echo ' <i class="fa fa-check-circle" aria-hidden="true" style="color:green"> Approved</i> ';
-                                }elseif($item->status == 2){
-                                    echo ' <i class="fa fa-close" aria-hidden="true" style="color:red"> Rejected</i> ';
-                                }
-                                ?>
+                                <a href="{{url('patient/index/exercise-request-detail/'.$item->er_id)}}" class="btn btn-sm btn-success">View</a>
                             </td>
                         </tr>
                     @endforeach

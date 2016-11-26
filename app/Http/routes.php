@@ -171,6 +171,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/exercise-request', 'Patient\IndexController@createExerciseRequest');
     Route::post('/index/saveExerciseRequest', 'Patient\IndexController@saveExerciseRequest');
     Route::get('/index/exercise-request-list', 'Patient\IndexController@exerciseRequestList');
+    Route::get('/index/supplement-request-detail/{id}', 'Patient\IndexController@supplementRequestDetails');
+    Route::get('/index/nutrition-request-detail/{id}', 'Patient\IndexController@nutritionRequestDetails');
+    Route::get('/index/exercise-request-detail/{id}', 'Patient\IndexController@exerciseRequestDetails');
 
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
