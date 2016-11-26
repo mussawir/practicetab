@@ -36,8 +36,8 @@ class IndexController extends Controller
 		Session::pull('management');
 		Session::pull('marketing');
 
-		//Session::put('praDir', array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']));
-		$_SESSION['praDir'] = array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']);
+		//Session::put('pradir', array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']));
+		$_SESSION['pradir'] = array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']);
 	}
 
 	public function index()
