@@ -185,6 +185,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::post('/index/requestSchedule', ['as' => 'requestSchedule', 'uses' => 'Patient\IndexController@requestSchedule']);
     Route::post('/index/getNotification', ['as' => 'getNotification', 'uses' => 'Patient\IndexController@getNotification']);
     Route::post('/index/hideNotification', ['as' => 'hideNotification', 'uses' => 'Patient\IndexController@hideNotification']);
+    Route::get('/index/send-message', ['as' => 'send-message', 'uses' => 'Patient\IndexController@viewMessage']);
+    Route::post('/index/send-message-ajax', ['as' => 'send-message-ajax', 'uses' => 'Patient\IndexController@sendMessage']);
+    Route::post('/index/view-message-ajax',['as' => 'view-message-ajax', 'uses' => 'Patient\IndexController@DynamicMessages']);
+    Route::get('/index/message-history', 'Patient\IndexController@MessageHistory');
 
 
 });
@@ -368,6 +372,12 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
 
     Route::post('/emails/store_campaign', 'Practitioner\EmailsController@store_campaign');
     Route::get('/emails/data', 'Practitioner\EmailsController@store');
+
+    Route::get('/send-message', 'Practitioner\MessageController@index');
+    Route::post('/send-message-ajax', 'Practitioner\MessageController@sendMessage');
+    Route::post('/view-message-ajax', 'Practitioner\MessageController@DynamicMessages');
+    Route::get('/message-history', 'Practitioner\MessageController@MessageHistory');
+
 
 
 });

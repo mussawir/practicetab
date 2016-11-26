@@ -67,6 +67,7 @@
                     <li><a href="#">Templates</a></li>
                 </ul>
             </li>
+
             <li class="has-sub {{isset($meta['cm_main_menu'])?$meta['cm_main_menu']:''}}">
                 <a href="javascript:;">
                     <i class="fa fa-book"></i>

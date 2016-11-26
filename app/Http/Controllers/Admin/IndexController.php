@@ -83,19 +83,19 @@ class IndexController extends Controller
         $meta = array('page_title' => 'Practitioners ' . $firstNAme, 'item_counter' => (0));
         return view('admin.index.viewPra')->with('meta', $meta)->with('list', $list)
             ->with('active_pra_menu', 'active')->with('active_pra_list', 'active');
+
     }
 
-    public function showUserList()
-    {
-        $meta = array('page_title' => 'User List', 'item_counter' => (0));
-        $list = User::whereNotIn('role', [3, 4])
-            ->where('user_id', '!=', Auth::user()->user_id)
-            ->orderBy('first_name', 'asc')->get();
+	public function showUserList()
+	{
+		$meta = array('page_title'=>'User List', 'item_counter'=>(0));
+		$list = User::whereNotIn('role', [3, 4])
+			->where('user_id', '!=', Auth::user()->user_id)
+			->orderBy('first_name', 'asc')->get();
 
-
-        return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
-            ->with('user_menu', 'active')->with('user_list', 'active');
-    }
+		return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
+			->with('user_menu', 'active')->with('user_list', 'active');
+	}
 
     public function destoryUser($id)
     {
@@ -106,6 +106,4 @@ class IndexController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
-
-
 }

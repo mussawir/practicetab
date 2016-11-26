@@ -8,6 +8,13 @@
                 </li>
                 <li><a href="{{url('patient/index/get-appointment')}}"><i class="fa fa-calendar-o"></i> <span>Get Appointment</span></a></li>
                 <li><a href="{{url('patient/index/appointmentHistory')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
+<<<<<<< HEAD
+                <li><a href="{{url('/patient/index/supplement-request')}}"><i class="fa fa-medkit"></i> <span>Supplements</span></a></li>
+                <li><a href="{{url('#')}}"><i class="fa fa-fire"></i> <span>Nutritions</span></a></li>
+                <li><a href="{{url('#')}}"><i class="fa fa-heart"></i> <span>Exercises</span></a></li>
+                <li><a href="{{url('/patient/index/send-message')}}"><i class="fa fa-comment-o"></i> <span>New Message</span></a></li>
+                <li><a href="{{url('/patient/index/message-history')}}"><i class="fa fa-comments-o"></i> <span>Message History</span></a></li>
+=======
                 <li class="has-sub <?php if(isset($template_menu))echo $template_menu;?>">
                     <a href="javascript:;">
                         <i class="fa fa-medkit"></i>
@@ -41,6 +48,7 @@
 
                 <li><a href="{{url('#')}}"><i class="fa fa-comment-o"></i> <span>New Message</span></a></li>
                 <li><a href="{{url('#')}}"><i class="fa fa-comments-o"></i> <span>Message Box</span></a></li>
+>>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
                 <li><a href="{{url('#')}}"><i class="fa fa-money"></i> <span>Payments</span></a></li>
                 <li><a href="{{url('#')}}"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
 
