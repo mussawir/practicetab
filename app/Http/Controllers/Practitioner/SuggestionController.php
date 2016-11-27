@@ -145,7 +145,7 @@ class SuggestionController extends Controller
 			'master_id'	=>	$master['id'],
 			'pa_ids'		=>	json_encode($request['pa_id']),
 			'sup_ids'	=>	json_encode($request['sup_id']),
-			'created_at' =>	date('Y/m/d H:i:s'),
+			'created_at' =>	date('Y/m/d'),
 			'sug_type'	=>	1	// 1=supplement
 		]);
 		
@@ -343,7 +343,7 @@ class SuggestionController extends Controller
 			'master_id'	=>	$master['id'],
 			'pa_ids'	=>	json_encode($request['pa_id']),
 			'nut_ids'	=>	json_encode($request['nut_id']),
-			'created_at' =>	date('Y/m/d H:i:s'),
+			'created_at' =>	date('Y/m/d'),
 			'sug_type'	=>	2	// 2=nutrition
 		]);
 		Session::forget('selected_nut_patients');

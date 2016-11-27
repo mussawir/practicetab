@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Practitioner;
 use App\Models\Practitioner;
+use App\Models\SuggestionsSearch;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -108,8 +109,15 @@ class MarketingController extends Controller
     }
     public function index()
     {
-        return view('practitioner.marketing.index');
+        $suggestion = SuggestionsSearch::where('sug_type', '=', 1)
+            ->where("pra_id", "=", $this->practitioner_info->pra_id)->where('created_at', date('Y-m-d'))
+            ->orderBy('created_at', 'desc')->get();
+        $list_nut = SuggestionsSearch::where('sug_type', '=', 2)
+            ->where("pra_id", "=", $this->practitioner_info->pra_id)->where('created_at', date('Y-m-d'))
+            ->orderBy('created_at', 'desc')->get();
+        return view('practitioner.marketing.index')->with('suggestion',$suggestion)->with('list_nut',$list_nut);
     }
+
     public function SocialPost()
     {
         return view('practitioner.marketing.social')
