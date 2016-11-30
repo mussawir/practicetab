@@ -21,6 +21,7 @@ class BlogPost extends Authenticatable
         'pra_id',
         'heading',
         'contents',
+        'typeId',
            ];
 
     public function user()

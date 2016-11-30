@@ -223,6 +223,7 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/social-post/socialStatus', ['as' => '/social-post/socialStatus', 'uses' => 'Practitioner\MarketingController@socialStatus']);
     Route::get('/social-post/twitter-callback', ['as' => '/social-post/twitter-callback', 'uses' => 'Practitioner\MarketingController@twittercallback']);
 
+
     Route::get('/management', ['as' => 'management', 'uses' => 'Practitioner\ManagementController@index']);
 
     //Email Group Routes

@@ -26,12 +26,18 @@
             $('#fileLabel').hide();
             $('#toggle_link').hide();
             getUrl();
+
         });
         $(function(){
             $('#add_url').click(function () {
                 $('#toggle_link').toggle();
             });
         });
+        function loginLinked()
+        {
+            $('#'+$(".IN-widget").children().children().attr("id")+"-title-text").click();
+        }
+
         function uploadimage()
         {
             var result='';
@@ -120,13 +126,20 @@
                 }, 2000);
                 return;
             }
+            var checkFb = $('#check-fb').prop('checked'),checkLinked = $('#check-linked').prop('checked'),
+                    checkBlog = $('#check-practice').prop('checked'),
+                    checkTwitter = $('#check-twitter').prop('checked');
             $.ajax({
                 type: "POST",
                 url: '{{ URL::to('/practitioner/social-post/formsubmit/') }}',
                 data: {
                     msg: $('#fb_description').val(),
                     link: $('#link').val(),
-                    imagePath : $('#imagepath').val()
+                    imagePath : $('#imagepath').val(),
+                    checkTwitter : checkTwitter ? 'true' : 'false',
+                    checkFb : checkFb ? 'true' : 'false',
+                    checkBlog : checkBlog ? 'true' : 'false',
+                    checkLinked : checkLinked ? 'true' : 'false'
                 },
                 beforeSend: function (request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -135,6 +148,7 @@
                     $('#ajaxloaderImg').hide();
                     var appender;
                     if (result == 'posted') {
+                        onPostClick();
                         appender = '<button data-dismiss="alert" class="close" type="button">×</button>';
                         appender += '<h4>Success</h4>';
                         appender += '<p>It has been successfully posted to your Timeline.</p>';
@@ -144,13 +158,13 @@
                         setTimeout(function () {
                             $("#sucessbody").hide();
                         }, 2000);
-
                         $('#content').val('')
                     }
                     else {
+                        onPostClick();
                         appender = '<button data-dismiss="alert" class="close" type="button">×</button>';
                         appender += '<h4>Oops Some Error Occured !</h4>';
-                        appender += '<p>' + result + '</p>';linkIdl
+                        appender += '<p>' + result + '</p>';
                         $('#failbody').html('');
                         $('#failbody').html(appender);
                         $("#failbody").show();
@@ -165,6 +179,67 @@
                 }
             });
         }
+
+    </script>
+
+    <script type="in/Login"></script>
+    <script type="text/javascript" src="//platform.linkedin.com/in.js">
+        api_key: 81pwwp5nysds09
+        authorize: true
+        onLoad: onLinkedInLoad
+    </script>
+
+    <script type="text/javascript">
+
+        // Setup an event listener to make an API call once auth is complete
+        function onLinkedInLoad() {
+            if(!IN.User.isAuthorized()) {
+                $('#linkedInURL').append('<a id="linkId" href="#" onclick="loginLinked();"> Log In</a>');
+            }
+            else
+            {
+                $('#linkedInURL').append('<a id="linkId" href="#" onclick="IN.User.logout();"> Log Out</a>');
+            }
+            //IN.Event.on(IN, "auth", shareContent);
+        }
+
+        // Handle the successful return from the API call
+        function onSuccess(data) {
+            console.log(data);
+            location.reload(true);
+        }
+
+        // Handle an error response from the API call
+        function onError(error) {
+            console.log(error);
+            location.reload(true);
+        }
+
+        // Use the API call wrapper to share content on LinkedIn
+        function shareContent(content) {
+
+
+            // Build the JSON payload containing the content to be shared
+            var payload = {
+                "comment": content,
+                "visibility": {
+                    "code": "anyone"
+                }
+            };
+            IN.API.Raw("/people/~/shares?format=json")
+                    .method("POST")
+                    .body(JSON.stringify(payload))
+                    .result(onSuccess)
+                    .error(onError);
+        }
+        function onPostClick()
+        {
+            checkLinked = $('#check-linked').prop('checked');
+            if(!checkLinked) return;
+            IN.Event.on(IN, "auth", shareContent($('#fb_description').val()+" "+$('#link').val()));
+            location.reload(true);
+        }
+
 
     </script>
     <div class="row">
@@ -209,7 +284,7 @@
                                         <td>
                                             <div class="checkbox text-white">
                                                 <label class="text-white">
-                                                    <input type="checkbox" value="" checked="checked">
+                                                    <input id="check-practice" type="checkbox" value="" checked="checked">
                                                     Send to PRACTICE TABS
                                                 </label>
                                             </div>
@@ -221,7 +296,7 @@
                                         <td>
                                             <div class="checkbox text-white" id="fbLink">
                                                 <label class="text-white">
-                                                    <input type="checkbox" value="">
+                                                    <input id="check-fb"  type="checkbox">
                                                     Send to FACEBOOK
                                                 </label>
                                             </div>
@@ -233,7 +308,7 @@
                                         <td>
                                             <div class="checkbox text-white">
                                                 <label class="text-white">
-                                                    <input type="checkbox" value="">
+                                                    <input  id="check-twitter"  type="checkbox" value="off">
                                                     Send to TWITTER
                                                 </label>
                                                 <label class="text-white">
@@ -259,7 +334,7 @@
                                         <td>
                                             <div class="checkbox text-white">
                                                 <label class="text-white">
-                                                    <input type="checkbox" value="">
+                                                    <input  id="check-google"  type="checkbox">
                                                     Send to Google+
                                                 </label>
                                             </div>
@@ -271,8 +346,10 @@
                                         <td>
                                             <div class="checkbox text-white">
                                                 <label class="text-white">
-                                                    <input type="checkbox" value="">
+                                                    <input  id="check-linked"  type="checkbox">
                                                     Send to LINKEDIN
+                                                </label>
+                                                <label class="text-white" id="linkedInURL">
                                                 </label>
                                             </div>
                                         </td></tr>

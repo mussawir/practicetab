@@ -43,17 +43,45 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div style="background-color: #f1f1f2; padding: 10px 20px;">
                         <h1 class="text-primary">Blog Post</h1>
                     @foreach($posts as $post)
-                        <div style="border-bottom: 1px solid #aaa; margin-bottom: 10px; padding-bottom: 10px;">
-                            <h2 class="text-primary">{{$post->heading}}</h2>
-                            <div>
+                        <div>
+                            <div  class="col-md-1"   style="margin-bottom: 10px; padding-bottom: 10px;">
+                                <h2 class="text-primary"></h2>
+                                <div  class="timeline-content">
+<?php
+                                        $type = '';
+                                        $typeId = $post->typeId;
+                                    if($post->typeId = 0 || $post->typeId=="")
+                                        {
+                                            $type = 'pinterest';
+                                        }
+                                        else if($typeId == 1) {$type = 'facebook'; }
+                                        else if($typeId== 2) {$type = 'twitter'; }
+                                        else if($typeId == 3) {$type = 'linkedin';}
+                                    ?>
+								<span class="fa-stack fa-2x text-primary">
+									<i class="fa fa-square-o fa-stack-2x"></i>
+									<i class="fa fa-<?php echo $type; ?> fa-stack-1x"></i>
+								</span>
+
+
+                                    <span>
+                                </span>
+                                </div>
+                            </div>
+                            <div  class="col-md-11"  style="border-bottom: 1px solid #aaa; margin-bottom: 10px; padding-bottom: 10px;">
+                                <h2 class="text-primary">{{$post->heading}}</h2>
+                            <div  class="timeline-content">
+                                    <p>
                                 {!! substr($post->contents, 0, 300) !!}
+                                    </p>
                                 <span>&nbsp;
                                     <a href="#" class="text-primary">Read More</a>
                                 </span>
+                            </div>
                             </div>
                         </div>
                     @endforeach

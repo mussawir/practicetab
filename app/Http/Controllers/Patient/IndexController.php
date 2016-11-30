@@ -2,14 +2,11 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use App\Models\message_header;
 use App\Models\message_history;
-=======
 use App\Models\ExerciseRequest;
 use App\Models\ExerciseRequestDetail;
 use App\Models\Exercises;
->>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
 use App\Models\Nutrition;
 use App\Models\NutritionRequest;
 use App\Models\NutritionRequestDetail;
