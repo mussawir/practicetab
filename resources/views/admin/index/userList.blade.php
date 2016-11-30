@@ -59,7 +59,7 @@
                             <td>{{$item->first_name}} {{$item->last_name}}</td>
                             <td>{{$item->email}}</td>
                             <td>
-                                <a href="#"><i class="fa fa-pencil"></i> Edit</a> |
+                                <a href="{{url('/admin/index/editUser/'.$item->user_id)}}"><i class="fa fa-pencil"></i> Edit</a> |
                                 <a id="delete_{{$item->user_id}}" href="javascript:void(0);"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                         </tr>

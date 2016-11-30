@@ -86,11 +86,16 @@ class IndexController extends Controller
 
     }
 
-<<<<<<< HEAD
+    public function newUser()
+    {
+        $meta = array('page_title'=>'New User', 'item_counter'=>(0));
+        return view('admin.index.new-user')->with('meta', $meta)
+            ->with('user_menu', 'active')->with('new_user', 'active');
+    }
 	public function showUserList()
 	{
 		$meta = array('page_title'=>'User List', 'item_counter'=>(0));
-		$list = User::whereNotIn('role', [3, 4])
+		$list = User::whereIn('role', [2])
 			->where('user_id', '!=', Auth::user()->user_id)
 			->orderBy('first_name', 'asc')->get();
 
@@ -98,22 +103,41 @@ class IndexController extends Controller
 			->with('user_menu', 'active')->with('user_list', 'active');
 	}
 
-	public function destoryUser($id)
-=======
-    public function showUserList()
+    public function saveUser(Request $request)
     {
-        $meta = array('page_title' => 'User List', 'item_counter' => (0));
-        $list = User::whereNotIn('role', [3, 4])
-            ->where('user_id', '!=', Auth::user()->user_id)
-            ->orderBy('first_name', 'asc')->get();
-
-
-        return view('admin.index.userList')->with('meta', $meta)->with('list', $list)
-            ->with('user_menu', 'active')->with('user_list', 'active');
+        $user = new User;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->phone = $request->primary_phone;
+        $user->email = $request->email;
+        $user->cell = $request->cell;
+        $user->address = $request->address;
+        $user->role = '2';
+        $user->save();
+        Session::put('success','New User has been created');
+        return redirect::back();
+    }
+    public function editUser($id){
+        $user = User::find($id);
+        $meta = array('page_title'=>'Edit User', 'item_counter'=>(0));
+        return view('admin.index.edit-user')->with('meta', $meta)->with('user',$user)
+            ->with('user_menu', 'active');
+    }
+    public function updateUser(Request $request){
+        $user = User::find($request->user_id);
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->phone = $request->primary_phone;
+        $user->email = $request->email;
+        $user->cell = $request->cell;
+        $user->address = $request->address;
+//        $user->role = '2';
+        $user->save();
+        Session::put('success','User has been updated');
+        return redirect::to('/admin/index/users');
     }
 
     public function destoryUser($id)
->>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
     {
         $User = User::find($id);
         if (isset($User)) {
@@ -122,9 +146,4 @@ class IndexController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 240b3a4a6faddd8fe2fc494c914f0a94baf6dd13
 }

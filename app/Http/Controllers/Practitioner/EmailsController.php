@@ -118,7 +118,7 @@ class EmailsController extends Controller
                 'messagebody'=>  $mail_body,
             ];
             Mail::send(['html' => 'practitioner.emails.emailbody'], $data, function ($message) use ($value , $subject) {
-                $message->from('valeedmahmood@gmail.com', 'Practice Tabs');
+                $message->from('postmaster@practicetabs.com', 'Practice Tabs');
                 $message->to($value->email);
                 $message->subject($subject);
                 });
@@ -130,7 +130,7 @@ class EmailsController extends Controller
             'subject' => $inputs['subject'],
             'message'	=>	$inputs['mail_body']
         ]);
-        Session::put('success',"Email Successfully Sent! {{ $group->group_name }}");
+        Session::put('success',"Email Successfully Sent to $group->group_name ");
         return Redirect::back();
        }
     public function sentList()

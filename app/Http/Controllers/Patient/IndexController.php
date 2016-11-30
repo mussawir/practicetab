@@ -107,7 +107,8 @@ class IndexController extends Controller
 					foreach ($request->sup_id as $id) {
 						SupplementRequestDetail::create([
 							'sr_id' 	=>	$sup_request['sr_id'],
-							'sup_id'	=>	$id
+							'sup_id'	=>	$id,
+							'status' => '0'
 						]);
 					}
 				}
@@ -123,7 +124,7 @@ class IndexController extends Controller
 
 	}
 	public function supplementRequestList(){
-		$request = SupplementRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		$request = SupplementRequest::where('pa_id',$this->patient_info->pa_id)->orderBy('sr_id', 'desc')->get();
 		return view('patient.index.supplement-requests-list')->with('request', $request);
 	}
 	public function createNutritionRequest()
@@ -138,6 +139,51 @@ class IndexController extends Controller
 		return view('patient.index.nutrition-request')
 			->with('practitioners', $practitioners)
 			->with('nutrition', $nutrition);
+	}
+	public function supplementRequestDetails($id){
+		$sup_requests = DB::table("supplement_requests AS sr")
+			->join("practitioners AS p", "p.pra_id", "=", "sr.pra_id")
+			->select('p.*', 'sr.*')->where('sr.sr_id',$id)
+			->get();
+		$sup_details = DB::table("supplement_request_details AS srd")
+			->join("supplements AS s", "s.sup_id", "=", "srd.sup_id")
+			->select('s.*', 'srd.*')->where('srd.sr_id',$id)
+			->get();
+		$supplement = SupplementRequest::find($id);
+		return view('patient.index.supplement-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('supplement', $supplement);
+	}
+	public function nutritionRequestDetails($id){
+		$sup_requests = DB::table("nutrition_requests AS nr")
+			->join("practitioners AS p", "p.pra_id", "=", "nr.pra_id")
+			->select('p.*', 'nr.*')->where('nr.nr_id',$id)
+			->get();
+		$sup_details = DB::table("nutrition_request_details AS nrd")
+			->join("nutritions AS n", "n.nut_id", "=", "nrd.nut_id")
+			->select('n.*', 'nrd.*')->where('nrd.nr_id',$id)
+			->get();
+		$nutrition = NutritionRequest::find($id);
+		return view('patient.index.nutrition-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('nutrition', $nutrition);
+	}
+	public function exerciseRequestDetails($id){
+		$sup_requests = DB::table("exercise_requests AS nr")
+			->join("practitioners AS p", "p.pra_id", "=", "nr.pra_id")
+			->select('p.*', 'nr.*')->where('nr.er_id',$id)
+			->get();
+		$sup_details = DB::table("exercise_request_details AS nrd")
+			->join("exercises AS n", "n.exe_id", "=", "nrd.exe_id")
+			->select('n.*', 'nrd.*')->where('nrd.er_id',$id)
+			->get();
+		$exercise = ExerciseRequest::find($id);
+		return view('patient.index.exercise-request-details')->with('hide_sidebar', 'no-sidebar')
+			->with('sup_requests', $sup_requests)
+			->with('sup_details', $sup_details)
+			->with('exercise', $exercise);
 	}
 
 	public function saveNutritionRequest(Request $request)
@@ -156,7 +202,8 @@ class IndexController extends Controller
 					foreach ($request->nut_id as $id) {
 						NutritionRequestDetail::create([
 							'nr_id' 	=>	$sup_request['nr_id'],
-							'nut_id'	=>	$id
+							'nut_id'	=>	$id,
+							'status' => '0'
 						]);
 					}
 				}
@@ -172,7 +219,7 @@ class IndexController extends Controller
 
 	}
 	public function nutritionRequestList(){
-		$request = NutritionRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		$request = NutritionRequest::where('pa_id',$this->patient_info->pa_id)->orderBy('nr_id', 'desc')->get();
 		return view('patient.index.nutrition-requests-list')->with('request', $request);
 	}
 	public function createExerciseRequest()
@@ -205,7 +252,8 @@ class IndexController extends Controller
 					foreach ($request->exe_id as $id) {
 						ExerciseRequestDetail::create([
 							'er_id' 	=>	$sup_request['er_id'],
-							'exe_id'	=>	$id
+							'exe_id'	=>	$id,
+							'status' => '0'
 						]);
 					}
 				}
@@ -221,7 +269,7 @@ class IndexController extends Controller
 
 	}
 	public function exerciseRequestList(){
-		$request = ExerciseRequest::where('pa_id',$this->patient_info->pa_id)->get();
+		$request = ExerciseRequest::where('pa_id',$this->patient_info->pa_id)->orderBy('er_id', 'desc')->get();
 		return view('patient.index.exercise-requests-list')->with('request', $request);
 	}
 	public function suggestionDetails()

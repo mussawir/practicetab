@@ -29,9 +29,8 @@
                         <th>No.</th>
                         <th>Title</th>
                         <th>Message</th>
-                        <th>No of Supplements</th>
                         <th>Requested To</th>
-                        <th>Status</th>
+                        <th>Detail</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,26 +42,12 @@
                             <td>{{$item->message}}</td>
                             <td>
                                 <?php
-                                    $supplement = \App\Models\SupplementRequestDetail::where('sr_id',$item->sr_id)->get();
-                                ?>
-                                   <span class='badge badge-danger'>{{ count($supplement) }}</span>
-                            </td>
-                            <td>
-                                <?php
                                     $name = \App\Models\Practitioner::select('first_name','last_name')->where('pra_id',$item->pra_id)->get()->first();
                                     echo $name['first_name']. ' '. $name['last_name'];
                                 ?>
                             </td>
                             <td>
-                                <?php
-                                if($item->status == 0){
-                                    echo ' <i class="fa fa-circle" aria-hidden="true" style="color:orange"> Pending</i> ';
-                                }elseif($item->status == 1){
-                                    echo ' <i class="fa fa-check-circle" aria-hidden="true" style="color:green"> Approved</i> ';
-                                }elseif($item->status == 2){
-                                    echo ' <i class="fa fa-close" aria-hidden="true" style="color:red"> Rejected</i> ';
-                                }
-                                ?>
+                                <a href="{{url('patient/index/supplement-request-detail/'.$item->sr_id)}}" class="btn btn-sm btn-success">View</a>
                             </td>
                         </tr>
                     @endforeach

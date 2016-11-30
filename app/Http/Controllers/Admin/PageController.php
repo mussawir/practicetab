@@ -118,6 +118,7 @@ class PageController extends Controller
         */
         $table1 = Pages::find($request->page_id);
         $table1->title = $request->title;
+        $table1->slug = $request->slug;
         $table1->contents = $request->contents;
         $table1->save();
 

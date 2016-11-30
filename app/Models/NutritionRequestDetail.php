@@ -17,7 +17,7 @@ class NutritionRequestDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'nut_id', 'nr_id'
+        'nut_id', 'nr_id','status'
     ];
 
     public function nutrition()

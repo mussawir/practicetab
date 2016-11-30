@@ -5,12 +5,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PaRegFormRequest;
 use App\Http\Requests\ChangePassFormRequest;
 use App\Models\ContactGroup;
+use App\Models\ExerciseRequestDetail;
+use App\Models\NutritionRequestDetail;
 use App\Models\Patient;
 use App\Models\Practitioner;
 use App\Models\Supplement;
 use App\Models\SupplementRequest;
 use App\Models\NutritionRequest;
 use App\Models\ExerciseRequest;
+use App\Models\SupplementRequestDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,8 +39,8 @@ class IndexController extends Controller
 		Session::pull('management');
 		Session::pull('marketing');
 
-		//Session::put('praDir', array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']));
-		$_SESSION['praDir'] = array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']);
+		//Session::put('pradir', array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']));
+		$_SESSION['pradir'] = array('is_member'=>true, 'dir_path'=> '/practicetab/public/practitioners/'.$this->practitioner_info['directory']);
 	}
 
 	public function index()
@@ -52,6 +55,7 @@ class IndexController extends Controller
 		->select('u.first_name', 'u.last_name', 'sr.*',
 			'u.cell', 'u.gender', 'u.address')
 		->where('sr.pra_id', '=', $this->practitioner_info->pra_id)->where('sr.status', '=', '0')
+			->orderBy('sr.sr_id', 'desc')
 		->get();
 		$nut_requests = DB::table("nutrition_requests AS nr")
 			->join("patients AS p", "p.pa_id", "=", "nr.pa_id")
@@ -59,7 +63,7 @@ class IndexController extends Controller
 			->select('u.first_name', 'u.last_name', 'nr.*',
 				'u.cell', 'u.gender', 'u.address')
 			->where('nr.pra_id', '=', $this->practitioner_info->pra_id)
-			->where('nr.status', '=', '0')
+			->where('nr.status', '=', '0')->orderBy('nr.nr_id', 'desc')
 			->get();
 		$exe_requests = DB::table("exercise_requests AS er")
 			->join("patients AS p", "p.pa_id", "=", "er.pa_id")
@@ -67,7 +71,7 @@ class IndexController extends Controller
 			->select('u.first_name', 'u.last_name', 'er.*',
 				'u.cell', 'u.gender', 'u.address')
 			->where('er.pra_id', '=', $this->practitioner_info->pra_id)
-			->where('er.status', '=', '0')
+			->where('er.status', '=', '0')->orderBy('er.er_id', 'desc')
 			->get();
 		return view('practitioner.index.index')->with('hide_sidebar', 'no-sidebar')
 			->with('supplement_requests', $sup_requests)
@@ -125,51 +129,45 @@ class IndexController extends Controller
 	}
 	public function exerciseApproved($id){
 
-		$exercise = ExerciseRequest::find($id);
+		$exercise = ExerciseRequestDetail::find($id);
 		$exercise->status = '1';
 		$exercise->save();
-		Session::put('success','Exercise has been approved');
-		return Redirect::to('/practitioner/');
+		return Redirect::back();
 	}
 	public function exerciseReject($id){
 
-		$exercise = ExerciseRequest::find($id);
+		$exercise = ExerciseRequestDetail::find($id);
 		$exercise->status = '2';
 		$exercise->save();
-		Session::put('success','Exercise has been rejected');
-		return Redirect::to('/practitioner/');
+		return Redirect::back();
 	}
 	public function supplementApproved($id){
 
-	$exercise = SupplementRequest::find($id);
+	$exercise = SupplementRequestDetail::find($id);
 	$exercise->status = '1';
 	$exercise->save();
-	Session::put('success','Supplement has been approved');
-	return Redirect::to('/practitioner/');
+	return Redirect::back();
 }
 	public function supplementReject($id){
 
-		$exercise = SupplementRequest::find($id);
+		$exercise = SupplementRequestDetail::find($id);
 		$exercise->status = '2';
 		$exercise->save();
-		Session::put('success','Supplement has been rejected');
-		return Redirect::to('/practitioner/');
+		return Redirect::back();
 	}
 	public function nutritionApproved($id){
 
-		$exercise = NutritionRequest::find($id);
+		$exercise = NutritionRequestDetail::find($id);
 		$exercise->status = '1';
 		$exercise->save();
-		Session::put('success','Supplement has been approved');
-		return Redirect::to('/practitioner/');
+		return Redirect::back();
 	}
 	public function nutritionReject($id){
 
-		$exercise = NutritionRequest::find($id);
+		$exercise = NutritionRequestDetail::find($id);
 		$exercise->status = '2';
 		$exercise->save();
-		Session::put('success','Supplement has been rejected');
-		return Redirect::to('/practitioner/');
+		return Redirect::back();
 	}
 	public function createPatient()
 	{

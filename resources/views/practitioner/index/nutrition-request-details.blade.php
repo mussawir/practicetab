@@ -9,43 +9,14 @@
 <!-- end page-header -->
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-inverse" data-sortable-id="ui-widget-7" data-init="true">
-            <div class="panel-heading">
-                <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                </div>
-                <h4 class="panel-title">Nutrition Request Detail</h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left"><b>Requested On:</b> {{$nutrition->created_at}}</p>
-                        <hr>
-                        @foreach($sup_requests as $sr)
-                        <h5><b>Patient Name:</b></h5>
-                        <h5>{{ $sr->first_name . ' ' . $sr->last_name}}</h5>
-                        @endforeach
-                        <hr>
-                        <h5><b>Request Title:</b></h5>
-                        <h5>{{$nutrition->title}}</h5>
-                        <hr>
-                        <h5><b>Message:</b></h5>
-                        <h5>{!! $nutrition->message !!}</h5>
-                        <hr>
-                        {!! Form::open(array('url'=>'practitioner/index/nutrition-approved/'.$nutrition->nr_id,'class'=>'pull-left')) !!}
-                        {!! Form::submit('Approve', array('class'=>'btn btn-success')) !!}
-                        {!! Form::close() !!}
-                        {!! Form::open(array('url'=>'practitioner/index/nutrition-reject/'.$nutrition->nr_id,'class'=>'pull-left','style'=>'position:relative;left:5px;')) !!}
-                        {!! Form::submit('Reject', array('class'=>'btn btn-danger')) !!}
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-                <div style="width:50px;height:50px";></div>
+        <div class="alert alert-info">
+            <p><b>Requested On:</b> {{$nutrition->created_at}}</p>
+            @foreach($sup_requests as $sr)
+                <h5><b>Patient Name:</b> {{ $sr->first_name . ' ' . $sr->last_name}}</h5>
+            @endforeach
+            <h5><b>Request Title:</b> {{$nutrition->title}}</h5>
+            <h5><b>Message:</b> {!! $nutrition->message !!}</h5>
 
-            </div>
         </div>
     </div>
 </div>
@@ -67,8 +38,8 @@
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Usability</th>
                         <th>Description</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -83,8 +54,27 @@
                                 @endif
                             </td>
                             <td>{{$srd->name}}</td>
-                            <td>{{$srd->usability}}</td>
                             <td>{{$srd->short_description}}</td>
+                            <td>
+                                <?php
+                                if($srd->status == '0'){?>
+                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-approved/'.$srd->nrd_id,'class'=>'pull-left')) !!}
+                                    {!! Form::submit('Approve', array('class'=>'btn btn-success btn-xs')) !!}
+                                    {!! Form::close() !!}
+                                    {!! Form::open(array('url'=>'practitioner/index/nutrition-reject/'.$srd->nrd_id,'class'=>'pull-left','style'=>'position:relative;left:5px;')) !!}
+                                    {!! Form::submit('Reject', array('class'=>'btn btn-danger  btn-xs')) !!}
+                                    {!! Form::close() !!}
+                                {!! Form::close() !!}
+                                <?php }elseif($srd->status == '1'){ ?>
+                                <span class="label label-success">Approved</span>
+                                <?php
+                                }elseif($srd->status == '2'){ ?>
+                                <span class="label label-danger">Rejected</span>
+                                <?php
+                                }
+                                ?>
+
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

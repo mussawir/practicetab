@@ -26,13 +26,9 @@ include 'security.inc.php';
 //$app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
 //$pra_dir = Session::get('praDir');
 //var_dump($pra_dir);return;
-//set session save path where user session will save
 ini_set('session.save_path', realpath(dirname(__FILE__).'/../../../../../').'/storage/framework/sessions');
 if(session_status() != PHP_SESSION_ACTIVE) session_start();
-//var_dump(isset($_SESSION['praDir']) ? $_SESSION['praDir'] : NULL);return;
-//$_SESSION['praDir'] = Session::get('praDir');
-//unset($_SESSION['pra_dir']);
-//var_dump($_SESSION['praDir']);return;
+//var_dump(isset($_SESSION['pradir']) ? $_SESSION['pradir'] : NULL);return;
 function t($key){
   global $LANG;
   if(empty($LANG)){
@@ -101,28 +97,26 @@ function getSuccessRes($str = ''){
 function getErrorRes($str = ''){
   return gerResultStr('error', $str);
 }
-
 function getFilesPath()
 {
   $ret = (isset($_SESSION[SESSION_PATH_KEY]) && $_SESSION[SESSION_PATH_KEY] != ''?$_SESSION[SESSION_PATH_KEY]:FILES_ROOT);
-
-  $pra_dir = isset($_SESSION['praDir']) ? $_SESSION['praDir'] : NULL;
+  $pra_dir = isset($_SESSION['pradir']) ? $_SESSION['pradir'] : NULL;
   if(isset($pra_dir)) {
     if($pra_dir['is_member']){
-        $ret = $pra_dir['dir_path'];
-        //unset($_SESSION['member_folder']);
+      $ret = $pra_dir['dir_path'];
+      //unset($_SESSION['member_folder']);
     }
-  } else {
-    /*$ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
+  }
+  /*if(!$ret)
+  {
+    $ret = RoxyFile::FixPath(BASE_PATH.'/Uploads');
     $tmp = $_SERVER['DOCUMENT_ROOT'];
     if(mb_substr($tmp, -1) == '/' || mb_substr($tmp, -1) == '\\')
       $tmp = mb_substr($tmp, 0, -1);
-    $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);*/
-  }
-
+    $ret = str_replace(RoxyFile::FixPath($tmp), '', $ret);
+  }*/
   return $ret;
 }
-
 function listDirectory($path){
   $ret = @scandir($path);
   if($ret === false){
@@ -386,7 +380,8 @@ class RoxyFile{
 class RoxyImage{
   public static function GetImage($path){
     $img = null;
-    switch(RoxyFile::GetExtension(basename($path))){
+    $ext = RoxyFile::GetExtension(basename($path));
+    switch($ext){
       case 'png':
         $img = imagecreatefrompng($path);
         break;
@@ -396,6 +391,9 @@ class RoxyImage{
       default:
         $img = imagecreatefromjpeg($path);
     }
+    
+    
+    
     return $img;
   }
   public static function OutputImage($img, $type, $destination = '', $quality = 90){
@@ -412,6 +410,18 @@ class RoxyImage{
         imagejpeg($img, $destination, $quality);
     }
   }
+  
+  public static function SetAlpha($img, $path) {
+  	$ext = RoxyFile::GetExtension(basename($path));
+  	if($ext == "gif" || $ext == "png"){
+	    imagecolortransparent($img, imagecolorallocatealpha($img, 0, 0, 0, 127));
+	    imagealphablending($img, false);
+	    imagesavealpha($img, true);
+	  }
+	  
+	  return $img;
+  }
+  
   public static function Resize($source, $destination, $width = '150',$height = 0, $quality = 90) {
     $tmp = getimagesize($source);
     $w = $tmp[0];
@@ -433,6 +443,9 @@ class RoxyImage{
 
     $thumbImg = imagecreatetruecolor($newWidth, $newHeight);
     $img = self::GetImage($source);
+    
+    $thumbImg = self::SetAlpha($thumbImg, $source);
+    
     imagecopyresampled($thumbImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $w, $h);
 
     self::OutputImage($thumbImg, RoxyFile::GetExtension(basename($source)), $destination, $quality);
@@ -470,6 +483,9 @@ class RoxyImage{
   public static function Crop($source, $destination, $x, $y, $cropWidth, $cropHeight, $width, $height, $quality = 90) {
     $thumbImg = imagecreatetruecolor($width, $height);
     $img = self::GetImage($source);
+    
+    $thumbImg = self::SetAlpha($thumbImg, $source);
+    
     imagecopyresampled($thumbImg, $img, 0, 0, $x, $y, $width, $height, $cropWidth, $cropHeight);
 
     self::OutputImage($thumbImg, RoxyFile::GetExtension(basename($source)), $destination, $quality);

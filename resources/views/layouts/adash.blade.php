@@ -285,7 +285,7 @@
                         <span>Users</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="<?php if(isset($new_user))echo $new_user?>"><a href="#">Add New</a></li>
+                        <li class="<?php if(isset($new_user))echo $new_user?>"><a href="{{url('/admin/index/new-user')}}">Add New</a></li>
                         <li class="<?php if(isset($user_list))echo $user_list?>"><a href="{{url('/admin/index/users')}}">List</a></li>
                     </ul>
                 </li>

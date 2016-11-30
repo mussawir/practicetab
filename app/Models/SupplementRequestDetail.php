@@ -17,7 +17,7 @@ class SupplementRequestDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'sup_id', 'sr_id'
+        'sup_id', 'sr_id', 'status'
     ];
 
     public function supplements()

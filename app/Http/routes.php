@@ -53,6 +53,10 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'admin'], function ()
     Route::post('/index/saveNewPassword', 'Admin\IndexController@saveNewPassword');
     Route::get('/index/practitioners', 'Admin\IndexController@showActivePractitioners');
     Route::get('/index/users', 'Admin\IndexController@showUserList');
+    Route::get('/index/new-user', 'Admin\IndexController@newUser');
+    Route::post('/index/saveUser', 'Admin\IndexController@saveUser');
+    Route::get('/index/editUser/{id}', 'Admin\IndexController@editUser');
+    Route::patch('/index/updateUser', 'Admin\IndexController@updateUser');
     Route::delete('/index/users/destoryUser/{id}', 'Admin\NutritionController@destoryUser');
     Route::post('/index/blockUnblockPra', 'Admin\IndexController@blockUnblockPra');
     Route::get('/index/practitioner/{id}', 'Admin\IndexController@viewPractitioners');
@@ -171,6 +175,9 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'patient'], function 
     Route::get('/index/exercise-request', 'Patient\IndexController@createExerciseRequest');
     Route::post('/index/saveExerciseRequest', 'Patient\IndexController@saveExerciseRequest');
     Route::get('/index/exercise-request-list', 'Patient\IndexController@exerciseRequestList');
+    Route::get('/index/supplement-request-detail/{id}', 'Patient\IndexController@supplementRequestDetails');
+    Route::get('/index/nutrition-request-detail/{id}', 'Patient\IndexController@nutritionRequestDetails');
+    Route::get('/index/exercise-request-detail/{id}', 'Patient\IndexController@exerciseRequestDetails');
 
     Route::get('/index/suggestion-details', 'Patient\IndexController@suggestionDetails');
     Route::get('/index/supplement-suggestion-details/{id}', 'Patient\IndexController@supplementSuggestionDetails');
@@ -376,7 +383,15 @@ Route::group(['middleware' => ['auth', 'web'], 'prefix' => 'practitioner'], func
     Route::post('/view-message-ajax', 'Practitioner\MessageController@DynamicMessages');
     Route::get('/message-history', 'Practitioner\MessageController@MessageHistory');
 
+    Route::get('referral', 'Practitioner\ReferralController@index');
+    Route::get('referral/addnewreferer', 'Practitioner\ReferralController@create');
+    Route::post('referral/createList', 'Practitioner\ReferralController@createList');
+    Route::get('referral/removeAddedMember', 'Practitioner\ReferralController@removeAddedMember');
+    Route::post('referral/store', 'Practitioner\ReferralController@store');
+    Route::post('referral/resend-invitation', 'Practitioner\ReferralController@showExistingContacts');
+    Route::post('referral/resendInvitation', 'Practitioner\ReferralController@resendInvitation');
 
+    Route::get('referral/resend-index', 'Practitioner\ReferralIndexController@index');
 
 });
 

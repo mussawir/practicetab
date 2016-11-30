@@ -127,11 +127,8 @@
             <div class="col-md-12">
                 <div class="panel panel-info" data-sortable-id="ui-widget-6" data-init="true">
                     <div class="panel-heading">
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-inverse btn-xs" onclick="window.location.href='{{url('/practitioner/index/suggestions')}}'">New</button>
-                        </div>
                         <h3 class="panel-title">
-                            Suggestions
+                            Supplements Suggestions
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -140,36 +137,23 @@
                                 <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Group</th>
-                                    <th>Heading</th>
+                                    <th>No. of Patients</th>
+                                    <th>No. of Supplements</th>
                                     <th>Details</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($suggestion as $item1)
                                 <tr>
+
                                     <td>{{date('m/d/Y')}}</td>
-                                    <td>Vitamins - Patient</td>
-                                    <td>Lorem ipsum</td>
+                                    <td><span class="badge badge-danger">{{count(json_decode($item1->pa_ids))}}</span></td>
+                                    <td><span class="badge badge-danger">{{count(json_decode($item1->sup_ids))}}</span></td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
+                                        <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{url('/practitioner/suggestion/supplement-suggestions-details/'.$item1->id)}}'">View</button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>{{date('m/d/Y')}}</td>
-                                    <td>Calcium - Patient</td>
-                                    <td>Lorem ipsum</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{date('m/d/Y')}}</td>
-                                    <td>Vitamin D - Patient</td>
-                                    <td>Lorem ipsum</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
-                                    </td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -293,11 +277,8 @@
             <div class="col-md-12">
                 <div class="panel panel-info" data-sortable-id="ui-widget-6" data-init="true">
                     <div class="panel-heading">
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-inverse btn-xs" onclick="window.location.href='{{url('/practitioner/index/suggestions')}}'">New</button>
-                        </div>
                         <h3 class="panel-title">
-                            Suggestions
+                            Nutrition Suggestions
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -306,36 +287,23 @@
                                 <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Group</th>
-                                    <th>Heading</th>
+                                    <th>No. of Patients</th>
+                                    <th>No. of Nutritions</th>
                                     <th>Details</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>{{date('m/d/Y')}}</td>
-                                    <td>Vitamins - Patient</td>
-                                    <td>Lorem ipsum</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{date('m/d/Y')}}</td>
-                                    <td>Calcium - Patient</td>
-                                    <td>Lorem ipsum</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{date('m/d/Y')}}</td>
-                                    <td>Vitamin D - Patient</td>
-                                    <td>Lorem ipsum</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info">View</button>
-                                    </td>
-                                </tr>
+                                @foreach($list_nut as $item)
+                                    <tr>
+
+                                        <td>{{date('m/d/Y')}}</td>
+                                        <td><span class="badge badge-danger">{{count(json_decode($item->pa_ids))}}</span></td>
+                                        <td><span class="badge badge-danger">{{count(json_decode($item->nut_ids))}}</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{url('/practitioner/suggestion/nutrition-suggestions-details/'.$item->id)}}'">View</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

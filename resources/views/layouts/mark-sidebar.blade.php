@@ -100,6 +100,18 @@
                     <li class="{{isset($meta['cnt_sub_menu_list'])?$meta['cnt_sub_menu_list']:''}}"><a href="{{url('/practitioner/contact')}}">Contact List</a></li>
                 </ul>
             </li>
+            <li class="has-sub <?php if(isset($referral))echo $referral;?>">
+                <a href="javascript:;">
+                    <span class="badge pull-right"></span>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <span>Referral Program</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if(isset($new_referral))echo $new_referral;?>"><a href="{{url('/practitioner/referral/addnewreferer')}}">Add New Referrer</a></li>
+                    <li class="<?php if(isset($manage_referral))echo $manage_referral;?>"><a href="{{url('/practitioner/referral/resend-index')}}">Resend Invitation</a></li>
+                    <li class="<?php if(isset($referral_list))echo $referral_list;?>"><a href="{{url('/practitioner/referral')}}">List</a></li>
+                </ul>
+            </li>
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
             <!-- end sidebar minify button -->

@@ -146,7 +146,6 @@
                                         <th>#</th>
                                         <th>Request Title</th>
                                         <th>Patient Name</th>
-                                        <th>Request Content</th>
                                         <th>Sup #</th>
                                         <th>Details</th>
                                     </tr>
@@ -158,7 +157,6 @@
                                         <td>{{ $counter++ }}</td>
                                         <td>{{$sr->title}}</td>
                                         <td>{{$sr->first_name.' '. $sr->last_name}}</td>
-                                        <td>{{$sr->message}}</td>
                                         <td>
                                             <?php
                                             $sup = \App\Models\SupplementRequestDetail::where('sr_id',$sr->sr_id)->get();
@@ -191,7 +189,6 @@
                                         <th>#</th>
                                         <th>Request Title</th>
                                         <th>Patient Name</th>
-                                        <th>Request Content</th>
                                         <th>Sup #</th>
                                         <th>Details</th>
                                     </tr>
@@ -203,7 +200,6 @@
                                             <td>{{ $counter++ }}</td>
                                             <td>{{$nr->title}}</td>
                                             <td>{{$nr->first_name.' '. $nr->last_name}}</td>
-                                            <td>{{$nr->message}}</td>
                                             <td>
                                                 <?php
                                                 $nut = \App\Models\NutritionRequestDetail::where('nr_id',$nr->nr_id)->get();
@@ -237,7 +233,6 @@
                                         <th>#</th>
                                         <th>Request Title</th>
                                         <th>Patient Name</th>
-                                        <th>Request Content</th>
                                         <th>Exe #</th>
                                         <th>Details</th>
                                     </tr>
@@ -249,7 +244,6 @@
                                             <td>{{ $counter++ }}</td>
                                             <td>{{$er->title}}</td>
                                             <td>{{$er->first_name.' '. $sr->last_name}}</td>
-                                            <td>{{$er->message}}</td>
                                             <td>
                                                 <?php
                                                 $exe = \App\Models\ExerciseRequestDetail::where('er_id',$er->er_id)->get();
