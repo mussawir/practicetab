@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "91167394c93955791028cab5f6ca7247",
-    "content-hash": "3011ab9036f82ec9648b542936d9416f",
+    "hash": "5cccbbdbbfc108d05323a136e582b092",
+    "content-hash": "90d66718369abb0ff9ce9b2bb88da0b7",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1552,6 +1552,54 @@
                 "xlsx"
             ],
             "time": "2015-05-01 07:00:55"
+        },
+        {
+            "name": "plivo/plivo-php",
+            "version": "v1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plivo/plivo-php.git",
+                "reference": "4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plivo/plivo-php/zipball/4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf",
+                "reference": "4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "plivo.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Radu Topala",
+                    "email": "radu.topala@trisoft.ro"
+                },
+                {
+                    "name": "Adam Homsi",
+                    "email": "adam.homsi@gmail.com"
+                },
+                {
+                    "name": "Plivo Team",
+                    "email": "hello@plivo.com"
+                },
+                {
+                    "name": "Ben McInturff",
+                    "email": "benmcinturff@gmail.com"
+                }
+            ],
+            "description": "Plivo PHP helper library to access PlivoCloud API and generate Plivo XML",
+            "time": "2016-06-02 10:16:04"
         },
         {
             "name": "psr/http-message",

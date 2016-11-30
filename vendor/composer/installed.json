@@ -4219,5 +4219,55 @@
             "laravel",
             "slug"
         ]
+    },
+    {
+        "name": "plivo/plivo-php",
+        "version": "v1.1.5",
+        "version_normalized": "1.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/plivo/plivo-php.git",
+            "reference": "4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/plivo/plivo-php/zipball/4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf",
+            "reference": "4d5ef0aac6bdd8698465a83fd3b46f0fb81f3cdf",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "^6.0"
+        },
+        "time": "2016-06-02 10:16:04",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "plivo.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Radu Topala",
+                "email": "radu.topala@trisoft.ro"
+            },
+            {
+                "name": "Adam Homsi",
+                "email": "adam.homsi@gmail.com"
+            },
+            {
+                "name": "Plivo Team",
+                "email": "hello@plivo.com"
+            },
+            {
+                "name": "Ben McInturff",
+                "email": "benmcinturff@gmail.com"
+            }
+        ],
+        "description": "Plivo PHP helper library to access PlivoCloud API and generate Plivo XML"
     }
 ]
