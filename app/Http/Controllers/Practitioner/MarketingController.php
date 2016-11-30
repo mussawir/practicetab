@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Practitioner;
+use App\Models\BlogPost;
 use App\Models\Practitioner;
 use App\Models\SuggestionsSearch;
 use Dompdf\Exception;
@@ -81,10 +82,12 @@ class MarketingController extends Controller
         {
             //$my_update = $connection->post('statuses/update', array('status' => $link .'  ' . $msg));
             $post = $connection->post('statuses/update', array('status' => $link .'  ' . $msg));
+            MarketingController::insertBlog($link .' ' . $msg ,'2');
         }
         else if($link!=""&& $msg=="")
         {
             $post = $connection->post('statuses/update', array('status' => $link));
+            MarketingController::insertBlog($link,'2');
         }
         else if($picpath!="")
         {
@@ -154,65 +157,15 @@ if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] != "")
 }
         echo $returnn;
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public static function insertBlog($contents,$typeId)
     {
-        //
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $BlogPost = new BlogPost();
+        $practitioner = Practitioner::where('user_id', '=', Auth::user()->user_id)->first();;
+        $pra_Id = $practitioner->pra_id;
+        $BlogPost->pra_id = $pra_Id;
+        $BlogPost->contents = $contents;
+        $BlogPost->typeId = $typeId;
+        $BlogPost->save();
     }
     public function logoutFb()
     {
@@ -240,44 +193,53 @@ if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] != "")
             {
                 $imagePath = $_POST["imagePath"];
             }
-            if($link=="") {
-                $msg = $_POST["msg"];
-                $param = array('message' => $msg);
-                try {
-                    $posted = $facebook->api('/me/feed/', 'post', $param);
-                    if (strlen($posted["id"]) > 0) $success = TRUE;
-                } catch (FacebookApiException $e) {
-                    $errMsg = $e->getMessage();
-                    $error = TRUE;
-                    $myerr = $errMsg;
+            if($_POST['checkFb']=='true') {
+                if ($link == "") {
+                    $msg = $_POST["msg"];
+                    $param = array('message' => $msg);
+                    try {
+                        $posted = $facebook->api('/me/feed/', 'post', $param);
+                        if (strlen($posted["id"]) > 0) $success = TRUE;
+                    } catch (FacebookApiException $e) {
+                        $errMsg = $e->getMessage();
+                        $error = TRUE;
+                        $myerr = $errMsg;
+                    }
+                    if ($success) echo 'posted';
+                    if ($error) echo 'error' . $myerr;
+                    MarketingController::insertBlog($msg, '1');
+                } else if ($link != "" & $imagePath == "") {
+                    $msg = $_POST["msg"];
+                    $param = array(
+                        'message' => $msg,
+                        'link' => $link,
+                    );
+                    try {
+                        $posted = $facebook->api('/me/feed/', 'post', $param);
+                        if (strlen($posted["id"]) > 0) $success = TRUE;
+                    } catch (FacebookApiException $e) {
+                        $errMsg = $e->getMessage();
+                        $error = TRUE;
+                        $myerr = $errMsg;
+                    }
+                    if ($success) echo 'posted';
+                    if ($error) echo 'error' . $myerr;
+                    MarketingController::insertBlog($msg . ' ' . $link, '1');
                 }
-                if ($success) echo 'posted';
-                if ($error) echo 'error' . $myerr;
             }
-            else if($link!=""&$imagePath=="")
-            {
-                $msg = $_POST["msg"];
-                $param = array(
-                    'message' => $msg,
-                    'link' => $link,
-                );
-                try {
-                    $posted = $facebook->api('/me/feed/', 'post', $param);
-                    if (strlen($posted["id"]) > 0 ) $success = TRUE;
-                } catch  (FacebookApiException $e) {
-                    $errMsg = $e->getMessage();
-                    $error = TRUE;
-                    $myerr=$errMsg;
+            if($_POST['checkTwitter']=='true') {
+                if (isset($_POST[msg]) && $_POST[msg] != "") {
+                    if (isset($_SESSION['access_token'])) {
+                        //$this-twitterpost();
+                        MarketingController::twitterpost($_POST[msg], $link, $imagePath);
+                    }
                 }
-                if ($success) echo 'posted';
-                if ($error) echo 'error' . $myerr;
             }
-            if(isset($_POST[msg]) && $_POST[msg]!="")
-            {
-                if(isset($_SESSION['access_token'])){
-                    //$this-twitterpost();
-                    MarketingController::twitterpost($_POST[msg],$link,$imagePath);
-                }
+            if($_POST['checkLinked']=='true') {
+                MarketingController::insertBlog($_POST["msg"].' ' .$link , '3');
+            }
+            if($_POST['checkBlog']=='true') {
+                MarketingController::insertBlog($_POST["msg"].' ' .$link , '0');
             }
         }
     }
